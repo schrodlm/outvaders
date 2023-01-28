@@ -1,0 +1,57 @@
+\hypertarget{comdecl_8h_source}{}\doxysection{comdecl.\+h}
+\label{comdecl_8h_source}\index{src/lib/dx/Include/comdecl.h@{src/lib/dx/Include/comdecl.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{// comdecl.h: Macros to facilitate COM interface and GUID declarations.}}
+\DoxyCodeLine{2 \textcolor{comment}{// Copyright (c) Microsoft Corporation.  All rights reserved.}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#ifndef \_COMDECL\_H\_}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#define \_COMDECL\_H\_}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <basetyps.h>}   \textcolor{comment}{// For standard COM interface macros}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{comment}{// The DEFINE\_CLSID() and DEFINE\_IID() macros defined below allow COM GUIDs to}}
+\DoxyCodeLine{10 \textcolor{comment}{// be declared and defined in such a way that clients can obtain the GUIDs using}}
+\DoxyCodeLine{11 \textcolor{comment}{// either the \_\_uuidof() extension or the old-\/style CLSID\_Foo / IID\_IFoo names.}}
+\DoxyCodeLine{12 \textcolor{comment}{// If using the latter approach, the client can also choose whether to get the}}
+\DoxyCodeLine{13 \textcolor{comment}{// GUID definitions by defining the INITGUID preprocessor constant or by linking}}
+\DoxyCodeLine{14 \textcolor{comment}{// to a GUID library.  This works in either C or C++.}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{preprocessor}{    \#define DECLSPEC\_UUID\_WRAPPER(x) \_\_declspec(uuid(\#x))}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{    \#ifdef INITGUID}}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 \textcolor{preprocessor}{        \#define DEFINE\_CLSID(className, l, w1, w2, b1, b2, b3, b4, b5, b6, b7, b8) \(\backslash\)}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{            class DECLSPEC\_UUID\_WRAPPER(l\#\#-\/\#\#w1\#\#-\/\#\#w2\#\#-\/\#\#b1\#\#b2\#\#-\/\#\#b3\#\#b4\#\#b5\#\#b6\#\#b7\#\#b8) className; \(\backslash\)}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{            EXTERN\_C const GUID DECLSPEC\_SELECTANY CLSID\_\#\#className = \_\_uuidof(className)}}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{preprocessor}{        \#define DEFINE\_IID(interfaceName, l, w1, w2, b1, b2, b3, b4, b5, b6, b7, b8) \(\backslash\)}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{            interface DECLSPEC\_UUID\_WRAPPER(l\#\#-\/\#\#w1\#\#-\/\#\#w2\#\#-\/\#\#b1\#\#b2\#\#-\/\#\#b3\#\#b4\#\#b5\#\#b6\#\#b7\#\#b8) interfaceName; \(\backslash\)}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{            EXTERN\_C const GUID DECLSPEC\_SELECTANY IID\_\#\#interfaceName = \_\_uuidof(interfaceName)}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \textcolor{preprocessor}{    \#else }\textcolor{comment}{// INITGUID}}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{preprocessor}{        \#define DEFINE\_CLSID(className, l, w1, w2, b1, b2, b3, b4, b5, b6, b7, b8) \(\backslash\)}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{            class DECLSPEC\_UUID\_WRAPPER(l\#\#-\/\#\#w1\#\#-\/\#\#w2\#\#-\/\#\#b1\#\#b2\#\#-\/\#\#b3\#\#b4\#\#b5\#\#b6\#\#b7\#\#b8) className; \(\backslash\)}}
+\DoxyCodeLine{33 \textcolor{preprocessor}{            EXTERN\_C const GUID CLSID\_\#\#className}}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \textcolor{preprocessor}{        \#define DEFINE\_IID(interfaceName, l, w1, w2, b1, b2, b3, b4, b5, b6, b7, b8) \(\backslash\)}}
+\DoxyCodeLine{36 \textcolor{preprocessor}{            interface DECLSPEC\_UUID\_WRAPPER(l\#\#-\/\#\#w1\#\#-\/\#\#w2\#\#-\/\#\#b1\#\#b2\#\#-\/\#\#b3\#\#b4\#\#b5\#\#b6\#\#b7\#\#b8) interfaceName; \(\backslash\)}}
+\DoxyCodeLine{37 \textcolor{preprocessor}{            EXTERN\_C const GUID IID\_\#\#interfaceName}}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 \textcolor{preprocessor}{    \#endif }\textcolor{comment}{// INITGUID}}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41 \textcolor{preprocessor}{\#else }\textcolor{comment}{// \_\_cplusplus}}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{preprocessor}{    \#define DEFINE\_CLSID(className, l, w1, w2, b1, b2, b3, b4, b5, b6, b7, b8) \(\backslash\)}}
+\DoxyCodeLine{44 \textcolor{preprocessor}{        DEFINE\_GUID(CLSID\_\#\#className, 0x\#\#l, 0x\#\#w1, 0x\#\#w2, 0x\#\#b1, 0x\#\#b2, 0x\#\#b3, 0x\#\#b4, 0x\#\#b5, 0x\#\#b6, 0x\#\#b7, 0x\#\#b8)}}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46 \textcolor{preprocessor}{    \#define DEFINE\_IID(interfaceName, l, w1, w2, b1, b2, b3, b4, b5, b6, b7, b8) \(\backslash\)}}
+\DoxyCodeLine{47 \textcolor{preprocessor}{        DEFINE\_GUID(IID\_\#\#interfaceName, 0x\#\#l, 0x\#\#w1, 0x\#\#w2, 0x\#\#b1, 0x\#\#b2, 0x\#\#b3, 0x\#\#b4, 0x\#\#b5, 0x\#\#b6, 0x\#\#b7, 0x\#\#b8)}}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_\_cplusplus}}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \#ifndef \_COMDECL\_H\_}}
+
+\end{DoxyCode}

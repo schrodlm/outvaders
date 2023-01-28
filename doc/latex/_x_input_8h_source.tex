@@ -1,0 +1,150 @@
+\hypertarget{_x_input_8h_source}{}\doxysection{XInput.\+h}
+\label{_x_input_8h_source}\index{src/lib/dx/Include/XInput.h@{src/lib/dx/Include/XInput.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/***************************************************************************}}
+\DoxyCodeLine{2 \textcolor{comment}{*                                                                          *}}
+\DoxyCodeLine{3 \textcolor{comment}{*   XInput.h -\/-\/ This module defines XBOX controller APIs                   *}}
+\DoxyCodeLine{4 \textcolor{comment}{*               and constansts for the Windows platform.                   *}}
+\DoxyCodeLine{5 \textcolor{comment}{*                                                                          *}}
+\DoxyCodeLine{6 \textcolor{comment}{*   Copyright (c) Microsoft Corp. All rights reserved.                     *}}
+\DoxyCodeLine{7 \textcolor{comment}{*                                                                          *}}
+\DoxyCodeLine{8 \textcolor{comment}{***************************************************************************/}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#ifndef \_XINPUT\_H\_}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#define \_XINPUT\_H\_}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <windef.h>}}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{comment}{// Current name of the DLL shipped in the same SDK as this header.}}
+\DoxyCodeLine{15 \textcolor{comment}{// The name reflects the current version}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#define XINPUT\_DLL\_A  "{}xinput9\_1\_0.dll"{}}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#define XINPUT\_DLL\_W L"{}xinput9\_1\_0.dll"{}}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{    \#define XINPUT\_DLL XINPUT\_DLL\_W}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{    \#define XINPUT\_DLL XINPUT\_DLL\_A}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#endif }}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 \textcolor{comment}{//}}
+\DoxyCodeLine{25 \textcolor{comment}{// Device types available in XINPUT\_CAPABILITIES}}
+\DoxyCodeLine{26 \textcolor{comment}{//}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#define XINPUT\_DEVTYPE\_GAMEPAD          0x01}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \textcolor{comment}{//}}
+\DoxyCodeLine{30 \textcolor{comment}{// Device subtypes available in XINPUT\_CAPABILITIES}}
+\DoxyCodeLine{31 \textcolor{comment}{//}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#define XINPUT\_DEVSUBTYPE\_GAMEPAD       0x01}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{comment}{//}}
+\DoxyCodeLine{35 \textcolor{comment}{// Flags for XINPUT\_CAPABILITIES}}
+\DoxyCodeLine{36 \textcolor{comment}{//}}
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#define XINPUT\_CAPS\_VOICE\_SUPPORTED     0x0004}}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 \textcolor{comment}{//}}
+\DoxyCodeLine{40 \textcolor{comment}{// Constants for gamepad buttons}}
+\DoxyCodeLine{41 \textcolor{comment}{//}}
+\DoxyCodeLine{42 \textcolor{preprocessor}{\#define XINPUT\_GAMEPAD\_DPAD\_UP          0x0001}}
+\DoxyCodeLine{43 \textcolor{preprocessor}{\#define XINPUT\_GAMEPAD\_DPAD\_DOWN        0x0002}}
+\DoxyCodeLine{44 \textcolor{preprocessor}{\#define XINPUT\_GAMEPAD\_DPAD\_LEFT        0x0004}}
+\DoxyCodeLine{45 \textcolor{preprocessor}{\#define XINPUT\_GAMEPAD\_DPAD\_RIGHT       0x0008}}
+\DoxyCodeLine{46 \textcolor{preprocessor}{\#define XINPUT\_GAMEPAD\_START            0x0010}}
+\DoxyCodeLine{47 \textcolor{preprocessor}{\#define XINPUT\_GAMEPAD\_BACK             0x0020}}
+\DoxyCodeLine{48 \textcolor{preprocessor}{\#define XINPUT\_GAMEPAD\_LEFT\_THUMB       0x0040}}
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#define XINPUT\_GAMEPAD\_RIGHT\_THUMB      0x0080}}
+\DoxyCodeLine{50 \textcolor{preprocessor}{\#define XINPUT\_GAMEPAD\_LEFT\_SHOULDER    0x0100}}
+\DoxyCodeLine{51 \textcolor{preprocessor}{\#define XINPUT\_GAMEPAD\_RIGHT\_SHOULDER   0x0200}}
+\DoxyCodeLine{52 \textcolor{preprocessor}{\#define XINPUT\_GAMEPAD\_A                0x1000}}
+\DoxyCodeLine{53 \textcolor{preprocessor}{\#define XINPUT\_GAMEPAD\_B                0x2000}}
+\DoxyCodeLine{54 \textcolor{preprocessor}{\#define XINPUT\_GAMEPAD\_X                0x4000}}
+\DoxyCodeLine{55 \textcolor{preprocessor}{\#define XINPUT\_GAMEPAD\_Y                0x8000}}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57 \textcolor{comment}{//}}
+\DoxyCodeLine{58 \textcolor{comment}{// Gamepad thresholds}}
+\DoxyCodeLine{59 \textcolor{comment}{//}}
+\DoxyCodeLine{60 \textcolor{preprocessor}{\#define XINPUT\_GAMEPAD\_LEFT\_THUMB\_DEADZONE  7849}}
+\DoxyCodeLine{61 \textcolor{preprocessor}{\#define XINPUT\_GAMEPAD\_RIGHT\_THUMB\_DEADZONE 8689}}
+\DoxyCodeLine{62 \textcolor{preprocessor}{\#define XINPUT\_GAMEPAD\_TRIGGER\_THRESHOLD    30}}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64 \textcolor{comment}{//}}
+\DoxyCodeLine{65 \textcolor{comment}{// Flags to pass to XInputGetCapabilities}}
+\DoxyCodeLine{66 \textcolor{comment}{//}}
+\DoxyCodeLine{67 \textcolor{preprocessor}{\#define XINPUT\_FLAG\_GAMEPAD             0x00000001}}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70 \textcolor{comment}{//}}
+\DoxyCodeLine{71 \textcolor{comment}{// Structures used by XInput APIs}}
+\DoxyCodeLine{72 \textcolor{comment}{//}}
+\DoxyCodeLine{73 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___x_i_n_p_u_t___g_a_m_e_p_a_d}{\_XINPUT\_GAMEPAD}}}
+\DoxyCodeLine{74 \{}
+\DoxyCodeLine{75     WORD                                wButtons;}
+\DoxyCodeLine{76     BYTE                                bLeftTrigger;}
+\DoxyCodeLine{77     BYTE                                bRightTrigger;}
+\DoxyCodeLine{78     SHORT                               sThumbLX;}
+\DoxyCodeLine{79     SHORT                               sThumbLY;}
+\DoxyCodeLine{80     SHORT                               sThumbRX;}
+\DoxyCodeLine{81     SHORT                               sThumbRY;}
+\DoxyCodeLine{82 \} \mbox{\hyperlink{struct___x_i_n_p_u_t___g_a_m_e_p_a_d}{XINPUT\_GAMEPAD}}, *\mbox{\hyperlink{struct___x_i_n_p_u_t___g_a_m_e_p_a_d}{PXINPUT\_GAMEPAD}};}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___x_i_n_p_u_t___s_t_a_t_e}{\_XINPUT\_STATE}}}
+\DoxyCodeLine{85 \{}
+\DoxyCodeLine{86     DWORD                               dwPacketNumber;}
+\DoxyCodeLine{87     \mbox{\hyperlink{struct___x_i_n_p_u_t___g_a_m_e_p_a_d}{XINPUT\_GAMEPAD}}                      Gamepad;}
+\DoxyCodeLine{88 \} \mbox{\hyperlink{struct___x_i_n_p_u_t___s_t_a_t_e}{XINPUT\_STATE}}, *\mbox{\hyperlink{struct___x_i_n_p_u_t___s_t_a_t_e}{PXINPUT\_STATE}};}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{90 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___x_i_n_p_u_t___v_i_b_r_a_t_i_o_n}{\_XINPUT\_VIBRATION}}}
+\DoxyCodeLine{91 \{}
+\DoxyCodeLine{92     WORD                                wLeftMotorSpeed;}
+\DoxyCodeLine{93     WORD                                wRightMotorSpeed;}
+\DoxyCodeLine{94 \} \mbox{\hyperlink{struct___x_i_n_p_u_t___v_i_b_r_a_t_i_o_n}{XINPUT\_VIBRATION}}, *\mbox{\hyperlink{struct___x_i_n_p_u_t___v_i_b_r_a_t_i_o_n}{PXINPUT\_VIBRATION}};}
+\DoxyCodeLine{95 }
+\DoxyCodeLine{96 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___x_i_n_p_u_t___c_a_p_a_b_i_l_i_t_i_e_s}{\_XINPUT\_CAPABILITIES}}}
+\DoxyCodeLine{97 \{}
+\DoxyCodeLine{98     BYTE                                Type;}
+\DoxyCodeLine{99     BYTE                                SubType;}
+\DoxyCodeLine{100     WORD                                Flags;}
+\DoxyCodeLine{101     \mbox{\hyperlink{struct___x_i_n_p_u_t___g_a_m_e_p_a_d}{XINPUT\_GAMEPAD}}                      Gamepad;}
+\DoxyCodeLine{102     \mbox{\hyperlink{struct___x_i_n_p_u_t___v_i_b_r_a_t_i_o_n}{XINPUT\_VIBRATION}}                    Vibration;}
+\DoxyCodeLine{103 \} \mbox{\hyperlink{struct___x_i_n_p_u_t___c_a_p_a_b_i_l_i_t_i_e_s}{XINPUT\_CAPABILITIES}}, *\mbox{\hyperlink{struct___x_i_n_p_u_t___c_a_p_a_b_i_l_i_t_i_e_s}{PXINPUT\_CAPABILITIES}};}
+\DoxyCodeLine{104 }
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106 \textcolor{comment}{//}}
+\DoxyCodeLine{107 \textcolor{comment}{// XInput APIs}}
+\DoxyCodeLine{108 \textcolor{comment}{//}}
+\DoxyCodeLine{109 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{110 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{111 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113 DWORD WINAPI XInputGetState}
+\DoxyCodeLine{114 (}
+\DoxyCodeLine{115     DWORD         dwUserIndex,  \textcolor{comment}{// [in] Index of the gamer associated with the device}}
+\DoxyCodeLine{116     \mbox{\hyperlink{struct___x_i_n_p_u_t___s_t_a_t_e}{XINPUT\_STATE}}* pState        \textcolor{comment}{// [out] Receives the current state}}
+\DoxyCodeLine{117 );}
+\DoxyCodeLine{118 }
+\DoxyCodeLine{119 DWORD WINAPI XInputSetState}
+\DoxyCodeLine{120 (}
+\DoxyCodeLine{121     DWORD             dwUserIndex,  \textcolor{comment}{// [in] Index of the gamer associated with the device}}
+\DoxyCodeLine{122     \mbox{\hyperlink{struct___x_i_n_p_u_t___v_i_b_r_a_t_i_o_n}{XINPUT\_VIBRATION}}* pVibration    \textcolor{comment}{// [in, out] The vibration information to send to the controller}}
+\DoxyCodeLine{123 );}
+\DoxyCodeLine{124 }
+\DoxyCodeLine{125 DWORD WINAPI XInputGetCapabilities}
+\DoxyCodeLine{126 (}
+\DoxyCodeLine{127     DWORD                dwUserIndex,   \textcolor{comment}{// [in] Index of the gamer associated with the device}}
+\DoxyCodeLine{128     DWORD                dwFlags,       \textcolor{comment}{// [in] Input flags that identify the device type}}
+\DoxyCodeLine{129     \mbox{\hyperlink{struct___x_i_n_p_u_t___c_a_p_a_b_i_l_i_t_i_e_s}{XINPUT\_CAPABILITIES}}* pCapabilities  \textcolor{comment}{// [out] Receives the capabilities}}
+\DoxyCodeLine{130 );}
+\DoxyCodeLine{131 }
+\DoxyCodeLine{132 DWORD WINAPI XInputGetDSoundAudioDeviceGuids}
+\DoxyCodeLine{133 (}
+\DoxyCodeLine{134     DWORD dwUserIndex,          \textcolor{comment}{// [in] Index of the gamer associated with the device}}
+\DoxyCodeLine{135     GUID* pDSoundRenderGuid,    \textcolor{comment}{// [out] DSound device ID for render}}
+\DoxyCodeLine{136     GUID* pDSoundCaptureGuid    \textcolor{comment}{// [out] DSound device ID for capture}}
+\DoxyCodeLine{137 );}
+\DoxyCodeLine{138 }
+\DoxyCodeLine{139 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{140 \}}
+\DoxyCodeLine{141 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{142 }
+\DoxyCodeLine{143 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{//\_XINPUT\_H\_}}
+\DoxyCodeLine{144 }
+
+\end{DoxyCode}

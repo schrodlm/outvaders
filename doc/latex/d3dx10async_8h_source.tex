@@ -1,0 +1,284 @@
+\hypertarget{d3dx10async_8h_source}{}\doxysection{d3dx10async.\+h}
+\label{d3dx10async_8h_source}\index{src/lib/dx/Include/d3dx10async.h@{src/lib/dx/Include/d3dx10async.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 \textcolor{comment}{//  Copyright (c) Microsoft Corporation.  All rights reserved.}}
+\DoxyCodeLine{5 \textcolor{comment}{//}}
+\DoxyCodeLine{6 \textcolor{comment}{//  File:       D3DX10Effect.h}}
+\DoxyCodeLine{7 \textcolor{comment}{//  Content:    D3DX10 Effect / Shader loaders}}
+\DoxyCodeLine{8 \textcolor{comment}{//}}
+\DoxyCodeLine{10 \textcolor{comment}{}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#ifndef \_\_D3DX10EFFECT\_H\_\_}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#define \_\_D3DX10EFFECT\_H\_\_}}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include "{}d3dx10.h"{}}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{17 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{22 \textcolor{comment}{// D3DX10CompileShader:}}
+\DoxyCodeLine{23 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{24 \textcolor{comment}{// Compiles a shader.}}
+\DoxyCodeLine{25 \textcolor{comment}{//}}
+\DoxyCodeLine{26 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{27 \textcolor{comment}{//  pSrcFile}}
+\DoxyCodeLine{28 \textcolor{comment}{//      Source file name.}}
+\DoxyCodeLine{29 \textcolor{comment}{//  hSrcModule}}
+\DoxyCodeLine{30 \textcolor{comment}{//      Module handle. if NULL, current module will be used.}}
+\DoxyCodeLine{31 \textcolor{comment}{//  pSrcResource}}
+\DoxyCodeLine{32 \textcolor{comment}{//      Resource name in module.}}
+\DoxyCodeLine{33 \textcolor{comment}{//  pSrcData}}
+\DoxyCodeLine{34 \textcolor{comment}{//      Pointer to source code.}}
+\DoxyCodeLine{35 \textcolor{comment}{//  SrcDataLen}}
+\DoxyCodeLine{36 \textcolor{comment}{//      Size of source code, in bytes.}}
+\DoxyCodeLine{37 \textcolor{comment}{//  pDefines}}
+\DoxyCodeLine{38 \textcolor{comment}{//      Optional NULL-\/terminated array of preprocessor macro definitions.}}
+\DoxyCodeLine{39 \textcolor{comment}{//  pInclude}}
+\DoxyCodeLine{40 \textcolor{comment}{//      Optional interface pointer to use for handling \#include directives.}}
+\DoxyCodeLine{41 \textcolor{comment}{//      If this parameter is NULL, \#includes will be honored when compiling}}
+\DoxyCodeLine{42 \textcolor{comment}{//      from file, and will error when compiling from resource or memory.}}
+\DoxyCodeLine{43 \textcolor{comment}{//  pFunctionName}}
+\DoxyCodeLine{44 \textcolor{comment}{//      Name of the entrypoint function where execution should begin.}}
+\DoxyCodeLine{45 \textcolor{comment}{//  pProfile}}
+\DoxyCodeLine{46 \textcolor{comment}{//      Instruction set to be used when generating code.  Currently supported}}
+\DoxyCodeLine{47 \textcolor{comment}{//      profiles are "{}vs\_1\_1"{}, "{}vs\_2\_0"{}, "{}vs\_2\_a"{}, "{}vs\_2\_sw"{}, "{}ps\_1\_1"{}, }}
+\DoxyCodeLine{48 \textcolor{comment}{//      "{}ps\_1\_2"{}, "{}ps\_1\_3"{}, "{}ps\_1\_4"{}, "{}ps\_2\_0"{}, "{}ps\_2\_a"{}, "{}ps\_2\_sw"{}, "{}tx\_1\_0"{}}}
+\DoxyCodeLine{49 \textcolor{comment}{//  Flags}}
+\DoxyCodeLine{50 \textcolor{comment}{//      See D3D10\_SHADER\_xxx flags.}}
+\DoxyCodeLine{51 \textcolor{comment}{//  ppShader}}
+\DoxyCodeLine{52 \textcolor{comment}{//      Returns a buffer containing the created shader.  This buffer contains}}
+\DoxyCodeLine{53 \textcolor{comment}{//      the compiled shader code, as well as any embedded debug and symbol}}
+\DoxyCodeLine{54 \textcolor{comment}{//      table info.  (See D3D10GetShaderConstantTable)}}
+\DoxyCodeLine{55 \textcolor{comment}{//  ppErrorMsgs}}
+\DoxyCodeLine{56 \textcolor{comment}{//      Returns a buffer containing a listing of errors and warnings that were}}
+\DoxyCodeLine{57 \textcolor{comment}{//      encountered during the compile.  If you are running in a debugger,}}
+\DoxyCodeLine{58 \textcolor{comment}{//      these are the same messages you will see in your debug output.}}
+\DoxyCodeLine{59 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61 HRESULT WINAPI D3DX10CompileShaderFromFileA(LPCSTR pSrcFile,CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}}* pDefines, LPD3D10INCLUDE pInclude,}
+\DoxyCodeLine{62         LPCSTR pFunctionName, LPCSTR pProfile, UINT Flags, ID3DX10ThreadPump* pPump, ID3D10Blob** ppShader, ID3D10Blob** ppErrorMsgs);}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64 HRESULT WINAPI D3DX10CompileShaderFromFileW(LPCWSTR pSrcFile, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}}* pDefines, LPD3D10INCLUDE pInclude,}
+\DoxyCodeLine{65         LPCSTR pFunctionName, LPCSTR pProfile, UINT Flags, ID3DX10ThreadPump* pPump, ID3D10Blob** ppShader, ID3D10Blob** ppErrorMsgs);}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{68 \textcolor{preprocessor}{\#define D3DX10CompileShaderFromFile D3DX10CompileShaderFromFileW}}
+\DoxyCodeLine{69 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{70 \textcolor{preprocessor}{\#define D3DX10CompileShaderFromFile D3DX10CompileShaderFromFileA}}
+\DoxyCodeLine{71 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{73 HRESULT WINAPI D3DX10CompileShaderFromResourceA(HMODULE hSrcModule, LPCSTR pSrcResource, LPCSTR pSrcFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}}* pDefines, }
+\DoxyCodeLine{74     LPD3D10INCLUDE pInclude, LPCSTR pFunctionName, LPCSTR pProfile, UINT Flags, ID3DX10ThreadPump* pPump, ID3D10Blob** ppShader, ID3D10Blob** ppErrorMsgs);}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{76 HRESULT WINAPI D3DX10CompileShaderFromResourceW(HMODULE hSrcModule, LPCWSTR pSrcResource, LPCWSTR pSrcFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}}* pDefines, }
+\DoxyCodeLine{77     LPD3D10INCLUDE pInclude, LPCSTR pFunctionName, LPCSTR pProfile, UINT Flags, ID3DX10ThreadPump* pPump, ID3D10Blob** ppShader, ID3D10Blob** ppErrorMsgs);}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{80 \textcolor{preprocessor}{\#define D3DX10CompileShaderFromResource D3DX10CompileShaderFromResourceW}}
+\DoxyCodeLine{81 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{82 \textcolor{preprocessor}{\#define D3DX10CompileShaderFromResource D3DX10CompileShaderFromResourceA}}
+\DoxyCodeLine{83 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85 HRESULT WINAPI D3DX10CompileShaderFromMemory(LPCSTR pSrcData, SIZE\_T SrcDataLen, LPCSTR pFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}}* pDefines, LPD3D10INCLUDE pInclude, }
+\DoxyCodeLine{86     LPCSTR pFunctionName, LPCSTR pProfile, UINT Flags, ID3DX10ThreadPump* pPump, ID3D10Blob** ppShader, ID3D10Blob** ppErrorMsgs);}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{88 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{89 \textcolor{comment}{// D3D10CreateEffectFromXXXX:}}
+\DoxyCodeLine{90 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{91 \textcolor{comment}{// Creates an effect from a binary effect or file}}
+\DoxyCodeLine{92 \textcolor{comment}{//}}
+\DoxyCodeLine{93 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{94 \textcolor{comment}{//}}
+\DoxyCodeLine{95 \textcolor{comment}{// [in]}}
+\DoxyCodeLine{96 \textcolor{comment}{//}}
+\DoxyCodeLine{97 \textcolor{comment}{//  TODO: Unicode support}}
+\DoxyCodeLine{98 \textcolor{comment}{//  TODO: Support for binary (and not just ASCII)}}
+\DoxyCodeLine{99 \textcolor{comment}{//}}
+\DoxyCodeLine{100 \textcolor{comment}{//  pFileName}}
+\DoxyCodeLine{101 \textcolor{comment}{//      Name of the ASCII (uncompiled) or binary (compiled) Effect file to load}}
+\DoxyCodeLine{102 \textcolor{comment}{//}}
+\DoxyCodeLine{103 \textcolor{comment}{//  hModule}}
+\DoxyCodeLine{104 \textcolor{comment}{//      Handle to the module containing the resource to compile from}}
+\DoxyCodeLine{105 \textcolor{comment}{//  pResourceName}}
+\DoxyCodeLine{106 \textcolor{comment}{//      Name of the resource within hModule to compile from}}
+\DoxyCodeLine{107 \textcolor{comment}{//}}
+\DoxyCodeLine{108 \textcolor{comment}{//  pData}}
+\DoxyCodeLine{109 \textcolor{comment}{//      Blob of effect data, either ASCII (uncompiled) or binary (compiled)}}
+\DoxyCodeLine{110 \textcolor{comment}{//  DataLength}}
+\DoxyCodeLine{111 \textcolor{comment}{//      Length of the data blob}}
+\DoxyCodeLine{112 \textcolor{comment}{//}}
+\DoxyCodeLine{113 \textcolor{comment}{//  pDefines}}
+\DoxyCodeLine{114 \textcolor{comment}{//      Optional NULL-\/terminated array of preprocessor macro definitions.}}
+\DoxyCodeLine{115 \textcolor{comment}{//  pInclude}}
+\DoxyCodeLine{116 \textcolor{comment}{//      Optional interface pointer to use for handling \#include directives.}}
+\DoxyCodeLine{117 \textcolor{comment}{//      If this parameter is NULL, \#includes will be honored when compiling}}
+\DoxyCodeLine{118 \textcolor{comment}{//      from file, and will error when compiling from resource or memory.}}
+\DoxyCodeLine{119 \textcolor{comment}{//  HLSLFlags}}
+\DoxyCodeLine{120 \textcolor{comment}{//      Compilation flags pertaining to shaders and data types, honored by}}
+\DoxyCodeLine{121 \textcolor{comment}{//      the HLSL compiler}}
+\DoxyCodeLine{122 \textcolor{comment}{//  FXFlags}}
+\DoxyCodeLine{123 \textcolor{comment}{//      Compilation flags pertaining to Effect compilation, honored}}
+\DoxyCodeLine{124 \textcolor{comment}{//      by the Effect compiler}}
+\DoxyCodeLine{125 \textcolor{comment}{//  pDevice}}
+\DoxyCodeLine{126 \textcolor{comment}{//      Pointer to the D3D10 device on which to create Effect resources}}
+\DoxyCodeLine{127 \textcolor{comment}{//  pEffectPool}}
+\DoxyCodeLine{128 \textcolor{comment}{//      Pointer to an Effect pool to share variables with or NULL}}
+\DoxyCodeLine{129 \textcolor{comment}{//}}
+\DoxyCodeLine{130 \textcolor{comment}{// [out]}}
+\DoxyCodeLine{131 \textcolor{comment}{//}}
+\DoxyCodeLine{132 \textcolor{comment}{//  ppEffect}}
+\DoxyCodeLine{133 \textcolor{comment}{//      Address of the newly created Effect interface}}
+\DoxyCodeLine{134 \textcolor{comment}{//  ppEffectPool}}
+\DoxyCodeLine{135 \textcolor{comment}{//      Address of the newly created Effect pool interface}}
+\DoxyCodeLine{136 \textcolor{comment}{//  ppErrors}}
+\DoxyCodeLine{137 \textcolor{comment}{//      If non-\/NULL, address of a buffer with error messages that occurred }}
+\DoxyCodeLine{138 \textcolor{comment}{//      during parsing or compilation}}
+\DoxyCodeLine{139 \textcolor{comment}{//}}
+\DoxyCodeLine{140 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{141 }
+\DoxyCodeLine{142 }
+\DoxyCodeLine{143 HRESULT WINAPI D3DX10CompileEffectFromFileA(LPCSTR pFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}} *pDefines, }
+\DoxyCodeLine{144     ID3D10Include *pInclude, UINT HLSLFlags, UINT FXFlags, ID3DX10ThreadPump* pPump, }
+\DoxyCodeLine{145     ID3D10Blob **ppCompiledEffect, ID3D10Blob **ppErrors);}
+\DoxyCodeLine{146 }
+\DoxyCodeLine{147 HRESULT WINAPI D3DX10CompileEffectFromFileW(LPCWSTR pFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}} *pDefines, }
+\DoxyCodeLine{148     ID3D10Include *pInclude, UINT HLSLFlags, UINT FXFlags, ID3DX10ThreadPump* pPump, }
+\DoxyCodeLine{149     ID3D10Blob **ppCompiledEffect, ID3D10Blob **ppErrors);}
+\DoxyCodeLine{150 }
+\DoxyCodeLine{151 HRESULT WINAPI D3DX10CompileEffectFromMemory(LPCVOID pData, SIZE\_T DataLength, LPCSTR pSrcFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}} *pDefines, }
+\DoxyCodeLine{152     ID3D10Include *pInclude, UINT HLSLFlags, UINT FXFlags, }
+\DoxyCodeLine{153     ID3DX10ThreadPump* pPump, ID3D10Blob **ppCompiledEffect, ID3D10Blob **ppErrors);}
+\DoxyCodeLine{154 }
+\DoxyCodeLine{155 HRESULT WINAPI D3DX10CompileEffectFromResourceA(HMODULE hModule, LPCSTR pResourceName, LPCSTR pSrcFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}} *pDefines, }
+\DoxyCodeLine{156     ID3D10Include *pInclude, UINT HLSLFlags, UINT FXFlags, }
+\DoxyCodeLine{157     ID3DX10ThreadPump* pPump, ID3D10Blob **ppCompiledEffect, ID3D10Blob **ppErrors);}
+\DoxyCodeLine{158 }
+\DoxyCodeLine{159 HRESULT WINAPI D3DX10CompileEffectFromResourceW(HMODULE hModule, LPCWSTR pResourceName, LPCWSTR pSrcFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}} *pDefines, }
+\DoxyCodeLine{160     ID3D10Include *pInclude, UINT HLSLFlags, UINT FXFlags, }
+\DoxyCodeLine{161     ID3DX10ThreadPump* pPump, ID3D10Blob **ppCompiledEffect, ID3D10Blob **ppErrors);}
+\DoxyCodeLine{162 }
+\DoxyCodeLine{163 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{164 \textcolor{preprocessor}{\#define D3DX10CompileEffectFromFile         D3DX10CompileEffectFromFileW}}
+\DoxyCodeLine{165 \textcolor{preprocessor}{\#define D3DX10CompileEffectFromResource     D3DX10CompileEffectFromResourceW}}
+\DoxyCodeLine{166 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{167 \textcolor{preprocessor}{\#define D3DX10CompileEffectFromFile         D3DX10CompileEffectFromFileA}}
+\DoxyCodeLine{168 \textcolor{preprocessor}{\#define D3DX10CompileEffectFromResource     D3DX10CompileEffectFromResourceA}}
+\DoxyCodeLine{169 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{170 }
+\DoxyCodeLine{171 HRESULT WINAPI D3DX10CreateEffectFromFileA(LPCSTR pFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}} *pDefines, }
+\DoxyCodeLine{172     ID3D10Include *pInclude, UINT HLSLFlags, UINT FXFlags, ID3D10Device *pDevice, }
+\DoxyCodeLine{173     ID3D10EffectPool *pEffectPool, ID3DX10ThreadPump* pPump, ID3D10Effect **ppEffect, ID3D10Blob **ppErrors);}
+\DoxyCodeLine{174 }
+\DoxyCodeLine{175 HRESULT WINAPI D3DX10CreateEffectFromFileW(LPCWSTR pFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}} *pDefines, }
+\DoxyCodeLine{176     ID3D10Include *pInclude, UINT HLSLFlags, UINT FXFlags, ID3D10Device *pDevice, }
+\DoxyCodeLine{177     ID3D10EffectPool *pEffectPool, ID3DX10ThreadPump* pPump, ID3D10Effect **ppEffect, ID3D10Blob **ppErrors);}
+\DoxyCodeLine{178 }
+\DoxyCodeLine{179 HRESULT WINAPI D3DX10CreateEffectFromMemory(LPCVOID pData, SIZE\_T DataLength, LPCSTR pSrcFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}} *pDefines, }
+\DoxyCodeLine{180     ID3D10Include *pInclude, UINT HLSLFlags, UINT FXFlags, ID3D10Device *pDevice, }
+\DoxyCodeLine{181     ID3D10EffectPool *pEffectPool, ID3DX10ThreadPump* pPump, ID3D10Effect **ppEffect, ID3D10Blob **ppErrors);}
+\DoxyCodeLine{182 }
+\DoxyCodeLine{183 HRESULT WINAPI D3DX10CreateEffectFromResourceA(HMODULE hModule, LPCSTR pResourceName, LPCSTR pSrcFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}} *pDefines, }
+\DoxyCodeLine{184     ID3D10Include *pInclude, UINT HLSLFlags, UINT FXFlags, ID3D10Device *pDevice, }
+\DoxyCodeLine{185     ID3D10EffectPool *pEffectPool, ID3DX10ThreadPump* pPump, ID3D10Effect **ppEffect, ID3D10Blob **ppErrors);}
+\DoxyCodeLine{186 }
+\DoxyCodeLine{187 HRESULT WINAPI D3DX10CreateEffectFromResourceW(HMODULE hModule, LPCWSTR pResourceName, LPCWSTR pSrcFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}} *pDefines, }
+\DoxyCodeLine{188     ID3D10Include *pInclude, UINT HLSLFlags, UINT FXFlags, ID3D10Device *pDevice, }
+\DoxyCodeLine{189     ID3D10EffectPool *pEffectPool, ID3DX10ThreadPump* pPump, ID3D10Effect **ppEffect, ID3D10Blob **ppErrors);}
+\DoxyCodeLine{190 }
+\DoxyCodeLine{191 }
+\DoxyCodeLine{192 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{193 \textcolor{preprocessor}{\#define D3DX10CreateEffectFromFile          D3DX10CreateEffectFromFileW}}
+\DoxyCodeLine{194 \textcolor{preprocessor}{\#define D3DX10CreateEffectFromResource      D3DX10CreateEffectFromResourceW}}
+\DoxyCodeLine{195 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{196 \textcolor{preprocessor}{\#define D3DX10CreateEffectFromFile          D3DX10CreateEffectFromFileA}}
+\DoxyCodeLine{197 \textcolor{preprocessor}{\#define D3DX10CreateEffectFromResource      D3DX10CreateEffectFromResourceA}}
+\DoxyCodeLine{198 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{199 }
+\DoxyCodeLine{200 HRESULT WINAPI D3DX10CreateEffectPoolFromFileA(LPCSTR pFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}} *pDefines, }
+\DoxyCodeLine{201     ID3D10Include *pInclude, UINT HLSLFlags, UINT FXFlags, ID3D10Device *pDevice, ID3DX10ThreadPump* pPump, }
+\DoxyCodeLine{202     ID3D10EffectPool **ppEffectPool, ID3D10Blob **ppErrors);}
+\DoxyCodeLine{203 }
+\DoxyCodeLine{204 HRESULT WINAPI D3DX10CreateEffectPoolFromFileW(LPCWSTR pFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}} *pDefines, }
+\DoxyCodeLine{205     ID3D10Include *pInclude, UINT HLSLFlags, UINT FXFlags, ID3D10Device *pDevice, ID3DX10ThreadPump* pPump, }
+\DoxyCodeLine{206     ID3D10EffectPool **ppEffectPool, ID3D10Blob **ppErrors);}
+\DoxyCodeLine{207 }
+\DoxyCodeLine{208 HRESULT WINAPI D3DX10CreateEffectPoolFromMemory(LPCVOID pData, SIZE\_T DataLength, LPCSTR pSrcFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}} *pDefines, }
+\DoxyCodeLine{209     ID3D10Include *pInclude, UINT HLSLFlags, UINT FXFlags, ID3D10Device *pDevice,}
+\DoxyCodeLine{210     ID3DX10ThreadPump* pPump, ID3D10EffectPool **ppEffectPool, ID3D10Blob **ppErrors);}
+\DoxyCodeLine{211 }
+\DoxyCodeLine{212 HRESULT WINAPI D3DX10CreateEffectPoolFromResourceA(HMODULE hModule, LPCSTR pResourceName, LPCSTR pSrcFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}} *pDefines, }
+\DoxyCodeLine{213     ID3D10Include *pInclude, UINT HLSLFlags, UINT FXFlags, ID3D10Device *pDevice,}
+\DoxyCodeLine{214     ID3DX10ThreadPump* pPump, ID3D10EffectPool **ppEffectPool, ID3D10Blob **ppErrors);}
+\DoxyCodeLine{215                                          }
+\DoxyCodeLine{216 HRESULT WINAPI D3DX10CreateEffectPoolFromResourceW(HMODULE hModule, LPCWSTR pResourceName, LPCWSTR pSrcFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}} *pDefines, }
+\DoxyCodeLine{217     ID3D10Include *pInclude, UINT HLSLFlags, UINT FXFlags, ID3D10Device *pDevice,}
+\DoxyCodeLine{218     ID3DX10ThreadPump* pPump, ID3D10EffectPool **ppEffectPool, ID3D10Blob **ppErrors);}
+\DoxyCodeLine{219 }
+\DoxyCodeLine{220 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{221 \textcolor{preprocessor}{\#define D3DX10CreateEffectPoolFromFile      D3DX10CreateEffectPoolFromFileW}}
+\DoxyCodeLine{222 \textcolor{preprocessor}{\#define D3DX10CreateEffectPoolFromResource  D3DX10CreateEffectPoolFromResourceW}}
+\DoxyCodeLine{223 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{224 \textcolor{preprocessor}{\#define D3DX10CreateEffectPoolFromFile      D3DX10CreateEffectPoolFromFileA}}
+\DoxyCodeLine{225 \textcolor{preprocessor}{\#define D3DX10CreateEffectPoolFromResource  D3DX10CreateEffectPoolFromResourceA}}
+\DoxyCodeLine{226 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{227 }
+\DoxyCodeLine{228 HRESULT WINAPI D3DX10PreprocessShaderFromFileA(LPCSTR pFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}}* pDefines, }
+\DoxyCodeLine{229     LPD3D10INCLUDE pInclude, ID3DX10ThreadPump *pPump, ID3D10Blob** ppShaderText, ID3D10Blob** ppErrorMsgs);}
+\DoxyCodeLine{230 }
+\DoxyCodeLine{231 HRESULT WINAPI D3DX10PreprocessShaderFromFileW(LPCWSTR pFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}}* pDefines, }
+\DoxyCodeLine{232     LPD3D10INCLUDE pInclude, ID3DX10ThreadPump *pPump, ID3D10Blob** ppShaderText, ID3D10Blob** ppErrorMsgs);}
+\DoxyCodeLine{233 }
+\DoxyCodeLine{234 HRESULT WINAPI D3DX10PreprocessShaderFromMemory(LPCSTR pSrcData, SIZE\_T SrcDataSize, LPCSTR pFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}}* pDefines, }
+\DoxyCodeLine{235     LPD3D10INCLUDE pInclude, ID3DX10ThreadPump *pPump, ID3D10Blob** ppShaderText, ID3D10Blob** ppErrorMsgs);}
+\DoxyCodeLine{236 }
+\DoxyCodeLine{237 HRESULT WINAPI D3DX10PreprocessShaderFromResourceA(HMODULE hModule, LPCSTR pResourceName, LPCSTR pSrcFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}}* pDefines, }
+\DoxyCodeLine{238     LPD3D10INCLUDE pInclude, ID3DX10ThreadPump *pPump, ID3D10Blob** ppShaderText, ID3D10Blob** ppErrorMsgs);}
+\DoxyCodeLine{239 }
+\DoxyCodeLine{240 HRESULT WINAPI D3DX10PreprocessShaderFromResourceW(HMODULE hModule, LPCWSTR pResourceName, LPCWSTR pSrcFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}}* pDefines, }
+\DoxyCodeLine{241     LPD3D10INCLUDE pInclude, ID3DX10ThreadPump *pPump, ID3D10Blob** ppShaderText, ID3D10Blob** ppErrorMsgs);}
+\DoxyCodeLine{242 }
+\DoxyCodeLine{243 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{244 \textcolor{preprocessor}{\#define D3DX10PreprocessShaderFromFile      D3DX10PreprocessShaderFromFileW}}
+\DoxyCodeLine{245 \textcolor{preprocessor}{\#define D3DX10PreprocessShaderFromResource  D3DX10PreprocessShaderFromResourceW}}
+\DoxyCodeLine{246 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{247 \textcolor{preprocessor}{\#define D3DX10PreprocessShaderFromFile      D3DX10PreprocessShaderFromFileA}}
+\DoxyCodeLine{248 \textcolor{preprocessor}{\#define D3DX10PreprocessShaderFromResource  D3DX10PreprocessShaderFromResourceA}}
+\DoxyCodeLine{249 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{250 }
+\DoxyCodeLine{251 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{252 \textcolor{comment}{// Async processors}}
+\DoxyCodeLine{253 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{254 }
+\DoxyCodeLine{255 HRESULT WINAPI D3DX10CreateAsyncShaderCompilerProcessor(LPCSTR pFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}}* pDefines, LPD3D10INCLUDE pInclude, }
+\DoxyCodeLine{256         LPCSTR pFunctionName, LPCSTR pProfile, UINT Flags,}
+\DoxyCodeLine{257         ID3D10Blob **ppCompiledShader, ID3D10Blob **ppErrorBuffer, ID3DX10DataProcessor **ppProcessor);}
+\DoxyCodeLine{258 }
+\DoxyCodeLine{259 HRESULT WINAPI D3DX10CreateAsyncEffectCompilerProcessor(LPCSTR pFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}}* pDefines, LPD3D10INCLUDE pInclude, }
+\DoxyCodeLine{260         UINT Flags, UINT FXFlags,}
+\DoxyCodeLine{261         ID3D10Blob **ppCompiledShader, ID3D10Blob **ppErrorBuffer, ID3DX10DataProcessor **ppProcessor);}
+\DoxyCodeLine{262 }
+\DoxyCodeLine{263 HRESULT WINAPI D3DX10CreateAsyncEffectCreateProcessor(LPCSTR pFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}}* pDefines, LPD3D10INCLUDE pInclude, }
+\DoxyCodeLine{264         UINT Flags, UINT FXFlags, ID3D10Device *pDevice,}
+\DoxyCodeLine{265         ID3D10EffectPool *pPool, ID3D10Blob **ppErrorBuffer, ID3DX10DataProcessor **ppProcessor);}
+\DoxyCodeLine{266 }
+\DoxyCodeLine{267 HRESULT WINAPI D3DX10CreateAsyncEffectPoolCreateProcessor(LPCSTR pFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}}* pDefines, LPD3D10INCLUDE pInclude, }
+\DoxyCodeLine{268         UINT Flags, UINT FXFlags, ID3D10Device *pDevice,}
+\DoxyCodeLine{269         ID3D10Blob **ppErrorBuffer, ID3DX10DataProcessor **ppProcessor);}
+\DoxyCodeLine{270 }
+\DoxyCodeLine{271 HRESULT WINAPI D3DX10CreateAsyncShaderPreprocessProcessor(LPCSTR pFileName, CONST \mbox{\hyperlink{struct___d3_d10___s_h_a_d_e_r___m_a_c_r_o}{D3D10\_SHADER\_MACRO}}* pDefines, LPD3D10INCLUDE pInclude, }
+\DoxyCodeLine{272         ID3D10Blob** ppShaderText, ID3D10Blob **ppErrorBuffer, ID3DX10DataProcessor **ppProcessor);}
+\DoxyCodeLine{273 }
+\DoxyCodeLine{274 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{275 \}}
+\DoxyCodeLine{276 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{277 }
+\DoxyCodeLine{278 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_D3D10EFFECT\_H\_\_}}
+\DoxyCodeLine{279 }
+\DoxyCodeLine{280 }
+
+\end{DoxyCode}

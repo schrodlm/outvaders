@@ -1,0 +1,205 @@
+\hypertarget{dmdls_8h_source}{}\doxysection{dmdls.\+h}
+\label{dmdls_8h_source}\index{src/lib/dx/Include/dmdls.h@{src/lib/dx/Include/dmdls.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/************************************************************************}}
+\DoxyCodeLine{2 \textcolor{comment}{*                                                                       *}}
+\DoxyCodeLine{3 \textcolor{comment}{*   dmdls.h -\/-\/ DLS download definitions for DirectMusic API's           *}}
+\DoxyCodeLine{4 \textcolor{comment}{*                                                                       *}}
+\DoxyCodeLine{5 \textcolor{comment}{*   Copyright (c) Microsoft Corporation.  All rights reserved.          *}}
+\DoxyCodeLine{6 \textcolor{comment}{*                                                                       *}}
+\DoxyCodeLine{7 \textcolor{comment}{************************************************************************/}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#ifndef \_DMDLS\_}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#define \_DMDLS\_}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include "{}dls1.h"{}}}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{keyword}{typedef} \textcolor{keywordtype}{long} PCENT;     \textcolor{comment}{/* Pitch cents */}}
+\DoxyCodeLine{15 \textcolor{keyword}{typedef} \textcolor{keywordtype}{long} GCENT;     \textcolor{comment}{/* Gain cents */}}
+\DoxyCodeLine{16 \textcolor{keyword}{typedef} \textcolor{keywordtype}{long} TCENT;     \textcolor{comment}{/* Time cents */}}
+\DoxyCodeLine{17 \textcolor{keyword}{typedef} \textcolor{keywordtype}{long} PERCENT;   \textcolor{comment}{/* Per.. cent! */}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{keyword}{typedef} LONGLONG REFERENCE\_TIME;}
+\DoxyCodeLine{20 \textcolor{keyword}{typedef} REFERENCE\_TIME *LPREFERENCE\_TIME;}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#ifndef MAKE\_FOURCC}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#define MAKEFOURCC(ch0, ch1, ch2, ch3)                              \(\backslash\)}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{                ((DWORD)(BYTE)(ch0) | ((DWORD)(BYTE)(ch1) << 8) |   \(\backslash\)}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{                ((DWORD)(BYTE)(ch2) << 16) | ((DWORD)(BYTE)(ch3) << 24 ))}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28 \textcolor{keyword}{typedef} DWORD           FOURCC;         \textcolor{comment}{/* a four character code */}}
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_m_u_s___d_o_w_n_l_o_a_d_i_n_f_o}{\_DMUS\_DOWNLOADINFO}}}
+\DoxyCodeLine{32 \{}
+\DoxyCodeLine{33     DWORD dwDLType;                     \textcolor{comment}{/* Instrument or Wave */}}
+\DoxyCodeLine{34     DWORD dwDLId;                       \textcolor{comment}{/* Unique identifier to tag this download. */}}
+\DoxyCodeLine{35     DWORD dwNumOffsetTableEntries;      \textcolor{comment}{/* Number of index in the offset address table. */}}
+\DoxyCodeLine{36     DWORD cbSize;                       \textcolor{comment}{/* Total size of this memory chunk. */}}
+\DoxyCodeLine{37 \} \mbox{\hyperlink{struct___d_m_u_s___d_o_w_n_l_o_a_d_i_n_f_o}{DMUS\_DOWNLOADINFO}};}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 \textcolor{preprocessor}{\#define DMUS\_DOWNLOADINFO\_INSTRUMENT        1}}
+\DoxyCodeLine{40 \textcolor{preprocessor}{\#define DMUS\_DOWNLOADINFO\_WAVE              2}}
+\DoxyCodeLine{41 \textcolor{preprocessor}{\#define DMUS\_DOWNLOADINFO\_INSTRUMENT2       3   }\textcolor{comment}{/* New version for better DLS2 support. */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{comment}{/* Support for oneshot and streaming wave data }}
+\DoxyCodeLine{44 \textcolor{comment}{ */}}
+\DoxyCodeLine{45 \textcolor{preprocessor}{\#define DMUS\_DOWNLOADINFO\_WAVEARTICULATION  4   }\textcolor{comment}{/* Wave articulation data */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{46 \textcolor{preprocessor}{\#define DMUS\_DOWNLOADINFO\_STREAMINGWAVE     5   }\textcolor{comment}{/* One chunk of a streaming */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{47 \textcolor{preprocessor}{\#define DMUS\_DOWNLOADINFO\_ONESHOTWAVE       6}}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#define DMUS\_DEFAULT\_SIZE\_OFFSETTABLE   1}}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{comment}{/* Flags for DMUS\_INSTRUMENT's ulFlags member */}}
+\DoxyCodeLine{52  }
+\DoxyCodeLine{53 \textcolor{preprocessor}{\#define DMUS\_INSTRUMENT\_GM\_INSTRUMENT   (1 << 0)}}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_m_u_s___o_f_f_s_e_t_t_a_b_l_e}{\_DMUS\_OFFSETTABLE}}}
+\DoxyCodeLine{56 \{}
+\DoxyCodeLine{57     ULONG ulOffsetTable[DMUS\_DEFAULT\_SIZE\_OFFSETTABLE];}
+\DoxyCodeLine{58 \} \mbox{\hyperlink{struct___d_m_u_s___o_f_f_s_e_t_t_a_b_l_e}{DMUS\_OFFSETTABLE}};}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_m_u_s___i_n_s_t_r_u_m_e_n_t}{\_DMUS\_INSTRUMENT}}}
+\DoxyCodeLine{61 \{}
+\DoxyCodeLine{62     ULONG           ulPatch;}
+\DoxyCodeLine{63     ULONG           ulFirstRegionIdx;             }
+\DoxyCodeLine{64     ULONG           ulGlobalArtIdx;         \textcolor{comment}{/* If zero the instrument does not have an articulation */}}
+\DoxyCodeLine{65     ULONG           ulFirstExtCkIdx;        \textcolor{comment}{/* If zero no 3rd party entenstion chunks associated with the instrument */}}
+\DoxyCodeLine{66     ULONG           ulCopyrightIdx;         \textcolor{comment}{/* If zero no Copyright information associated with the instrument */}}
+\DoxyCodeLine{67     ULONG           ulFlags;                        }
+\DoxyCodeLine{68 \} \mbox{\hyperlink{struct___d_m_u_s___i_n_s_t_r_u_m_e_n_t}{DMUS\_INSTRUMENT}};}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_m_u_s___r_e_g_i_o_n}{\_DMUS\_REGION}}}
+\DoxyCodeLine{71 \{}
+\DoxyCodeLine{72     \mbox{\hyperlink{struct___r_g_n_r_a_n_g_e}{RGNRANGE}}        RangeKey;}
+\DoxyCodeLine{73     \mbox{\hyperlink{struct___r_g_n_r_a_n_g_e}{RGNRANGE}}        RangeVelocity;}
+\DoxyCodeLine{74     USHORT          fusOptions;}
+\DoxyCodeLine{75     USHORT          usKeyGroup;}
+\DoxyCodeLine{76     ULONG           ulRegionArtIdx;         \textcolor{comment}{/* If zero the region does not have an articulation */}}
+\DoxyCodeLine{77     ULONG           ulNextRegionIdx;        \textcolor{comment}{/* If zero no more regions */}}
+\DoxyCodeLine{78     ULONG           ulFirstExtCkIdx;        \textcolor{comment}{/* If zero no 3rd party entenstion chunks associated with the region */}}
+\DoxyCodeLine{79     \mbox{\hyperlink{struct___w_a_v_e_l_i_n_k}{WAVELINK}}        WaveLink;}
+\DoxyCodeLine{80     \mbox{\hyperlink{struct__rwsmp}{WSMPL}}           WSMP;                   \textcolor{comment}{/*  If WSMP.cSampleLoops > 1 then a WLOOP is included */}}
+\DoxyCodeLine{81     \mbox{\hyperlink{struct__rloop}{WLOOP}}           \mbox{\hyperlink{struct__rloop}{WLOOP}}[1];}
+\DoxyCodeLine{82 \} \mbox{\hyperlink{struct___d_m_u_s___r_e_g_i_o_n}{DMUS\_REGION}};}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_m_u_s___l_f_o_p_a_r_a_m_s}{\_DMUS\_LFOPARAMS}}}
+\DoxyCodeLine{85 \{}
+\DoxyCodeLine{86     PCENT       pcFrequency;}
+\DoxyCodeLine{87     TCENT       tcDelay;}
+\DoxyCodeLine{88     GCENT       gcVolumeScale;}
+\DoxyCodeLine{89     PCENT       pcPitchScale;}
+\DoxyCodeLine{90     GCENT       gcMWToVolume;}
+\DoxyCodeLine{91     PCENT       pcMWToPitch;}
+\DoxyCodeLine{92 \} \mbox{\hyperlink{struct___d_m_u_s___l_f_o_p_a_r_a_m_s}{DMUS\_LFOPARAMS}};}
+\DoxyCodeLine{93 }
+\DoxyCodeLine{94 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_m_u_s___v_e_g_p_a_r_a_m_s}{\_DMUS\_VEGPARAMS}}}
+\DoxyCodeLine{95 \{}
+\DoxyCodeLine{96     TCENT       tcAttack;}
+\DoxyCodeLine{97     TCENT       tcDecay;}
+\DoxyCodeLine{98     PERCENT     ptSustain;}
+\DoxyCodeLine{99     TCENT       tcRelease;}
+\DoxyCodeLine{100     TCENT       tcVel2Attack;}
+\DoxyCodeLine{101     TCENT       tcKey2Decay;}
+\DoxyCodeLine{102 \} \mbox{\hyperlink{struct___d_m_u_s___v_e_g_p_a_r_a_m_s}{DMUS\_VEGPARAMS}};}
+\DoxyCodeLine{103 }
+\DoxyCodeLine{104 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_m_u_s___p_e_g_p_a_r_a_m_s}{\_DMUS\_PEGPARAMS}}}
+\DoxyCodeLine{105 \{}
+\DoxyCodeLine{106     TCENT       tcAttack;}
+\DoxyCodeLine{107     TCENT       tcDecay;}
+\DoxyCodeLine{108     PERCENT     ptSustain;}
+\DoxyCodeLine{109     TCENT       tcRelease;}
+\DoxyCodeLine{110     TCENT       tcVel2Attack;}
+\DoxyCodeLine{111     TCENT       tcKey2Decay;}
+\DoxyCodeLine{112     PCENT       pcRange;}
+\DoxyCodeLine{113 \} \mbox{\hyperlink{struct___d_m_u_s___p_e_g_p_a_r_a_m_s}{DMUS\_PEGPARAMS}};}
+\DoxyCodeLine{114 }
+\DoxyCodeLine{115 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_m_u_s___m_s_c_p_a_r_a_m_s}{\_DMUS\_MSCPARAMS}}}
+\DoxyCodeLine{116 \{}
+\DoxyCodeLine{117     PERCENT     ptDefaultPan;}
+\DoxyCodeLine{118 \} \mbox{\hyperlink{struct___d_m_u_s___m_s_c_p_a_r_a_m_s}{DMUS\_MSCPARAMS}};}
+\DoxyCodeLine{119 }
+\DoxyCodeLine{120 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_m_u_s___a_r_t_i_c_p_a_r_a_m_s}{\_DMUS\_ARTICPARAMS}}}
+\DoxyCodeLine{121 \{}
+\DoxyCodeLine{122     \mbox{\hyperlink{struct___d_m_u_s___l_f_o_p_a_r_a_m_s}{DMUS\_LFOPARAMS}}   LFO;}
+\DoxyCodeLine{123     \mbox{\hyperlink{struct___d_m_u_s___v_e_g_p_a_r_a_m_s}{DMUS\_VEGPARAMS}}   VolEG;}
+\DoxyCodeLine{124     \mbox{\hyperlink{struct___d_m_u_s___p_e_g_p_a_r_a_m_s}{DMUS\_PEGPARAMS}}   PitchEG;}
+\DoxyCodeLine{125     \mbox{\hyperlink{struct___d_m_u_s___m_s_c_p_a_r_a_m_s}{DMUS\_MSCPARAMS}}   Misc;}
+\DoxyCodeLine{126 \} \mbox{\hyperlink{struct___d_m_u_s___a_r_t_i_c_p_a_r_a_m_s}{DMUS\_ARTICPARAMS}};}
+\DoxyCodeLine{127 }
+\DoxyCodeLine{128 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_m_u_s___a_r_t_i_c_u_l_a_t_i_o_n}{\_DMUS\_ARTICULATION}}           \textcolor{comment}{/* Articulation chunk for DMUS\_DOWNLOADINFO\_INSTRUMENT format. */}}
+\DoxyCodeLine{129 \{}
+\DoxyCodeLine{130     ULONG           ulArt1Idx;              \textcolor{comment}{/* DLS Level 1 articulation chunk */}}
+\DoxyCodeLine{131     ULONG           ulFirstExtCkIdx;        \textcolor{comment}{/* 3rd party extenstion chunks associated with the articulation */}}
+\DoxyCodeLine{132 \} \mbox{\hyperlink{struct___d_m_u_s___a_r_t_i_c_u_l_a_t_i_o_n}{DMUS\_ARTICULATION}};}
+\DoxyCodeLine{133 }
+\DoxyCodeLine{134 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_m_u_s___a_r_t_i_c_u_l_a_t_i_o_n2}{\_DMUS\_ARTICULATION2}}          \textcolor{comment}{/* Articulation chunk for DMUS\_DOWNLOADINFO\_INSTRUMENT2 format. */}}
+\DoxyCodeLine{135 \{}
+\DoxyCodeLine{136     ULONG           ulArtIdx;               \textcolor{comment}{/* DLS Level 1/2 articulation chunk */}}
+\DoxyCodeLine{137     ULONG           ulFirstExtCkIdx;        \textcolor{comment}{/* 3rd party extenstion chunks associated with the articulation */}}
+\DoxyCodeLine{138     ULONG           ulNextArtIdx;           \textcolor{comment}{/* Additional articulation chunks */}}
+\DoxyCodeLine{139 \} \mbox{\hyperlink{struct___d_m_u_s___a_r_t_i_c_u_l_a_t_i_o_n2}{DMUS\_ARTICULATION2}};}
+\DoxyCodeLine{140 }
+\DoxyCodeLine{141 \textcolor{preprocessor}{\#define DMUS\_MIN\_DATA\_SIZE 4       }}
+\DoxyCodeLine{142 \textcolor{comment}{/*  The actual number is determined by cbSize of struct \_DMUS\_EXTENSIONCHUNK */}}
+\DoxyCodeLine{143 }
+\DoxyCodeLine{144 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_m_u_s___e_x_t_e_n_s_i_o_n_c_h_u_n_k}{\_DMUS\_EXTENSIONCHUNK}}}
+\DoxyCodeLine{145 \{}
+\DoxyCodeLine{146     ULONG           cbSize;                      \textcolor{comment}{/*  Size of extension chunk  */}}
+\DoxyCodeLine{147     ULONG           ulNextExtCkIdx;              \textcolor{comment}{/*  If zero no more 3rd party entenstion chunks */}}
+\DoxyCodeLine{148     FOURCC          ExtCkID;                                      }
+\DoxyCodeLine{149     BYTE            byExtCk[DMUS\_MIN\_DATA\_SIZE]; \textcolor{comment}{/*  The actual number that follows is determined by cbSize */}}
+\DoxyCodeLine{150 \} \mbox{\hyperlink{struct___d_m_u_s___e_x_t_e_n_s_i_o_n_c_h_u_n_k}{DMUS\_EXTENSIONCHUNK}};}
+\DoxyCodeLine{151 }
+\DoxyCodeLine{152 \textcolor{comment}{/*  The actual number is determined by cbSize of struct \_DMUS\_COPYRIGHT */}}
+\DoxyCodeLine{153 }
+\DoxyCodeLine{154 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_m_u_s___c_o_p_y_r_i_g_h_t}{\_DMUS\_COPYRIGHT}}}
+\DoxyCodeLine{155 \{}
+\DoxyCodeLine{156     ULONG           cbSize;                             \textcolor{comment}{/*  Size of copyright information */}}
+\DoxyCodeLine{157     BYTE            byCopyright[DMUS\_MIN\_DATA\_SIZE];    \textcolor{comment}{/*  The actual number that follows is determined by cbSize */}}
+\DoxyCodeLine{158 \} \mbox{\hyperlink{struct___d_m_u_s___c_o_p_y_r_i_g_h_t}{DMUS\_COPYRIGHT}};}
+\DoxyCodeLine{159 }
+\DoxyCodeLine{160 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_m_u_s___w_a_v_e_d_a_t_a}{\_DMUS\_WAVEDATA}}}
+\DoxyCodeLine{161 \{}
+\DoxyCodeLine{162     ULONG           cbSize;}
+\DoxyCodeLine{163     BYTE            byData[DMUS\_MIN\_DATA\_SIZE]; }
+\DoxyCodeLine{164 \} \mbox{\hyperlink{struct___d_m_u_s___w_a_v_e_d_a_t_a}{DMUS\_WAVEDATA}};}
+\DoxyCodeLine{165 }
+\DoxyCodeLine{166 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_m_u_s___w_a_v_e}{\_DMUS\_WAVE}}}
+\DoxyCodeLine{167 \{}
+\DoxyCodeLine{168     ULONG           ulFirstExtCkIdx;    \textcolor{comment}{/* If zero no 3rd party entenstion chunks associated with the wave */}}
+\DoxyCodeLine{169     ULONG           ulCopyrightIdx;     \textcolor{comment}{/* If zero no Copyright information associated with the wave */}}
+\DoxyCodeLine{170     ULONG           ulWaveDataIdx;      \textcolor{comment}{/* Location of actual wave data. */}}
+\DoxyCodeLine{171     WAVEFORMATEX    WaveformatEx;       }
+\DoxyCodeLine{172 \} \mbox{\hyperlink{struct___d_m_u_s___w_a_v_e}{DMUS\_WAVE}};}
+\DoxyCodeLine{173 }
+\DoxyCodeLine{174 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_m_u_s___n_o_t_e_r_a_n_g_e}{\_DMUS\_NOTERANGE}} *\mbox{\hyperlink{struct___d_m_u_s___n_o_t_e_r_a_n_g_e}{LPDMUS\_NOTERANGE}};}
+\DoxyCodeLine{175 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_m_u_s___n_o_t_e_r_a_n_g_e}{\_DMUS\_NOTERANGE}}}
+\DoxyCodeLine{176 \{}
+\DoxyCodeLine{177     DWORD           dwLowNote;  \textcolor{comment}{/* Sets the low note for the range of MIDI note events to which the instrument responds.*/}}
+\DoxyCodeLine{178     DWORD           dwHighNote; \textcolor{comment}{/* Sets the high note for the range of MIDI note events to which the instrument responds.*/}}
+\DoxyCodeLine{179 \} \mbox{\hyperlink{struct___d_m_u_s___n_o_t_e_r_a_n_g_e}{DMUS\_NOTERANGE}};}
+\DoxyCodeLine{180 }
+\DoxyCodeLine{181 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_m_u_s___w_a_v_e_a_r_t_d_l}{\_DMUS\_WAVEARTDL}}}
+\DoxyCodeLine{182 \{}
+\DoxyCodeLine{183     ULONG               ulDownloadIdIdx;    \textcolor{comment}{/* Download ID's of each buffer */}}
+\DoxyCodeLine{184     ULONG               ulBus;              \textcolor{comment}{/* Playback bus */}}
+\DoxyCodeLine{185     ULONG               ulBuffers;          \textcolor{comment}{/* Buffers */}}
+\DoxyCodeLine{186     ULONG               ulMasterDLId;       \textcolor{comment}{/* Download ID of master voice of slave group */}}
+\DoxyCodeLine{187     USHORT              usOptions;          \textcolor{comment}{/* Same as DLS2 region options */}}
+\DoxyCodeLine{188 \}   \mbox{\hyperlink{struct___d_m_u_s___w_a_v_e_a_r_t_d_l}{DMUS\_WAVEARTDL}},}
+\DoxyCodeLine{189     *\mbox{\hyperlink{struct___d_m_u_s___w_a_v_e_a_r_t_d_l}{LPDMUS\_WAVEARTDL}};}
+\DoxyCodeLine{190 }
+\DoxyCodeLine{191 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_m_u_s___w_a_v_e_d_l}{\_DMUS\_WAVEDL}}}
+\DoxyCodeLine{192 \{}
+\DoxyCodeLine{193     ULONG               cbWaveData;         \textcolor{comment}{/* Bytes of wave data */}}
+\DoxyCodeLine{194 \}   \mbox{\hyperlink{struct___d_m_u_s___w_a_v_e_d_l}{DMUS\_WAVEDL}},}
+\DoxyCodeLine{195     *\mbox{\hyperlink{struct___d_m_u_s___w_a_v_e_d_l}{LPDMUS\_WAVEDL}};}
+\DoxyCodeLine{196 }
+\DoxyCodeLine{197 \textcolor{preprocessor}{\#endif }}
+\DoxyCodeLine{198 }
+\DoxyCodeLine{199 }
+
+\end{DoxyCode}

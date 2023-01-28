@@ -1,0 +1,859 @@
+\hypertarget{dplobby_8h_source}{}\doxysection{dplobby.\+h}
+\label{dplobby_8h_source}\index{src/lib/dx/Include/dplobby.h@{src/lib/dx/Include/dplobby.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*==========================================================================;}}
+\DoxyCodeLine{2 \textcolor{comment}{ *}}
+\DoxyCodeLine{3 \textcolor{comment}{ *  Copyright (C) 1996-\/1997 Microsoft Corporation.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{ *}}
+\DoxyCodeLine{5 \textcolor{comment}{ *  File:       dplobby.h}}
+\DoxyCodeLine{6 \textcolor{comment}{ *  Content:    DirectPlayLobby include file}}
+\DoxyCodeLine{7 \textcolor{comment}{ ***************************************************************************/}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#ifndef \_\_DPLOBBY\_INCLUDED\_\_}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#define \_\_DPLOBBY\_INCLUDED\_\_}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include "{}dplay.h"{}}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{comment}{/* avoid warnings at Level 4 */}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#pragma warning(disable:4201)}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{17 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* \_\_cplusplus */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{comment}{/*}}
+\DoxyCodeLine{21 \textcolor{comment}{ * GUIDS used by DirectPlay objects}}
+\DoxyCodeLine{22 \textcolor{comment}{ */}}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 \textcolor{comment}{/* \{AF465C71-\/9588-\/11cf-\/A020-\/00AA006157AC\} */}}
+\DoxyCodeLine{25 DEFINE\_GUID(IID\_IDirectPlayLobby, 0xaf465c71, 0x9588, 0x11cf, 0xa0, 0x20, 0x0, 0xaa, 0x0, 0x61, 0x57, 0xac);}
+\DoxyCodeLine{26 \textcolor{comment}{/* \{26C66A70-\/B367-\/11cf-\/A024-\/00AA006157AC\} */}}
+\DoxyCodeLine{27 DEFINE\_GUID(IID\_IDirectPlayLobbyA, 0x26c66a70, 0xb367, 0x11cf, 0xa0, 0x24, 0x0, 0xaa, 0x0, 0x61, 0x57, 0xac);}
+\DoxyCodeLine{28 \textcolor{comment}{/* \{0194C220-\/A303-\/11d0-\/9C4F-\/00A0C905425E\} */}}
+\DoxyCodeLine{29 DEFINE\_GUID(IID\_IDirectPlayLobby2, 0x194c220, 0xa303, 0x11d0, 0x9c, 0x4f, 0x0, 0xa0, 0xc9, 0x5, 0x42, 0x5e);}
+\DoxyCodeLine{30 \textcolor{comment}{/* \{1BB4AF80-\/A303-\/11d0-\/9C4F-\/00A0C905425E\} */}}
+\DoxyCodeLine{31 DEFINE\_GUID(IID\_IDirectPlayLobby2A, 0x1bb4af80, 0xa303, 0x11d0, 0x9c, 0x4f, 0x0, 0xa0, 0xc9, 0x5, 0x42, 0x5e);}
+\DoxyCodeLine{32 \textcolor{comment}{/* \{2DB72490-\/652C-\/11d1-\/A7A8-\/0000F803ABFC\} */}}
+\DoxyCodeLine{33 DEFINE\_GUID(IID\_IDirectPlayLobby3, 0x2db72490, 0x652c, 0x11d1, 0xa7, 0xa8, 0x0, 0x0, 0xf8, 0x3, 0xab, 0xfc);}
+\DoxyCodeLine{34 \textcolor{comment}{/* \{2DB72491-\/652C-\/11d1-\/A7A8-\/0000F803ABFC\} */}}
+\DoxyCodeLine{35 DEFINE\_GUID(IID\_IDirectPlayLobby3A, 0x2db72491, 0x652c, 0x11d1, 0xa7, 0xa8, 0x0, 0x0, 0xf8, 0x3, 0xab, 0xfc);}
+\DoxyCodeLine{36 \textcolor{comment}{/* \{2FE8F810-\/B2A5-\/11d0-\/A787-\/0000F803ABFC\} */}}
+\DoxyCodeLine{37 DEFINE\_GUID(CLSID\_DirectPlayLobby, 0x2fe8f810, 0xb2a5, 0x11d0, 0xa7, 0x87, 0x0, 0x0, 0xf8, 0x3, 0xab, 0xfc);}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{41 \textcolor{comment}{ *}}
+\DoxyCodeLine{42 \textcolor{comment}{ * IDirectPlayLobby Structures}}
+\DoxyCodeLine{43 \textcolor{comment}{ *}}
+\DoxyCodeLine{44 \textcolor{comment}{ * Various structures used to invoke DirectPlayLobby.}}
+\DoxyCodeLine{45 \textcolor{comment}{ *}}
+\DoxyCodeLine{46 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirectPlayLobby     FAR *LPDIRECTPLAYLOBBY;}
+\DoxyCodeLine{49 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirectPlayLobby     FAR *LPDIRECTPLAYLOBBYA;}
+\DoxyCodeLine{50 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirectPlayLobby     IDirectPlayLobbyA;}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirectPlayLobby2    FAR *LPDIRECTPLAYLOBBY2;}
+\DoxyCodeLine{53 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirectPlayLobby2    FAR *LPDIRECTPLAYLOBBY2A;}
+\DoxyCodeLine{54 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirectPlayLobby2    IDirectPlayLobby2A;}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirectPlayLobby3    FAR *LPDIRECTPLAYLOBBY3;}
+\DoxyCodeLine{57 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirectPlayLobby3    FAR *LPDIRECTPLAYLOBBY3A;}
+\DoxyCodeLine{58 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirectPlayLobby3    IDirectPlayLobby3A;}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61 \textcolor{comment}{/*}}
+\DoxyCodeLine{62 \textcolor{comment}{ * DPLAPPINFO}}
+\DoxyCodeLine{63 \textcolor{comment}{ * Used to hold information about a registered DirectPlay}}
+\DoxyCodeLine{64 \textcolor{comment}{ * application}}
+\DoxyCodeLine{65 \textcolor{comment}{ */}}
+\DoxyCodeLine{66 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d_p_l_a_p_p_i_n_f_o}{DPLAPPINFO}}}
+\DoxyCodeLine{67 \{}
+\DoxyCodeLine{68     DWORD       dwSize;             \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{69     GUID        guidApplication;    \textcolor{comment}{// GUID of the Application}}
+\DoxyCodeLine{70     \textcolor{keyword}{union}}
+\DoxyCodeLine{71     \{}
+\DoxyCodeLine{72         LPSTR   lpszAppNameA;       \textcolor{comment}{// Pointer to the Application Name}}
+\DoxyCodeLine{73         LPWSTR  lpszAppName;}
+\DoxyCodeLine{74     \};}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{76 \} \mbox{\hyperlink{struct_d_p_l_a_p_p_i_n_f_o}{DPLAPPINFO}}, FAR *\mbox{\hyperlink{struct_d_p_l_a_p_p_i_n_f_o}{LPDPLAPPINFO}};}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78 \textcolor{comment}{/*}}
+\DoxyCodeLine{79 \textcolor{comment}{ * LPCDPLAPPINFO}}
+\DoxyCodeLine{80 \textcolor{comment}{ * A constant pointer to DPLAPPINFO}}
+\DoxyCodeLine{81 \textcolor{comment}{ */}}
+\DoxyCodeLine{82 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_d_p_l_a_p_p_i_n_f_o}{DPLAPPINFO}} FAR *LPCDPLAPPINFO;}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84 \textcolor{comment}{/*}}
+\DoxyCodeLine{85 \textcolor{comment}{ * DPCOMPOUNDADDRESSELEMENT}}
+\DoxyCodeLine{86 \textcolor{comment}{ *}}
+\DoxyCodeLine{87 \textcolor{comment}{ * An array of these is passed to CreateCompoundAddresses()}}
+\DoxyCodeLine{88 \textcolor{comment}{ */}}
+\DoxyCodeLine{89 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d_p_c_o_m_p_o_u_n_d_a_d_d_r_e_s_s_e_l_e_m_e_n_t}{DPCOMPOUNDADDRESSELEMENT}}}
+\DoxyCodeLine{90 \{}
+\DoxyCodeLine{91     GUID                guidDataType;}
+\DoxyCodeLine{92     DWORD               dwDataSize;}
+\DoxyCodeLine{93     LPVOID              lpData;}
+\DoxyCodeLine{94 \} \mbox{\hyperlink{struct_d_p_c_o_m_p_o_u_n_d_a_d_d_r_e_s_s_e_l_e_m_e_n_t}{DPCOMPOUNDADDRESSELEMENT}}, FAR *\mbox{\hyperlink{struct_d_p_c_o_m_p_o_u_n_d_a_d_d_r_e_s_s_e_l_e_m_e_n_t}{LPDPCOMPOUNDADDRESSELEMENT}};}
+\DoxyCodeLine{95 }
+\DoxyCodeLine{96 \textcolor{comment}{/*}}
+\DoxyCodeLine{97 \textcolor{comment}{ * LPCDPCOMPOUNDADDRESSELEMENT}}
+\DoxyCodeLine{98 \textcolor{comment}{ * A constant pointer to DPCOMPOUNDADDRESSELEMENT}}
+\DoxyCodeLine{99 \textcolor{comment}{ */}}
+\DoxyCodeLine{100 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_d_p_c_o_m_p_o_u_n_d_a_d_d_r_e_s_s_e_l_e_m_e_n_t}{DPCOMPOUNDADDRESSELEMENT}} FAR *LPCDPCOMPOUNDADDRESSELEMENT;}
+\DoxyCodeLine{101 }
+\DoxyCodeLine{102 \textcolor{comment}{/*}}
+\DoxyCodeLine{103 \textcolor{comment}{ * LPDPAPPLICATIONDESC}}
+\DoxyCodeLine{104 \textcolor{comment}{ * Used to register a DirectPlay application}}
+\DoxyCodeLine{105 \textcolor{comment}{ */}}
+\DoxyCodeLine{106 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d_p_a_p_p_l_i_c_a_t_i_o_n_d_e_s_c}{DPAPPLICATIONDESC}}}
+\DoxyCodeLine{107 \{}
+\DoxyCodeLine{108     DWORD       dwSize;}
+\DoxyCodeLine{109     DWORD       dwFlags;}
+\DoxyCodeLine{110     \textcolor{keyword}{union}}
+\DoxyCodeLine{111     \{}
+\DoxyCodeLine{112         LPSTR       lpszApplicationNameA;}
+\DoxyCodeLine{113         LPWSTR      lpszApplicationName;}
+\DoxyCodeLine{114     \};}
+\DoxyCodeLine{115     GUID        guidApplication;}
+\DoxyCodeLine{116     \textcolor{keyword}{union}}
+\DoxyCodeLine{117     \{}
+\DoxyCodeLine{118         LPSTR       lpszFilenameA;}
+\DoxyCodeLine{119         LPWSTR      lpszFilename;}
+\DoxyCodeLine{120     \};}
+\DoxyCodeLine{121     \textcolor{keyword}{union}}
+\DoxyCodeLine{122     \{}
+\DoxyCodeLine{123         LPSTR       lpszCommandLineA;}
+\DoxyCodeLine{124         LPWSTR      lpszCommandLine;}
+\DoxyCodeLine{125     \};}
+\DoxyCodeLine{126     \textcolor{keyword}{union}}
+\DoxyCodeLine{127     \{}
+\DoxyCodeLine{128         LPSTR       lpszPathA;}
+\DoxyCodeLine{129         LPWSTR      lpszPath;}
+\DoxyCodeLine{130     \};}
+\DoxyCodeLine{131     \textcolor{keyword}{union}}
+\DoxyCodeLine{132     \{}
+\DoxyCodeLine{133         LPSTR       lpszCurrentDirectoryA;}
+\DoxyCodeLine{134         LPWSTR      lpszCurrentDirectory;}
+\DoxyCodeLine{135     \};}
+\DoxyCodeLine{136     LPSTR       lpszDescriptionA;}
+\DoxyCodeLine{137     LPWSTR      lpszDescriptionW;}
+\DoxyCodeLine{138 \} \mbox{\hyperlink{struct_d_p_a_p_p_l_i_c_a_t_i_o_n_d_e_s_c}{DPAPPLICATIONDESC}}, *\mbox{\hyperlink{struct_d_p_a_p_p_l_i_c_a_t_i_o_n_d_e_s_c}{LPDPAPPLICATIONDESC}};}
+\DoxyCodeLine{139 }
+\DoxyCodeLine{140 \textcolor{comment}{/*}}
+\DoxyCodeLine{141 \textcolor{comment}{ * LPDPAPPLICATIONDESC2}}
+\DoxyCodeLine{142 \textcolor{comment}{ * Used to register a DirectPlay application}}
+\DoxyCodeLine{143 \textcolor{comment}{ */}}
+\DoxyCodeLine{144 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d_p_a_p_p_l_i_c_a_t_i_o_n_d_e_s_c2}{DPAPPLICATIONDESC2}}}
+\DoxyCodeLine{145 \{}
+\DoxyCodeLine{146     DWORD       dwSize;}
+\DoxyCodeLine{147     DWORD       dwFlags;}
+\DoxyCodeLine{148     \textcolor{keyword}{union}}
+\DoxyCodeLine{149     \{}
+\DoxyCodeLine{150         LPSTR       lpszApplicationNameA;}
+\DoxyCodeLine{151         LPWSTR      lpszApplicationName;}
+\DoxyCodeLine{152     \};}
+\DoxyCodeLine{153     GUID        guidApplication;}
+\DoxyCodeLine{154     \textcolor{keyword}{union}}
+\DoxyCodeLine{155     \{}
+\DoxyCodeLine{156         LPSTR       lpszFilenameA;}
+\DoxyCodeLine{157         LPWSTR      lpszFilename;}
+\DoxyCodeLine{158     \};}
+\DoxyCodeLine{159     \textcolor{keyword}{union}}
+\DoxyCodeLine{160     \{}
+\DoxyCodeLine{161         LPSTR       lpszCommandLineA;}
+\DoxyCodeLine{162         LPWSTR      lpszCommandLine;}
+\DoxyCodeLine{163     \};}
+\DoxyCodeLine{164     \textcolor{keyword}{union}}
+\DoxyCodeLine{165     \{}
+\DoxyCodeLine{166         LPSTR       lpszPathA;}
+\DoxyCodeLine{167         LPWSTR      lpszPath;}
+\DoxyCodeLine{168     \};}
+\DoxyCodeLine{169     \textcolor{keyword}{union}}
+\DoxyCodeLine{170     \{}
+\DoxyCodeLine{171         LPSTR       lpszCurrentDirectoryA;}
+\DoxyCodeLine{172         LPWSTR      lpszCurrentDirectory;}
+\DoxyCodeLine{173     \};}
+\DoxyCodeLine{174     LPSTR       lpszDescriptionA;}
+\DoxyCodeLine{175     LPWSTR      lpszDescriptionW;}
+\DoxyCodeLine{176     \textcolor{keyword}{union}}
+\DoxyCodeLine{177     \{}
+\DoxyCodeLine{178         LPSTR       lpszAppLauncherNameA;}
+\DoxyCodeLine{179         LPWSTR      lpszAppLauncherName;}
+\DoxyCodeLine{180     \};}
+\DoxyCodeLine{181 \} \mbox{\hyperlink{struct_d_p_a_p_p_l_i_c_a_t_i_o_n_d_e_s_c2}{DPAPPLICATIONDESC2}}, *\mbox{\hyperlink{struct_d_p_a_p_p_l_i_c_a_t_i_o_n_d_e_s_c2}{LPDPAPPLICATIONDESC2}};}
+\DoxyCodeLine{182 }
+\DoxyCodeLine{183 }
+\DoxyCodeLine{184 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{185 \textcolor{comment}{ *}}
+\DoxyCodeLine{186 \textcolor{comment}{ * Enumeration Method Callback Prototypes}}
+\DoxyCodeLine{187 \textcolor{comment}{ *}}
+\DoxyCodeLine{188 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{189 }
+\DoxyCodeLine{190 \textcolor{comment}{/*}}
+\DoxyCodeLine{191 \textcolor{comment}{ * Callback for EnumAddress()}}
+\DoxyCodeLine{192 \textcolor{comment}{ */}}
+\DoxyCodeLine{193 \textcolor{keyword}{typedef} BOOL (FAR PASCAL *LPDPENUMADDRESSCALLBACK)(}
+\DoxyCodeLine{194     REFGUID         guidDataType,}
+\DoxyCodeLine{195     DWORD           dwDataSize,}
+\DoxyCodeLine{196     LPCVOID         lpData,}
+\DoxyCodeLine{197     LPVOID          lpContext);}
+\DoxyCodeLine{198 }
+\DoxyCodeLine{199 \textcolor{comment}{/*}}
+\DoxyCodeLine{200 \textcolor{comment}{ * Callback for EnumAddressTypes()}}
+\DoxyCodeLine{201 \textcolor{comment}{ */}}
+\DoxyCodeLine{202 \textcolor{keyword}{typedef} BOOL (FAR PASCAL *LPDPLENUMADDRESSTYPESCALLBACK)(}
+\DoxyCodeLine{203     REFGUID         guidDataType,}
+\DoxyCodeLine{204     LPVOID          lpContext,}
+\DoxyCodeLine{205     DWORD           dwFlags);}
+\DoxyCodeLine{206 }
+\DoxyCodeLine{207 \textcolor{comment}{/*}}
+\DoxyCodeLine{208 \textcolor{comment}{ * Callback for EnumLocalApplications()}}
+\DoxyCodeLine{209 \textcolor{comment}{ */}}
+\DoxyCodeLine{210 \textcolor{keyword}{typedef} BOOL (FAR PASCAL * LPDPLENUMLOCALAPPLICATIONSCALLBACK)(}
+\DoxyCodeLine{211     LPCDPLAPPINFO   lpAppInfo,}
+\DoxyCodeLine{212     LPVOID          lpContext,}
+\DoxyCodeLine{213     DWORD           dwFlags);}
+\DoxyCodeLine{214 }
+\DoxyCodeLine{215 }
+\DoxyCodeLine{216 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{217 \textcolor{comment}{ *}}
+\DoxyCodeLine{218 \textcolor{comment}{ * DirectPlayLobby API Prototypes}}
+\DoxyCodeLine{219 \textcolor{comment}{ *}}
+\DoxyCodeLine{220 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{221 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{222 \textcolor{preprocessor}{\#define DirectPlayLobbyCreate   DirectPlayLobbyCreateW}}
+\DoxyCodeLine{223 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{224 \textcolor{preprocessor}{\#define DirectPlayLobbyCreate   DirectPlayLobbyCreateA}}
+\DoxyCodeLine{225 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* UNICODE */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{226 }
+\DoxyCodeLine{227 \textcolor{keyword}{extern} HRESULT WINAPI DirectPlayLobbyCreateW(LPGUID, LPDIRECTPLAYLOBBY *, IUnknown *, LPVOID, DWORD );}
+\DoxyCodeLine{228 \textcolor{keyword}{extern} HRESULT WINAPI DirectPlayLobbyCreateA(LPGUID, LPDIRECTPLAYLOBBYA *, IUnknown *, LPVOID, DWORD );}
+\DoxyCodeLine{229 }
+\DoxyCodeLine{230 }
+\DoxyCodeLine{231 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{232 \textcolor{comment}{ *}}
+\DoxyCodeLine{233 \textcolor{comment}{ * IDirectPlayLobby (and IDirectPlayLobbyA) Interface}}
+\DoxyCodeLine{234 \textcolor{comment}{ *}}
+\DoxyCodeLine{235 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{236 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{237 \textcolor{preprocessor}{\#define INTERFACE IDirectPlayLobby}}
+\DoxyCodeLine{238 DECLARE\_INTERFACE\_( IDirectPlayLobby, IUnknown )}
+\DoxyCodeLine{239 \{}
+\DoxyCodeLine{240     \textcolor{comment}{/*  IUnknown Methods    */}}
+\DoxyCodeLine{241     STDMETHOD(QueryInterface)       (THIS\_ REFIID riid, LPVOID * ppvObj) PURE;}
+\DoxyCodeLine{242     STDMETHOD\_(ULONG,AddRef)        (THIS) PURE;}
+\DoxyCodeLine{243     STDMETHOD\_(ULONG,Release)       (THIS) PURE;}
+\DoxyCodeLine{244 }
+\DoxyCodeLine{245     \textcolor{comment}{/*  IDirectPlayLobby Methods    */}}
+\DoxyCodeLine{246     STDMETHOD(Connect)              (THIS\_ DWORD, LPDIRECTPLAY2 *, IUnknown FAR *) PURE;}
+\DoxyCodeLine{247     STDMETHOD(CreateAddress)        (THIS\_ REFGUID, REFGUID, LPCVOID, DWORD, LPVOID, LPDWORD) PURE;}
+\DoxyCodeLine{248     STDMETHOD(EnumAddress)          (THIS\_ LPDPENUMADDRESSCALLBACK, LPCVOID, DWORD, LPVOID) PURE;}
+\DoxyCodeLine{249     STDMETHOD(EnumAddressTypes)     (THIS\_ LPDPLENUMADDRESSTYPESCALLBACK, REFGUID, LPVOID, DWORD) PURE;}
+\DoxyCodeLine{250     STDMETHOD(EnumLocalApplications)(THIS\_ LPDPLENUMLOCALAPPLICATIONSCALLBACK, LPVOID, DWORD) PURE;}
+\DoxyCodeLine{251     STDMETHOD(GetConnectionSettings)(THIS\_ DWORD, LPVOID, LPDWORD) PURE;}
+\DoxyCodeLine{252     STDMETHOD(ReceiveLobbyMessage)  (THIS\_ DWORD, DWORD, LPDWORD, LPVOID, LPDWORD) PURE;}
+\DoxyCodeLine{253     STDMETHOD(RunApplication)       (THIS\_ DWORD, LPDWORD, \mbox{\hyperlink{struct_d_p_l_c_o_n_n_e_c_t_i_o_n}{LPDPLCONNECTION}}, HANDLE) PURE;}
+\DoxyCodeLine{254     STDMETHOD(SendLobbyMessage)     (THIS\_ DWORD, DWORD, LPVOID, DWORD) PURE;}
+\DoxyCodeLine{255     STDMETHOD(SetConnectionSettings)(THIS\_ DWORD, DWORD, \mbox{\hyperlink{struct_d_p_l_c_o_n_n_e_c_t_i_o_n}{LPDPLCONNECTION}}) PURE;}
+\DoxyCodeLine{256     STDMETHOD(SetLobbyMessageEvent) (THIS\_ DWORD, DWORD, HANDLE) PURE;}
+\DoxyCodeLine{257 }
+\DoxyCodeLine{258 \};}
+\DoxyCodeLine{259 }
+\DoxyCodeLine{260 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{261 \textcolor{comment}{ *}}
+\DoxyCodeLine{262 \textcolor{comment}{ * IDirectPlayLobby2 (and IDirectPlayLobby2A) Interface}}
+\DoxyCodeLine{263 \textcolor{comment}{ *}}
+\DoxyCodeLine{264 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{265 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{266 \textcolor{preprocessor}{\#define INTERFACE IDirectPlayLobby2}}
+\DoxyCodeLine{267 DECLARE\_INTERFACE\_( IDirectPlayLobby2, IDirectPlayLobby )}
+\DoxyCodeLine{268 \{}
+\DoxyCodeLine{269     \textcolor{comment}{/*  IUnknown Methods    */}}
+\DoxyCodeLine{270     STDMETHOD(QueryInterface)       (THIS\_ REFIID riid, LPVOID * ppvObj) PURE;}
+\DoxyCodeLine{271     STDMETHOD\_(ULONG,AddRef)        (THIS) PURE;}
+\DoxyCodeLine{272     STDMETHOD\_(ULONG,Release)       (THIS) PURE;}
+\DoxyCodeLine{273 }
+\DoxyCodeLine{274     \textcolor{comment}{/*  IDirectPlayLobby Methods    */}}
+\DoxyCodeLine{275     STDMETHOD(Connect)              (THIS\_ DWORD, LPDIRECTPLAY2 *, IUnknown FAR *) PURE;}
+\DoxyCodeLine{276     STDMETHOD(CreateAddress)        (THIS\_ REFGUID, REFGUID, LPCVOID, DWORD, LPVOID, LPDWORD) PURE;}
+\DoxyCodeLine{277     STDMETHOD(EnumAddress)          (THIS\_ LPDPENUMADDRESSCALLBACK, LPCVOID, DWORD, LPVOID) PURE;}
+\DoxyCodeLine{278     STDMETHOD(EnumAddressTypes)     (THIS\_ LPDPLENUMADDRESSTYPESCALLBACK, REFGUID, LPVOID, DWORD) PURE;}
+\DoxyCodeLine{279     STDMETHOD(EnumLocalApplications)(THIS\_ LPDPLENUMLOCALAPPLICATIONSCALLBACK, LPVOID, DWORD) PURE;}
+\DoxyCodeLine{280     STDMETHOD(GetConnectionSettings)(THIS\_ DWORD, LPVOID, LPDWORD) PURE;}
+\DoxyCodeLine{281     STDMETHOD(ReceiveLobbyMessage)  (THIS\_ DWORD, DWORD, LPDWORD, LPVOID, LPDWORD) PURE;}
+\DoxyCodeLine{282     STDMETHOD(RunApplication)       (THIS\_ DWORD, LPDWORD, \mbox{\hyperlink{struct_d_p_l_c_o_n_n_e_c_t_i_o_n}{LPDPLCONNECTION}}, HANDLE) PURE;}
+\DoxyCodeLine{283     STDMETHOD(SendLobbyMessage)     (THIS\_ DWORD, DWORD, LPVOID, DWORD) PURE;}
+\DoxyCodeLine{284     STDMETHOD(SetConnectionSettings)(THIS\_ DWORD, DWORD, \mbox{\hyperlink{struct_d_p_l_c_o_n_n_e_c_t_i_o_n}{LPDPLCONNECTION}}) PURE;}
+\DoxyCodeLine{285     STDMETHOD(SetLobbyMessageEvent) (THIS\_ DWORD, DWORD, HANDLE) PURE;}
+\DoxyCodeLine{286 }
+\DoxyCodeLine{287     \textcolor{comment}{/*  IDirectPlayLobby2 Methods   */}}
+\DoxyCodeLine{288     STDMETHOD(CreateCompoundAddress)(THIS\_ LPCDPCOMPOUNDADDRESSELEMENT,DWORD,LPVOID,LPDWORD) PURE;}
+\DoxyCodeLine{289 \};}
+\DoxyCodeLine{290 }
+\DoxyCodeLine{291 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{292 \textcolor{comment}{ *}}
+\DoxyCodeLine{293 \textcolor{comment}{ * IDirectPlayLobby3 (and IDirectPlayLobby3A) Interface}}
+\DoxyCodeLine{294 \textcolor{comment}{ *}}
+\DoxyCodeLine{295 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{296 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{297 \textcolor{preprocessor}{\#define INTERFACE IDirectPlayLobby3}}
+\DoxyCodeLine{298 DECLARE\_INTERFACE\_( IDirectPlayLobby3, IDirectPlayLobby )}
+\DoxyCodeLine{299 \{}
+\DoxyCodeLine{300     \textcolor{comment}{/*  IUnknown Methods    */}}
+\DoxyCodeLine{301     STDMETHOD(QueryInterface)       (THIS\_ REFIID riid, LPVOID * ppvObj) PURE;}
+\DoxyCodeLine{302     STDMETHOD\_(ULONG,AddRef)        (THIS) PURE;}
+\DoxyCodeLine{303     STDMETHOD\_(ULONG,Release)       (THIS) PURE;}
+\DoxyCodeLine{304 }
+\DoxyCodeLine{305     \textcolor{comment}{/*  IDirectPlayLobby Methods    */}}
+\DoxyCodeLine{306     STDMETHOD(Connect)              (THIS\_ DWORD, LPDIRECTPLAY2 *, IUnknown FAR *) PURE;}
+\DoxyCodeLine{307     STDMETHOD(CreateAddress)        (THIS\_ REFGUID, REFGUID, LPCVOID, DWORD, LPVOID, LPDWORD) PURE;}
+\DoxyCodeLine{308     STDMETHOD(EnumAddress)          (THIS\_ LPDPENUMADDRESSCALLBACK, LPCVOID, DWORD, LPVOID) PURE;}
+\DoxyCodeLine{309     STDMETHOD(EnumAddressTypes)     (THIS\_ LPDPLENUMADDRESSTYPESCALLBACK, REFGUID, LPVOID, DWORD) PURE;}
+\DoxyCodeLine{310     STDMETHOD(EnumLocalApplications)(THIS\_ LPDPLENUMLOCALAPPLICATIONSCALLBACK, LPVOID, DWORD) PURE;}
+\DoxyCodeLine{311     STDMETHOD(GetConnectionSettings)(THIS\_ DWORD, LPVOID, LPDWORD) PURE;}
+\DoxyCodeLine{312     STDMETHOD(ReceiveLobbyMessage)  (THIS\_ DWORD, DWORD, LPDWORD, LPVOID, LPDWORD) PURE;}
+\DoxyCodeLine{313     STDMETHOD(RunApplication)       (THIS\_ DWORD, LPDWORD, \mbox{\hyperlink{struct_d_p_l_c_o_n_n_e_c_t_i_o_n}{LPDPLCONNECTION}}, HANDLE) PURE;}
+\DoxyCodeLine{314     STDMETHOD(SendLobbyMessage)     (THIS\_ DWORD, DWORD, LPVOID, DWORD) PURE;}
+\DoxyCodeLine{315     STDMETHOD(SetConnectionSettings)(THIS\_ DWORD, DWORD, \mbox{\hyperlink{struct_d_p_l_c_o_n_n_e_c_t_i_o_n}{LPDPLCONNECTION}}) PURE;}
+\DoxyCodeLine{316     STDMETHOD(SetLobbyMessageEvent) (THIS\_ DWORD, DWORD, HANDLE) PURE;}
+\DoxyCodeLine{317 }
+\DoxyCodeLine{318     \textcolor{comment}{/*  IDirectPlayLobby2 Methods   */}}
+\DoxyCodeLine{319     STDMETHOD(CreateCompoundAddress)(THIS\_ LPCDPCOMPOUNDADDRESSELEMENT,DWORD,LPVOID,LPDWORD) PURE;}
+\DoxyCodeLine{320 }
+\DoxyCodeLine{321     \textcolor{comment}{/*  IDirectPlayLobby3 Methods   */}}
+\DoxyCodeLine{322     STDMETHOD(ConnectEx)            (THIS\_ DWORD, REFIID, LPVOID *, IUnknown FAR *) PURE;}
+\DoxyCodeLine{323     STDMETHOD(RegisterApplication)  (THIS\_ DWORD, LPVOID) PURE;}
+\DoxyCodeLine{324     STDMETHOD(UnregisterApplication)(THIS\_ DWORD, REFGUID) PURE;}
+\DoxyCodeLine{325     STDMETHOD(WaitForConnectionSettings)(THIS\_ DWORD) PURE;}
+\DoxyCodeLine{326 \};}
+\DoxyCodeLine{327 }
+\DoxyCodeLine{328 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{329 \textcolor{comment}{ *}}
+\DoxyCodeLine{330 \textcolor{comment}{ * IDirectPlayLobby interface macros}}
+\DoxyCodeLine{331 \textcolor{comment}{ *}}
+\DoxyCodeLine{332 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{333 }
+\DoxyCodeLine{334 \textcolor{preprocessor}{\#if !defined(\_\_cplusplus) || defined(CINTERFACE)}}
+\DoxyCodeLine{335 }
+\DoxyCodeLine{336 \textcolor{preprocessor}{\#define IDirectPlayLobby\_QueryInterface(p,a,b)              (p)-\/>lpVtbl-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{337 \textcolor{preprocessor}{\#define IDirectPlayLobby\_AddRef(p)                          (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{338 \textcolor{preprocessor}{\#define IDirectPlayLobby\_Release(p)                         (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{339 \textcolor{preprocessor}{\#define IDirectPlayLobby\_Connect(p,a,b,c)                   (p)-\/>lpVtbl-\/>Connect(p,a,b,c)}}
+\DoxyCodeLine{340 \textcolor{preprocessor}{\#define IDirectPlayLobby\_ConnectEx(p,a,b,c,d)               (p)-\/>lpVtbl-\/>ConnectEx(p,a,b,c,d)}}
+\DoxyCodeLine{341 \textcolor{preprocessor}{\#define IDirectPlayLobby\_CreateAddress(p,a,b,c,d,e,f)       (p)-\/>lpVtbl-\/>CreateAddress(p,a,b,c,d,e,f)}}
+\DoxyCodeLine{342 \textcolor{preprocessor}{\#define IDirectPlayLobby\_CreateCompoundAddress(p,a,b,c,d)   (p)-\/>lpVtbl-\/>CreateCompoundAddress(p,a,b,c,d)}}
+\DoxyCodeLine{343 \textcolor{preprocessor}{\#define IDirectPlayLobby\_EnumAddress(p,a,b,c,d)             (p)-\/>lpVtbl-\/>EnumAddress(p,a,b,c,d)}}
+\DoxyCodeLine{344 \textcolor{preprocessor}{\#define IDirectPlayLobby\_EnumAddressTypes(p,a,b,c,d)        (p)-\/>lpVtbl-\/>EnumAddressTypes(p,a,b,c,d)}}
+\DoxyCodeLine{345 \textcolor{preprocessor}{\#define IDirectPlayLobby\_EnumLocalApplications(p,a,b,c)     (p)-\/>lpVtbl-\/>EnumLocalApplications(p,a,b,c)}}
+\DoxyCodeLine{346 \textcolor{preprocessor}{\#define IDirectPlayLobby\_GetConnectionSettings(p,a,b,c)     (p)-\/>lpVtbl-\/>GetConnectionSettings(p,a,b,c)}}
+\DoxyCodeLine{347 \textcolor{preprocessor}{\#define IDirectPlayLobby\_ReceiveLobbyMessage(p,a,b,c,d,e)   (p)-\/>lpVtbl-\/>ReceiveLobbyMessage(p,a,b,c,d,e)}}
+\DoxyCodeLine{348 \textcolor{preprocessor}{\#define IDirectPlayLobby\_RegisterApplication(p,a,b)         (p)-\/>lpVtbl-\/>RegisterApplication(p,a,b)}}
+\DoxyCodeLine{349 \textcolor{preprocessor}{\#define IDirectPlayLobby\_RunApplication(p,a,b,c,d)          (p)-\/>lpVtbl-\/>RunApplication(p,a,b,c,d)}}
+\DoxyCodeLine{350 \textcolor{preprocessor}{\#define IDirectPlayLobby\_SendLobbyMessage(p,a,b,c,d)        (p)-\/>lpVtbl-\/>SendLobbyMessage(p,a,b,c,d)}}
+\DoxyCodeLine{351 \textcolor{preprocessor}{\#define IDirectPlayLobby\_SetConnectionSettings(p,a,b,c)     (p)-\/>lpVtbl-\/>SetConnectionSettings(p,a,b,c)}}
+\DoxyCodeLine{352 \textcolor{preprocessor}{\#define IDirectPlayLobby\_SetLobbyMessageEvent(p,a,b,c)      (p)-\/>lpVtbl-\/>SetLobbyMessageEvent(p,a,b,c)}}
+\DoxyCodeLine{353 \textcolor{preprocessor}{\#define IDirectPlayLobby\_UnregisterApplication(p,a,b)       (p)-\/>lpVtbl-\/>UnregisterApplication(p,a,b)}}
+\DoxyCodeLine{354 \textcolor{preprocessor}{\#define IDirectPlayLobby\_WaitForConnectionSettings(p,a)     (p)-\/>lpVtbl-\/>WaitForConnectionSettings(p,a)}}
+\DoxyCodeLine{355 }
+\DoxyCodeLine{356 \textcolor{preprocessor}{\#else }\textcolor{comment}{/* C++ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{357 }
+\DoxyCodeLine{358 \textcolor{preprocessor}{\#define IDirectPlayLobby\_QueryInterface(p,a,b)              (p)-\/>QueryInterface(a,b)}}
+\DoxyCodeLine{359 \textcolor{preprocessor}{\#define IDirectPlayLobby\_AddRef(p)                          (p)-\/>AddRef()}}
+\DoxyCodeLine{360 \textcolor{preprocessor}{\#define IDirectPlayLobby\_Release(p)                         (p)-\/>Release()}}
+\DoxyCodeLine{361 \textcolor{preprocessor}{\#define IDirectPlayLobby\_Connect(p,a,b,c)                   (p)-\/>Connect(a,b,c)}}
+\DoxyCodeLine{362 \textcolor{preprocessor}{\#define IDirectPlayLobby\_ConnectEx(p,a,b,c,d)               (p)-\/>ConnectEx(a,b,c,d)}}
+\DoxyCodeLine{363 \textcolor{preprocessor}{\#define IDirectPlayLobby\_CreateAddress(p,a,b,c,d,e,f)       (p)-\/>CreateAddress(a,b,c,d,e,f)}}
+\DoxyCodeLine{364 \textcolor{preprocessor}{\#define IDirectPlayLobby\_CreateCompoundAddress(p,a,b,c,d)   (p)-\/>CreateCompoundAddress(a,b,c,d)}}
+\DoxyCodeLine{365 \textcolor{preprocessor}{\#define IDirectPlayLobby\_EnumAddress(p,a,b,c,d)             (p)-\/>EnumAddress(a,b,c,d)}}
+\DoxyCodeLine{366 \textcolor{preprocessor}{\#define IDirectPlayLobby\_EnumAddressTypes(p,a,b,c,d)        (p)-\/>EnumAddressTypes(a,b,c,d)}}
+\DoxyCodeLine{367 \textcolor{preprocessor}{\#define IDirectPlayLobby\_EnumLocalApplications(p,a,b,c)     (p)-\/>EnumLocalApplications(a,b,c)}}
+\DoxyCodeLine{368 \textcolor{preprocessor}{\#define IDirectPlayLobby\_GetConnectionSettings(p,a,b,c)     (p)-\/>GetConnectionSettings(a,b,c)}}
+\DoxyCodeLine{369 \textcolor{preprocessor}{\#define IDirectPlayLobby\_ReceiveLobbyMessage(p,a,b,c,d,e)   (p)-\/>ReceiveLobbyMessage(a,b,c,d,e)}}
+\DoxyCodeLine{370 \textcolor{preprocessor}{\#define IDirectPlayLobby\_RegisterApplication(p,a,b)         (p)-\/>RegisterApplication(a,b)}}
+\DoxyCodeLine{371 \textcolor{preprocessor}{\#define IDirectPlayLobby\_RunApplication(p,a,b,c,d)          (p)-\/>RunApplication(a,b,c,d)}}
+\DoxyCodeLine{372 \textcolor{preprocessor}{\#define IDirectPlayLobby\_SendLobbyMessage(p,a,b,c,d)        (p)-\/>SendLobbyMessage(a,b,c,d)}}
+\DoxyCodeLine{373 \textcolor{preprocessor}{\#define IDirectPlayLobby\_SetConnectionSettings(p,a,b,c)     (p)-\/>SetConnectionSettings(a,b,c)}}
+\DoxyCodeLine{374 \textcolor{preprocessor}{\#define IDirectPlayLobby\_SetLobbyMessageEvent(p,a,b,c)      (p)-\/>SetLobbyMessageEvent(a,b,c)}}
+\DoxyCodeLine{375 \textcolor{preprocessor}{\#define IDirectPlayLobby\_UnregisterApplication(p,a,b)       (p)-\/>UnregisterApplication(a,b)}}
+\DoxyCodeLine{376 \textcolor{preprocessor}{\#define IDirectPlayLobby\_WaitForConnectionSettings(p,a)     (p)-\/>WaitForConnectionSettings(a)}}
+\DoxyCodeLine{377 }
+\DoxyCodeLine{378 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{379 }
+\DoxyCodeLine{380 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{381 \textcolor{comment}{ *}}
+\DoxyCodeLine{382 \textcolor{comment}{ * DirectPlayLobby Flags}}
+\DoxyCodeLine{383 \textcolor{comment}{ *}}
+\DoxyCodeLine{384 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{385 }
+\DoxyCodeLine{386 \textcolor{comment}{/*}}
+\DoxyCodeLine{387 \textcolor{comment}{ *  This flag is used by IDirectPlayLobby-\/>WaitForConnectionSettings to}}
+\DoxyCodeLine{388 \textcolor{comment}{ *  cancel a current wait that is in progress.}}
+\DoxyCodeLine{389 \textcolor{comment}{ */}}
+\DoxyCodeLine{390 \textcolor{preprocessor}{\#define DPLWAIT\_CANCEL                  0x00000001}}
+\DoxyCodeLine{391 }
+\DoxyCodeLine{392 }
+\DoxyCodeLine{393 \textcolor{comment}{/*}}
+\DoxyCodeLine{394 \textcolor{comment}{ *  This is a message flag used by ReceiveLobbyMessage.  It can be}}
+\DoxyCodeLine{395 \textcolor{comment}{ *  returned in the dwMessageFlags parameter to indicate a message from}}
+\DoxyCodeLine{396 \textcolor{comment}{ *  the system.}}
+\DoxyCodeLine{397 \textcolor{comment}{ */}}
+\DoxyCodeLine{398 \textcolor{preprocessor}{\#define DPLMSG\_SYSTEM                   0x00000001}}
+\DoxyCodeLine{399 }
+\DoxyCodeLine{400 \textcolor{comment}{/*}}
+\DoxyCodeLine{401 \textcolor{comment}{ *  This is a message flag used by ReceiveLobbyMessage and SendLobbyMessage.}}
+\DoxyCodeLine{402 \textcolor{comment}{ *  It is used to indicate that the message is a standard lobby message.}}
+\DoxyCodeLine{403 \textcolor{comment}{ *  DPLMSG\_SETPROPERTY, DPLMSG\_SETPROPERTYRESPONSE, DPLMSG\_GETPROPERTY,}}
+\DoxyCodeLine{404 \textcolor{comment}{ *  DPLMSG\_GETPROPERTYRESPONSE}}
+\DoxyCodeLine{405 \textcolor{comment}{ */}}
+\DoxyCodeLine{406 \textcolor{preprocessor}{\#define DPLMSG\_STANDARD                 0x00000002}}
+\DoxyCodeLine{407 }
+\DoxyCodeLine{408 \textcolor{comment}{/*}}
+\DoxyCodeLine{409 \textcolor{comment}{ *  Lobbyable Application registration flags}}
+\DoxyCodeLine{410 \textcolor{comment}{ */}}
+\DoxyCodeLine{411 }
+\DoxyCodeLine{412 \textcolor{comment}{/*}}
+\DoxyCodeLine{413 \textcolor{comment}{ *  Applications registered with this flag will not show up when}}
+\DoxyCodeLine{414 \textcolor{comment}{ *  applications are enumerated in the lobby.  This application}}
+\DoxyCodeLine{415 \textcolor{comment}{ *  will only be able to be launched by a lobby client that already}}
+\DoxyCodeLine{416 \textcolor{comment}{ *  knows about the application.}}
+\DoxyCodeLine{417 \textcolor{comment}{ */}}
+\DoxyCodeLine{418 \textcolor{preprocessor}{\#define DPLAPP\_NOENUM                   0x80000000}}
+\DoxyCodeLine{419 }
+\DoxyCodeLine{420 \textcolor{comment}{/*}}
+\DoxyCodeLine{421 \textcolor{comment}{ *  Applications registered with this flag want voice to automatically}}
+\DoxyCodeLine{422 \textcolor{comment}{ *  be enabled for their application.  All players will be launched into}}
+\DoxyCodeLine{423 \textcolor{comment}{ *  an 'n'-\/way voice conference when the application is started.  The }}
+\DoxyCodeLine{424 \textcolor{comment}{ *  user will be able to enable this flag for existing non-\/voice }}
+\DoxyCodeLine{425 \textcolor{comment}{ *  directplay applications.}}
+\DoxyCodeLine{426 \textcolor{comment}{ */}}
+\DoxyCodeLine{427 \textcolor{preprocessor}{\#define DPLAPP\_AUTOVOICE                0x00000001 }}
+\DoxyCodeLine{428 }
+\DoxyCodeLine{429 \textcolor{comment}{/*}}
+\DoxyCodeLine{430 \textcolor{comment}{ * Applications that do their own voice conferencing should register with}}
+\DoxyCodeLine{431 \textcolor{comment}{ * this flag to avoid allowing the user to enable other voice chat }}
+\DoxyCodeLine{432 \textcolor{comment}{ * capabilites during the same session.  This is to avoid users forcing}}
+\DoxyCodeLine{433 \textcolor{comment}{ * the DPLAPP\_AUTOVOICE flag for the application.}}
+\DoxyCodeLine{434 \textcolor{comment}{ */}}
+\DoxyCodeLine{435 \textcolor{preprocessor}{\#define DPLAPP\_SELFVOICE                0x00000002 }}
+\DoxyCodeLine{436 }
+\DoxyCodeLine{437 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{438 \textcolor{comment}{ *}}
+\DoxyCodeLine{439 \textcolor{comment}{ * DirectPlayLobby messages and message data structures}}
+\DoxyCodeLine{440 \textcolor{comment}{ *}}
+\DoxyCodeLine{441 \textcolor{comment}{ * All system messages have a dwMessageFlags value of DPLMSG\_SYSTEM returned}}
+\DoxyCodeLine{442 \textcolor{comment}{ * from a call to ReceiveLobbyMessage.}}
+\DoxyCodeLine{443 \textcolor{comment}{ *}}
+\DoxyCodeLine{444 \textcolor{comment}{ * All standard messages have a dwMessageFlags value of DPLMSG\_STANDARD returned}}
+\DoxyCodeLine{445 \textcolor{comment}{ * from a call to ReceiveLobbyMessage.}}
+\DoxyCodeLine{446 \textcolor{comment}{ *}}
+\DoxyCodeLine{447 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{448 }
+\DoxyCodeLine{449 \textcolor{comment}{/*}}
+\DoxyCodeLine{450 \textcolor{comment}{ * DPLMSG\_GENERIC}}
+\DoxyCodeLine{451 \textcolor{comment}{ * Generic message structure used to identify the message type.}}
+\DoxyCodeLine{452 \textcolor{comment}{ */}}
+\DoxyCodeLine{453 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_p_l_m_s_g___g_e_n_e_r_i_c}{\_DPLMSG\_GENERIC}}}
+\DoxyCodeLine{454 \{}
+\DoxyCodeLine{455     DWORD       dwType;         \textcolor{comment}{// Message type}}
+\DoxyCodeLine{456 \} \mbox{\hyperlink{struct___d_p_l_m_s_g___g_e_n_e_r_i_c}{DPLMSG\_GENERIC}}, FAR *\mbox{\hyperlink{struct___d_p_l_m_s_g___g_e_n_e_r_i_c}{LPDPLMSG\_GENERIC}};}
+\DoxyCodeLine{457 }
+\DoxyCodeLine{458 \textcolor{comment}{/*}}
+\DoxyCodeLine{459 \textcolor{comment}{ * DPLMSG\_SYSTEMMESSAGE}}
+\DoxyCodeLine{460 \textcolor{comment}{ * Generic message format for all system messages -\/-\/}}
+\DoxyCodeLine{461 \textcolor{comment}{ * DPLSYS\_CONNECTIONSETTINGSREAD, DPLSYS\_DPLYCONNECTSUCCEEDED,}}
+\DoxyCodeLine{462 \textcolor{comment}{ * DPLSYS\_DPLAYCONNECTFAILED, DPLSYS\_APPTERMINATED, DPLSYS\_NEWCONNECTIONSETTINGS}}
+\DoxyCodeLine{463 \textcolor{comment}{ */}}
+\DoxyCodeLine{464 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_p_l_m_s_g___s_y_s_t_e_m_m_e_s_s_a_g_e}{\_DPLMSG\_SYSTEMMESSAGE}}}
+\DoxyCodeLine{465 \{}
+\DoxyCodeLine{466     DWORD       dwType;         \textcolor{comment}{// Message type}}
+\DoxyCodeLine{467     GUID        guidInstance;   \textcolor{comment}{// Instance GUID of the dplay session the message corresponds to}}
+\DoxyCodeLine{468 \} \mbox{\hyperlink{struct___d_p_l_m_s_g___s_y_s_t_e_m_m_e_s_s_a_g_e}{DPLMSG\_SYSTEMMESSAGE}}, FAR *\mbox{\hyperlink{struct___d_p_l_m_s_g___s_y_s_t_e_m_m_e_s_s_a_g_e}{LPDPLMSG\_SYSTEMMESSAGE}};}
+\DoxyCodeLine{469 }
+\DoxyCodeLine{470 \textcolor{comment}{/*}}
+\DoxyCodeLine{471 \textcolor{comment}{ *  DPLMSG\_SETPROPERTY}}
+\DoxyCodeLine{472 \textcolor{comment}{ *  Standard message sent by an application to a lobby to set a}}
+\DoxyCodeLine{473 \textcolor{comment}{ *  property}}
+\DoxyCodeLine{474 \textcolor{comment}{ */}}
+\DoxyCodeLine{475 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_p_l_m_s_g___s_e_t_p_r_o_p_e_r_t_y}{\_DPLMSG\_SETPROPERTY}}}
+\DoxyCodeLine{476 \{}
+\DoxyCodeLine{477     DWORD   dwType;             \textcolor{comment}{// Message type}}
+\DoxyCodeLine{478     DWORD   dwRequestID;        \textcolor{comment}{// Request ID (DPL\_NOCONFIRMATION if no confirmation desired)}}
+\DoxyCodeLine{479     GUID    guidPlayer;         \textcolor{comment}{// Player GUID}}
+\DoxyCodeLine{480     GUID    guidPropertyTag;    \textcolor{comment}{// Property GUID}}
+\DoxyCodeLine{481     DWORD   dwDataSize;         \textcolor{comment}{// Size of data}}
+\DoxyCodeLine{482     DWORD   dwPropertyData[1];  \textcolor{comment}{// Buffer containing data}}
+\DoxyCodeLine{483 \} \mbox{\hyperlink{struct___d_p_l_m_s_g___s_e_t_p_r_o_p_e_r_t_y}{DPLMSG\_SETPROPERTY}}, FAR *\mbox{\hyperlink{struct___d_p_l_m_s_g___s_e_t_p_r_o_p_e_r_t_y}{LPDPLMSG\_SETPROPERTY}};}
+\DoxyCodeLine{484 }
+\DoxyCodeLine{485 \textcolor{preprocessor}{\#define DPL\_NOCONFIRMATION          0}}
+\DoxyCodeLine{486 }
+\DoxyCodeLine{487 \textcolor{comment}{/*}}
+\DoxyCodeLine{488 \textcolor{comment}{ *  DPLMSG\_SETPROPERTYRESPONSE}}
+\DoxyCodeLine{489 \textcolor{comment}{ *  Standard message returned by a lobby to confirm a }}
+\DoxyCodeLine{490 \textcolor{comment}{ *  DPLMSG\_SETPROPERTY message.}}
+\DoxyCodeLine{491 \textcolor{comment}{ */}}
+\DoxyCodeLine{492 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_p_l_m_s_g___s_e_t_p_r_o_p_e_r_t_y_r_e_s_p_o_n_s_e}{\_DPLMSG\_SETPROPERTYRESPONSE}}}
+\DoxyCodeLine{493 \{}
+\DoxyCodeLine{494     DWORD   dwType;             \textcolor{comment}{// Message type}}
+\DoxyCodeLine{495     DWORD   dwRequestID;        \textcolor{comment}{// Request ID}}
+\DoxyCodeLine{496     GUID    guidPlayer;         \textcolor{comment}{// Player GUID}}
+\DoxyCodeLine{497     GUID    guidPropertyTag;    \textcolor{comment}{// Property GUID}}
+\DoxyCodeLine{498     HRESULT hr;                 \textcolor{comment}{// Return Code}}
+\DoxyCodeLine{499 \} \mbox{\hyperlink{struct___d_p_l_m_s_g___s_e_t_p_r_o_p_e_r_t_y_r_e_s_p_o_n_s_e}{DPLMSG\_SETPROPERTYRESPONSE}}, FAR *\mbox{\hyperlink{struct___d_p_l_m_s_g___s_e_t_p_r_o_p_e_r_t_y_r_e_s_p_o_n_s_e}{LPDPLMSG\_SETPROPERTYRESPONSE}};}
+\DoxyCodeLine{500 }
+\DoxyCodeLine{501 \textcolor{comment}{/*}}
+\DoxyCodeLine{502 \textcolor{comment}{ *  DPLMSG\_GETPROPERTY}}
+\DoxyCodeLine{503 \textcolor{comment}{ *  Standard message sent by an application to a lobby to request}}
+\DoxyCodeLine{504 \textcolor{comment}{ *  the current value of a property}}
+\DoxyCodeLine{505 \textcolor{comment}{ */}}
+\DoxyCodeLine{506 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_p_l_m_s_g___g_e_t_p_r_o_p_e_r_t_y}{\_DPLMSG\_GETPROPERTY}}}
+\DoxyCodeLine{507 \{}
+\DoxyCodeLine{508     DWORD   dwType;             \textcolor{comment}{// Message type}}
+\DoxyCodeLine{509     DWORD   dwRequestID;        \textcolor{comment}{// Request ID}}
+\DoxyCodeLine{510     GUID    guidPlayer;         \textcolor{comment}{// Player GUID}}
+\DoxyCodeLine{511     GUID    guidPropertyTag;    \textcolor{comment}{// Property GUID}}
+\DoxyCodeLine{512 \} \mbox{\hyperlink{struct___d_p_l_m_s_g___g_e_t_p_r_o_p_e_r_t_y}{DPLMSG\_GETPROPERTY}}, FAR *\mbox{\hyperlink{struct___d_p_l_m_s_g___g_e_t_p_r_o_p_e_r_t_y}{LPDPLMSG\_GETPROPERTY}};}
+\DoxyCodeLine{513 }
+\DoxyCodeLine{514 \textcolor{comment}{/*}}
+\DoxyCodeLine{515 \textcolor{comment}{ *  DPLMSG\_GETPROPERTYRESPONSE}}
+\DoxyCodeLine{516 \textcolor{comment}{ *  Standard message returned by a lobby in response to a}}
+\DoxyCodeLine{517 \textcolor{comment}{ *  DPLMSG\_GETPROPERTY message.}}
+\DoxyCodeLine{518 \textcolor{comment}{ */}}
+\DoxyCodeLine{519 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_p_l_m_s_g___g_e_t_p_r_o_p_e_r_t_y_r_e_s_p_o_n_s_e}{\_DPLMSG\_GETPROPERTYRESPONSE}}}
+\DoxyCodeLine{520 \{}
+\DoxyCodeLine{521     DWORD   dwType;             \textcolor{comment}{// Message type}}
+\DoxyCodeLine{522     DWORD   dwRequestID;        \textcolor{comment}{// Request ID}}
+\DoxyCodeLine{523     GUID    guidPlayer;         \textcolor{comment}{// Player GUID}}
+\DoxyCodeLine{524     GUID    guidPropertyTag;    \textcolor{comment}{// Property GUID}}
+\DoxyCodeLine{525     HRESULT hr;                 \textcolor{comment}{// Return Code}}
+\DoxyCodeLine{526     DWORD   dwDataSize;         \textcolor{comment}{// Size of data}}
+\DoxyCodeLine{527     DWORD   dwPropertyData[1];  \textcolor{comment}{// Buffer containing data}}
+\DoxyCodeLine{528 \} \mbox{\hyperlink{struct___d_p_l_m_s_g___g_e_t_p_r_o_p_e_r_t_y_r_e_s_p_o_n_s_e}{DPLMSG\_GETPROPERTYRESPONSE}}, FAR *\mbox{\hyperlink{struct___d_p_l_m_s_g___g_e_t_p_r_o_p_e_r_t_y_r_e_s_p_o_n_s_e}{LPDPLMSG\_GETPROPERTYRESPONSE}};}
+\DoxyCodeLine{529 }
+\DoxyCodeLine{530 \textcolor{comment}{/*}}
+\DoxyCodeLine{531 \textcolor{comment}{ *  DPLMSG\_NEWSESSIONHOST}}
+\DoxyCodeLine{532 \textcolor{comment}{ *  Standard message returned by a lobby in response to a}}
+\DoxyCodeLine{533 \textcolor{comment}{ *  the session host migrating to a new client}}
+\DoxyCodeLine{534 \textcolor{comment}{ */}}
+\DoxyCodeLine{535 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_p_l_m_s_g___n_e_w_s_e_s_s_i_o_n_h_o_s_t}{\_DPLMSG\_NEWSESSIONHOST}}}
+\DoxyCodeLine{536 \{}
+\DoxyCodeLine{537     DWORD   dwType;             \textcolor{comment}{// Message type}}
+\DoxyCodeLine{538     GUID    guidInstance;       \textcolor{comment}{// GUID Instance of the session}}
+\DoxyCodeLine{539 \} \mbox{\hyperlink{struct___d_p_l_m_s_g___n_e_w_s_e_s_s_i_o_n_h_o_s_t}{DPLMSG\_NEWSESSIONHOST}}, FAR *\mbox{\hyperlink{struct___d_p_l_m_s_g___n_e_w_s_e_s_s_i_o_n_h_o_s_t}{LPDPLMSG\_NEWSESSIONHOST}};}
+\DoxyCodeLine{540 }
+\DoxyCodeLine{541 }
+\DoxyCodeLine{542 \textcolor{comment}{/******************************************}}
+\DoxyCodeLine{543 \textcolor{comment}{ *}}
+\DoxyCodeLine{544 \textcolor{comment}{ *  DirectPlay Lobby message dwType values}}
+\DoxyCodeLine{545 \textcolor{comment}{ *}}
+\DoxyCodeLine{546 \textcolor{comment}{ *****************************************/}}
+\DoxyCodeLine{547 }
+\DoxyCodeLine{548 \textcolor{comment}{/*}}
+\DoxyCodeLine{549 \textcolor{comment}{ *  The application has read the connection settings.}}
+\DoxyCodeLine{550 \textcolor{comment}{ *  It is now O.K. for the lobby client to release}}
+\DoxyCodeLine{551 \textcolor{comment}{ *  its IDirectPlayLobby interface.}}
+\DoxyCodeLine{552 \textcolor{comment}{ */}}
+\DoxyCodeLine{553 \textcolor{preprocessor}{\#define DPLSYS\_CONNECTIONSETTINGSREAD   0x00000001}}
+\DoxyCodeLine{554 }
+\DoxyCodeLine{555 \textcolor{comment}{/*}}
+\DoxyCodeLine{556 \textcolor{comment}{ *  The application's call to DirectPlayConnect failed}}
+\DoxyCodeLine{557 \textcolor{comment}{ */}}
+\DoxyCodeLine{558 \textcolor{preprocessor}{\#define DPLSYS\_DPLAYCONNECTFAILED       0x00000002}}
+\DoxyCodeLine{559 }
+\DoxyCodeLine{560 \textcolor{comment}{/*}}
+\DoxyCodeLine{561 \textcolor{comment}{ *  The application has created a DirectPlay session.}}
+\DoxyCodeLine{562 \textcolor{comment}{ */}}
+\DoxyCodeLine{563 \textcolor{preprocessor}{\#define DPLSYS\_DPLAYCONNECTSUCCEEDED    0x00000003}}
+\DoxyCodeLine{564 }
+\DoxyCodeLine{565 \textcolor{comment}{/*}}
+\DoxyCodeLine{566 \textcolor{comment}{ *  The application has terminated.}}
+\DoxyCodeLine{567 \textcolor{comment}{ */}}
+\DoxyCodeLine{568 \textcolor{preprocessor}{\#define DPLSYS\_APPTERMINATED            0x00000004}}
+\DoxyCodeLine{569 }
+\DoxyCodeLine{570 \textcolor{comment}{/*}}
+\DoxyCodeLine{571 \textcolor{comment}{ *  The message is a DPLMSG\_SETPROPERTY message.}}
+\DoxyCodeLine{572 \textcolor{comment}{ */}}
+\DoxyCodeLine{573 \textcolor{preprocessor}{\#define DPLSYS\_SETPROPERTY              0x00000005}}
+\DoxyCodeLine{574 }
+\DoxyCodeLine{575 \textcolor{comment}{/*}}
+\DoxyCodeLine{576 \textcolor{comment}{ *  The message is a DPLMSG\_SETPROPERTYRESPONSE message.}}
+\DoxyCodeLine{577 \textcolor{comment}{ */}}
+\DoxyCodeLine{578 \textcolor{preprocessor}{\#define DPLSYS\_SETPROPERTYRESPONSE      0x00000006}}
+\DoxyCodeLine{579 }
+\DoxyCodeLine{580 \textcolor{comment}{/*}}
+\DoxyCodeLine{581 \textcolor{comment}{ *  The message is a DPLMSG\_GETPROPERTY message.}}
+\DoxyCodeLine{582 \textcolor{comment}{ */}}
+\DoxyCodeLine{583 \textcolor{preprocessor}{\#define DPLSYS\_GETPROPERTY              0x00000007}}
+\DoxyCodeLine{584 }
+\DoxyCodeLine{585 \textcolor{comment}{/*}}
+\DoxyCodeLine{586 \textcolor{comment}{ *  The message is a DPLMSG\_GETPROPERTYRESPONSE message.}}
+\DoxyCodeLine{587 \textcolor{comment}{ */}}
+\DoxyCodeLine{588 \textcolor{preprocessor}{\#define DPLSYS\_GETPROPERTYRESPONSE      0x00000008}}
+\DoxyCodeLine{589 }
+\DoxyCodeLine{590 \textcolor{comment}{/*}}
+\DoxyCodeLine{591 \textcolor{comment}{ *  The message is a DPLMSG\_NEWSESSIONHOST message.}}
+\DoxyCodeLine{592 \textcolor{comment}{ */}}
+\DoxyCodeLine{593 \textcolor{preprocessor}{\#define DPLSYS\_NEWSESSIONHOST           0x00000009}}
+\DoxyCodeLine{594 }
+\DoxyCodeLine{595 \textcolor{comment}{/*}}
+\DoxyCodeLine{596 \textcolor{comment}{ *  New connection settings are available.}}
+\DoxyCodeLine{597 \textcolor{comment}{ */}}
+\DoxyCodeLine{598 \textcolor{preprocessor}{\#define DPLSYS\_NEWCONNECTIONSETTINGS    0x0000000A}}
+\DoxyCodeLine{599 }
+\DoxyCodeLine{600 \textcolor{comment}{/*}}
+\DoxyCodeLine{601 \textcolor{comment}{ *  The Lobby Client has released the DirectPlayLobby Interface}}
+\DoxyCodeLine{602 \textcolor{comment}{ */}}
+\DoxyCodeLine{603 \textcolor{preprocessor}{\#define DPLSYS\_LOBBYCLIENTRELEASE       0x0000000B}}
+\DoxyCodeLine{604 }
+\DoxyCodeLine{605 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{606 \textcolor{comment}{ *}}
+\DoxyCodeLine{607 \textcolor{comment}{ * DirectPlay defined property GUIDs and associated data structures}}
+\DoxyCodeLine{608 \textcolor{comment}{ *}}
+\DoxyCodeLine{609 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{610 }
+\DoxyCodeLine{611 \textcolor{comment}{/*}}
+\DoxyCodeLine{612 \textcolor{comment}{ * DPLPROPERTY\_MessagesSupported}}
+\DoxyCodeLine{613 \textcolor{comment}{ *}}
+\DoxyCodeLine{614 \textcolor{comment}{ * Request whether the lobby supports standard.  Lobby with respond with either}}
+\DoxyCodeLine{615 \textcolor{comment}{ * TRUE or FALSE or may not respond at all.}}
+\DoxyCodeLine{616 \textcolor{comment}{ * }}
+\DoxyCodeLine{617 \textcolor{comment}{ * Property data is a single BOOL with TRUE or FALSE}}
+\DoxyCodeLine{618 \textcolor{comment}{ */}}
+\DoxyCodeLine{619 \textcolor{comment}{// \{762CCDA1-\/D916-\/11d0-\/BA39-\/00C04FD7ED67\}}}
+\DoxyCodeLine{620 DEFINE\_GUID(DPLPROPERTY\_MessagesSupported, }
+\DoxyCodeLine{621 0x762ccda1, 0xd916, 0x11d0, 0xba, 0x39, 0x0, 0xc0, 0x4f, 0xd7, 0xed, 0x67);}
+\DoxyCodeLine{622 }
+\DoxyCodeLine{623 \textcolor{comment}{/*}}
+\DoxyCodeLine{624 \textcolor{comment}{ * DPLPROPERTY\_LobbyGuid}}
+\DoxyCodeLine{625 \textcolor{comment}{ *}}
+\DoxyCodeLine{626 \textcolor{comment}{ * Request the GUID that identifies the lobby software that the application}}
+\DoxyCodeLine{627 \textcolor{comment}{ * is communicating with.}}
+\DoxyCodeLine{628 \textcolor{comment}{ *}}
+\DoxyCodeLine{629 \textcolor{comment}{ * Property data is a single GUID.}}
+\DoxyCodeLine{630 \textcolor{comment}{ */}}
+\DoxyCodeLine{631 \textcolor{comment}{// \{F56920A0-\/D218-\/11d0-\/BA39-\/00C04FD7ED67\}}}
+\DoxyCodeLine{632 DEFINE\_GUID(DPLPROPERTY\_LobbyGuid, }
+\DoxyCodeLine{633 0xf56920a0, 0xd218, 0x11d0, 0xba, 0x39, 0x0, 0xc0, 0x4f, 0xd7, 0xed, 0x67);}
+\DoxyCodeLine{634 }
+\DoxyCodeLine{635 \textcolor{comment}{/*}}
+\DoxyCodeLine{636 \textcolor{comment}{ * DPLPROPERTY\_PlayerGuid}}
+\DoxyCodeLine{637 \textcolor{comment}{ *}}
+\DoxyCodeLine{638 \textcolor{comment}{ * Request the GUID that identifies the player on this machine for sending}}
+\DoxyCodeLine{639 \textcolor{comment}{ * property data back to the lobby.}}
+\DoxyCodeLine{640 \textcolor{comment}{ *}}
+\DoxyCodeLine{641 \textcolor{comment}{ * Property data is the DPLDATA\_PLAYERDATA structure}}
+\DoxyCodeLine{642 \textcolor{comment}{ */}}
+\DoxyCodeLine{643 \textcolor{comment}{// \{B4319322-\/D20D-\/11d0-\/BA39-\/00C04FD7ED67\}}}
+\DoxyCodeLine{644 DEFINE\_GUID(DPLPROPERTY\_PlayerGuid, }
+\DoxyCodeLine{645 0xb4319322, 0xd20d, 0x11d0, 0xba, 0x39, 0x0, 0xc0, 0x4f, 0xd7, 0xed, 0x67);}
+\DoxyCodeLine{646 }
+\DoxyCodeLine{647 \textcolor{comment}{/*}}
+\DoxyCodeLine{648 \textcolor{comment}{ * DPLDATA\_PLAYERGUID}}
+\DoxyCodeLine{649 \textcolor{comment}{ *}}
+\DoxyCodeLine{650 \textcolor{comment}{ * Data structure to hold the GUID of the player and player creation flags}}
+\DoxyCodeLine{651 \textcolor{comment}{ * from the lobby.}}
+\DoxyCodeLine{652 \textcolor{comment}{ */}}
+\DoxyCodeLine{653 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_p_l_d_a_t_a___p_l_a_y_e_r_g_u_i_d}{\_DPLDATA\_PLAYERGUID}}}
+\DoxyCodeLine{654 \{}
+\DoxyCodeLine{655     GUID    guidPlayer;}
+\DoxyCodeLine{656     DWORD   dwPlayerFlags;}
+\DoxyCodeLine{657 \} \mbox{\hyperlink{struct___d_p_l_d_a_t_a___p_l_a_y_e_r_g_u_i_d}{DPLDATA\_PLAYERGUID}}, FAR *\mbox{\hyperlink{struct___d_p_l_d_a_t_a___p_l_a_y_e_r_g_u_i_d}{LPDPLDATA\_PLAYERGUID}};}
+\DoxyCodeLine{658 }
+\DoxyCodeLine{659 \textcolor{comment}{/*}}
+\DoxyCodeLine{660 \textcolor{comment}{ * DPLPROPERTY\_PlayerScore}}
+\DoxyCodeLine{661 \textcolor{comment}{ *}}
+\DoxyCodeLine{662 \textcolor{comment}{ * Used to send an array of long integers to the lobby indicating the }}
+\DoxyCodeLine{663 \textcolor{comment}{ * score of a player.}}
+\DoxyCodeLine{664 \textcolor{comment}{ *}}
+\DoxyCodeLine{665 \textcolor{comment}{ * Property data is the DPLDATA\_PLAYERSCORE structure.}}
+\DoxyCodeLine{666 \textcolor{comment}{ */}}
+\DoxyCodeLine{667 \textcolor{comment}{// \{48784000-\/D219-\/11d0-\/BA39-\/00C04FD7ED67\}}}
+\DoxyCodeLine{668 DEFINE\_GUID(DPLPROPERTY\_PlayerScore, }
+\DoxyCodeLine{669 0x48784000, 0xd219, 0x11d0, 0xba, 0x39, 0x0, 0xc0, 0x4f, 0xd7, 0xed, 0x67);}
+\DoxyCodeLine{670 }
+\DoxyCodeLine{671 \textcolor{comment}{/*}}
+\DoxyCodeLine{672 \textcolor{comment}{ * DPLDATA\_PLAYERSCORE}}
+\DoxyCodeLine{673 \textcolor{comment}{ *}}
+\DoxyCodeLine{674 \textcolor{comment}{ * Data structure to hold an array of long integers representing a player score.}}
+\DoxyCodeLine{675 \textcolor{comment}{ * Application must allocate enough memory to hold all the scores.}}
+\DoxyCodeLine{676 \textcolor{comment}{ */}}
+\DoxyCodeLine{677 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_p_l_d_a_t_a___p_l_a_y_e_r_s_c_o_r_e}{\_DPLDATA\_PLAYERSCORE}}}
+\DoxyCodeLine{678 \{}
+\DoxyCodeLine{679     DWORD   dwScoreCount;}
+\DoxyCodeLine{680     LONG    Score[1];}
+\DoxyCodeLine{681 \} \mbox{\hyperlink{struct___d_p_l_d_a_t_a___p_l_a_y_e_r_s_c_o_r_e}{DPLDATA\_PLAYERSCORE}}, FAR *\mbox{\hyperlink{struct___d_p_l_d_a_t_a___p_l_a_y_e_r_s_c_o_r_e}{LPDPLDATA\_PLAYERSCORE}};}
+\DoxyCodeLine{682 }
+\DoxyCodeLine{683 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{684 \textcolor{comment}{ *}}
+\DoxyCodeLine{685 \textcolor{comment}{ * DirectPlay Address ID's}}
+\DoxyCodeLine{686 \textcolor{comment}{ *}}
+\DoxyCodeLine{687 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{688 }
+\DoxyCodeLine{689 \textcolor{comment}{/* DirectPlay Address}}
+\DoxyCodeLine{690 \textcolor{comment}{ *}}
+\DoxyCodeLine{691 \textcolor{comment}{ * A DirectPlay address consists of multiple chunks of data, each tagged}}
+\DoxyCodeLine{692 \textcolor{comment}{ * with a GUID signifying the type of data in the chunk. The chunk also}}
+\DoxyCodeLine{693 \textcolor{comment}{ * has a length so that unknown chunk types can be skipped.}}
+\DoxyCodeLine{694 \textcolor{comment}{ *}}
+\DoxyCodeLine{695 \textcolor{comment}{ * The EnumAddress() function is used to parse these address data chunks.}}
+\DoxyCodeLine{696 \textcolor{comment}{ */}}
+\DoxyCodeLine{697 }
+\DoxyCodeLine{698 \textcolor{comment}{/*}}
+\DoxyCodeLine{699 \textcolor{comment}{ * DPADDRESS}}
+\DoxyCodeLine{700 \textcolor{comment}{ *}}
+\DoxyCodeLine{701 \textcolor{comment}{ * Header for block of address data elements}}
+\DoxyCodeLine{702 \textcolor{comment}{ */}}
+\DoxyCodeLine{703 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_p_a_d_d_r_e_s_s}{\_DPADDRESS}}}
+\DoxyCodeLine{704 \{}
+\DoxyCodeLine{705     GUID                guidDataType;}
+\DoxyCodeLine{706     DWORD               dwDataSize;}
+\DoxyCodeLine{707 \} \mbox{\hyperlink{struct___d_p_a_d_d_r_e_s_s}{DPADDRESS}};}
+\DoxyCodeLine{708 }
+\DoxyCodeLine{709 \textcolor{keyword}{typedef} \mbox{\hyperlink{struct___d_p_a_d_d_r_e_s_s}{DPADDRESS}} FAR *LPDPADDRESS;}
+\DoxyCodeLine{710 }
+\DoxyCodeLine{711 \textcolor{comment}{/*}}
+\DoxyCodeLine{712 \textcolor{comment}{ * DPAID\_TotalSize}}
+\DoxyCodeLine{713 \textcolor{comment}{ *}}
+\DoxyCodeLine{714 \textcolor{comment}{ * Chunk is a DWORD containing size of entire DPADDRESS structure}}
+\DoxyCodeLine{715 \textcolor{comment}{ */}}
+\DoxyCodeLine{716 }
+\DoxyCodeLine{717 \textcolor{comment}{// \{1318F560-\/912C-\/11d0-\/9DAA-\/00A0C90A43CB\}}}
+\DoxyCodeLine{718 DEFINE\_GUID(DPAID\_TotalSize, }
+\DoxyCodeLine{719 0x1318f560, 0x912c, 0x11d0, 0x9d, 0xaa, 0x0, 0xa0, 0xc9, 0xa, 0x43, 0xcb);}
+\DoxyCodeLine{720 }
+\DoxyCodeLine{721 \textcolor{comment}{/*}}
+\DoxyCodeLine{722 \textcolor{comment}{ * DPAID\_ServiceProvider}}
+\DoxyCodeLine{723 \textcolor{comment}{ *}}
+\DoxyCodeLine{724 \textcolor{comment}{ * Chunk is a GUID describing the service provider that created the chunk.}}
+\DoxyCodeLine{725 \textcolor{comment}{ * All addresses must contain this chunk.}}
+\DoxyCodeLine{726 \textcolor{comment}{ */}}
+\DoxyCodeLine{727 }
+\DoxyCodeLine{728 \textcolor{comment}{// \{07D916C0-\/E0AF-\/11cf-\/9C4E-\/00A0C905425E\}}}
+\DoxyCodeLine{729 DEFINE\_GUID(DPAID\_ServiceProvider, }
+\DoxyCodeLine{730 0x7d916c0, 0xe0af, 0x11cf, 0x9c, 0x4e, 0x0, 0xa0, 0xc9, 0x5, 0x42, 0x5e);}
+\DoxyCodeLine{731 }
+\DoxyCodeLine{732 \textcolor{comment}{/*}}
+\DoxyCodeLine{733 \textcolor{comment}{ * DPAID\_LobbyProvider}}
+\DoxyCodeLine{734 \textcolor{comment}{ *}}
+\DoxyCodeLine{735 \textcolor{comment}{ * Chunk is a GUID describing the lobby provider that created the chunk.}}
+\DoxyCodeLine{736 \textcolor{comment}{ * All addresses must contain this chunk.}}
+\DoxyCodeLine{737 \textcolor{comment}{ */}}
+\DoxyCodeLine{738 }
+\DoxyCodeLine{739 \textcolor{comment}{// \{59B95640-\/9667-\/11d0-\/A77D-\/0000F803ABFC\}}}
+\DoxyCodeLine{740 DEFINE\_GUID(DPAID\_LobbyProvider, }
+\DoxyCodeLine{741 0x59b95640, 0x9667, 0x11d0, 0xa7, 0x7d, 0x0, 0x0, 0xf8, 0x3, 0xab, 0xfc);}
+\DoxyCodeLine{742 }
+\DoxyCodeLine{743 \textcolor{comment}{/*}}
+\DoxyCodeLine{744 \textcolor{comment}{ * DPAID\_Phone and DPAID\_PhoneW}}
+\DoxyCodeLine{745 \textcolor{comment}{ *}}
+\DoxyCodeLine{746 \textcolor{comment}{ * Chunk is a string containing a phone number (i.e. "{}1-\/800-\/555-\/1212"{})}}
+\DoxyCodeLine{747 \textcolor{comment}{ * in ANSI or UNICODE format}}
+\DoxyCodeLine{748 \textcolor{comment}{ */}}
+\DoxyCodeLine{749 }
+\DoxyCodeLine{750 \textcolor{comment}{// \{78EC89A0-\/E0AF-\/11cf-\/9C4E-\/00A0C905425E\}}}
+\DoxyCodeLine{751 DEFINE\_GUID(DPAID\_Phone, }
+\DoxyCodeLine{752 0x78ec89a0, 0xe0af, 0x11cf, 0x9c, 0x4e, 0x0, 0xa0, 0xc9, 0x5, 0x42, 0x5e);}
+\DoxyCodeLine{753 }
+\DoxyCodeLine{754 \textcolor{comment}{// \{BA5A7A70-\/9DBF-\/11d0-\/9CC1-\/00A0C905425E\}}}
+\DoxyCodeLine{755 DEFINE\_GUID(DPAID\_PhoneW, }
+\DoxyCodeLine{756 0xba5a7a70, 0x9dbf, 0x11d0, 0x9c, 0xc1, 0x0, 0xa0, 0xc9, 0x5, 0x42, 0x5e);}
+\DoxyCodeLine{757 }
+\DoxyCodeLine{758 \textcolor{comment}{/*}}
+\DoxyCodeLine{759 \textcolor{comment}{ * DPAID\_Modem and DPAID\_ModemW}}
+\DoxyCodeLine{760 \textcolor{comment}{ *}}
+\DoxyCodeLine{761 \textcolor{comment}{ * Chunk is a string containing a modem name registered with TAPI}}
+\DoxyCodeLine{762 \textcolor{comment}{ * in ANSI or UNICODE format}}
+\DoxyCodeLine{763 \textcolor{comment}{ */}}
+\DoxyCodeLine{764 }
+\DoxyCodeLine{765 \textcolor{comment}{// \{F6DCC200-\/A2FE-\/11d0-\/9C4F-\/00A0C905425E\}}}
+\DoxyCodeLine{766 DEFINE\_GUID(DPAID\_Modem, }
+\DoxyCodeLine{767 0xf6dcc200, 0xa2fe, 0x11d0, 0x9c, 0x4f, 0x0, 0xa0, 0xc9, 0x5, 0x42, 0x5e);}
+\DoxyCodeLine{768 }
+\DoxyCodeLine{769 \textcolor{comment}{// \{01FD92E0-\/A2FF-\/11d0-\/9C4F-\/00A0C905425E\}}}
+\DoxyCodeLine{770 DEFINE\_GUID(DPAID\_ModemW, }
+\DoxyCodeLine{771 0x1fd92e0, 0xa2ff, 0x11d0, 0x9c, 0x4f, 0x0, 0xa0, 0xc9, 0x5, 0x42, 0x5e);}
+\DoxyCodeLine{772 }
+\DoxyCodeLine{773 \textcolor{comment}{/*}}
+\DoxyCodeLine{774 \textcolor{comment}{ * DPAID\_Inet and DPAID\_InetW}}
+\DoxyCodeLine{775 \textcolor{comment}{ *}}
+\DoxyCodeLine{776 \textcolor{comment}{ * Chunk is a string containing a TCP/IP host name or an IP address}}
+\DoxyCodeLine{777 \textcolor{comment}{ * (i.e. "{}dplay.microsoft.com"{} or "{}137.55.100.173"{}) in ANSI or UNICODE format}}
+\DoxyCodeLine{778 \textcolor{comment}{ */}}
+\DoxyCodeLine{779 }
+\DoxyCodeLine{780 \textcolor{comment}{// \{C4A54DA0-\/E0AF-\/11cf-\/9C4E-\/00A0C905425E\}}}
+\DoxyCodeLine{781 DEFINE\_GUID(DPAID\_INet, }
+\DoxyCodeLine{782 0xc4a54da0, 0xe0af, 0x11cf, 0x9c, 0x4e, 0x0, 0xa0, 0xc9, 0x5, 0x42, 0x5e);}
+\DoxyCodeLine{783 }
+\DoxyCodeLine{784 \textcolor{comment}{// \{E63232A0-\/9DBF-\/11d0-\/9CC1-\/00A0C905425E\}}}
+\DoxyCodeLine{785 DEFINE\_GUID(DPAID\_INetW, }
+\DoxyCodeLine{786 0xe63232a0, 0x9dbf, 0x11d0, 0x9c, 0xc1, 0x0, 0xa0, 0xc9, 0x5, 0x42, 0x5e);}
+\DoxyCodeLine{787 }
+\DoxyCodeLine{788 \textcolor{comment}{/*}}
+\DoxyCodeLine{789 \textcolor{comment}{ * DPAID\_InetPort}}
+\DoxyCodeLine{790 \textcolor{comment}{ *}}
+\DoxyCodeLine{791 \textcolor{comment}{ * Chunk is the port number used for creating the apps TCP and UDP sockets.}}
+\DoxyCodeLine{792 \textcolor{comment}{ * WORD value (i.e. 47624).}}
+\DoxyCodeLine{793 \textcolor{comment}{ */}}
+\DoxyCodeLine{794  }
+\DoxyCodeLine{795 \textcolor{comment}{// \{E4524541-\/8EA5-\/11d1-\/8A96-\/006097B01411\}}}
+\DoxyCodeLine{796 DEFINE\_GUID(DPAID\_INetPort, }
+\DoxyCodeLine{797 0xe4524541, 0x8ea5, 0x11d1, 0x8a, 0x96, 0x0, 0x60, 0x97, 0xb0, 0x14, 0x11);}
+\DoxyCodeLine{798 }
+\DoxyCodeLine{799 \textcolor{preprocessor}{\#ifdef BIGMESSAGEDEFENSE}}
+\DoxyCodeLine{800 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{801 }
+\DoxyCodeLine{802 \textcolor{comment}{/*}}
+\DoxyCodeLine{803 \textcolor{comment}{ * DPCOMPORTADDRESS}}
+\DoxyCodeLine{804 \textcolor{comment}{ *}}
+\DoxyCodeLine{805 \textcolor{comment}{ * Used to specify com port settings. The constants that define baud rate,}}
+\DoxyCodeLine{806 \textcolor{comment}{ * stop bits and parity are defined in WINBASE.H. The constants for flow}}
+\DoxyCodeLine{807 \textcolor{comment}{ * control are given below.}}
+\DoxyCodeLine{808 \textcolor{comment}{ */}}
+\DoxyCodeLine{809 }
+\DoxyCodeLine{810 \textcolor{preprocessor}{\#define DPCPA\_NOFLOW        0           }\textcolor{comment}{// no flow control}}
+\DoxyCodeLine{811 \textcolor{preprocessor}{\#define DPCPA\_XONXOFFFLOW   1           }\textcolor{comment}{// software flow control}}
+\DoxyCodeLine{812 \textcolor{preprocessor}{\#define DPCPA\_RTSFLOW       2           }\textcolor{comment}{// hardware flow control with RTS}}
+\DoxyCodeLine{813 \textcolor{preprocessor}{\#define DPCPA\_DTRFLOW       3           }\textcolor{comment}{// hardware flow control with DTR}}
+\DoxyCodeLine{814 \textcolor{preprocessor}{\#define DPCPA\_RTSDTRFLOW    4           }\textcolor{comment}{// hardware flow control with RTS and DTR}}
+\DoxyCodeLine{815 }
+\DoxyCodeLine{816 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_p_c_o_m_p_o_r_t_a_d_d_r_e_s_s}{\_DPCOMPORTADDRESS}}}
+\DoxyCodeLine{817 \{}
+\DoxyCodeLine{818     DWORD   dwComPort;                  \textcolor{comment}{// COM port to use (1-\/4)}}
+\DoxyCodeLine{819     DWORD   dwBaudRate;                 \textcolor{comment}{// baud rate (100-\/256k)}}
+\DoxyCodeLine{820     DWORD   dwStopBits;                 \textcolor{comment}{// no. stop bits (1-\/2)}}
+\DoxyCodeLine{821     DWORD   dwParity;                   \textcolor{comment}{// parity (none, odd, even, mark)}}
+\DoxyCodeLine{822     DWORD   dwFlowControl;              \textcolor{comment}{// flow control (none, xon/xoff, rts, dtr)}}
+\DoxyCodeLine{823 \} \mbox{\hyperlink{struct___d_p_c_o_m_p_o_r_t_a_d_d_r_e_s_s}{DPCOMPORTADDRESS}};}
+\DoxyCodeLine{824 }
+\DoxyCodeLine{825 \textcolor{keyword}{typedef} \mbox{\hyperlink{struct___d_p_c_o_m_p_o_r_t_a_d_d_r_e_s_s}{DPCOMPORTADDRESS}} FAR *LPDPCOMPORTADDRESS;}
+\DoxyCodeLine{826 }
+\DoxyCodeLine{827 \textcolor{comment}{/*}}
+\DoxyCodeLine{828 \textcolor{comment}{ * DPAID\_ComPort}}
+\DoxyCodeLine{829 \textcolor{comment}{ *}}
+\DoxyCodeLine{830 \textcolor{comment}{ * Chunk contains a DPCOMPORTADDRESS structure defining the serial port.}}
+\DoxyCodeLine{831 \textcolor{comment}{ */}}
+\DoxyCodeLine{832 }
+\DoxyCodeLine{833 \textcolor{comment}{// \{F2F0CE00-\/E0AF-\/11cf-\/9C4E-\/00A0C905425E\}}}
+\DoxyCodeLine{834 DEFINE\_GUID(DPAID\_ComPort, }
+\DoxyCodeLine{835 0xf2f0ce00, 0xe0af, 0x11cf, 0x9c, 0x4e, 0x0, 0xa0, 0xc9, 0x5, 0x42, 0x5e);}
+\DoxyCodeLine{836 }
+\DoxyCodeLine{837 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{838 \textcolor{comment}{ *}}
+\DoxyCodeLine{839 \textcolor{comment}{ *  dplobby 1.0 obsolete definitions}}
+\DoxyCodeLine{840 \textcolor{comment}{ *  Included for compatibility only.}}
+\DoxyCodeLine{841 \textcolor{comment}{ *}}
+\DoxyCodeLine{842 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{843 \textcolor{preprocessor}{\#define DPLAD\_SYSTEM          DPLMSG\_SYSTEM}}
+\DoxyCodeLine{844 }
+\DoxyCodeLine{845 }
+\DoxyCodeLine{846 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{847 \};}
+\DoxyCodeLine{848 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* \_\_cplusplus */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{849 }
+\DoxyCodeLine{850 \textcolor{preprocessor}{\#pragma warning(default:4201)}}
+\DoxyCodeLine{851 }
+\DoxyCodeLine{852 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* \_\_DPLOBBY\_INCLUDED\_\_ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{853 }
+
+\end{DoxyCode}

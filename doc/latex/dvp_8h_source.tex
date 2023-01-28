@@ -1,0 +1,972 @@
+\hypertarget{dvp_8h_source}{}\doxysection{dvp.\+h}
+\label{dvp_8h_source}\index{src/lib/dx/Include/dvp.h@{src/lib/dx/Include/dvp.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*==========================================================================;}}
+\DoxyCodeLine{2 \textcolor{comment}{ *}}
+\DoxyCodeLine{3 \textcolor{comment}{ *  Copyright (C) Microsoft Corporation.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{ *}}
+\DoxyCodeLine{5 \textcolor{comment}{ *  File:   dvp.h}}
+\DoxyCodeLine{6 \textcolor{comment}{ *  Content:    DirectDrawVideoPort include file}}
+\DoxyCodeLine{7 \textcolor{comment}{ *}}
+\DoxyCodeLine{8 \textcolor{comment}{ ***************************************************************************/}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#ifndef \_\_DVP\_INCLUDED\_\_}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define \_\_DVP\_INCLUDED\_\_}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{comment}{/*}}
+\DoxyCodeLine{14 \textcolor{comment}{ * GUIDS used by DirectDrawVideoPort objects}}
+\DoxyCodeLine{15 \textcolor{comment}{ */}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#if defined( \_WIN32 ) \&\& (!defined( \_NO\_COM ) || defined( DEFINE\_GUID ))}}
+\DoxyCodeLine{17 DEFINE\_GUID( IID\_IDDVideoPortContainer,     0x6C142760,0xA733,0x11CE,0xA5,0x21,0x00,0x20,0xAF,0x0B,0xE5,0x60 );}
+\DoxyCodeLine{18 DEFINE\_GUID( IID\_IDirectDrawVideoPort,      0xB36D93E0,0x2B43,0x11CF,0xA2,0xDE,0x00,0xAA,0x00,0xB9,0x33,0x56 );}
+\DoxyCodeLine{19 DEFINE\_GUID( IID\_IDirectDrawVideoPortNotify,    0xA655FB94,0x0589,0x4E57,0xB3,0x33,0x56,0x7A,0x89,0x46,0x8C,0x88);}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 DEFINE\_GUID( DDVPTYPE\_E\_HREFH\_VREFH, 0x54F39980L,0xDA60,0x11CF,0x9B,0x06,0x00,0xA0,0xC9,0x03,0xA3,0xB8);}
+\DoxyCodeLine{24 DEFINE\_GUID( DDVPTYPE\_E\_HREFH\_VREFL, 0x92783220L,0xDA60,0x11CF,0x9B,0x06,0x00,0xA0,0xC9,0x03,0xA3,0xB8);}
+\DoxyCodeLine{25 DEFINE\_GUID( DDVPTYPE\_E\_HREFL\_VREFH, 0xA07A02E0L,0xDA60,0x11CF,0x9B,0x06,0x00,0xA0,0xC9,0x03,0xA3,0xB8);}
+\DoxyCodeLine{26 DEFINE\_GUID( DDVPTYPE\_E\_HREFL\_VREFL, 0xE09C77E0L,0xDA60,0x11CF,0x9B,0x06,0x00,0xA0,0xC9,0x03,0xA3,0xB8);}
+\DoxyCodeLine{27 DEFINE\_GUID( DDVPTYPE\_CCIR656,       0xFCA326A0L,0xDA60,0x11CF,0x9B,0x06,0x00,0xA0,0xC9,0x03,0xA3,0xB8);}
+\DoxyCodeLine{28 DEFINE\_GUID( DDVPTYPE\_BROOKTREE,     0x1352A560L,0xDA61,0x11CF,0x9B,0x06,0x00,0xA0,0xC9,0x03,0xA3,0xB8);}
+\DoxyCodeLine{29 DEFINE\_GUID( DDVPTYPE\_PHILIPS,       0x332CF160L,0xDA61,0x11CF,0x9B,0x06,0x00,0xA0,0xC9,0x03,0xA3,0xB8);}
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#ifndef GUID\_DEFS\_ONLY}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#if defined( \_WIN32 )  \&\& !defined( \_NO\_COM )}}
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#define COM\_NO\_WINDOWS\_H}}
+\DoxyCodeLine{36 \textcolor{preprocessor}{\#include <objbase.h>}}
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{38 \textcolor{preprocessor}{\#define IUnknown        void}}
+\DoxyCodeLine{39 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41 \textcolor{comment}{/*}}
+\DoxyCodeLine{42 \textcolor{comment}{ * These definitions are required to allow polymorphic structure members (i.e. those}}
+\DoxyCodeLine{43 \textcolor{comment}{ * that are referred to both as DWORDs and as pointers) to resolve into a type}}
+\DoxyCodeLine{44 \textcolor{comment}{ * of correct size to hold the largest of those two types (i.e. pointer) on 64 bit}}
+\DoxyCodeLine{45 \textcolor{comment}{ * systems. For 32 bit environments, ULONG\_PTR resolves to a DWORD.}}
+\DoxyCodeLine{46 \textcolor{comment}{ */}}
+\DoxyCodeLine{47 \textcolor{preprocessor}{\#ifndef MAXULONG\_PTR}}
+\DoxyCodeLine{48 \textcolor{preprocessor}{\#define ULONG\_PTR    DWORD}}
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//MAXULONG\_PTR}}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{52 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{53 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55 \textcolor{comment}{/*============================================================================}}
+\DoxyCodeLine{56 \textcolor{comment}{ *}}
+\DoxyCodeLine{57 \textcolor{comment}{ * DirectDraw Structures}}
+\DoxyCodeLine{58 \textcolor{comment}{ *}}
+\DoxyCodeLine{59 \textcolor{comment}{ * Various structures used to invoke DirectDraw.}}
+\DoxyCodeLine{60 \textcolor{comment}{ *}}
+\DoxyCodeLine{61 \textcolor{comment}{ *==========================================================================*/}}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63 \textcolor{keyword}{struct }IDirectDraw;}
+\DoxyCodeLine{64 \textcolor{keyword}{struct }IDirectDrawSurface;}
+\DoxyCodeLine{65 \textcolor{keyword}{struct }IDirectDrawPalette;}
+\DoxyCodeLine{66 \textcolor{keyword}{struct }IDirectDrawClipper;}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{68 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDDVideoPortContainer            FAR *LPDDVIDEOPORTCONTAINER;}
+\DoxyCodeLine{69 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirectDrawVideoPort             FAR *LPDIRECTDRAWVIDEOPORT;}
+\DoxyCodeLine{70 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirectDrawVideoPortNotify       FAR *LPDIRECTDRAWVIDEOPORTNOTIFY;}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_c_o_n_n_e_c_t}{\_DDVIDEOPORTCONNECT}}              FAR *LPDDVIDEOPORTCONNECT;}
+\DoxyCodeLine{73 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_c_a_p_s}{\_DDVIDEOPORTCAPS}}                 FAR *LPDDVIDEOPORTCAPS;}
+\DoxyCodeLine{74 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_d_e_s_c}{\_DDVIDEOPORTDESC}}                 FAR *LPDDVIDEOPORTDESC;}
+\DoxyCodeLine{75 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_i_n_f_o}{\_DDVIDEOPORTINFO}}                 FAR *LPDDVIDEOPORTINFO;}
+\DoxyCodeLine{76 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_b_a_n_d_w_i_d_t_h}{\_DDVIDEOPORTBANDWIDTH}}            FAR *LPDDVIDEOPORTBANDWIDTH;}
+\DoxyCodeLine{77 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_s_t_a_t_u_s}{\_DDVIDEOPORTSTATUS}}               FAR *LPDDVIDEOPORTSTATUS;}
+\DoxyCodeLine{78 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_n_o_t_i_f_y}{\_DDVIDEOPORTNOTIFY}}               FAR *LPDDVIDEOPORTNOTIFY;}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDDVideoPortContainerVtbl        DDVIDEOPORTCONTAINERCALLBACKS;}
+\DoxyCodeLine{81 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirectDrawVideoPortVtbl         DIRECTDRAWVIDEOPORTCALLBACKS;}
+\DoxyCodeLine{82 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirectDrawVideoPortNotifyVtbl   DIRECTDRAWVIDEOPORTNOTIFYCALLBACKS;}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85 \textcolor{comment}{/*}}
+\DoxyCodeLine{86 \textcolor{comment}{ * API's}}
+\DoxyCodeLine{87 \textcolor{comment}{ */}}
+\DoxyCodeLine{88 \textcolor{keyword}{typedef} HRESULT (FAR PASCAL * LPDDENUMVIDEOCALLBACK)(LPDDVIDEOPORTCAPS, LPVOID);}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{90 }
+\DoxyCodeLine{91 \textcolor{comment}{/*}}
+\DoxyCodeLine{92 \textcolor{comment}{ * INTERACES FOLLOW:}}
+\DoxyCodeLine{93 \textcolor{comment}{ *  IDirectDrawVideoPort}}
+\DoxyCodeLine{94 \textcolor{comment}{ *  IVideoPort}}
+\DoxyCodeLine{95 \textcolor{comment}{ */}}
+\DoxyCodeLine{96 }
+\DoxyCodeLine{97 \textcolor{comment}{/*}}
+\DoxyCodeLine{98 \textcolor{comment}{ * IDirectDrawVideoPortContainer}}
+\DoxyCodeLine{99 \textcolor{comment}{ */}}
+\DoxyCodeLine{100 \textcolor{preprocessor}{\#if defined( \_WIN32 ) \&\& !defined( \_NO\_COM )}}
+\DoxyCodeLine{101 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{102 \textcolor{preprocessor}{\#define INTERFACE IDDVideoPortContainer}}
+\DoxyCodeLine{103 DECLARE\_INTERFACE\_( IDDVideoPortContainer, IUnknown )}
+\DoxyCodeLine{104 \{}
+\DoxyCodeLine{105 \textcolor{comment}{    /*** IUnknown methods ***/}}
+\DoxyCodeLine{106     STDMETHOD(QueryInterface) (THIS\_ REFIID riid, LPVOID FAR * ppvObj) PURE;}
+\DoxyCodeLine{107     STDMETHOD\_(ULONG,AddRef) (THIS)  PURE;}
+\DoxyCodeLine{108     STDMETHOD\_(ULONG,Release) (THIS) PURE;}
+\DoxyCodeLine{109 \textcolor{comment}{    /*** IDirectDrawVideoPort methods ***/}}
+\DoxyCodeLine{110     STDMETHOD(CreateVideoPort)(THIS\_ DWORD, LPDDVIDEOPORTDESC, LPDIRECTDRAWVIDEOPORT FAR *, IUnknown FAR *) PURE;}
+\DoxyCodeLine{111     STDMETHOD(EnumVideoPorts)(THIS\_ DWORD, LPDDVIDEOPORTCAPS, LPVOID,LPDDENUMVIDEOCALLBACK ) PURE;}
+\DoxyCodeLine{112     STDMETHOD(GetVideoPortConnectInfo)(THIS\_ DWORD, LPDWORD, LPDDVIDEOPORTCONNECT ) PURE;}
+\DoxyCodeLine{113     STDMETHOD(QueryVideoPortStatus)(THIS\_ DWORD, LPDDVIDEOPORTSTATUS ) PURE;}
+\DoxyCodeLine{114 \};}
+\DoxyCodeLine{115 }
+\DoxyCodeLine{116 \textcolor{preprocessor}{\#if !defined(\_\_cplusplus) || defined(CINTERFACE)}}
+\DoxyCodeLine{117 \textcolor{preprocessor}{\#define IVideoPortContainer\_QueryInterface(p, a, b)         (p)-\/>lpVtbl-\/>QueryInterface(p, a, b)}}
+\DoxyCodeLine{118 \textcolor{preprocessor}{\#define IVideoPortContainer\_AddRef(p)                       (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{119 \textcolor{preprocessor}{\#define IVideoPortContainer\_Release(p)                      (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{120 \textcolor{preprocessor}{\#define IVideoPortContainer\_CreateVideoPort(p, a, b, c, d)  (p)-\/>lpVtbl-\/>CreateVideoPort(p, a, b, c, d)}}
+\DoxyCodeLine{121 \textcolor{preprocessor}{\#define IVideoPortContainer\_EnumVideoPorts(p, a, b, c, d)   (p)-\/>lpVtbl-\/>EnumVideoPorts(p, a, b, c, d)}}
+\DoxyCodeLine{122 \textcolor{preprocessor}{\#define IVideoPortContainer\_GetVideoPortConnectInfo(p, a, b, c) (p)-\/>lpVtbl-\/>GetVideoPortConnectInfo(p, a, b, c)}}
+\DoxyCodeLine{123 \textcolor{preprocessor}{\#define IVideoPortContainer\_QueryVideoPortStatus(p, a, b)   (p)-\/>lpVtbl-\/>QueryVideoPortStatus(p, a, b)}}
+\DoxyCodeLine{124 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{125 \textcolor{preprocessor}{\#define IVideoPortContainer\_QueryInterface(p, a, b)         (p)-\/>QueryInterface(a, b)}}
+\DoxyCodeLine{126 \textcolor{preprocessor}{\#define IVideoPortContainer\_AddRef(p)                       (p)-\/>AddRef()}}
+\DoxyCodeLine{127 \textcolor{preprocessor}{\#define IVideoPortContainer\_Release(p)                      (p)-\/>Release()}}
+\DoxyCodeLine{128 \textcolor{preprocessor}{\#define IVideoPortContainer\_CreateVideoPort(p, a, b, c, d)  (p)-\/>CreateVideoPort(a, b, c, d)}}
+\DoxyCodeLine{129 \textcolor{preprocessor}{\#define IVideoPortContainer\_EnumVideoPorts(p, a, b, c, d)   (p)-\/>EnumVideoPorts(a, b, c, d)}}
+\DoxyCodeLine{130 \textcolor{preprocessor}{\#define IVideoPortContainer\_GetVideoPortConnectInfo(p, a, b, c) (p)-\/>GetVideoPortConnectInfo(a, b, c)}}
+\DoxyCodeLine{131 \textcolor{preprocessor}{\#define IVideoPortContainer\_QueryVideoPortStatus(p, a, b)   (p)-\/>QueryVideoPortStatus(a, b)}}
+\DoxyCodeLine{132 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{133 }
+\DoxyCodeLine{134 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{135 }
+\DoxyCodeLine{136 }
+\DoxyCodeLine{137 \textcolor{comment}{/*}}
+\DoxyCodeLine{138 \textcolor{comment}{ * IDirectDrawVideoPort}}
+\DoxyCodeLine{139 \textcolor{comment}{ */}}
+\DoxyCodeLine{140 \textcolor{preprocessor}{\#if defined( \_WIN32 ) \&\& !defined( \_NO\_COM )}}
+\DoxyCodeLine{141 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{142 \textcolor{preprocessor}{\#define INTERFACE IDirectDrawVideoPort}}
+\DoxyCodeLine{143 DECLARE\_INTERFACE\_( IDirectDrawVideoPort, IUnknown )}
+\DoxyCodeLine{144 \{}
+\DoxyCodeLine{145 \textcolor{comment}{    /*** IUnknown methods ***/}}
+\DoxyCodeLine{146     STDMETHOD(QueryInterface) (THIS\_ REFIID riid, LPVOID FAR * ppvObj) PURE;}
+\DoxyCodeLine{147     STDMETHOD\_(ULONG,AddRef) (THIS)  PURE;}
+\DoxyCodeLine{148     STDMETHOD\_(ULONG,Release) (THIS) PURE;}
+\DoxyCodeLine{149 \textcolor{comment}{    /*** IVideoPort methods ***/}}
+\DoxyCodeLine{150     STDMETHOD(Flip)(THIS\_ LPDIRECTDRAWSURFACE, DWORD) PURE;}
+\DoxyCodeLine{151     STDMETHOD(GetBandwidthInfo)(THIS\_ LPDDPIXELFORMAT, DWORD, DWORD, DWORD, LPDDVIDEOPORTBANDWIDTH) PURE;}
+\DoxyCodeLine{152     STDMETHOD(GetColorControls)(THIS\_ LPDDCOLORCONTROL) PURE;}
+\DoxyCodeLine{153     STDMETHOD(GetInputFormats)(THIS\_ LPDWORD, LPDDPIXELFORMAT, DWORD) PURE;}
+\DoxyCodeLine{154     STDMETHOD(GetOutputFormats)(THIS\_ LPDDPIXELFORMAT, LPDWORD, LPDDPIXELFORMAT, DWORD) PURE;}
+\DoxyCodeLine{155     STDMETHOD(GetFieldPolarity)(THIS\_ LPBOOL) PURE;}
+\DoxyCodeLine{156     STDMETHOD(GetVideoLine)(THIS\_ LPDWORD) PURE;}
+\DoxyCodeLine{157     STDMETHOD(GetVideoSignalStatus)(THIS\_ LPDWORD) PURE;}
+\DoxyCodeLine{158     STDMETHOD(SetColorControls)(THIS\_ LPDDCOLORCONTROL) PURE;}
+\DoxyCodeLine{159     STDMETHOD(SetTargetSurface)(THIS\_ LPDIRECTDRAWSURFACE, DWORD) PURE;}
+\DoxyCodeLine{160     STDMETHOD(StartVideo)(THIS\_ LPDDVIDEOPORTINFO) PURE;}
+\DoxyCodeLine{161     STDMETHOD(StopVideo)(THIS) PURE;}
+\DoxyCodeLine{162     STDMETHOD(UpdateVideo)(THIS\_ LPDDVIDEOPORTINFO) PURE;}
+\DoxyCodeLine{163     STDMETHOD(WaitForSync)(THIS\_ DWORD, DWORD, DWORD) PURE;}
+\DoxyCodeLine{164 \};}
+\DoxyCodeLine{165 }
+\DoxyCodeLine{166 \textcolor{preprocessor}{\#if !defined(\_\_cplusplus) || defined(CINTERFACE)}}
+\DoxyCodeLine{167 \textcolor{preprocessor}{\#define IVideoPort\_QueryInterface(p,a,b)        (p)-\/>lpVtbl-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{168 \textcolor{preprocessor}{\#define IVideoPort\_AddRef(p)                    (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{169 \textcolor{preprocessor}{\#define IVideoPort\_Release(p)                   (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{170 \textcolor{preprocessor}{\#define IVideoPort\_SetTargetSurface(p,a,b)  (p)-\/>lpVtbl-\/>SetTargetSurface(p,a,b)}}
+\DoxyCodeLine{171 \textcolor{preprocessor}{\#define IVideoPort\_Flip(p,a,b)          (p)-\/>lpVtbl-\/>Flip(p,a,b)}}
+\DoxyCodeLine{172 \textcolor{preprocessor}{\#define IVideoPort\_GetBandwidthInfo(p,a,b,c,d,e) (p)-\/>lpVtbl-\/>GetBandwidthInfo(p,a,b,c,d,e)}}
+\DoxyCodeLine{173 \textcolor{preprocessor}{\#define IVideoPort\_GetColorControls(p,a)    (p)-\/>lpVtbl-\/>GetColorControls(p,a)}}
+\DoxyCodeLine{174 \textcolor{preprocessor}{\#define IVideoPort\_GetInputFormats(p,a,b,c) (p)-\/>lpVtbl-\/>GetInputFormats(p,a,b,c)}}
+\DoxyCodeLine{175 \textcolor{preprocessor}{\#define IVideoPort\_GetOutputFormats(p,a,b,c,d)  (p)-\/>lpVtbl-\/>GetOutputFormats(p,a,b,c,d)}}
+\DoxyCodeLine{176 \textcolor{preprocessor}{\#define IVideoPort\_GetFieldPolarity(p,a)    (p)-\/>lpVtbl-\/>GetFieldPolarity(p,a)}}
+\DoxyCodeLine{177 \textcolor{preprocessor}{\#define IVideoPort\_GetVideoLine(p,a)        (p)-\/>lpVtbl-\/>GetVideoLine(p,a)}}
+\DoxyCodeLine{178 \textcolor{preprocessor}{\#define IVideoPort\_GetVideoSignalStatus(p,a)    (p)-\/>lpVtbl-\/>GetVideoSignalStatus(p,a)}}
+\DoxyCodeLine{179 \textcolor{preprocessor}{\#define IVideoPort\_SetColorControls(p,a)    (p)-\/>lpVtbl-\/>SetColorControls(p,a)}}
+\DoxyCodeLine{180 \textcolor{preprocessor}{\#define IVideoPort\_StartVideo(p,a)      (p)-\/>lpVtbl-\/>StartVideo(p,a)}}
+\DoxyCodeLine{181 \textcolor{preprocessor}{\#define IVideoPort\_StopVideo(p)         (p)-\/>lpVtbl-\/>StopVideo(p)}}
+\DoxyCodeLine{182 \textcolor{preprocessor}{\#define IVideoPort\_UpdateVideo(p,a)     (p)-\/>lpVtbl-\/>UpdateVideo(p,a)}}
+\DoxyCodeLine{183 \textcolor{preprocessor}{\#define IVideoPort\_WaitForSync(p,a,b,c)     (p)-\/>lpVtbl-\/>WaitForSync(p,a,b,c)}}
+\DoxyCodeLine{184 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{185 \textcolor{preprocessor}{\#define IVideoPort\_QueryInterface(p,a,b)        (p)-\/>QueryInterface(a,b)}}
+\DoxyCodeLine{186 \textcolor{preprocessor}{\#define IVideoPort\_AddRef(p)                    (p)-\/>AddRef()}}
+\DoxyCodeLine{187 \textcolor{preprocessor}{\#define IVideoPort\_Release(p)                   (p)-\/>Release()}}
+\DoxyCodeLine{188 \textcolor{preprocessor}{\#define IVideoPort\_SetTargetSurface(p,a,b)  (p)-\/>SetTargetSurface(a,b)}}
+\DoxyCodeLine{189 \textcolor{preprocessor}{\#define IVideoPort\_Flip(p,a,b)          (p)-\/>Flip(a,b)}}
+\DoxyCodeLine{190 \textcolor{preprocessor}{\#define IVideoPort\_GetBandwidthInfo(p,a,b,c,d,e) (p)-\/>GetBandwidthInfo(a,b,c,d,e)}}
+\DoxyCodeLine{191 \textcolor{preprocessor}{\#define IVideoPort\_GetColorControls(p,a)    (p)-\/>GetColorControls(a)}}
+\DoxyCodeLine{192 \textcolor{preprocessor}{\#define IVideoPort\_GetInputFormats(p,a,b,c) (p)-\/>GetInputFormats(a,b,c)}}
+\DoxyCodeLine{193 \textcolor{preprocessor}{\#define IVideoPort\_GetOutputFormats(p,a,b,c,d)  (p)-\/>GetOutputFormats(a,b,c,d)}}
+\DoxyCodeLine{194 \textcolor{preprocessor}{\#define IVideoPort\_GetFieldPolarity(p,a)    (p)-\/>GetFieldPolarity(a)}}
+\DoxyCodeLine{195 \textcolor{preprocessor}{\#define IVideoPort\_GetVideoLine(p,a)        (p)-\/>GetVideoLine(a)}}
+\DoxyCodeLine{196 \textcolor{preprocessor}{\#define IVideoPort\_GetVideoSignalStatus(p,a)    (p)-\/>GetVideoSignalStatus(a)}}
+\DoxyCodeLine{197 \textcolor{preprocessor}{\#define IVideoPort\_SetColorControls(p,a)    (p)-\/>SetColorControls(a)}}
+\DoxyCodeLine{198 \textcolor{preprocessor}{\#define IVideoPort\_StartVideo(p,a)      (p)-\/>StartVideo(a)}}
+\DoxyCodeLine{199 \textcolor{preprocessor}{\#define IVideoPort\_StopVideo(p)         (p)-\/>StopVideo()}}
+\DoxyCodeLine{200 \textcolor{preprocessor}{\#define IVideoPort\_UpdateVideo(p,a)     (p)-\/>UpdateVideo(a)}}
+\DoxyCodeLine{201 \textcolor{preprocessor}{\#define IVideoPort\_WaitForSync(p,a,b,c)     (p)-\/>WaitForSync(a,b,c)}}
+\DoxyCodeLine{202 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{203 }
+\DoxyCodeLine{204 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{205 }
+\DoxyCodeLine{206 \textcolor{comment}{/*}}
+\DoxyCodeLine{207 \textcolor{comment}{ * IDirectDrawVideoPort}}
+\DoxyCodeLine{208 \textcolor{comment}{ */}}
+\DoxyCodeLine{209 \textcolor{preprocessor}{\#if defined( \_WIN32 ) \&\& !defined( \_NO\_COM )}}
+\DoxyCodeLine{210 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{211 \textcolor{preprocessor}{\#define INTERFACE IDirectDrawVideoPortNotify}}
+\DoxyCodeLine{212 DECLARE\_INTERFACE\_( IDirectDrawVideoPortNotify, IUnknown )}
+\DoxyCodeLine{213 \{}
+\DoxyCodeLine{214 \textcolor{comment}{    /*** IUnknown methods ***/}}
+\DoxyCodeLine{215     STDMETHOD(QueryInterface) (THIS\_ REFIID riid, LPVOID FAR * ppvObj) PURE;}
+\DoxyCodeLine{216     STDMETHOD\_(ULONG,AddRef) (THIS)  PURE;}
+\DoxyCodeLine{217     STDMETHOD\_(ULONG,Release) (THIS) PURE;}
+\DoxyCodeLine{218 \textcolor{comment}{    /*** IVideoPort methods ***/}}
+\DoxyCodeLine{219     STDMETHOD(AcquireNotification)(THIS\_ HANDLE *, LPDDVIDEOPORTNOTIFY) PURE;}
+\DoxyCodeLine{220     STDMETHOD(ReleaseNotification)(THIS\_ HANDLE) PURE;}
+\DoxyCodeLine{221 \};}
+\DoxyCodeLine{222 }
+\DoxyCodeLine{223 \textcolor{preprocessor}{\#if !defined(\_\_cplusplus) || defined(CINTERFACE)}}
+\DoxyCodeLine{224 \textcolor{preprocessor}{\#define IVideoPortNotify\_QueryInterface(p,a,b)      (p)-\/>lpVtbl-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{225 \textcolor{preprocessor}{\#define IVideoPortNotify\_AddRef(p)                  (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{226 \textcolor{preprocessor}{\#define IVideoPortNotify\_Release(p)                 (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{227 \textcolor{preprocessor}{\#define IVideoPortNotify\_AcquireNotification(p,a,b) (p)-\/>lpVtbl-\/>AcquireNotification(p,a,b)}}
+\DoxyCodeLine{228 \textcolor{preprocessor}{\#define IVideoPortNotify\_ReleaseNotification(p,a)   (p)-\/>lpVtbl-\/>ReleaseNotification(p,a)}}
+\DoxyCodeLine{229 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{230 \textcolor{preprocessor}{\#define IVideoPortNotify\_QueryInterface(p,a,b)      (p)-\/>QueryInterface(a,b)}}
+\DoxyCodeLine{231 \textcolor{preprocessor}{\#define IVideoPortNotify\_AddRef(p)                  (p)-\/>AddRef()}}
+\DoxyCodeLine{232 \textcolor{preprocessor}{\#define IVideoPortNotify\_Release(p)                 (p)-\/>Release()}}
+\DoxyCodeLine{233 \textcolor{preprocessor}{\#define IVideoPortNotify\_AcquireNotification(p,a,b) (p)-\/>lpVtbl-\/>AcquireNotification(a,b)}}
+\DoxyCodeLine{234 \textcolor{preprocessor}{\#define IVideoPortNotify\_ReleaseNotification(p,a)   (p)-\/>lpVtbl-\/>ReleaseNotification(a)}}
+\DoxyCodeLine{235 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{236 }
+\DoxyCodeLine{237 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{238 }
+\DoxyCodeLine{239 \textcolor{comment}{/*}}
+\DoxyCodeLine{240 \textcolor{comment}{ * DDVIDEOPORTCONNECT}}
+\DoxyCodeLine{241 \textcolor{comment}{ */}}
+\DoxyCodeLine{242 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_c_o_n_n_e_c_t}{\_DDVIDEOPORTCONNECT}}}
+\DoxyCodeLine{243 \{}
+\DoxyCodeLine{244     DWORD dwSize;           \textcolor{comment}{// size of the DDVIDEOPORTCONNECT structure}}
+\DoxyCodeLine{245     DWORD dwPortWidth;      \textcolor{comment}{// Width of the video port}}
+\DoxyCodeLine{246     GUID  guidTypeID;       \textcolor{comment}{// Description of video port connection}}
+\DoxyCodeLine{247     DWORD dwFlags;          \textcolor{comment}{// Connection flags}}
+\DoxyCodeLine{248     ULONG\_PTR dwReserved1;      \textcolor{comment}{// Reserved, set to zero.}}
+\DoxyCodeLine{249 \} \mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_c_o_n_n_e_c_t}{DDVIDEOPORTCONNECT}};}
+\DoxyCodeLine{250 }
+\DoxyCodeLine{251 }
+\DoxyCodeLine{252 \textcolor{comment}{/*}}
+\DoxyCodeLine{253 \textcolor{comment}{ * DDVIDEOPORTCAPS}}
+\DoxyCodeLine{254 \textcolor{comment}{ */}}
+\DoxyCodeLine{255 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_c_a_p_s}{\_DDVIDEOPORTCAPS}}}
+\DoxyCodeLine{256 \{}
+\DoxyCodeLine{257     DWORD dwSize;           \textcolor{comment}{// size of the DDVIDEOPORTCAPS structure}}
+\DoxyCodeLine{258     DWORD dwFlags;          \textcolor{comment}{// indicates which fields contain data}}
+\DoxyCodeLine{259     DWORD dwMaxWidth;           \textcolor{comment}{// max width of the video port field}}
+\DoxyCodeLine{260     DWORD dwMaxVBIWidth;        \textcolor{comment}{// max width of the VBI data}}
+\DoxyCodeLine{261     DWORD dwMaxHeight;          \textcolor{comment}{// max height of the video port field}}
+\DoxyCodeLine{262     DWORD dwVideoPortID;        \textcolor{comment}{// Video port ID (0 -\/ (dwMaxVideoPorts -\/1))}}
+\DoxyCodeLine{263     DWORD dwCaps;           \textcolor{comment}{// Video port capabilities}}
+\DoxyCodeLine{264     DWORD dwFX;             \textcolor{comment}{// More video port capabilities}}
+\DoxyCodeLine{265     DWORD dwNumAutoFlipSurfaces;    \textcolor{comment}{// Max number of autoflippable surfaces allowed}}
+\DoxyCodeLine{266     DWORD dwAlignVideoPortBoundary; \textcolor{comment}{// Byte restriction of placement within the surface}}
+\DoxyCodeLine{267     DWORD dwAlignVideoPortPrescaleWidth;\textcolor{comment}{// Byte restriction of width after prescaling}}
+\DoxyCodeLine{268     DWORD dwAlignVideoPortCropBoundary; \textcolor{comment}{// Byte restriction of left cropping}}
+\DoxyCodeLine{269     DWORD dwAlignVideoPortCropWidth;    \textcolor{comment}{// Byte restriction of cropping width}}
+\DoxyCodeLine{270     DWORD dwPreshrinkXStep;     \textcolor{comment}{// Width can be shrunk in steps of 1/x}}
+\DoxyCodeLine{271     DWORD dwPreshrinkYStep;     \textcolor{comment}{// Height can be shrunk in steps of 1/x}}
+\DoxyCodeLine{272     DWORD dwNumVBIAutoFlipSurfaces; \textcolor{comment}{// Max number of VBI autoflippable surfaces allowed}}
+\DoxyCodeLine{273     DWORD dwNumPreferredAutoflip;   \textcolor{comment}{// Optimal number of autoflippable surfaces for hardware}}
+\DoxyCodeLine{274     WORD  wNumFilterTapsX;              \textcolor{comment}{// Number of taps the prescaler uses in the X direction (0 -\/ no prescale, 1 -\/ replication, etc.)}}
+\DoxyCodeLine{275     WORD  wNumFilterTapsY;              \textcolor{comment}{// Number of taps the prescaler uses in the Y direction (0 -\/ no prescale, 1 -\/ replication, etc.)}}
+\DoxyCodeLine{276 \} \mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_c_a_p_s}{DDVIDEOPORTCAPS}};}
+\DoxyCodeLine{277 }
+\DoxyCodeLine{278 \textcolor{comment}{/*}}
+\DoxyCodeLine{279 \textcolor{comment}{ * The dwMaxWidth and dwMaxVBIWidth members are valid}}
+\DoxyCodeLine{280 \textcolor{comment}{ */}}
+\DoxyCodeLine{281 \textcolor{preprocessor}{\#define DDVPD\_WIDTH     0x00000001l}}
+\DoxyCodeLine{282 }
+\DoxyCodeLine{283 \textcolor{comment}{/*}}
+\DoxyCodeLine{284 \textcolor{comment}{ * The dwMaxHeight member is valid}}
+\DoxyCodeLine{285 \textcolor{comment}{ */}}
+\DoxyCodeLine{286 \textcolor{preprocessor}{\#define DDVPD\_HEIGHT        0x00000002l}}
+\DoxyCodeLine{287 }
+\DoxyCodeLine{288 \textcolor{comment}{/*}}
+\DoxyCodeLine{289 \textcolor{comment}{ * The dwVideoPortID member is valid}}
+\DoxyCodeLine{290 \textcolor{comment}{ */}}
+\DoxyCodeLine{291 \textcolor{preprocessor}{\#define DDVPD\_ID        0x00000004l}}
+\DoxyCodeLine{292 }
+\DoxyCodeLine{293 \textcolor{comment}{/*}}
+\DoxyCodeLine{294 \textcolor{comment}{ * The dwCaps member is valid}}
+\DoxyCodeLine{295 \textcolor{comment}{ */}}
+\DoxyCodeLine{296 \textcolor{preprocessor}{\#define DDVPD\_CAPS      0x00000008l}}
+\DoxyCodeLine{297 }
+\DoxyCodeLine{298 \textcolor{comment}{/*}}
+\DoxyCodeLine{299 \textcolor{comment}{ * The dwFX member is valid}}
+\DoxyCodeLine{300 \textcolor{comment}{ */}}
+\DoxyCodeLine{301 \textcolor{preprocessor}{\#define DDVPD\_FX        0x00000010l}}
+\DoxyCodeLine{302 }
+\DoxyCodeLine{303 \textcolor{comment}{/*}}
+\DoxyCodeLine{304 \textcolor{comment}{ * The dwNumAutoFlipSurfaces member is valid}}
+\DoxyCodeLine{305 \textcolor{comment}{ */}}
+\DoxyCodeLine{306 \textcolor{preprocessor}{\#define DDVPD\_AUTOFLIP      0x00000020l}}
+\DoxyCodeLine{307 }
+\DoxyCodeLine{308 \textcolor{comment}{/*}}
+\DoxyCodeLine{309 \textcolor{comment}{ * All of the alignment members are valid}}
+\DoxyCodeLine{310 \textcolor{comment}{ */}}
+\DoxyCodeLine{311 \textcolor{preprocessor}{\#define DDVPD\_ALIGN     0x00000040l}}
+\DoxyCodeLine{312 }
+\DoxyCodeLine{313 \textcolor{comment}{/*}}
+\DoxyCodeLine{314 \textcolor{comment}{ * The dwNumPreferredAutoflip member is valid}}
+\DoxyCodeLine{315 \textcolor{comment}{ */}}
+\DoxyCodeLine{316 \textcolor{preprocessor}{\#define DDVPD\_PREFERREDAUTOFLIP 0x00000080l}}
+\DoxyCodeLine{317 }
+\DoxyCodeLine{318 \textcolor{comment}{/*}}
+\DoxyCodeLine{319 \textcolor{comment}{ * The wNumFilterTapsX and wNumFilterTapsY fields are valid}}
+\DoxyCodeLine{320 \textcolor{comment}{ */}}
+\DoxyCodeLine{321 \textcolor{preprocessor}{\#define DDVPD\_FILTERQUALITY     0x00000100l}}
+\DoxyCodeLine{322 }
+\DoxyCodeLine{323 \textcolor{comment}{/*}}
+\DoxyCodeLine{324 \textcolor{comment}{ * DDVIDEOPORTDESC}}
+\DoxyCodeLine{325 \textcolor{comment}{ */}}
+\DoxyCodeLine{326 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_d_e_s_c}{\_DDVIDEOPORTDESC}}}
+\DoxyCodeLine{327 \{}
+\DoxyCodeLine{328     DWORD dwSize;           \textcolor{comment}{// size of the DDVIDEOPORTDESC structure}}
+\DoxyCodeLine{329     DWORD dwFieldWidth;         \textcolor{comment}{// width of the video port field}}
+\DoxyCodeLine{330     DWORD dwVBIWidth;           \textcolor{comment}{// width of the VBI data}}
+\DoxyCodeLine{331     DWORD dwFieldHeight;        \textcolor{comment}{// height of the video port field}}
+\DoxyCodeLine{332     DWORD dwMicrosecondsPerField;   \textcolor{comment}{// Microseconds per video field}}
+\DoxyCodeLine{333     DWORD dwMaxPixelsPerSecond;     \textcolor{comment}{// Maximum pixel rate per second}}
+\DoxyCodeLine{334     DWORD dwVideoPortID;        \textcolor{comment}{// Video port ID (0 -\/ (dwMaxVideoPorts -\/1))}}
+\DoxyCodeLine{335     DWORD dwReserved1;          \textcolor{comment}{// Reserved for future use -\/ set to zero (struct padding)}}
+\DoxyCodeLine{336     \mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_c_o_n_n_e_c_t}{DDVIDEOPORTCONNECT}} VideoPortType;     \textcolor{comment}{// Description of video port connection}}
+\DoxyCodeLine{337     ULONG\_PTR dwReserved2;      \textcolor{comment}{// Reserved for future use -\/ set to zero}}
+\DoxyCodeLine{338     ULONG\_PTR dwReserved3;      \textcolor{comment}{// Reserved for future use -\/ set to zero}}
+\DoxyCodeLine{339 \} \mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_d_e_s_c}{DDVIDEOPORTDESC}};}
+\DoxyCodeLine{340 }
+\DoxyCodeLine{341 }
+\DoxyCodeLine{342 \textcolor{comment}{/*}}
+\DoxyCodeLine{343 \textcolor{comment}{ * DDVIDEOPORTINFO}}
+\DoxyCodeLine{344 \textcolor{comment}{ */}}
+\DoxyCodeLine{345 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_i_n_f_o}{\_DDVIDEOPORTINFO}}}
+\DoxyCodeLine{346 \{}
+\DoxyCodeLine{347     DWORD dwSize;           \textcolor{comment}{// Size of the structure}}
+\DoxyCodeLine{348     DWORD dwOriginX;            \textcolor{comment}{// Placement of the video data within the surface.}}
+\DoxyCodeLine{349     DWORD dwOriginY;            \textcolor{comment}{// Placement of the video data within the surface.}}
+\DoxyCodeLine{350     DWORD dwVPFlags;            \textcolor{comment}{// Video port options}}
+\DoxyCodeLine{351     RECT rCrop;             \textcolor{comment}{// Cropping rectangle (optional).}}
+\DoxyCodeLine{352     DWORD dwPrescaleWidth;      \textcolor{comment}{// Determines pre-\/scaling/zooming in the X direction (optional).}}
+\DoxyCodeLine{353     DWORD dwPrescaleHeight;     \textcolor{comment}{// Determines pre-\/scaling/zooming in the Y direction (optional).}}
+\DoxyCodeLine{354     LPDDPIXELFORMAT lpddpfInputFormat;  \textcolor{comment}{// Video format written to the video port}}
+\DoxyCodeLine{355     LPDDPIXELFORMAT lpddpfVBIInputFormat; \textcolor{comment}{// Input format of the VBI data}}
+\DoxyCodeLine{356     LPDDPIXELFORMAT lpddpfVBIOutputFormat;\textcolor{comment}{// Output format of the data}}
+\DoxyCodeLine{357     DWORD dwVBIHeight;          \textcolor{comment}{// Specifies the number of lines of data within the vertical blanking interval.}}
+\DoxyCodeLine{358     ULONG\_PTR dwReserved1;      \textcolor{comment}{// Reserved for future use -\/ set to zero}}
+\DoxyCodeLine{359     ULONG\_PTR dwReserved2;      \textcolor{comment}{// Reserved for future use -\/ set to zero}}
+\DoxyCodeLine{360 \} \mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_i_n_f_o}{DDVIDEOPORTINFO}};}
+\DoxyCodeLine{361 }
+\DoxyCodeLine{362 }
+\DoxyCodeLine{363 \textcolor{comment}{/*}}
+\DoxyCodeLine{364 \textcolor{comment}{ * DDVIDEOPORTBANDWIDTH}}
+\DoxyCodeLine{365 \textcolor{comment}{ */}}
+\DoxyCodeLine{366 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_b_a_n_d_w_i_d_t_h}{\_DDVIDEOPORTBANDWIDTH}}}
+\DoxyCodeLine{367 \{}
+\DoxyCodeLine{368     DWORD dwSize;           \textcolor{comment}{// Size of the structure}}
+\DoxyCodeLine{369     DWORD dwCaps;}
+\DoxyCodeLine{370     DWORD dwOverlay;                \textcolor{comment}{// Zoom factor at which overlay is supported}}
+\DoxyCodeLine{371     DWORD dwColorkey;           \textcolor{comment}{// Zoom factor at which overlay w/ colorkey is supported}}
+\DoxyCodeLine{372     DWORD dwYInterpolate;       \textcolor{comment}{// Zoom factor at which overlay w/ Y interpolation is supported}}
+\DoxyCodeLine{373     DWORD dwYInterpAndColorkey;     \textcolor{comment}{// Zoom factor at which ovelray w/ Y interpolation and colorkeying is supported}}
+\DoxyCodeLine{374     ULONG\_PTR dwReserved1;      \textcolor{comment}{// Reserved for future use -\/ set to zero}}
+\DoxyCodeLine{375     ULONG\_PTR dwReserved2;      \textcolor{comment}{// Reserved for future use -\/ set to zero}}
+\DoxyCodeLine{376 \} \mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_b_a_n_d_w_i_d_t_h}{DDVIDEOPORTBANDWIDTH}};}
+\DoxyCodeLine{377 }
+\DoxyCodeLine{378 }
+\DoxyCodeLine{379 \textcolor{comment}{/*}}
+\DoxyCodeLine{380 \textcolor{comment}{ * DDVIDEOPORTSTATUS}}
+\DoxyCodeLine{381 \textcolor{comment}{ */}}
+\DoxyCodeLine{382 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_s_t_a_t_u_s}{\_DDVIDEOPORTSTATUS}}}
+\DoxyCodeLine{383 \{}
+\DoxyCodeLine{384     DWORD dwSize;           \textcolor{comment}{// Size of the structure}}
+\DoxyCodeLine{385     BOOL  bInUse;           \textcolor{comment}{// TRUE if video port is currently being used}}
+\DoxyCodeLine{386     DWORD dwFlags;                  \textcolor{comment}{// Currently not used}}
+\DoxyCodeLine{387     DWORD dwReserved1;          \textcolor{comment}{// Reserved for future use}}
+\DoxyCodeLine{388     \mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_c_o_n_n_e_c_t}{DDVIDEOPORTCONNECT}} VideoPortType; \textcolor{comment}{// Information about the connection}}
+\DoxyCodeLine{389     ULONG\_PTR dwReserved2;      \textcolor{comment}{// Reserved for future use}}
+\DoxyCodeLine{390     ULONG\_PTR dwReserved3;      \textcolor{comment}{// Reserved for future use}}
+\DoxyCodeLine{391 \} \mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_s_t_a_t_u_s}{DDVIDEOPORTSTATUS}};}
+\DoxyCodeLine{392 }
+\DoxyCodeLine{393 \textcolor{comment}{/*}}
+\DoxyCodeLine{394 \textcolor{comment}{ * DDVIDEOPORTNOTIFY}}
+\DoxyCodeLine{395 \textcolor{comment}{ */}}
+\DoxyCodeLine{396 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_n_o_t_i_f_y}{\_DDVIDEOPORTNOTIFY}}}
+\DoxyCodeLine{397 \{}
+\DoxyCodeLine{398     LARGE\_INTEGER ApproximateTimeStamp; \textcolor{comment}{// Timestamp in the event notification}}
+\DoxyCodeLine{399     LONG lField;                        \textcolor{comment}{// 0 if even, 1 if odd, -\/1 if unknown}}
+\DoxyCodeLine{400     UINT dwSurfaceIndex;                \textcolor{comment}{// Index in the surface chain of the surface that received the sample}}
+\DoxyCodeLine{401     LONG lDone;                         \textcolor{comment}{// Call InterlockedIncrement on this when done with sample}}
+\DoxyCodeLine{402 \} \mbox{\hyperlink{struct___d_d_v_i_d_e_o_p_o_r_t_n_o_t_i_f_y}{DDVIDEOPORTNOTIFY}};}
+\DoxyCodeLine{403 }
+\DoxyCodeLine{404 }
+\DoxyCodeLine{405 \textcolor{comment}{/*============================================================================}}
+\DoxyCodeLine{406 \textcolor{comment}{ *}}
+\DoxyCodeLine{407 \textcolor{comment}{ * Video Port Flags}}
+\DoxyCodeLine{408 \textcolor{comment}{ *}}
+\DoxyCodeLine{409 \textcolor{comment}{ * All flags are bit flags.}}
+\DoxyCodeLine{410 \textcolor{comment}{ *}}
+\DoxyCodeLine{411 \textcolor{comment}{ *==========================================================================*/}}
+\DoxyCodeLine{412 }
+\DoxyCodeLine{413 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{414 \textcolor{comment}{ *}}
+\DoxyCodeLine{415 \textcolor{comment}{ * VIDEOPORT DDVIDEOPORTCONNECT FLAGS}}
+\DoxyCodeLine{416 \textcolor{comment}{ *}}
+\DoxyCodeLine{417 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{418 }
+\DoxyCodeLine{419 \textcolor{comment}{/*}}
+\DoxyCodeLine{420 \textcolor{comment}{ * When this is set by the driver and passed to the client, this}}
+\DoxyCodeLine{421 \textcolor{comment}{ * indicates that the video port is capable of double clocking the data.}}
+\DoxyCodeLine{422 \textcolor{comment}{ * When this is set by the client, this indicates that the video port}}
+\DoxyCodeLine{423 \textcolor{comment}{ * should enable double clocking.  This flag is only valid with external}}
+\DoxyCodeLine{424 \textcolor{comment}{ * syncs.}}
+\DoxyCodeLine{425 \textcolor{comment}{ */}}
+\DoxyCodeLine{426 \textcolor{preprocessor}{\#define DDVPCONNECT\_DOUBLECLOCK         0x00000001l}}
+\DoxyCodeLine{427 }
+\DoxyCodeLine{428 \textcolor{comment}{/*}}
+\DoxyCodeLine{429 \textcolor{comment}{ * When this is set by the driver and passed to the client, this}}
+\DoxyCodeLine{430 \textcolor{comment}{ * indicates that the video port is capable of using an external VACT}}
+\DoxyCodeLine{431 \textcolor{comment}{ * signal. When this is set by the client, this indicates that the}}
+\DoxyCodeLine{432 \textcolor{comment}{ * video port should use the external VACT signal.}}
+\DoxyCodeLine{433 \textcolor{comment}{ */}}
+\DoxyCodeLine{434 \textcolor{preprocessor}{\#define DDVPCONNECT\_VACT            0x00000002l}}
+\DoxyCodeLine{435 }
+\DoxyCodeLine{436 \textcolor{comment}{/*}}
+\DoxyCodeLine{437 \textcolor{comment}{ * When this is set by the driver and passed to the client, this}}
+\DoxyCodeLine{438 \textcolor{comment}{ * indicates that the video port is capable of treating even fields}}
+\DoxyCodeLine{439 \textcolor{comment}{ * like odd fields and visa versa.  When this is set by the client,}}
+\DoxyCodeLine{440 \textcolor{comment}{ * this indicates that the video port should treat even fields like odd}}
+\DoxyCodeLine{441 \textcolor{comment}{ * fields.}}
+\DoxyCodeLine{442 \textcolor{comment}{ */}}
+\DoxyCodeLine{443 \textcolor{preprocessor}{\#define DDVPCONNECT\_INVERTPOLARITY      0x00000004l}}
+\DoxyCodeLine{444 }
+\DoxyCodeLine{445 \textcolor{comment}{/*}}
+\DoxyCodeLine{446 \textcolor{comment}{ * Indicates that any data written to the video port during the VREF}}
+\DoxyCodeLine{447 \textcolor{comment}{ * period will not be written into the frame buffer. This flag is read only.}}
+\DoxyCodeLine{448 \textcolor{comment}{ */}}
+\DoxyCodeLine{449 \textcolor{preprocessor}{\#define DDVPCONNECT\_DISCARDSVREFDATA        0x00000008l}}
+\DoxyCodeLine{450 }
+\DoxyCodeLine{451 \textcolor{comment}{/*}}
+\DoxyCodeLine{452 \textcolor{comment}{ * When this is set be the driver and passed to the client, this}}
+\DoxyCodeLine{453 \textcolor{comment}{ * indicates that the device will write half lines into the frame buffer}}
+\DoxyCodeLine{454 \textcolor{comment}{ * if half lines are provided by the decoder.  If this is set by the client,}}
+\DoxyCodeLine{455 \textcolor{comment}{ * this indicates that the decoder will be supplying half lines.}}
+\DoxyCodeLine{456 \textcolor{comment}{ */}}
+\DoxyCodeLine{457 \textcolor{preprocessor}{\#define DDVPCONNECT\_HALFLINE            0x00000010l}}
+\DoxyCodeLine{458 }
+\DoxyCodeLine{459 \textcolor{comment}{/*}}
+\DoxyCodeLine{460 \textcolor{comment}{ * Indicates that the signal is interlaced. This flag is only}}
+\DoxyCodeLine{461 \textcolor{comment}{ * set by the client.}}
+\DoxyCodeLine{462 \textcolor{comment}{ */}}
+\DoxyCodeLine{463 \textcolor{preprocessor}{\#define DDVPCONNECT\_INTERLACED          0x00000020l}}
+\DoxyCodeLine{464 }
+\DoxyCodeLine{465 \textcolor{comment}{/*}}
+\DoxyCodeLine{466 \textcolor{comment}{ * Indicates that video port is shareable and that this video port}}
+\DoxyCodeLine{467 \textcolor{comment}{ * will use the even fields.  This flag is only set by the client.}}
+\DoxyCodeLine{468 \textcolor{comment}{ */}}
+\DoxyCodeLine{469 \textcolor{preprocessor}{\#define DDVPCONNECT\_SHAREEVEN           0x00000040l}}
+\DoxyCodeLine{470 }
+\DoxyCodeLine{471 \textcolor{comment}{/*}}
+\DoxyCodeLine{472 \textcolor{comment}{ * Indicates that video port is shareable and that this video port}}
+\DoxyCodeLine{473 \textcolor{comment}{ * will use the odd fields.  This flag is only set by the client.}}
+\DoxyCodeLine{474 \textcolor{comment}{ */}}
+\DoxyCodeLine{475 \textcolor{preprocessor}{\#define DDVPCONNECT\_SHAREODD            0x00000080l}}
+\DoxyCodeLine{476 }
+\DoxyCodeLine{477 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{478 \textcolor{comment}{ *}}
+\DoxyCodeLine{479 \textcolor{comment}{ * VIDEOPORT DDVIDEOPORTDESC CAPS}}
+\DoxyCodeLine{480 \textcolor{comment}{ *}}
+\DoxyCodeLine{481 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{482 }
+\DoxyCodeLine{483 \textcolor{comment}{/*}}
+\DoxyCodeLine{484 \textcolor{comment}{ * Flip can be performed automatically to avoid tearing.}}
+\DoxyCodeLine{485 \textcolor{comment}{ */}}
+\DoxyCodeLine{486 \textcolor{preprocessor}{\#define DDVPCAPS\_AUTOFLIP           0x00000001l}}
+\DoxyCodeLine{487 }
+\DoxyCodeLine{488 \textcolor{comment}{/*}}
+\DoxyCodeLine{489 \textcolor{comment}{ * Supports interlaced video}}
+\DoxyCodeLine{490 \textcolor{comment}{ */}}
+\DoxyCodeLine{491 \textcolor{preprocessor}{\#define DDVPCAPS\_INTERLACED         0x00000002l}}
+\DoxyCodeLine{492 }
+\DoxyCodeLine{493 \textcolor{comment}{/*}}
+\DoxyCodeLine{494 \textcolor{comment}{ * Supports non-\/interlaced video}}
+\DoxyCodeLine{495 \textcolor{comment}{ */}}
+\DoxyCodeLine{496 \textcolor{preprocessor}{\#define DDVPCAPS\_NONINTERLACED          0x00000004l}}
+\DoxyCodeLine{497 }
+\DoxyCodeLine{498 \textcolor{comment}{/*}}
+\DoxyCodeLine{499 \textcolor{comment}{ * Indicates that the device can return whether the current field}}
+\DoxyCodeLine{500 \textcolor{comment}{ * of an interlaced signal is even or odd.}}
+\DoxyCodeLine{501 \textcolor{comment}{ */}}
+\DoxyCodeLine{502 \textcolor{preprocessor}{\#define DDVPCAPS\_READBACKFIELD          0x00000008l}}
+\DoxyCodeLine{503 }
+\DoxyCodeLine{504 \textcolor{comment}{/*}}
+\DoxyCodeLine{505 \textcolor{comment}{ * Indicates that the device can return the current line of video}}
+\DoxyCodeLine{506 \textcolor{comment}{ * being written into the frame buffer.}}
+\DoxyCodeLine{507 \textcolor{comment}{ */}}
+\DoxyCodeLine{508 \textcolor{preprocessor}{\#define DDVPCAPS\_READBACKLINE           0x00000010l}}
+\DoxyCodeLine{509 }
+\DoxyCodeLine{510 \textcolor{comment}{/*}}
+\DoxyCodeLine{511 \textcolor{comment}{ * Allows two gen-\/locked video streams to share a single video port,}}
+\DoxyCodeLine{512 \textcolor{comment}{ * where one stream uses the even fields and the other uses the odd}}
+\DoxyCodeLine{513 \textcolor{comment}{ * fields. Separate parameters (including address, scaling,}}
+\DoxyCodeLine{514 \textcolor{comment}{ * cropping, etc.) are maintained for both fields.)}}
+\DoxyCodeLine{515 \textcolor{comment}{ */}}
+\DoxyCodeLine{516 \textcolor{preprocessor}{\#define DDVPCAPS\_SHAREABLE          0x00000020l}}
+\DoxyCodeLine{517 }
+\DoxyCodeLine{518 \textcolor{comment}{/*}}
+\DoxyCodeLine{519 \textcolor{comment}{ * Even fields of video can be automatically discarded.}}
+\DoxyCodeLine{520 \textcolor{comment}{ */}}
+\DoxyCodeLine{521 \textcolor{preprocessor}{\#define DDVPCAPS\_SKIPEVENFIELDS         0x00000040l}}
+\DoxyCodeLine{522 }
+\DoxyCodeLine{523 \textcolor{comment}{/*}}
+\DoxyCodeLine{524 \textcolor{comment}{ * Odd fields of video can be automatically discarded.}}
+\DoxyCodeLine{525 \textcolor{comment}{ */}}
+\DoxyCodeLine{526 \textcolor{preprocessor}{\#define DDVPCAPS\_SKIPODDFIELDS          0x00000080l}}
+\DoxyCodeLine{527 }
+\DoxyCodeLine{528 \textcolor{comment}{/*}}
+\DoxyCodeLine{529 \textcolor{comment}{ * Indicates that the device is capable of driving the graphics}}
+\DoxyCodeLine{530 \textcolor{comment}{ * VSYNC with the video port VSYNC.}}
+\DoxyCodeLine{531 \textcolor{comment}{ */}}
+\DoxyCodeLine{532 \textcolor{preprocessor}{\#define DDVPCAPS\_SYNCMASTER         0x00000100l}}
+\DoxyCodeLine{533 }
+\DoxyCodeLine{534 \textcolor{comment}{/*}}
+\DoxyCodeLine{535 \textcolor{comment}{ * Indicates that data within the vertical blanking interval can}}
+\DoxyCodeLine{536 \textcolor{comment}{ * be written to a different surface.}}
+\DoxyCodeLine{537 \textcolor{comment}{ */}}
+\DoxyCodeLine{538 \textcolor{preprocessor}{\#define DDVPCAPS\_VBISURFACE         0x00000200l}}
+\DoxyCodeLine{539 }
+\DoxyCodeLine{540 \textcolor{comment}{/*}}
+\DoxyCodeLine{541 \textcolor{comment}{ * Indicates that the video port can perform color operations}}
+\DoxyCodeLine{542 \textcolor{comment}{ * on the incoming data before it is written to the frame buffer.}}
+\DoxyCodeLine{543 \textcolor{comment}{ */}}
+\DoxyCodeLine{544 \textcolor{preprocessor}{\#define DDVPCAPS\_COLORCONTROL           0x00000400l}}
+\DoxyCodeLine{545 }
+\DoxyCodeLine{546 \textcolor{comment}{/*}}
+\DoxyCodeLine{547 \textcolor{comment}{ * Indicates that the video port can accept VBI data in a different}}
+\DoxyCodeLine{548 \textcolor{comment}{ * width or format than the regular video data.}}
+\DoxyCodeLine{549 \textcolor{comment}{ */}}
+\DoxyCodeLine{550 \textcolor{preprocessor}{\#define DDVPCAPS\_OVERSAMPLEDVBI         0x00000800l}}
+\DoxyCodeLine{551 }
+\DoxyCodeLine{552 \textcolor{comment}{/*}}
+\DoxyCodeLine{553 \textcolor{comment}{ * Indicates that the video port can write data directly to system memory}}
+\DoxyCodeLine{554 \textcolor{comment}{ */}}
+\DoxyCodeLine{555 \textcolor{preprocessor}{\#define DDVPCAPS\_SYSTEMMEMORY           0x00001000l}}
+\DoxyCodeLine{556 }
+\DoxyCodeLine{557 \textcolor{comment}{/*}}
+\DoxyCodeLine{558 \textcolor{comment}{ * Indicates that the VBI and video portions of the video stream can}}
+\DoxyCodeLine{559 \textcolor{comment}{ * be controlled by an independent processes.}}
+\DoxyCodeLine{560 \textcolor{comment}{ */}}
+\DoxyCodeLine{561 \textcolor{preprocessor}{\#define DDVPCAPS\_VBIANDVIDEOINDEPENDENT     0x00002000l}}
+\DoxyCodeLine{562 }
+\DoxyCodeLine{563 \textcolor{comment}{/*}}
+\DoxyCodeLine{564 \textcolor{comment}{ * Indicates that the video port contains high quality hardware}}
+\DoxyCodeLine{565 \textcolor{comment}{ * de-\/interlacing hardware that should be used instead of the}}
+\DoxyCodeLine{566 \textcolor{comment}{ * bob/weave algorithms.}}
+\DoxyCodeLine{567 \textcolor{comment}{ */}}
+\DoxyCodeLine{568 \textcolor{preprocessor}{\#define DDVPCAPS\_HARDWAREDEINTERLACE        0x00004000l}}
+\DoxyCodeLine{569 }
+\DoxyCodeLine{570 }
+\DoxyCodeLine{571 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{572 \textcolor{comment}{ *}}
+\DoxyCodeLine{573 \textcolor{comment}{ * VIDEOPORT DDVIDEOPORTDESC FX}}
+\DoxyCodeLine{574 \textcolor{comment}{ *}}
+\DoxyCodeLine{575 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{576 }
+\DoxyCodeLine{577 \textcolor{comment}{/*}}
+\DoxyCodeLine{578 \textcolor{comment}{ * Limited cropping is available to crop out the vertical interval data.}}
+\DoxyCodeLine{579 \textcolor{comment}{ */}}
+\DoxyCodeLine{580 \textcolor{preprocessor}{\#define DDVPFX\_CROPTOPDATA          0x00000001l}}
+\DoxyCodeLine{581 }
+\DoxyCodeLine{582 \textcolor{comment}{/*}}
+\DoxyCodeLine{583 \textcolor{comment}{ * Incoming data can be cropped in the X direction before it is written}}
+\DoxyCodeLine{584 \textcolor{comment}{ * to the surface.}}
+\DoxyCodeLine{585 \textcolor{comment}{ */}}
+\DoxyCodeLine{586 \textcolor{preprocessor}{\#define DDVPFX\_CROPX                0x00000002l}}
+\DoxyCodeLine{587 }
+\DoxyCodeLine{588 \textcolor{comment}{/*}}
+\DoxyCodeLine{589 \textcolor{comment}{ * Incoming data can be cropped in the Y direction before it is written}}
+\DoxyCodeLine{590 \textcolor{comment}{ * to the surface.}}
+\DoxyCodeLine{591 \textcolor{comment}{ */}}
+\DoxyCodeLine{592 \textcolor{preprocessor}{\#define DDVPFX\_CROPY                0x00000004l}}
+\DoxyCodeLine{593 }
+\DoxyCodeLine{594 \textcolor{comment}{/*}}
+\DoxyCodeLine{595 \textcolor{comment}{ * Supports interleaving interlaced fields in memory.}}
+\DoxyCodeLine{596 \textcolor{comment}{ */}}
+\DoxyCodeLine{597 \textcolor{preprocessor}{\#define DDVPFX\_INTERLEAVE           0x00000008l}}
+\DoxyCodeLine{598 }
+\DoxyCodeLine{599 \textcolor{comment}{/*}}
+\DoxyCodeLine{600 \textcolor{comment}{ * Supports mirroring left to right as the video data is written}}
+\DoxyCodeLine{601 \textcolor{comment}{ * into the frame buffer.}}
+\DoxyCodeLine{602 \textcolor{comment}{ */}}
+\DoxyCodeLine{603 \textcolor{preprocessor}{\#define DDVPFX\_MIRRORLEFTRIGHT          0x00000010l}}
+\DoxyCodeLine{604 }
+\DoxyCodeLine{605 \textcolor{comment}{/*}}
+\DoxyCodeLine{606 \textcolor{comment}{ * Supports mirroring top to bottom as the video data is written}}
+\DoxyCodeLine{607 \textcolor{comment}{ * into the frame buffer.}}
+\DoxyCodeLine{608 \textcolor{comment}{ */}}
+\DoxyCodeLine{609 \textcolor{preprocessor}{\#define DDVPFX\_MIRRORUPDOWN         0x00000020l}}
+\DoxyCodeLine{610 }
+\DoxyCodeLine{611 \textcolor{comment}{/*}}
+\DoxyCodeLine{612 \textcolor{comment}{ * Data can be arbitrarily shrunk in the X direction before it}}
+\DoxyCodeLine{613 \textcolor{comment}{ * is written to the surface.}}
+\DoxyCodeLine{614 \textcolor{comment}{ */}}
+\DoxyCodeLine{615 \textcolor{preprocessor}{\#define DDVPFX\_PRESHRINKX           0x00000040l}}
+\DoxyCodeLine{616 }
+\DoxyCodeLine{617 \textcolor{comment}{/*}}
+\DoxyCodeLine{618 \textcolor{comment}{ * Data can be arbitrarily shrunk in the Y direction before it}}
+\DoxyCodeLine{619 \textcolor{comment}{ * is written to the surface.}}
+\DoxyCodeLine{620 \textcolor{comment}{ */}}
+\DoxyCodeLine{621 \textcolor{preprocessor}{\#define DDVPFX\_PRESHRINKY           0x00000080l}}
+\DoxyCodeLine{622 }
+\DoxyCodeLine{623 \textcolor{comment}{/*}}
+\DoxyCodeLine{624 \textcolor{comment}{ * Data can be binary shrunk (1/2, 1/4, 1/8, etc.) in the X}}
+\DoxyCodeLine{625 \textcolor{comment}{ * direction before it is written to the surface.}}
+\DoxyCodeLine{626 \textcolor{comment}{ */}}
+\DoxyCodeLine{627 \textcolor{preprocessor}{\#define DDVPFX\_PRESHRINKXB          0x00000100l}}
+\DoxyCodeLine{628 }
+\DoxyCodeLine{629 \textcolor{comment}{/*}}
+\DoxyCodeLine{630 \textcolor{comment}{ * Data can be binary shrunk (1/2, 1/4, 1/8, etc.) in the Y}}
+\DoxyCodeLine{631 \textcolor{comment}{ * direction before it is written to the surface.}}
+\DoxyCodeLine{632 \textcolor{comment}{ */}}
+\DoxyCodeLine{633 \textcolor{preprocessor}{\#define DDVPFX\_PRESHRINKYB          0x00000200l}}
+\DoxyCodeLine{634 }
+\DoxyCodeLine{635 \textcolor{comment}{/*}}
+\DoxyCodeLine{636 \textcolor{comment}{ * Data can be shrunk in increments of 1/x in the X direction}}
+\DoxyCodeLine{637 \textcolor{comment}{ * (where X is specified in the DDVIDEOPORTCAPS.dwPreshrinkXStep)}}
+\DoxyCodeLine{638 \textcolor{comment}{ * before it is written to the surface.}}
+\DoxyCodeLine{639 \textcolor{comment}{ */}}
+\DoxyCodeLine{640 \textcolor{preprocessor}{\#define DDVPFX\_PRESHRINKXS          0x00000400l}}
+\DoxyCodeLine{641 }
+\DoxyCodeLine{642 \textcolor{comment}{/*}}
+\DoxyCodeLine{643 \textcolor{comment}{ * Data can be shrunk in increments of 1/x in the Y direction}}
+\DoxyCodeLine{644 \textcolor{comment}{ * (where X is specified in the DDVIDEOPORTCAPS.dwPreshrinkYStep)}}
+\DoxyCodeLine{645 \textcolor{comment}{ * before it is written to the surface.}}
+\DoxyCodeLine{646 \textcolor{comment}{ */}}
+\DoxyCodeLine{647 \textcolor{preprocessor}{\#define DDVPFX\_PRESHRINKYS          0x00000800l}}
+\DoxyCodeLine{648 }
+\DoxyCodeLine{649 \textcolor{comment}{/*}}
+\DoxyCodeLine{650 \textcolor{comment}{ * Data can be arbitrarily stretched in the X direction before}}
+\DoxyCodeLine{651 \textcolor{comment}{ * it is written to the surface.}}
+\DoxyCodeLine{652 \textcolor{comment}{ */}}
+\DoxyCodeLine{653 \textcolor{preprocessor}{\#define DDVPFX\_PRESTRETCHX          0x00001000l}}
+\DoxyCodeLine{654 }
+\DoxyCodeLine{655 \textcolor{comment}{/*}}
+\DoxyCodeLine{656 \textcolor{comment}{ * Data can be arbitrarily stretched in the Y direction before}}
+\DoxyCodeLine{657 \textcolor{comment}{ * it is written to the surface.}}
+\DoxyCodeLine{658 \textcolor{comment}{ */}}
+\DoxyCodeLine{659 \textcolor{preprocessor}{\#define DDVPFX\_PRESTRETCHY          0x00002000l}}
+\DoxyCodeLine{660 }
+\DoxyCodeLine{661 \textcolor{comment}{/*}}
+\DoxyCodeLine{662 \textcolor{comment}{ * Data can be integer stretched in the X direction before it is}}
+\DoxyCodeLine{663 \textcolor{comment}{ * written to the surface.}}
+\DoxyCodeLine{664 \textcolor{comment}{ */}}
+\DoxyCodeLine{665 \textcolor{preprocessor}{\#define DDVPFX\_PRESTRETCHXN         0x00004000l}}
+\DoxyCodeLine{666 }
+\DoxyCodeLine{667 \textcolor{comment}{/*}}
+\DoxyCodeLine{668 \textcolor{comment}{ * Data can be integer stretched in the Y direction before it is}}
+\DoxyCodeLine{669 \textcolor{comment}{ * written to the surface.}}
+\DoxyCodeLine{670 \textcolor{comment}{ */}}
+\DoxyCodeLine{671 \textcolor{preprocessor}{\#define DDVPFX\_PRESTRETCHYN         0x00008000l}}
+\DoxyCodeLine{672 }
+\DoxyCodeLine{673 \textcolor{comment}{/*}}
+\DoxyCodeLine{674 \textcolor{comment}{ * Indicates that data within the vertical blanking interval can}}
+\DoxyCodeLine{675 \textcolor{comment}{ * be converted independently of the remaining video data.}}
+\DoxyCodeLine{676 \textcolor{comment}{ */}}
+\DoxyCodeLine{677 \textcolor{preprocessor}{\#define DDVPFX\_VBICONVERT           0x00010000l}}
+\DoxyCodeLine{678 }
+\DoxyCodeLine{679 \textcolor{comment}{/*}}
+\DoxyCodeLine{680 \textcolor{comment}{ * Indicates that scaling can be disabled for data within the}}
+\DoxyCodeLine{681 \textcolor{comment}{ * vertical blanking interval.}}
+\DoxyCodeLine{682 \textcolor{comment}{ */}}
+\DoxyCodeLine{683 \textcolor{preprocessor}{\#define DDVPFX\_VBINOSCALE           0x00020000l}}
+\DoxyCodeLine{684 }
+\DoxyCodeLine{685 \textcolor{comment}{/*}}
+\DoxyCodeLine{686 \textcolor{comment}{ * Indicates that the video data can ignore the left and right}}
+\DoxyCodeLine{687 \textcolor{comment}{ * cropping coordinates when cropping oversampled VBI data.}}
+\DoxyCodeLine{688 \textcolor{comment}{ */}}
+\DoxyCodeLine{689 \textcolor{preprocessor}{\#define DDVPFX\_IGNOREVBIXCROP           0x00040000l}}
+\DoxyCodeLine{690 }
+\DoxyCodeLine{691 \textcolor{comment}{/*}}
+\DoxyCodeLine{692 \textcolor{comment}{ * Indicates that interleaving can be disabled for data within the}}
+\DoxyCodeLine{693 \textcolor{comment}{ * vertical blanking interval.}}
+\DoxyCodeLine{694 \textcolor{comment}{ */}}
+\DoxyCodeLine{695 \textcolor{preprocessor}{\#define DDVPFX\_VBINOINTERLEAVE          0x00080000l}}
+\DoxyCodeLine{696 }
+\DoxyCodeLine{697 }
+\DoxyCodeLine{698 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{699 \textcolor{comment}{ *}}
+\DoxyCodeLine{700 \textcolor{comment}{ * VIDEOPORT DDVIDEOPORTINFO FLAGS}}
+\DoxyCodeLine{701 \textcolor{comment}{ *}}
+\DoxyCodeLine{702 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{703 }
+\DoxyCodeLine{704 \textcolor{comment}{/*}}
+\DoxyCodeLine{705 \textcolor{comment}{ * Perform automatic flipping.   Auto-\/flipping is performed between}}
+\DoxyCodeLine{706 \textcolor{comment}{ * the overlay surface that was attached to the video port using}}
+\DoxyCodeLine{707 \textcolor{comment}{ * IDirectDrawVideoPort::AttachSurface and the overlay surfaces that}}
+\DoxyCodeLine{708 \textcolor{comment}{ * are attached to the surface via the IDirectDrawSurface::AttachSurface}}
+\DoxyCodeLine{709 \textcolor{comment}{ * method.  The flip order is the order in which the overlay surfaces}}
+\DoxyCodeLine{710 \textcolor{comment}{ * were. attached.}}
+\DoxyCodeLine{711 \textcolor{comment}{ */}}
+\DoxyCodeLine{712 \textcolor{preprocessor}{\#define DDVP\_AUTOFLIP               0x00000001l}}
+\DoxyCodeLine{713 }
+\DoxyCodeLine{714 \textcolor{comment}{/*}}
+\DoxyCodeLine{715 \textcolor{comment}{ * Perform conversion using the ddpfOutputFormat information.}}
+\DoxyCodeLine{716 \textcolor{comment}{ */}}
+\DoxyCodeLine{717 \textcolor{preprocessor}{\#define DDVP\_CONVERT                0x00000002l}}
+\DoxyCodeLine{718 }
+\DoxyCodeLine{719 \textcolor{comment}{/*}}
+\DoxyCodeLine{720 \textcolor{comment}{ * Perform cropping using the specified rectangle.}}
+\DoxyCodeLine{721 \textcolor{comment}{ */}}
+\DoxyCodeLine{722 \textcolor{preprocessor}{\#define DDVP\_CROP               0x00000004l}}
+\DoxyCodeLine{723 }
+\DoxyCodeLine{724 \textcolor{comment}{/*}}
+\DoxyCodeLine{725 \textcolor{comment}{ * Indicates that interlaced fields should be interleaved in memory.}}
+\DoxyCodeLine{726 \textcolor{comment}{ */}}
+\DoxyCodeLine{727 \textcolor{preprocessor}{\#define DDVP\_INTERLEAVE             0x00000008l}}
+\DoxyCodeLine{728 }
+\DoxyCodeLine{729 \textcolor{comment}{/*}}
+\DoxyCodeLine{730 \textcolor{comment}{ * Indicates that the data should be mirrored left to right as it's}}
+\DoxyCodeLine{731 \textcolor{comment}{ * written into the frame buffer.}}
+\DoxyCodeLine{732 \textcolor{comment}{ */}}
+\DoxyCodeLine{733 \textcolor{preprocessor}{\#define DDVP\_MIRRORLEFTRIGHT            0x00000010l}}
+\DoxyCodeLine{734 }
+\DoxyCodeLine{735 \textcolor{comment}{/*}}
+\DoxyCodeLine{736 \textcolor{comment}{ * Indicates that the data should be mirrored top to bottom as it's}}
+\DoxyCodeLine{737 \textcolor{comment}{ * written into the frame buffer.}}
+\DoxyCodeLine{738 \textcolor{comment}{ */}}
+\DoxyCodeLine{739 \textcolor{preprocessor}{\#define DDVP\_MIRRORUPDOWN           0x00000020l}}
+\DoxyCodeLine{740 }
+\DoxyCodeLine{741 \textcolor{comment}{/*}}
+\DoxyCodeLine{742 \textcolor{comment}{ * Perform pre-\/scaling/zooming based on the pre-\/scale parameters.}}
+\DoxyCodeLine{743 \textcolor{comment}{ */}}
+\DoxyCodeLine{744 \textcolor{preprocessor}{\#define DDVP\_PRESCALE               0x00000040l}}
+\DoxyCodeLine{745 }
+\DoxyCodeLine{746 \textcolor{comment}{/*}}
+\DoxyCodeLine{747 \textcolor{comment}{ * Ignore input of even fields.}}
+\DoxyCodeLine{748 \textcolor{comment}{ */}}
+\DoxyCodeLine{749 \textcolor{preprocessor}{\#define DDVP\_SKIPEVENFIELDS         0x00000080l}}
+\DoxyCodeLine{750 }
+\DoxyCodeLine{751 \textcolor{comment}{/*}}
+\DoxyCodeLine{752 \textcolor{comment}{ * Ignore input of odd fields.}}
+\DoxyCodeLine{753 \textcolor{comment}{ */}}
+\DoxyCodeLine{754 \textcolor{preprocessor}{\#define DDVP\_SKIPODDFIELDS          0x00000100l}}
+\DoxyCodeLine{755 }
+\DoxyCodeLine{756 \textcolor{comment}{/*}}
+\DoxyCodeLine{757 \textcolor{comment}{ * Drive the graphics VSYNCs using the video port VYSNCs.}}
+\DoxyCodeLine{758 \textcolor{comment}{ */}}
+\DoxyCodeLine{759 \textcolor{preprocessor}{\#define DDVP\_SYNCMASTER             0x00000200l}}
+\DoxyCodeLine{760 }
+\DoxyCodeLine{761 \textcolor{comment}{/*}}
+\DoxyCodeLine{762 \textcolor{comment}{ * The ddpfVBIOutputFormatFormat member contains data that should be used}}
+\DoxyCodeLine{763 \textcolor{comment}{ * to convert the data within the vertical blanking interval.}}
+\DoxyCodeLine{764 \textcolor{comment}{ */}}
+\DoxyCodeLine{765 \textcolor{preprocessor}{\#define DDVP\_VBICONVERT             0x00000400l}}
+\DoxyCodeLine{766 }
+\DoxyCodeLine{767 \textcolor{comment}{/*}}
+\DoxyCodeLine{768 \textcolor{comment}{ * Indicates that data within the vertical blanking interval}}
+\DoxyCodeLine{769 \textcolor{comment}{ * should not be scaled.}}
+\DoxyCodeLine{770 \textcolor{comment}{ */}}
+\DoxyCodeLine{771 \textcolor{preprocessor}{\#define DDVP\_VBINOSCALE             0x00000800l}}
+\DoxyCodeLine{772 }
+\DoxyCodeLine{773 \textcolor{comment}{/*}}
+\DoxyCodeLine{774 \textcolor{comment}{ * Indicates that these bob/weave decisions should not be}}
+\DoxyCodeLine{775 \textcolor{comment}{ * overriden by other interfaces.}}
+\DoxyCodeLine{776 \textcolor{comment}{ */}}
+\DoxyCodeLine{777 \textcolor{preprocessor}{\#define DDVP\_OVERRIDEBOBWEAVE           0x00001000l}}
+\DoxyCodeLine{778 }
+\DoxyCodeLine{779 \textcolor{comment}{/*}}
+\DoxyCodeLine{780 \textcolor{comment}{ * Indicates that the video data should ignore the left and right}}
+\DoxyCodeLine{781 \textcolor{comment}{ * cropping coordinates when cropping the VBI data.}}
+\DoxyCodeLine{782 \textcolor{comment}{ */}}
+\DoxyCodeLine{783 \textcolor{preprocessor}{\#define DDVP\_IGNOREVBIXCROP         0x00002000l}}
+\DoxyCodeLine{784 }
+\DoxyCodeLine{785 \textcolor{comment}{/*}}
+\DoxyCodeLine{786 \textcolor{comment}{ * Indicates that interleaving can be disabled for data within the}}
+\DoxyCodeLine{787 \textcolor{comment}{ * vertical blanking interval.}}
+\DoxyCodeLine{788 \textcolor{comment}{ */}}
+\DoxyCodeLine{789 \textcolor{preprocessor}{\#define DDVP\_VBINOINTERLEAVE            0x00004000l}}
+\DoxyCodeLine{790 }
+\DoxyCodeLine{791 \textcolor{comment}{/*}}
+\DoxyCodeLine{792 \textcolor{comment}{ * Indicates that the video port should use the hardware}}
+\DoxyCodeLine{793 \textcolor{comment}{ * de-\/interlacing hardware.}}
+\DoxyCodeLine{794 \textcolor{comment}{ */}}
+\DoxyCodeLine{795 \textcolor{preprocessor}{\#define DDVP\_HARDWAREDEINTERLACE        0x00008000l}}
+\DoxyCodeLine{796 }
+\DoxyCodeLine{797 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{798 \textcolor{comment}{ *}}
+\DoxyCodeLine{799 \textcolor{comment}{ * DIRIRECTDRAWVIDEOPORT GETINPUTFORMAT/GETOUTPUTFORMAT FLAGS}}
+\DoxyCodeLine{800 \textcolor{comment}{ *}}
+\DoxyCodeLine{801 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{802 }
+\DoxyCodeLine{803 \textcolor{comment}{/*}}
+\DoxyCodeLine{804 \textcolor{comment}{ * Return formats for the video data}}
+\DoxyCodeLine{805 \textcolor{comment}{ */}}
+\DoxyCodeLine{806 \textcolor{preprocessor}{\#define DDVPFORMAT\_VIDEO            0x00000001l}}
+\DoxyCodeLine{807 }
+\DoxyCodeLine{808 \textcolor{comment}{/*}}
+\DoxyCodeLine{809 \textcolor{comment}{ * Return formats for the VBI data}}
+\DoxyCodeLine{810 \textcolor{comment}{ */}}
+\DoxyCodeLine{811 \textcolor{preprocessor}{\#define DDVPFORMAT\_VBI              0x00000002l}}
+\DoxyCodeLine{812 }
+\DoxyCodeLine{813 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{814 \textcolor{comment}{ *}}
+\DoxyCodeLine{815 \textcolor{comment}{ * DIRIRECTDRAWVIDEOPORT SETTARGETSURFACE FLAGS}}
+\DoxyCodeLine{816 \textcolor{comment}{ *}}
+\DoxyCodeLine{817 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{818 }
+\DoxyCodeLine{819 \textcolor{comment}{/*}}
+\DoxyCodeLine{820 \textcolor{comment}{ * Surface should receive video data (and VBI data if a surface}}
+\DoxyCodeLine{821 \textcolor{comment}{ * is not explicitly attached for that purpose)}}
+\DoxyCodeLine{822 \textcolor{comment}{ */}}
+\DoxyCodeLine{823 \textcolor{preprocessor}{\#define DDVPTARGET\_VIDEO            0x00000001l}}
+\DoxyCodeLine{824 }
+\DoxyCodeLine{825 \textcolor{comment}{/*}}
+\DoxyCodeLine{826 \textcolor{comment}{ * Surface should receive VBI data}}
+\DoxyCodeLine{827 \textcolor{comment}{ */}}
+\DoxyCodeLine{828 \textcolor{preprocessor}{\#define DDVPTARGET\_VBI              0x00000002l}}
+\DoxyCodeLine{829 }
+\DoxyCodeLine{830 }
+\DoxyCodeLine{831 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{832 \textcolor{comment}{ *}}
+\DoxyCodeLine{833 \textcolor{comment}{ * DIRIRECTDRAWVIDEOPORT WAITFORSYNC FLAGS}}
+\DoxyCodeLine{834 \textcolor{comment}{ *}}
+\DoxyCodeLine{835 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{836 }
+\DoxyCodeLine{837 \textcolor{comment}{/*}}
+\DoxyCodeLine{838 \textcolor{comment}{ * Waits until the beginning of the next VSYNC}}
+\DoxyCodeLine{839 \textcolor{comment}{ */}}
+\DoxyCodeLine{840 \textcolor{preprocessor}{\#define DDVPWAIT\_BEGIN              0x00000001l}}
+\DoxyCodeLine{841 }
+\DoxyCodeLine{842 \textcolor{comment}{/*}}
+\DoxyCodeLine{843 \textcolor{comment}{ * Waits until the end of the next/current VSYNC}}
+\DoxyCodeLine{844 \textcolor{comment}{ */}}
+\DoxyCodeLine{845 \textcolor{preprocessor}{\#define DDVPWAIT\_END                0x00000002l}}
+\DoxyCodeLine{846 }
+\DoxyCodeLine{847 \textcolor{comment}{/*}}
+\DoxyCodeLine{848 \textcolor{comment}{ * Waits until the beginning of the specified line}}
+\DoxyCodeLine{849 \textcolor{comment}{ */}}
+\DoxyCodeLine{850 \textcolor{preprocessor}{\#define DDVPWAIT\_LINE               0x00000003l}}
+\DoxyCodeLine{851 }
+\DoxyCodeLine{852 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{853 \textcolor{comment}{ *}}
+\DoxyCodeLine{854 \textcolor{comment}{ * DIRECTDRAWVIDEOPORT FLIP FLAGS}}
+\DoxyCodeLine{855 \textcolor{comment}{ *}}
+\DoxyCodeLine{856 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{857 }
+\DoxyCodeLine{858 \textcolor{comment}{/*}}
+\DoxyCodeLine{859 \textcolor{comment}{ * Flips the normal video surface}}
+\DoxyCodeLine{860 \textcolor{comment}{ */}}
+\DoxyCodeLine{861 \textcolor{preprocessor}{\#define DDVPFLIP\_VIDEO              0x00000001l}}
+\DoxyCodeLine{862 }
+\DoxyCodeLine{863 \textcolor{comment}{/*}}
+\DoxyCodeLine{864 \textcolor{comment}{ * Flips the VBI surface}}
+\DoxyCodeLine{865 \textcolor{comment}{ */}}
+\DoxyCodeLine{866 \textcolor{preprocessor}{\#define DDVPFLIP\_VBI                0x00000002l}}
+\DoxyCodeLine{867 }
+\DoxyCodeLine{868 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{869 \textcolor{comment}{ *}}
+\DoxyCodeLine{870 \textcolor{comment}{ * DIRIRECTDRAWVIDEOPORT GETVIDEOSIGNALSTATUS VALUES}}
+\DoxyCodeLine{871 \textcolor{comment}{ *}}
+\DoxyCodeLine{872 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{873 }
+\DoxyCodeLine{874 \textcolor{comment}{/*}}
+\DoxyCodeLine{875 \textcolor{comment}{ * No video signal is present at the video port}}
+\DoxyCodeLine{876 \textcolor{comment}{ */}}
+\DoxyCodeLine{877 \textcolor{preprocessor}{\#define DDVPSQ\_NOSIGNAL             0x00000001l}}
+\DoxyCodeLine{878 }
+\DoxyCodeLine{879 \textcolor{comment}{/*}}
+\DoxyCodeLine{880 \textcolor{comment}{ * A valid video signal is present at the video port}}
+\DoxyCodeLine{881 \textcolor{comment}{ */}}
+\DoxyCodeLine{882 \textcolor{preprocessor}{\#define DDVPSQ\_SIGNALOK             0x00000002l}}
+\DoxyCodeLine{883 }
+\DoxyCodeLine{884 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{885 \textcolor{comment}{ *}}
+\DoxyCodeLine{886 \textcolor{comment}{ * VIDEOPORTBANDWIDTH Flags}}
+\DoxyCodeLine{887 \textcolor{comment}{ *}}
+\DoxyCodeLine{888 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{889 }
+\DoxyCodeLine{890 \textcolor{comment}{/*}}
+\DoxyCodeLine{891 \textcolor{comment}{ * The specified height/width refer to the size of the video port data}}
+\DoxyCodeLine{892 \textcolor{comment}{ * written into memory, after prescaling has occured.}}
+\DoxyCodeLine{893 \textcolor{comment}{ */}}
+\DoxyCodeLine{894 \textcolor{preprocessor}{\#define DDVPB\_VIDEOPORT             0x00000001l}}
+\DoxyCodeLine{895 }
+\DoxyCodeLine{896 \textcolor{comment}{/*}}
+\DoxyCodeLine{897 \textcolor{comment}{ * The specified height/width refer to the source size of the overlay.}}
+\DoxyCodeLine{898 \textcolor{comment}{ */}}
+\DoxyCodeLine{899 \textcolor{preprocessor}{\#define DDVPB\_OVERLAY               0x00000002l}}
+\DoxyCodeLine{900 }
+\DoxyCodeLine{901 \textcolor{comment}{/*}}
+\DoxyCodeLine{902 \textcolor{comment}{ * This is a query for the device to return which caps this device requires.}}
+\DoxyCodeLine{903 \textcolor{comment}{ */}}
+\DoxyCodeLine{904 \textcolor{preprocessor}{\#define DDVPB\_TYPE              0x00000004l}}
+\DoxyCodeLine{905 }
+\DoxyCodeLine{906 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{907 \textcolor{comment}{ *}}
+\DoxyCodeLine{908 \textcolor{comment}{ * VIDEOPORTBANDWIDTH Caps}}
+\DoxyCodeLine{909 \textcolor{comment}{ *}}
+\DoxyCodeLine{910 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{911 }
+\DoxyCodeLine{912 \textcolor{comment}{/*}}
+\DoxyCodeLine{913 \textcolor{comment}{ * The bandwidth for this device is dependant on the overlay source size.}}
+\DoxyCodeLine{914 \textcolor{comment}{ */}}
+\DoxyCodeLine{915 \textcolor{preprocessor}{\#define DDVPBCAPS\_SOURCE            0x00000001l}}
+\DoxyCodeLine{916 }
+\DoxyCodeLine{917 \textcolor{comment}{/*}}
+\DoxyCodeLine{918 \textcolor{comment}{ * The bandwidth for this device is dependant on the overlay destination}}
+\DoxyCodeLine{919 \textcolor{comment}{ * size.}}
+\DoxyCodeLine{920 \textcolor{comment}{ */}}
+\DoxyCodeLine{921 \textcolor{preprocessor}{\#define DDVPBCAPS\_DESTINATION           0x00000002l}}
+\DoxyCodeLine{922 }
+\DoxyCodeLine{923 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{924 \textcolor{comment}{ *}}
+\DoxyCodeLine{925 \textcolor{comment}{ * DDVIDEOPORTCONTAINER CreateVideoPort flags}}
+\DoxyCodeLine{926 \textcolor{comment}{ *}}
+\DoxyCodeLine{927 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{928 }
+\DoxyCodeLine{929 \textcolor{comment}{/*}}
+\DoxyCodeLine{930 \textcolor{comment}{ * The process only wants to control the VBI portion of the video stream.}}
+\DoxyCodeLine{931 \textcolor{comment}{ */}}
+\DoxyCodeLine{932 \textcolor{preprocessor}{\#define DDVPCREATE\_VBIONLY          0x00000001l}}
+\DoxyCodeLine{933 }
+\DoxyCodeLine{934 \textcolor{comment}{/*}}
+\DoxyCodeLine{935 \textcolor{comment}{ * The process only wants to control the non-\/VBI (video) portion of}}
+\DoxyCodeLine{936 \textcolor{comment}{ * the video stream.}}
+\DoxyCodeLine{937 \textcolor{comment}{ */}}
+\DoxyCodeLine{938 \textcolor{preprocessor}{\#define DDVPCREATE\_VIDEOONLY            0x00000002l}}
+\DoxyCodeLine{939 }
+\DoxyCodeLine{940 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{941 \textcolor{comment}{ *}}
+\DoxyCodeLine{942 \textcolor{comment}{ * DDVIDEOPORTSTATUS flags}}
+\DoxyCodeLine{943 \textcolor{comment}{ *}}
+\DoxyCodeLine{944 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{945 }
+\DoxyCodeLine{946 \textcolor{comment}{/*}}
+\DoxyCodeLine{947 \textcolor{comment}{ * The video port interface is only controlling the VBI portion of the}}
+\DoxyCodeLine{948 \textcolor{comment}{ * video stream}}
+\DoxyCodeLine{949 \textcolor{comment}{ */}}
+\DoxyCodeLine{950 \textcolor{preprocessor}{\#define DDVPSTATUS\_VBIONLY          0x00000001l}}
+\DoxyCodeLine{951 }
+\DoxyCodeLine{952 \textcolor{comment}{/*}}
+\DoxyCodeLine{953 \textcolor{comment}{ * The video port interface is only controlling the video portion of the}}
+\DoxyCodeLine{954 \textcolor{comment}{ * video stream}}
+\DoxyCodeLine{955 \textcolor{comment}{ */}}
+\DoxyCodeLine{956 \textcolor{preprocessor}{\#define DDVPSTATUS\_VIDEOONLY            0x00000002l}}
+\DoxyCodeLine{957 }
+\DoxyCodeLine{958 }
+\DoxyCodeLine{959 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{960 \};}
+\DoxyCodeLine{961 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{962 }
+\DoxyCodeLine{963 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// GUID\_DEFS\_ONLY}}
+\DoxyCodeLine{964 }
+\DoxyCodeLine{965 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{966 }
+
+\end{DoxyCode}

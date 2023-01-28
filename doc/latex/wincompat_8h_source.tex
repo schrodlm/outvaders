@@ -1,0 +1,80 @@
+\hypertarget{wincompat_8h_source}{}\doxysection{wincompat.\+h}
+\label{wincompat_8h_source}\index{src/lib/fmod/api/inc/wincompat.h@{src/lib/fmod/api/inc/wincompat.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#if !defined(WINCOMPAT\_INCLUDED) \&\& !defined(PLATFORM\_WINDOWS) \&\& !defined(WIN32) \&\& !defined(WINDOWS) \&\& !defined(\_\_WIN32\_\_)}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define WINCOMPAT\_INCLUDED}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <sys/time.h>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <sys/types.h>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <unistd.h>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <termios.h>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#ifndef TRUE}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{  \#define TRUE 1}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#ifndef FALSE}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{  \#define FALSE 0}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#define \_kbhit kbhit}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#define stricmp strcasecmp}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#define strnicmp strncasecmp}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#define Sleep(x) usleep((x)*1000)}}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{keyword}{static} \textcolor{keywordtype}{int}            inited=0;}
+\DoxyCodeLine{32 \textcolor{keyword}{static} \textcolor{keyword}{struct }termios ori;}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{keyword}{static} \textcolor{keywordtype}{void} tcatexit()\{}
+\DoxyCodeLine{35    tcsetattr(0,0,\&ori);}
+\DoxyCodeLine{36 \}}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 \textcolor{keyword}{static} \textcolor{keywordtype}{void} init\_terminal()\{}
+\DoxyCodeLine{39    \textcolor{keyword}{struct }termios t;}
+\DoxyCodeLine{40    tcgetattr(0,\&t);}
+\DoxyCodeLine{41    tcgetattr(0,\&ori);}
+\DoxyCodeLine{42    t.c\_lflag \&= \string~(ICANON);}
+\DoxyCodeLine{43    tcsetattr(0,0,\&t);}
+\DoxyCodeLine{44    atexit(tcatexit);}
+\DoxyCodeLine{45 \}}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 \textcolor{keyword}{static} \textcolor{keyword}{inline} \textcolor{keywordtype}{int} kbhit()\{}
+\DoxyCodeLine{48   fd\_set rfds;}
+\DoxyCodeLine{49   \textcolor{keyword}{struct }timeval tv;}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51    \textcolor{keywordflow}{if} (!inited)\{}
+\DoxyCodeLine{52       inited=1;}
+\DoxyCodeLine{53       init\_terminal();}
+\DoxyCodeLine{54    \}}
+\DoxyCodeLine{55    }
+\DoxyCodeLine{56    FD\_ZERO(\&rfds);}
+\DoxyCodeLine{57    FD\_SET(0, \&rfds);}
+\DoxyCodeLine{58    tv.tv\_sec = 0;}
+\DoxyCodeLine{59    tv.tv\_usec = 10*1000;}
+\DoxyCodeLine{60    \textcolor{keywordflow}{return} select(1, \&rfds, NULL, NULL, \&tv)>0;}
+\DoxyCodeLine{61 \}}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63 \textcolor{keyword}{static} \textcolor{keyword}{inline} \textcolor{keywordtype}{int} getch()\{}
+\DoxyCodeLine{64    fd\_set rfds;}
+\DoxyCodeLine{65    }
+\DoxyCodeLine{66    \textcolor{keywordflow}{if} (!inited)\{}
+\DoxyCodeLine{67       inited=1;}
+\DoxyCodeLine{68       init\_terminal();}
+\DoxyCodeLine{69    \}}
+\DoxyCodeLine{70    }
+\DoxyCodeLine{71    FD\_ZERO(\&rfds);}
+\DoxyCodeLine{72    FD\_SET(0, \&rfds);}
+\DoxyCodeLine{73    \textcolor{keywordflow}{if} (select(1, \&rfds, NULL, NULL, NULL)>0)}
+\DoxyCodeLine{74      \textcolor{keywordflow}{return} getchar();}
+\DoxyCodeLine{75    \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{76       printf(\textcolor{stringliteral}{"{}wincompat.h: select() on fd 0 failed\(\backslash\)n"{}});}
+\DoxyCodeLine{77       \textcolor{keywordflow}{return} 0xDeadBeef;}
+\DoxyCodeLine{78    \}     }
+\DoxyCodeLine{79 \}}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{81 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

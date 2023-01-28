@@ -1,0 +1,44 @@
+\hypertarget{struct_w_a_v_e_b_a_n_k_e_n_t_r_y}{}\doxysection{WAVEBANKENTRY Struct Reference}
+\label{struct_w_a_v_e_b_a_n_k_e_n_t_r_y}\index{WAVEBANKENTRY@{WAVEBANKENTRY}}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{struct_w_a_v_e_b_a_n_k_e_n_t_r_y_a2e01eb3516c2fb66f877a623339ec622}\label{struct_w_a_v_e_b_a_n_k_e_n_t_r_y_a2e01eb3516c2fb66f877a623339ec622}} 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\mbox{\Hypertarget{union_w_a_v_e_b_a_n_k_e_n_t_r_y_1_1_0d212_a03f8e68f79fb05dc0df9073a7b4416a7}\label{union_w_a_v_e_b_a_n_k_e_n_t_r_y_1_1_0d212_a03f8e68f79fb05dc0df9073a7b4416a7}} 
+\>struct \{\\
+\>\>DWORD {\bfseries dwFlags}: 4\\
+\>\>DWORD {\bfseries Duration}: 28\\
+\>\} \\
+\>DWORD {\bfseries dwFlagsAndDuration}\\
+\}; \\
+
+\end{tabbing}\item 
+\mbox{\Hypertarget{struct_w_a_v_e_b_a_n_k_e_n_t_r_y_adcf53dc0282f2b4643e02588b138eb69}\label{struct_w_a_v_e_b_a_n_k_e_n_t_r_y_adcf53dc0282f2b4643e02588b138eb69}} 
+\mbox{\hyperlink{union_w_a_v_e_b_a_n_k_m_i_n_i_w_a_v_e_f_o_r_m_a_t}{WAVEBANKMINIWAVEFORMAT}} {\bfseries Format}
+\item 
+\mbox{\Hypertarget{struct_w_a_v_e_b_a_n_k_e_n_t_r_y_aa329be63cc6df86c1aab8de40a9654d7}\label{struct_w_a_v_e_b_a_n_k_e_n_t_r_y_aa329be63cc6df86c1aab8de40a9654d7}} 
+\mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_r_e_g_i_o_n}{WAVEBANKREGION}} {\bfseries Play\+Region}
+\item 
+\mbox{\Hypertarget{struct_w_a_v_e_b_a_n_k_e_n_t_r_y_aaf4dcff277774a38e02d7e28af84eba5}\label{struct_w_a_v_e_b_a_n_k_e_n_t_r_y_aaf4dcff277774a38e02d7e28af84eba5}} 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>\mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_r_e_g_i_o_n}{WAVEBANKREGION}} {\bfseries LoopRegion}\\
+\>struct \{\\
+\>\>DWORD {\bfseries dwStartOffset}\\
+\>\>DWORD {\bfseries nSubframeSkip}: 2\\
+\>\>DWORD {\bfseries nSubframeEnd}: 2\\
+\>\>DWORD {\bfseries dwEndOffset}: 28\\
+\>\} {\bfseries XMALoopRegion} \mbox{[}WAVEBANKENTRY\_XMASTREAMS\_MAX\mbox{]}\\
+\>\mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_r_e_g_i_o_n}{WAVEBANKREGION}} {\bfseries LoopRegionAlias} \mbox{[}WAVEBANKENTRY\_XMASTREAMS\_MAX\mbox{]}\\
+\}; \\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/lib/dx/\+Include/xact2wb.\+h\end{DoxyCompactItemize}

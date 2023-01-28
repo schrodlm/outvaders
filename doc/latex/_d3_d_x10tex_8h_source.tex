@@ -1,0 +1,618 @@
+\hypertarget{_d3_d_x10tex_8h_source}{}\doxysection{D3\+DX10tex.\+h}
+\label{_d3_d_x10tex_8h_source}\index{src/lib/dx/Include/D3DX10tex.h@{src/lib/dx/Include/D3DX10tex.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{2 \textcolor{comment}{//}}
+\DoxyCodeLine{3 \textcolor{comment}{//  Copyright (C) Microsoft Corporation.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{//}}
+\DoxyCodeLine{5 \textcolor{comment}{//  File:       d3dx10tex.h}}
+\DoxyCodeLine{6 \textcolor{comment}{//  Content:    D3DX10 texturing APIs}}
+\DoxyCodeLine{7 \textcolor{comment}{//}}
+\DoxyCodeLine{9 \textcolor{comment}{}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}d3dx10.h"{}}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#ifndef \_\_D3DX10TEX\_H\_\_}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#define \_\_D3DX10TEX\_H\_\_}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{17 \textcolor{comment}{// D3DX10\_FILTER flags:}}
+\DoxyCodeLine{18 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{19 \textcolor{comment}{//}}
+\DoxyCodeLine{20 \textcolor{comment}{// A valid filter must contain one of these values:}}
+\DoxyCodeLine{21 \textcolor{comment}{//}}
+\DoxyCodeLine{22 \textcolor{comment}{//  D3DX10\_FILTER\_NONE}}
+\DoxyCodeLine{23 \textcolor{comment}{//      No scaling or filtering will take place.  Pixels outside the bounds}}
+\DoxyCodeLine{24 \textcolor{comment}{//      of the source image are assumed to be transparent black.}}
+\DoxyCodeLine{25 \textcolor{comment}{//  D3DX10\_FILTER\_POINT}}
+\DoxyCodeLine{26 \textcolor{comment}{//      Each destination pixel is computed by sampling the nearest pixel}}
+\DoxyCodeLine{27 \textcolor{comment}{//      from the source image.}}
+\DoxyCodeLine{28 \textcolor{comment}{//  D3DX10\_FILTER\_LINEAR}}
+\DoxyCodeLine{29 \textcolor{comment}{//      Each destination pixel is computed by linearly interpolating between}}
+\DoxyCodeLine{30 \textcolor{comment}{//      the nearest pixels in the source image.  This filter works best }}
+\DoxyCodeLine{31 \textcolor{comment}{//      when the scale on each axis is less than 2.}}
+\DoxyCodeLine{32 \textcolor{comment}{//  D3DX10\_FILTER\_TRIANGLE}}
+\DoxyCodeLine{33 \textcolor{comment}{//      Every pixel in the source image contributes equally to the}}
+\DoxyCodeLine{34 \textcolor{comment}{//      destination image.  This is the slowest of all the filters.}}
+\DoxyCodeLine{35 \textcolor{comment}{//  D3DX10\_FILTER\_BOX}}
+\DoxyCodeLine{36 \textcolor{comment}{//      Each pixel is computed by averaging a 2x2(x2) box pixels from }}
+\DoxyCodeLine{37 \textcolor{comment}{//      the source image. Only works when the dimensions of the }}
+\DoxyCodeLine{38 \textcolor{comment}{//      destination are half those of the source. (as with mip maps)}}
+\DoxyCodeLine{39 \textcolor{comment}{//}}
+\DoxyCodeLine{40 \textcolor{comment}{// And can be OR'd with any of these optional flags:}}
+\DoxyCodeLine{41 \textcolor{comment}{//}}
+\DoxyCodeLine{42 \textcolor{comment}{//  D3DX10\_FILTER\_MIRROR\_U}}
+\DoxyCodeLine{43 \textcolor{comment}{//      Indicates that pixels off the edge of the texture on the U-\/axis}}
+\DoxyCodeLine{44 \textcolor{comment}{//      should be mirrored, not wraped.}}
+\DoxyCodeLine{45 \textcolor{comment}{//  D3DX10\_FILTER\_MIRROR\_V}}
+\DoxyCodeLine{46 \textcolor{comment}{//      Indicates that pixels off the edge of the texture on the V-\/axis}}
+\DoxyCodeLine{47 \textcolor{comment}{//      should be mirrored, not wraped.}}
+\DoxyCodeLine{48 \textcolor{comment}{//  D3DX10\_FILTER\_MIRROR\_W}}
+\DoxyCodeLine{49 \textcolor{comment}{//      Indicates that pixels off the edge of the texture on the W-\/axis}}
+\DoxyCodeLine{50 \textcolor{comment}{//      should be mirrored, not wraped.}}
+\DoxyCodeLine{51 \textcolor{comment}{//  D3DX10\_FILTER\_MIRROR}}
+\DoxyCodeLine{52 \textcolor{comment}{//      Same as specifying D3DX10\_FILTER\_MIRROR\_U | D3DX10\_FILTER\_MIRROR\_V |}}
+\DoxyCodeLine{53 \textcolor{comment}{//      D3DX10\_FILTER\_MIRROR\_V}}
+\DoxyCodeLine{54 \textcolor{comment}{//  D3DX10\_FILTER\_DITHER}}
+\DoxyCodeLine{55 \textcolor{comment}{//      Dithers the resulting image using a 4x4 order dither pattern.}}
+\DoxyCodeLine{56 \textcolor{comment}{//  D3DX10\_FILTER\_SRGB\_IN}}
+\DoxyCodeLine{57 \textcolor{comment}{//      Denotes that the input data is in sRGB (gamma 2.2) colorspace.}}
+\DoxyCodeLine{58 \textcolor{comment}{//  D3DX10\_FILTER\_SRGB\_OUT}}
+\DoxyCodeLine{59 \textcolor{comment}{//      Denotes that the output data is in sRGB (gamma 2.2) colorspace.}}
+\DoxyCodeLine{60 \textcolor{comment}{//  D3DX10\_FILTER\_SRGB}}
+\DoxyCodeLine{61 \textcolor{comment}{//      Same as specifying D3DX10\_FILTER\_SRGB\_IN | D3DX10\_FILTER\_SRGB\_OUT}}
+\DoxyCodeLine{62 \textcolor{comment}{//}}
+\DoxyCodeLine{63 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} D3DX10\_FILTER\_FLAG}
+\DoxyCodeLine{66 \{}
+\DoxyCodeLine{67     D3DX10\_FILTER\_NONE            =   (1 << 0),}
+\DoxyCodeLine{68     D3DX10\_FILTER\_POINT           =   (2 << 0),}
+\DoxyCodeLine{69     D3DX10\_FILTER\_LINEAR          =   (3 << 0),}
+\DoxyCodeLine{70     D3DX10\_FILTER\_TRIANGLE        =   (4 << 0),}
+\DoxyCodeLine{71     D3DX10\_FILTER\_BOX             =   (5 << 0),}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{73     D3DX10\_FILTER\_MIRROR\_U        =   (1 << 16),}
+\DoxyCodeLine{74     D3DX10\_FILTER\_MIRROR\_V        =   (2 << 16),}
+\DoxyCodeLine{75     D3DX10\_FILTER\_MIRROR\_W        =   (4 << 16),}
+\DoxyCodeLine{76     D3DX10\_FILTER\_MIRROR          =   (7 << 16),}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78     D3DX10\_FILTER\_DITHER          =   (1 << 19),}
+\DoxyCodeLine{79     D3DX10\_FILTER\_DITHER\_DIFFUSION=   (2 << 19),}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{81     D3DX10\_FILTER\_SRGB\_IN         =   (1 << 21),}
+\DoxyCodeLine{82     D3DX10\_FILTER\_SRGB\_OUT        =   (2 << 21),}
+\DoxyCodeLine{83     D3DX10\_FILTER\_SRGB            =   (3 << 21),}
+\DoxyCodeLine{84 \} D3DX10\_FILTER\_FLAG;}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{87 \textcolor{comment}{// D3DX10\_NORMALMAP flags:}}
+\DoxyCodeLine{88 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{89 \textcolor{comment}{// These flags are used to control how D3DX10ComputeNormalMap generates normal}}
+\DoxyCodeLine{90 \textcolor{comment}{// maps.  Any number of these flags may be OR'd together in any combination.}}
+\DoxyCodeLine{91 \textcolor{comment}{//}}
+\DoxyCodeLine{92 \textcolor{comment}{//  D3DX10\_NORMALMAP\_MIRROR\_U}}
+\DoxyCodeLine{93 \textcolor{comment}{//      Indicates that pixels off the edge of the texture on the U-\/axis}}
+\DoxyCodeLine{94 \textcolor{comment}{//      should be mirrored, not wraped.}}
+\DoxyCodeLine{95 \textcolor{comment}{//  D3DX10\_NORMALMAP\_MIRROR\_V}}
+\DoxyCodeLine{96 \textcolor{comment}{//      Indicates that pixels off the edge of the texture on the V-\/axis}}
+\DoxyCodeLine{97 \textcolor{comment}{//      should be mirrored, not wraped.}}
+\DoxyCodeLine{98 \textcolor{comment}{//  D3DX10\_NORMALMAP\_MIRROR}}
+\DoxyCodeLine{99 \textcolor{comment}{//      Same as specifying D3DX10\_NORMALMAP\_MIRROR\_U | D3DX10\_NORMALMAP\_MIRROR\_V}}
+\DoxyCodeLine{100 \textcolor{comment}{//  D3DX10\_NORMALMAP\_INVERTSIGN}}
+\DoxyCodeLine{101 \textcolor{comment}{//      Inverts the direction of each normal }}
+\DoxyCodeLine{102 \textcolor{comment}{//  D3DX10\_NORMALMAP\_COMPUTE\_OCCLUSION}}
+\DoxyCodeLine{103 \textcolor{comment}{//      Compute the per pixel Occlusion term and encodes it into the alpha.}}
+\DoxyCodeLine{104 \textcolor{comment}{//      An Alpha of 1 means that the pixel is not obscured in anyway, and}}
+\DoxyCodeLine{105 \textcolor{comment}{//      an alpha of 0 would mean that the pixel is completly obscured.}}
+\DoxyCodeLine{106 \textcolor{comment}{//}}
+\DoxyCodeLine{107 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{109 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} D3DX10\_NORMALMAP\_FLAG}
+\DoxyCodeLine{110 \{}
+\DoxyCodeLine{111     D3DX10\_NORMALMAP\_MIRROR\_U          =   (1 << 16),}
+\DoxyCodeLine{112     D3DX10\_NORMALMAP\_MIRROR\_V          =   (2 << 16),}
+\DoxyCodeLine{113     D3DX10\_NORMALMAP\_MIRROR            =   (3 << 16),}
+\DoxyCodeLine{114     D3DX10\_NORMALMAP\_INVERTSIGN        =   (8 << 16),}
+\DoxyCodeLine{115     D3DX10\_NORMALMAP\_COMPUTE\_OCCLUSION =   (16 << 16),}
+\DoxyCodeLine{116 \} D3DX10\_NORMALMAP\_FLAG;}
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{119 \textcolor{comment}{// D3DX10\_CHANNEL flags:}}
+\DoxyCodeLine{120 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{121 \textcolor{comment}{// These flags are used by functions which operate on or more channels}}
+\DoxyCodeLine{122 \textcolor{comment}{// in a texture.}}
+\DoxyCodeLine{123 \textcolor{comment}{//}}
+\DoxyCodeLine{124 \textcolor{comment}{// D3DX10\_CHANNEL\_RED}}
+\DoxyCodeLine{125 \textcolor{comment}{//     Indicates the red channel should be used}}
+\DoxyCodeLine{126 \textcolor{comment}{// D3DX10\_CHANNEL\_BLUE}}
+\DoxyCodeLine{127 \textcolor{comment}{//     Indicates the blue channel should be used}}
+\DoxyCodeLine{128 \textcolor{comment}{// D3DX10\_CHANNEL\_GREEN}}
+\DoxyCodeLine{129 \textcolor{comment}{//     Indicates the green channel should be used}}
+\DoxyCodeLine{130 \textcolor{comment}{// D3DX10\_CHANNEL\_ALPHA}}
+\DoxyCodeLine{131 \textcolor{comment}{//     Indicates the alpha channel should be used}}
+\DoxyCodeLine{132 \textcolor{comment}{// D3DX10\_CHANNEL\_LUMINANCE}}
+\DoxyCodeLine{133 \textcolor{comment}{//     Indicates the luminaces of the red green and blue channels should be }}
+\DoxyCodeLine{134 \textcolor{comment}{//     used.}}
+\DoxyCodeLine{135 \textcolor{comment}{//}}
+\DoxyCodeLine{136 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{137 }
+\DoxyCodeLine{138 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} D3DX10\_CHANNEL\_FLAG}
+\DoxyCodeLine{139 \{}
+\DoxyCodeLine{140     D3DX10\_CHANNEL\_RED           =    (1 << 0),}
+\DoxyCodeLine{141     D3DX10\_CHANNEL\_BLUE          =    (1 << 1),}
+\DoxyCodeLine{142     D3DX10\_CHANNEL\_GREEN         =    (1 << 2),}
+\DoxyCodeLine{143     D3DX10\_CHANNEL\_ALPHA         =    (1 << 3),}
+\DoxyCodeLine{144     D3DX10\_CHANNEL\_LUMINANCE     =    (1 << 4),}
+\DoxyCodeLine{145 \} D3DX10\_CHANNEL\_FLAG;}
+\DoxyCodeLine{146 }
+\DoxyCodeLine{147 }
+\DoxyCodeLine{148 }
+\DoxyCodeLine{149 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{150 \textcolor{comment}{// D3DX10IMAGE\_FILEFORMAT:}}
+\DoxyCodeLine{151 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{152 \textcolor{comment}{// This enum is used to describe supported image file formats.}}
+\DoxyCodeLine{153 \textcolor{comment}{//}}
+\DoxyCodeLine{154 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{155 }
+\DoxyCodeLine{156 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DX10IMAGE\_FILEFORMAT}
+\DoxyCodeLine{157 \{}
+\DoxyCodeLine{158     D3DX10IFF\_BMP         = 0,}
+\DoxyCodeLine{159     D3DX10IFF\_JPG         = 1,}
+\DoxyCodeLine{160     D3DX10IFF\_PNG         = 3,}
+\DoxyCodeLine{161     D3DX10IFF\_DDS         = 4,}
+\DoxyCodeLine{162     D3DX10IFF\_TIFF        = 10,}
+\DoxyCodeLine{163     D3DX10IFF\_GIF         = 11,}
+\DoxyCodeLine{164     D3DX10IFF\_FORCE\_DWORD = 0x7fffffff}
+\DoxyCodeLine{165 }
+\DoxyCodeLine{166 \} D3DX10IMAGE\_FILEFORMAT;}
+\DoxyCodeLine{167 }
+\DoxyCodeLine{168 }
+\DoxyCodeLine{169 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{170 \textcolor{comment}{// D3DX10IMAGE\_INFO:}}
+\DoxyCodeLine{171 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{172 \textcolor{comment}{// This structure is used to return a rough description of what the}}
+\DoxyCodeLine{173 \textcolor{comment}{// the original contents of an image file looked like.}}
+\DoxyCodeLine{174 \textcolor{comment}{// }}
+\DoxyCodeLine{175 \textcolor{comment}{//  Width}}
+\DoxyCodeLine{176 \textcolor{comment}{//      Width of original image in pixels}}
+\DoxyCodeLine{177 \textcolor{comment}{//  Height}}
+\DoxyCodeLine{178 \textcolor{comment}{//      Height of original image in pixels}}
+\DoxyCodeLine{179 \textcolor{comment}{//  Depth}}
+\DoxyCodeLine{180 \textcolor{comment}{//      Depth of original image in pixels}}
+\DoxyCodeLine{181 \textcolor{comment}{//  ArraySize}}
+\DoxyCodeLine{182 \textcolor{comment}{//      Array size in textures}}
+\DoxyCodeLine{183 \textcolor{comment}{//  MipLevels}}
+\DoxyCodeLine{184 \textcolor{comment}{//      Number of mip levels in original image}}
+\DoxyCodeLine{185 \textcolor{comment}{//  Format}}
+\DoxyCodeLine{186 \textcolor{comment}{//      D3D format which most closely describes the data in original image}}
+\DoxyCodeLine{187 \textcolor{comment}{//  ResourceType}}
+\DoxyCodeLine{188 \textcolor{comment}{//      D3DRESOURCETYPE representing the type of texture stored in the file.}}
+\DoxyCodeLine{189 \textcolor{comment}{//      D3DRTYPE\_TEXTURE, D3DRTYPE\_VOLUMETEXTURE, or D3DRTYPE\_CUBETEXTURE.}}
+\DoxyCodeLine{190 \textcolor{comment}{//  ImageFileFormat}}
+\DoxyCodeLine{191 \textcolor{comment}{//      D3DX10IMAGE\_FILEFORMAT representing the format of the image file.}}
+\DoxyCodeLine{192 \textcolor{comment}{//}}
+\DoxyCodeLine{193 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{194 }
+\DoxyCodeLine{195 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___i_n_f_o}{\_D3DX10IMAGE\_INFO}}}
+\DoxyCodeLine{196 \{}
+\DoxyCodeLine{197     UINT                    Width;}
+\DoxyCodeLine{198     UINT                    Height;}
+\DoxyCodeLine{199     UINT                    Depth;}
+\DoxyCodeLine{200     UINT                    ArraySize;}
+\DoxyCodeLine{201     UINT                    MipLevels;}
+\DoxyCodeLine{202     DXGI\_FORMAT             Format;}
+\DoxyCodeLine{203     D3D10\_RESOURCE          ResourceType;}
+\DoxyCodeLine{204     D3DX10IMAGE\_FILEFORMAT  ImageFileFormat;}
+\DoxyCodeLine{205 }
+\DoxyCodeLine{206 \} \mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___i_n_f_o}{D3DX10IMAGE\_INFO}};}
+\DoxyCodeLine{207 }
+\DoxyCodeLine{208 }
+\DoxyCodeLine{209 }
+\DoxyCodeLine{210 }
+\DoxyCodeLine{211 }
+\DoxyCodeLine{212 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{213 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{214 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{215 }
+\DoxyCodeLine{216 }
+\DoxyCodeLine{217 }
+\DoxyCodeLine{219 \textcolor{comment}{// Image File APIs ///////////////////////////////////////////////////////////}}
+\DoxyCodeLine{221 \textcolor{comment}{}}
+\DoxyCodeLine{222 \textcolor{preprocessor}{\#define D3DX10\_IMAGE\_LOAD\_VALID\_FLAGS       (0)}}
+\DoxyCodeLine{223 }
+\DoxyCodeLine{224 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___l_o_a_d___i_n_f_o}{\_D3DX10IMAGE\_LOAD\_INFO}}}
+\DoxyCodeLine{225 \{}
+\DoxyCodeLine{226     UINT                       Width;}
+\DoxyCodeLine{227     UINT                       Height;}
+\DoxyCodeLine{228     UINT                       Depth;}
+\DoxyCodeLine{229     UINT                       FirstMipLevel;}
+\DoxyCodeLine{230     UINT                       MipLevels;}
+\DoxyCodeLine{231     D3D10\_USAGE                Usage;}
+\DoxyCodeLine{232     UINT32                     BindFlags;}
+\DoxyCodeLine{233     UINT32                     CpuAccessFlags;}
+\DoxyCodeLine{234     UINT32                     MiscFlags;}
+\DoxyCodeLine{235     DXGI\_FORMAT                Format;}
+\DoxyCodeLine{236     UINT                       Filter;}
+\DoxyCodeLine{237     UINT                       MipFilter;}
+\DoxyCodeLine{238     \mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___i_n_f_o}{D3DX10IMAGE\_INFO}}*          pSrcInfo;}
+\DoxyCodeLine{239     }
+\DoxyCodeLine{240 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{241     \mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___l_o_a_d___i_n_f_o}{\_D3DX10IMAGE\_LOAD\_INFO}}()}
+\DoxyCodeLine{242     \{}
+\DoxyCodeLine{243         Width = D3DX10\_DEFAULT;}
+\DoxyCodeLine{244         Height = D3DX10\_DEFAULT;}
+\DoxyCodeLine{245         Depth = D3DX10\_DEFAULT;}
+\DoxyCodeLine{246         FirstMipLevel = D3DX10\_DEFAULT;}
+\DoxyCodeLine{247         MipLevels = D3DX10\_DEFAULT;}
+\DoxyCodeLine{248         Usage = (D3D10\_USAGE) D3DX10\_DEFAULT;}
+\DoxyCodeLine{249         BindFlags = D3DX10\_DEFAULT;}
+\DoxyCodeLine{250         CpuAccessFlags = D3DX10\_DEFAULT;}
+\DoxyCodeLine{251         MiscFlags = D3DX10\_DEFAULT;}
+\DoxyCodeLine{252         Format = DXGI\_FORMAT\_FROM\_FILE;}
+\DoxyCodeLine{253         Filter = D3DX10\_DEFAULT;}
+\DoxyCodeLine{254         MipFilter = D3DX10\_DEFAULT;}
+\DoxyCodeLine{255         pSrcInfo = NULL;}
+\DoxyCodeLine{256     \}  }
+\DoxyCodeLine{257 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{258 }
+\DoxyCodeLine{259 \} \mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___l_o_a_d___i_n_f_o}{D3DX10IMAGE\_LOAD\_INFO}};}
+\DoxyCodeLine{260 }
+\DoxyCodeLine{261 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{262 \textcolor{comment}{// D3DX10 Asynchronous texture I/O (advanced mode)}}
+\DoxyCodeLine{263 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{264 }
+\DoxyCodeLine{265 HRESULT WINAPI D3DX10CreateAsyncFileLoaderW(LPCWSTR pFileName, ID3DX10DataLoader **ppDataLoader);}
+\DoxyCodeLine{266 HRESULT WINAPI D3DX10CreateAsyncFileLoaderA(LPCSTR pFileName, ID3DX10DataLoader **ppDataLoader);}
+\DoxyCodeLine{267 HRESULT WINAPI D3DX10CreateAsyncMemoryLoader(LPCVOID pData, SIZE\_T cbData, ID3DX10DataLoader **ppDataLoader);}
+\DoxyCodeLine{268 HRESULT WINAPI D3DX10CreateAsyncResourceLoaderW(HMODULE hSrcModule, LPCWSTR pSrcResource, ID3DX10DataLoader **ppDataLoader);}
+\DoxyCodeLine{269 HRESULT WINAPI D3DX10CreateAsyncResourceLoaderA(HMODULE hSrcModule, LPCSTR pSrcResource, ID3DX10DataLoader **ppDataLoader);}
+\DoxyCodeLine{270 }
+\DoxyCodeLine{271 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{272 \textcolor{preprocessor}{\#define D3DX10CreateAsyncFileLoader D3DX10CreateAsyncFileLoaderW}}
+\DoxyCodeLine{273 \textcolor{preprocessor}{\#define D3DX10CreateAsyncResourceLoader D3DX10CreateAsyncResourceLoaderW}}
+\DoxyCodeLine{274 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{275 \textcolor{preprocessor}{\#define D3DX10CreateAsyncFileLoader D3DX10CreateAsyncFileLoaderA}}
+\DoxyCodeLine{276 \textcolor{preprocessor}{\#define D3DX10CreateAsyncResourceLoader D3DX10CreateAsyncResourceLoaderA}}
+\DoxyCodeLine{277 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{278 }
+\DoxyCodeLine{279 HRESULT WINAPI D3DX10CreateAsyncTextureProcessor(ID3D10Device *pDevice, \mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___l_o_a_d___i_n_f_o}{D3DX10IMAGE\_LOAD\_INFO}} *pLoadInfo, ID3DX10DataProcessor **ppDataProcessor);}
+\DoxyCodeLine{280 HRESULT WINAPI D3DX10CreateAsyncTextureInfoProcessor(\mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___i_n_f_o}{D3DX10IMAGE\_INFO}} *pImageInfo, ID3DX10DataProcessor **ppDataProcessor);}
+\DoxyCodeLine{281 }
+\DoxyCodeLine{282 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{283 \textcolor{comment}{// GetImageInfoFromFile/Resource:}}
+\DoxyCodeLine{284 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{285 \textcolor{comment}{// Fills in a D3DX10IMAGE\_INFO struct with information about an image file.}}
+\DoxyCodeLine{286 \textcolor{comment}{//}}
+\DoxyCodeLine{287 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{288 \textcolor{comment}{//  pSrcFile}}
+\DoxyCodeLine{289 \textcolor{comment}{//      File name of the source image.}}
+\DoxyCodeLine{290 \textcolor{comment}{//  pSrcModule}}
+\DoxyCodeLine{291 \textcolor{comment}{//      Module where resource is located, or NULL for module associated}}
+\DoxyCodeLine{292 \textcolor{comment}{//      with image the os used to create the current process.}}
+\DoxyCodeLine{293 \textcolor{comment}{//  pSrcResource}}
+\DoxyCodeLine{294 \textcolor{comment}{//      Resource name}}
+\DoxyCodeLine{295 \textcolor{comment}{//  pSrcData}}
+\DoxyCodeLine{296 \textcolor{comment}{//      Pointer to file in memory.}}
+\DoxyCodeLine{297 \textcolor{comment}{//  SrcDataSize}}
+\DoxyCodeLine{298 \textcolor{comment}{//      Size in bytes of file in memory.}}
+\DoxyCodeLine{299 \textcolor{comment}{//  pSrcInfo}}
+\DoxyCodeLine{300 \textcolor{comment}{//      Pointer to a D3DX10IMAGE\_INFO structure to be filled in with the }}
+\DoxyCodeLine{301 \textcolor{comment}{//      description of the data in the source image file.}}
+\DoxyCodeLine{302 \textcolor{comment}{//}}
+\DoxyCodeLine{303 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{304 }
+\DoxyCodeLine{305 HRESULT WINAPI}
+\DoxyCodeLine{306     D3DX10GetImageInfoFromFileA(}
+\DoxyCodeLine{307         LPCSTR                    pSrcFile,}
+\DoxyCodeLine{308         ID3DX10ThreadPump*        pPump,}
+\DoxyCodeLine{309         \mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___i_n_f_o}{D3DX10IMAGE\_INFO}}*         pSrcInfo);}
+\DoxyCodeLine{310 }
+\DoxyCodeLine{311 HRESULT WINAPI}
+\DoxyCodeLine{312     D3DX10GetImageInfoFromFileW(}
+\DoxyCodeLine{313         LPCWSTR                   pSrcFile,}
+\DoxyCodeLine{314         ID3DX10ThreadPump*        pPump,}
+\DoxyCodeLine{315         \mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___i_n_f_o}{D3DX10IMAGE\_INFO}}*         pSrcInfo);}
+\DoxyCodeLine{316 }
+\DoxyCodeLine{317 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{318 \textcolor{preprocessor}{\#define D3DX10GetImageInfoFromFile D3DX10GetImageInfoFromFileW}}
+\DoxyCodeLine{319 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{320 \textcolor{preprocessor}{\#define D3DX10GetImageInfoFromFile D3DX10GetImageInfoFromFileA}}
+\DoxyCodeLine{321 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{322 }
+\DoxyCodeLine{323 }
+\DoxyCodeLine{324 HRESULT WINAPI}
+\DoxyCodeLine{325     D3DX10GetImageInfoFromResourceA(}
+\DoxyCodeLine{326         HMODULE                   hSrcModule,}
+\DoxyCodeLine{327         LPCSTR                    pSrcResource,}
+\DoxyCodeLine{328         ID3DX10ThreadPump*        pPump,}
+\DoxyCodeLine{329         \mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___i_n_f_o}{D3DX10IMAGE\_INFO}}*         pSrcInfo);}
+\DoxyCodeLine{330 }
+\DoxyCodeLine{331 HRESULT WINAPI}
+\DoxyCodeLine{332     D3DX10GetImageInfoFromResourceW(}
+\DoxyCodeLine{333         HMODULE                   hSrcModule,}
+\DoxyCodeLine{334         LPCWSTR                   pSrcResource,}
+\DoxyCodeLine{335         ID3DX10ThreadPump*        pPump,}
+\DoxyCodeLine{336         \mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___i_n_f_o}{D3DX10IMAGE\_INFO}}*         pSrcInfo);}
+\DoxyCodeLine{337 }
+\DoxyCodeLine{338 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{339 \textcolor{preprocessor}{\#define D3DX10GetImageInfoFromResource D3DX10GetImageInfoFromResourceW}}
+\DoxyCodeLine{340 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{341 \textcolor{preprocessor}{\#define D3DX10GetImageInfoFromResource D3DX10GetImageInfoFromResourceA}}
+\DoxyCodeLine{342 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{343 }
+\DoxyCodeLine{344 }
+\DoxyCodeLine{345 HRESULT WINAPI}
+\DoxyCodeLine{346     D3DX10GetImageInfoFromMemory(}
+\DoxyCodeLine{347         LPCVOID                   pSrcData,}
+\DoxyCodeLine{348         SIZE\_T                    SrcDataSize,}
+\DoxyCodeLine{349         ID3DX10ThreadPump*        pPump,}
+\DoxyCodeLine{350         \mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___i_n_f_o}{D3DX10IMAGE\_INFO}}*         pSrcInfo);}
+\DoxyCodeLine{351 }
+\DoxyCodeLine{353 \textcolor{comment}{// Create/Save Texture APIs //////////////////////////////////////////////////}}
+\DoxyCodeLine{355 \textcolor{comment}{}}
+\DoxyCodeLine{356 }
+\DoxyCodeLine{357 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{358 \textcolor{comment}{// D3DX10CreateTextureFromFile/Resource:}}
+\DoxyCodeLine{359 \textcolor{comment}{// D3DX10CreateShaderResourceViewFromFile/Resource:}}
+\DoxyCodeLine{360 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{361 \textcolor{comment}{// Create a texture object from a file or resource.}}
+\DoxyCodeLine{362 \textcolor{comment}{//}}
+\DoxyCodeLine{363 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{364 \textcolor{comment}{//}}
+\DoxyCodeLine{365 \textcolor{comment}{//  pDevice}}
+\DoxyCodeLine{366 \textcolor{comment}{//      The D3D device with which the texture is going to be used.}}
+\DoxyCodeLine{367 \textcolor{comment}{//  pSrcFile}}
+\DoxyCodeLine{368 \textcolor{comment}{//      File name.}}
+\DoxyCodeLine{369 \textcolor{comment}{//  hSrcModule}}
+\DoxyCodeLine{370 \textcolor{comment}{//      Module handle. if NULL, current module will be used.}}
+\DoxyCodeLine{371 \textcolor{comment}{//  pSrcResource}}
+\DoxyCodeLine{372 \textcolor{comment}{//      Resource name in module}}
+\DoxyCodeLine{373 \textcolor{comment}{//  pvSrcData}}
+\DoxyCodeLine{374 \textcolor{comment}{//      Pointer to file in memory.}}
+\DoxyCodeLine{375 \textcolor{comment}{//  SrcDataSize}}
+\DoxyCodeLine{376 \textcolor{comment}{//      Size in bytes of file in memory.}}
+\DoxyCodeLine{377 \textcolor{comment}{//  Width, Height, Depth, Size}}
+\DoxyCodeLine{378 \textcolor{comment}{//      Size in pixels.  If zero or D3DX10\_DEFAULT, the size will be taken from }}
+\DoxyCodeLine{379 \textcolor{comment}{//      the file and rounded up to a power of two.  If D3DX10\_DEFAULT\_NONPOW2, }}
+\DoxyCodeLine{380 \textcolor{comment}{//      and the device supports NONPOW2 textures, the size will not be rounded.}}
+\DoxyCodeLine{381 \textcolor{comment}{//      If D3DX10\_FROM\_FILE, the size will be taken exactly as it is in the file, }}
+\DoxyCodeLine{382 \textcolor{comment}{//      and the call will fail if this violates device capabilities.}}
+\DoxyCodeLine{383 \textcolor{comment}{//  MipLevels}}
+\DoxyCodeLine{384 \textcolor{comment}{//      Number of mip levels.  If zero or D3DX10\_DEFAULT, a complete mipmap}}
+\DoxyCodeLine{385 \textcolor{comment}{//      chain will be created.  If D3DX10\_FROM\_FILE, the size will be taken }}
+\DoxyCodeLine{386 \textcolor{comment}{//      exactly as it is in the file, and the call will fail if this violates }}
+\DoxyCodeLine{387 \textcolor{comment}{//      device capabilities.}}
+\DoxyCodeLine{388 \textcolor{comment}{//  Usage}}
+\DoxyCodeLine{389 \textcolor{comment}{//      Texture usage flags}}
+\DoxyCodeLine{390 \textcolor{comment}{//  Format}}
+\DoxyCodeLine{391 \textcolor{comment}{//      Desired pixel format. If DXGI\_FORMAT\_FROM\_FILE, the format will be taken}}
+\DoxyCodeLine{392 \textcolor{comment}{//      exactly as it is in the file, and the call will fail if the device does}}
+\DoxyCodeLine{393 \textcolor{comment}{//      not support the given format.}}
+\DoxyCodeLine{394 \textcolor{comment}{//  Filter}}
+\DoxyCodeLine{395 \textcolor{comment}{//      D3DX10\_FILTER flags controlling how the image is filtered.}}
+\DoxyCodeLine{396 \textcolor{comment}{//      Or D3DX10\_DEFAULT for D3DX10\_FILTER\_TRIANGLE.}}
+\DoxyCodeLine{397 \textcolor{comment}{//  MipFilter}}
+\DoxyCodeLine{398 \textcolor{comment}{//      D3DX10\_FILTER flags controlling how each miplevel is filtered.}}
+\DoxyCodeLine{399 \textcolor{comment}{//      Or D3DX10\_DEFAULT for D3DX10\_FILTER\_BOX,}}
+\DoxyCodeLine{400 \textcolor{comment}{//  pSrcInfo}}
+\DoxyCodeLine{401 \textcolor{comment}{//      Pointer to a D3DX10IMAGE\_INFO structure to be filled in with the }}
+\DoxyCodeLine{402 \textcolor{comment}{//      description of the data in the source image file, or NULL.}}
+\DoxyCodeLine{403 \textcolor{comment}{//  ppResource}}
+\DoxyCodeLine{404 \textcolor{comment}{//      Resource object created}}
+\DoxyCodeLine{405 \textcolor{comment}{//  ppShaderResourceView}}
+\DoxyCodeLine{406 \textcolor{comment}{//      Shader resource view object created}}
+\DoxyCodeLine{407 \textcolor{comment}{//}}
+\DoxyCodeLine{408 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{409 }
+\DoxyCodeLine{410 }
+\DoxyCodeLine{411 \textcolor{comment}{// FromFile}}
+\DoxyCodeLine{412 }
+\DoxyCodeLine{413 HRESULT WINAPI}
+\DoxyCodeLine{414     D3DX10CreateShaderResourceViewFromFileA(}
+\DoxyCodeLine{415         ID3D10Device*               pDevice,}
+\DoxyCodeLine{416         LPCSTR                      pSrcFile,}
+\DoxyCodeLine{417         \mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___l_o_a_d___i_n_f_o}{D3DX10IMAGE\_LOAD\_INFO}}      *pLoadInfo,}
+\DoxyCodeLine{418         ID3DX10ThreadPump*          pPump,}
+\DoxyCodeLine{419         ID3D10ShaderResourceView**  ppTexture);}
+\DoxyCodeLine{420 }
+\DoxyCodeLine{421 HRESULT WINAPI}
+\DoxyCodeLine{422     D3DX10CreateShaderResourceViewFromFileW(}
+\DoxyCodeLine{423         ID3D10Device*               pDevice,}
+\DoxyCodeLine{424         LPCWSTR                     pSrcFile,}
+\DoxyCodeLine{425         \mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___l_o_a_d___i_n_f_o}{D3DX10IMAGE\_LOAD\_INFO}}      *pLoadInfo,}
+\DoxyCodeLine{426         ID3DX10ThreadPump*          pPump,}
+\DoxyCodeLine{427         ID3D10ShaderResourceView**  ppTexture);}
+\DoxyCodeLine{428 }
+\DoxyCodeLine{429 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{430 \textcolor{preprocessor}{\#define D3DX10CreateShaderResourceViewFromFile D3DX10CreateShaderResourceViewFromFileW}}
+\DoxyCodeLine{431 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{432 \textcolor{preprocessor}{\#define D3DX10CreateShaderResourceViewFromFile D3DX10CreateShaderResourceViewFromFileA}}
+\DoxyCodeLine{433 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{434 }
+\DoxyCodeLine{435 HRESULT WINAPI}
+\DoxyCodeLine{436     D3DX10CreateTextureFromFileA(}
+\DoxyCodeLine{437         ID3D10Device*               pDevice,}
+\DoxyCodeLine{438         LPCSTR                      pSrcFile,}
+\DoxyCodeLine{439         \mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___l_o_a_d___i_n_f_o}{D3DX10IMAGE\_LOAD\_INFO}}      *pLoadInfo,}
+\DoxyCodeLine{440         ID3DX10ThreadPump*          pPump,}
+\DoxyCodeLine{441         ID3D10Resource**            ppTexture);}
+\DoxyCodeLine{442 }
+\DoxyCodeLine{443 HRESULT WINAPI}
+\DoxyCodeLine{444     D3DX10CreateTextureFromFileW(}
+\DoxyCodeLine{445         ID3D10Device*               pDevice,}
+\DoxyCodeLine{446         LPCWSTR                     pSrcFile,}
+\DoxyCodeLine{447         \mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___l_o_a_d___i_n_f_o}{D3DX10IMAGE\_LOAD\_INFO}}      *pLoadInfo,}
+\DoxyCodeLine{448         ID3DX10ThreadPump*          pPump,}
+\DoxyCodeLine{449         ID3D10Resource**            ppTexture);}
+\DoxyCodeLine{450 }
+\DoxyCodeLine{451 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{452 \textcolor{preprocessor}{\#define D3DX10CreateTextureFromFile D3DX10CreateTextureFromFileW}}
+\DoxyCodeLine{453 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{454 \textcolor{preprocessor}{\#define D3DX10CreateTextureFromFile D3DX10CreateTextureFromFileA}}
+\DoxyCodeLine{455 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{456 }
+\DoxyCodeLine{457 \textcolor{comment}{// FromResource (resources in dll/exes)}}
+\DoxyCodeLine{458 }
+\DoxyCodeLine{459 HRESULT WINAPI}
+\DoxyCodeLine{460     D3DX10CreateShaderResourceViewFromResourceA(}
+\DoxyCodeLine{461         ID3D10Device*              pDevice,}
+\DoxyCodeLine{462         HMODULE                    hSrcModule,}
+\DoxyCodeLine{463         LPCSTR                     pSrcResource,}
+\DoxyCodeLine{464         \mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___l_o_a_d___i_n_f_o}{D3DX10IMAGE\_LOAD\_INFO}}     *pLoadInfo,}
+\DoxyCodeLine{465         ID3DX10ThreadPump*         pPump,}
+\DoxyCodeLine{466         ID3D10ShaderResourceView** ppShaderResourceView);}
+\DoxyCodeLine{467 }
+\DoxyCodeLine{468 HRESULT WINAPI}
+\DoxyCodeLine{469     D3DX10CreateShaderResourceViewFromResourceW(}
+\DoxyCodeLine{470         ID3D10Device*             pDevice,}
+\DoxyCodeLine{471         HMODULE                   hSrcModule,}
+\DoxyCodeLine{472         LPCWSTR                   pSrcResource,}
+\DoxyCodeLine{473         \mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___l_o_a_d___i_n_f_o}{D3DX10IMAGE\_LOAD\_INFO}}    *pLoadInfo,}
+\DoxyCodeLine{474         ID3DX10ThreadPump*        pPump,}
+\DoxyCodeLine{475         ID3D10ShaderResourceView** ppShaderResourceView);}
+\DoxyCodeLine{476 }
+\DoxyCodeLine{477 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{478 \textcolor{preprocessor}{\#define D3DX10CreateShaderResourceViewFromResource D3DX10CreateShaderResourceViewFromResourceW}}
+\DoxyCodeLine{479 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{480 \textcolor{preprocessor}{\#define D3DX10CreateShaderResourceViewFromResource D3DX10CreateShaderResourceViewFromResourceA}}
+\DoxyCodeLine{481 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{482 }
+\DoxyCodeLine{483 HRESULT WINAPI}
+\DoxyCodeLine{484     D3DX10CreateTextureFromResourceA(}
+\DoxyCodeLine{485         ID3D10Device*            pDevice,}
+\DoxyCodeLine{486         HMODULE                  hSrcModule,}
+\DoxyCodeLine{487         LPCSTR                   pSrcResource,}
+\DoxyCodeLine{488         \mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___l_o_a_d___i_n_f_o}{D3DX10IMAGE\_LOAD\_INFO}}   *pLoadInfo,  }
+\DoxyCodeLine{489         ID3DX10ThreadPump*       pPump,   }
+\DoxyCodeLine{490         ID3D10Resource**         ppTexture);}
+\DoxyCodeLine{491 }
+\DoxyCodeLine{492 HRESULT WINAPI}
+\DoxyCodeLine{493     D3DX10CreateTextureFromResourceW(}
+\DoxyCodeLine{494         ID3D10Device*         pDevice,}
+\DoxyCodeLine{495         HMODULE               hSrcModule,}
+\DoxyCodeLine{496         LPCWSTR               pSrcResource,}
+\DoxyCodeLine{497         \mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___l_o_a_d___i_n_f_o}{D3DX10IMAGE\_LOAD\_INFO}}      *pLoadInfo,}
+\DoxyCodeLine{498         ID3DX10ThreadPump*    pPump,}
+\DoxyCodeLine{499         ID3D10Resource**      ppTexture);}
+\DoxyCodeLine{500 }
+\DoxyCodeLine{501 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{502 \textcolor{preprocessor}{\#define D3DX10CreateTextureFromResource D3DX10CreateTextureFromResourceW}}
+\DoxyCodeLine{503 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{504 \textcolor{preprocessor}{\#define D3DX10CreateTextureFromResource D3DX10CreateTextureFromResourceA}}
+\DoxyCodeLine{505 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{506 }
+\DoxyCodeLine{507 }
+\DoxyCodeLine{508 \textcolor{comment}{// FromFileInMemory}}
+\DoxyCodeLine{509 }
+\DoxyCodeLine{510 HRESULT WINAPI}
+\DoxyCodeLine{511     D3DX10CreateShaderResourceViewFromMemory(}
+\DoxyCodeLine{512         ID3D10Device*             pDevice,}
+\DoxyCodeLine{513         LPCVOID                   pSrcData,}
+\DoxyCodeLine{514         SIZE\_T                    SrcDataSize,}
+\DoxyCodeLine{515         \mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___l_o_a_d___i_n_f_o}{D3DX10IMAGE\_LOAD\_INFO}}    *pLoadInfo,}
+\DoxyCodeLine{516         ID3DX10ThreadPump*        pPump,        }
+\DoxyCodeLine{517         ID3D10ShaderResourceView** ppShaderResourceView);}
+\DoxyCodeLine{518 }
+\DoxyCodeLine{519 HRESULT WINAPI}
+\DoxyCodeLine{520     D3DX10CreateTextureFromMemory(}
+\DoxyCodeLine{521         ID3D10Device*             pDevice,}
+\DoxyCodeLine{522         LPCVOID                   pSrcData,}
+\DoxyCodeLine{523         SIZE\_T                    SrcDataSize,}
+\DoxyCodeLine{524         \mbox{\hyperlink{struct___d3_d_x10_i_m_a_g_e___l_o_a_d___i_n_f_o}{D3DX10IMAGE\_LOAD\_INFO}}    *pLoadInfo,    }
+\DoxyCodeLine{525         ID3DX10ThreadPump*        pPump,    }
+\DoxyCodeLine{526         ID3D10Resource**          ppTexture);}
+\DoxyCodeLine{527 }
+\DoxyCodeLine{528 }
+\DoxyCodeLine{529 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{530 \textcolor{comment}{// D3DX10SaveTextureToFile:}}
+\DoxyCodeLine{531 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{532 \textcolor{comment}{// Save a texture to a file.}}
+\DoxyCodeLine{533 \textcolor{comment}{//}}
+\DoxyCodeLine{534 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{535 \textcolor{comment}{//  pDestFile}}
+\DoxyCodeLine{536 \textcolor{comment}{//      File name of the destination file}}
+\DoxyCodeLine{537 \textcolor{comment}{//  DestFormat}}
+\DoxyCodeLine{538 \textcolor{comment}{//      D3DX10IMAGE\_FILEFORMAT specifying file format to use when saving.}}
+\DoxyCodeLine{539 \textcolor{comment}{//  pSrcTexture}}
+\DoxyCodeLine{540 \textcolor{comment}{//      Source texture, containing the image to be saved}}
+\DoxyCodeLine{541 \textcolor{comment}{//}}
+\DoxyCodeLine{542 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{543 }
+\DoxyCodeLine{544 }
+\DoxyCodeLine{545 HRESULT WINAPI}
+\DoxyCodeLine{546     D3DX10SaveTextureToFileA(}
+\DoxyCodeLine{547         ID3D10Resource            *pSrcTexture,}
+\DoxyCodeLine{548         D3DX10IMAGE\_FILEFORMAT    DestFormat,}
+\DoxyCodeLine{549         LPCSTR                    pDestFile);}
+\DoxyCodeLine{550 }
+\DoxyCodeLine{551 HRESULT WINAPI}
+\DoxyCodeLine{552     D3DX10SaveTextureToFileW(}
+\DoxyCodeLine{553         ID3D10Resource            *pSrcTexture,}
+\DoxyCodeLine{554         D3DX10IMAGE\_FILEFORMAT    DestFormat,}
+\DoxyCodeLine{555         LPCWSTR                   pDestFile);}
+\DoxyCodeLine{556 }
+\DoxyCodeLine{557 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{558 \textcolor{preprocessor}{\#define D3DX10SaveTextureToFile D3DX10SaveTextureToFileW}}
+\DoxyCodeLine{559 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{560 \textcolor{preprocessor}{\#define D3DX10SaveTextureToFile D3DX10SaveTextureToFileA}}
+\DoxyCodeLine{561 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{562 }
+\DoxyCodeLine{563 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{564 \textcolor{comment}{// D3DX10SaveTextureToMemory:}}
+\DoxyCodeLine{565 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{566 \textcolor{comment}{// Save a texture to a file.}}
+\DoxyCodeLine{567 \textcolor{comment}{//}}
+\DoxyCodeLine{568 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{569 \textcolor{comment}{//  ppDestBuf}}
+\DoxyCodeLine{570 \textcolor{comment}{//      address of a d3dxbuffer pointer to return the image data}}
+\DoxyCodeLine{571 \textcolor{comment}{//  DestFormat}}
+\DoxyCodeLine{572 \textcolor{comment}{//      D3DX10IMAGE\_FILEFORMAT specifying file format to use when saving.}}
+\DoxyCodeLine{573 \textcolor{comment}{//  pSrcTexture}}
+\DoxyCodeLine{574 \textcolor{comment}{//      Source texture, containing the image to be saved}}
+\DoxyCodeLine{575 \textcolor{comment}{//}}
+\DoxyCodeLine{576 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{577 }
+\DoxyCodeLine{578 HRESULT WINAPI}
+\DoxyCodeLine{579     D3DX10SaveTextureToMemory(}
+\DoxyCodeLine{580         ID3D10Resource            *pSrcTexture,}
+\DoxyCodeLine{581         D3DX10IMAGE\_FILEFORMAT      DestFormat,}
+\DoxyCodeLine{582         LPD3D10BLOB*                ppDestBuf);}
+\DoxyCodeLine{583 }
+\DoxyCodeLine{584 }
+\DoxyCodeLine{585 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{586 \textcolor{comment}{// D3DX10ComputeNormalMap:}}
+\DoxyCodeLine{587 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{588 \textcolor{comment}{// Converts a height map into a normal map.  The (x,y,z) components of each}}
+\DoxyCodeLine{589 \textcolor{comment}{// normal are mapped to the (r,g,b) channels of the output texture.}}
+\DoxyCodeLine{590 \textcolor{comment}{//}}
+\DoxyCodeLine{591 \textcolor{comment}{// Parameters}}
+\DoxyCodeLine{592 \textcolor{comment}{//  pSrcTexture}}
+\DoxyCodeLine{593 \textcolor{comment}{//      Pointer to the source heightmap texture }}
+\DoxyCodeLine{594 \textcolor{comment}{//  Flags}}
+\DoxyCodeLine{595 \textcolor{comment}{//      D3DX10\_NORMALMAP flags}}
+\DoxyCodeLine{596 \textcolor{comment}{//  Channel}}
+\DoxyCodeLine{597 \textcolor{comment}{//      D3DX10\_CHANNEL specifying source of height information}}
+\DoxyCodeLine{598 \textcolor{comment}{//  Amplitude}}
+\DoxyCodeLine{599 \textcolor{comment}{//      The constant value which the height information is multiplied by.}}
+\DoxyCodeLine{600 \textcolor{comment}{//  pDestTexture}}
+\DoxyCodeLine{601 \textcolor{comment}{//      Pointer to the destination texture}}
+\DoxyCodeLine{602 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{603 }
+\DoxyCodeLine{604 HRESULT WINAPI}
+\DoxyCodeLine{605     D3DX10ComputeNormalMap(}
+\DoxyCodeLine{606         ID3D10Texture2D          *pSrcTexture,}
+\DoxyCodeLine{607         UINT                      Flags,}
+\DoxyCodeLine{608         UINT                      Channel,}
+\DoxyCodeLine{609         FLOAT                     Amplitude,}
+\DoxyCodeLine{610         ID3D10Texture2D          *pDestTexture);}
+\DoxyCodeLine{611 }
+\DoxyCodeLine{612 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{613 \}}
+\DoxyCodeLine{614 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{615 }
+\DoxyCodeLine{616 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_D3DX10TEX\_H\_\_}}
+\DoxyCodeLine{617 }
+
+\end{DoxyCode}

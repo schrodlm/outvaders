@@ -1,0 +1,2125 @@
+\hypertarget{d3dtypes_8h_source}{}\doxysection{d3dtypes.\+h}
+\label{d3dtypes_8h_source}\index{src/lib/dx/Include/d3dtypes.h@{src/lib/dx/Include/d3dtypes.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*==========================================================================;}}
+\DoxyCodeLine{2 \textcolor{comment}{ *}}
+\DoxyCodeLine{3 \textcolor{comment}{ *  Copyright (C) Microsoft Corporation.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{ *}}
+\DoxyCodeLine{5 \textcolor{comment}{ *  File:   d3dtypes.h}}
+\DoxyCodeLine{6 \textcolor{comment}{ *  Content:    Direct3D types include file}}
+\DoxyCodeLine{7 \textcolor{comment}{ *}}
+\DoxyCodeLine{8 \textcolor{comment}{ ***************************************************************************/}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#ifndef \_D3DTYPES\_H\_}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define \_D3DTYPES\_H\_}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#ifndef DIRECT3D\_VERSION}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#define DIRECT3D\_VERSION         0x0700}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#if (DIRECT3D\_VERSION >= 0x0800)}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#pragma message("{}should not include d3dtypes.h when compiling for DX8 or newer interfaces"{}})}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include <windows.h>}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#include <float.h>}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#include "{}ddraw.h"{}}}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#pragma warning(disable:4201) }\textcolor{comment}{// anonymous unions warning}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#if defined(\_X86\_) || defined(\_IA64\_)}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#pragma pack(4)}}
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{comment}{/* D3DVALUE is the fundamental Direct3D fractional data type */}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#define D3DVALP(val, prec) ((float)(val))}}
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#define D3DVAL(val) ((float)(val))}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#ifndef DX\_SHARED\_DEFINES}}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 \textcolor{comment}{/*}}
+\DoxyCodeLine{40 \textcolor{comment}{ * This definition is shared with other DirectX components whose header files}}
+\DoxyCodeLine{41 \textcolor{comment}{ * might already have defined it. Therefore, we don't define this type if}}
+\DoxyCodeLine{42 \textcolor{comment}{ * someone else already has (as indicated by the definition of}}
+\DoxyCodeLine{43 \textcolor{comment}{ * DX\_SHARED\_DEFINES). We don't set DX\_SHARED\_DEFINES here as there are}}
+\DoxyCodeLine{44 \textcolor{comment}{ * other types in this header that are also shared. The last of these}}
+\DoxyCodeLine{45 \textcolor{comment}{ * shared defines in this file will set DX\_SHARED\_DEFINES.}}
+\DoxyCodeLine{46 \textcolor{comment}{ */}}
+\DoxyCodeLine{47 \textcolor{keyword}{typedef} \textcolor{keywordtype}{float} D3DVALUE, *LPD3DVALUE;}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DX\_SHARED\_DEFINES */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{preprocessor}{\#define D3DDivide(a, b)    (float)((double) (a) / (double) (b))}}
+\DoxyCodeLine{52 \textcolor{preprocessor}{\#define D3DMultiply(a, b)    ((a) * (b))}}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54 \textcolor{keyword}{typedef} LONG D3DFIXED;}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56 \textcolor{preprocessor}{\#ifndef RGB\_MAKE}}
+\DoxyCodeLine{57 \textcolor{comment}{/*}}
+\DoxyCodeLine{58 \textcolor{comment}{ * Format of CI colors is}}
+\DoxyCodeLine{59 \textcolor{comment}{ *  +-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+}}
+\DoxyCodeLine{60 \textcolor{comment}{ *  |    alpha      |         color index           |   fraction    |}}
+\DoxyCodeLine{61 \textcolor{comment}{ *  +-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+}}
+\DoxyCodeLine{62 \textcolor{comment}{ */}}
+\DoxyCodeLine{63 \textcolor{preprocessor}{\#define CI\_GETALPHA(ci)    ((ci) >> 24)}}
+\DoxyCodeLine{64 \textcolor{preprocessor}{\#define CI\_GETINDEX(ci)    (((ci) >> 8) \& 0xffff)}}
+\DoxyCodeLine{65 \textcolor{preprocessor}{\#define CI\_GETFRACTION(ci) ((ci) \& 0xff)}}
+\DoxyCodeLine{66 \textcolor{preprocessor}{\#define CI\_ROUNDINDEX(ci)  CI\_GETINDEX((ci) + 0x80)}}
+\DoxyCodeLine{67 \textcolor{preprocessor}{\#define CI\_MASKALPHA(ci)   ((ci) \& 0xffffff)}}
+\DoxyCodeLine{68 \textcolor{preprocessor}{\#define CI\_MAKE(a, i, f)    (((a) << 24) | ((i) << 8) | (f))}}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70 \textcolor{comment}{/*}}
+\DoxyCodeLine{71 \textcolor{comment}{ * Format of RGBA colors is}}
+\DoxyCodeLine{72 \textcolor{comment}{ *  +-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+}}
+\DoxyCodeLine{73 \textcolor{comment}{ *  |    alpha      |      red      |     green     |     blue      |}}
+\DoxyCodeLine{74 \textcolor{comment}{ *  +-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+}}
+\DoxyCodeLine{75 \textcolor{comment}{ */}}
+\DoxyCodeLine{76 \textcolor{preprocessor}{\#define RGBA\_GETALPHA(rgb)      ((rgb) >> 24)}}
+\DoxyCodeLine{77 \textcolor{preprocessor}{\#define RGBA\_GETRED(rgb)        (((rgb) >> 16) \& 0xff)}}
+\DoxyCodeLine{78 \textcolor{preprocessor}{\#define RGBA\_GETGREEN(rgb)      (((rgb) >> 8) \& 0xff)}}
+\DoxyCodeLine{79 \textcolor{preprocessor}{\#define RGBA\_GETBLUE(rgb)       ((rgb) \& 0xff)}}
+\DoxyCodeLine{80 \textcolor{preprocessor}{\#define RGBA\_MAKE(r, g, b, a)   ((D3DCOLOR) (((a) << 24) | ((r) << 16) | ((g) << 8) | (b)))}}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{82 \textcolor{comment}{/* D3DRGB and D3DRGBA may be used as initialisers for D3DCOLORs}}
+\DoxyCodeLine{83 \textcolor{comment}{ * The float values must be in the range 0..1}}
+\DoxyCodeLine{84 \textcolor{comment}{ */}}
+\DoxyCodeLine{85 \textcolor{preprocessor}{\#define D3DRGB(r, g, b) \(\backslash\)}}
+\DoxyCodeLine{86 \textcolor{preprocessor}{    (0xff000000L | ( ((long)((r) * 255)) << 16) | (((long)((g) * 255)) << 8) | (long)((b) * 255))}}
+\DoxyCodeLine{87 \textcolor{preprocessor}{\#define D3DRGBA(r, g, b, a) \(\backslash\)}}
+\DoxyCodeLine{88 \textcolor{preprocessor}{    (   (((long)((a) * 255)) << 24) | (((long)((r) * 255)) << 16) \(\backslash\)}}
+\DoxyCodeLine{89 \textcolor{preprocessor}{    |   (((long)((g) * 255)) << 8) | (long)((b) * 255) \(\backslash\)}}
+\DoxyCodeLine{90 \textcolor{preprocessor}{    )}}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{92 \textcolor{comment}{/*}}
+\DoxyCodeLine{93 \textcolor{comment}{ * Format of RGB colors is}}
+\DoxyCodeLine{94 \textcolor{comment}{ *  +-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+}}
+\DoxyCodeLine{95 \textcolor{comment}{ *  |    ignored    |      red      |     green     |     blue      |}}
+\DoxyCodeLine{96 \textcolor{comment}{ *  +-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+-\/+}}
+\DoxyCodeLine{97 \textcolor{comment}{ */}}
+\DoxyCodeLine{98 \textcolor{preprocessor}{\#define RGB\_GETRED(rgb)         (((rgb) >> 16) \& 0xff)}}
+\DoxyCodeLine{99 \textcolor{preprocessor}{\#define RGB\_GETGREEN(rgb)       (((rgb) >> 8) \& 0xff)}}
+\DoxyCodeLine{100 \textcolor{preprocessor}{\#define RGB\_GETBLUE(rgb)        ((rgb) \& 0xff)}}
+\DoxyCodeLine{101 \textcolor{preprocessor}{\#define RGBA\_SETALPHA(rgba, x) (((x) << 24) | ((rgba) \& 0x00ffffff))}}
+\DoxyCodeLine{102 \textcolor{preprocessor}{\#define RGB\_MAKE(r, g, b)       ((D3DCOLOR) (((r) << 16) | ((g) << 8) | (b)))}}
+\DoxyCodeLine{103 \textcolor{preprocessor}{\#define RGBA\_TORGB(rgba)       ((D3DCOLOR) ((rgba) \& 0xffffff))}}
+\DoxyCodeLine{104 \textcolor{preprocessor}{\#define RGB\_TORGBA(rgb)        ((D3DCOLOR) ((rgb) | 0xff000000))}}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{107 }
+\DoxyCodeLine{108 \textcolor{comment}{/*}}
+\DoxyCodeLine{109 \textcolor{comment}{ * Flags for Enumerate functions}}
+\DoxyCodeLine{110 \textcolor{comment}{ */}}
+\DoxyCodeLine{111 }
+\DoxyCodeLine{112 \textcolor{comment}{/*}}
+\DoxyCodeLine{113 \textcolor{comment}{ * Stop the enumeration}}
+\DoxyCodeLine{114 \textcolor{comment}{ */}}
+\DoxyCodeLine{115 \textcolor{preprocessor}{\#define D3DENUMRET\_CANCEL                        DDENUMRET\_CANCEL}}
+\DoxyCodeLine{116 }
+\DoxyCodeLine{117 \textcolor{comment}{/*}}
+\DoxyCodeLine{118 \textcolor{comment}{ * Continue the enumeration}}
+\DoxyCodeLine{119 \textcolor{comment}{ */}}
+\DoxyCodeLine{120 \textcolor{preprocessor}{\#define D3DENUMRET\_OK                            DDENUMRET\_OK}}
+\DoxyCodeLine{121 }
+\DoxyCodeLine{122 \textcolor{keyword}{typedef} HRESULT (CALLBACK* LPD3DVALIDATECALLBACK)(LPVOID lpUserArg, DWORD dwOffset);}
+\DoxyCodeLine{123 \textcolor{keyword}{typedef} HRESULT (CALLBACK* LPD3DENUMTEXTUREFORMATSCALLBACK)(LPDDSURFACEDESC lpDdsd, LPVOID lpContext);}
+\DoxyCodeLine{124 \textcolor{keyword}{typedef} HRESULT (CALLBACK* LPD3DENUMPIXELFORMATSCALLBACK)(LPDDPIXELFORMAT lpDDPixFmt, LPVOID lpContext);}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{126 \textcolor{preprocessor}{\#ifndef DX\_SHARED\_DEFINES}}
+\DoxyCodeLine{127 }
+\DoxyCodeLine{128 \textcolor{comment}{/*}}
+\DoxyCodeLine{129 \textcolor{comment}{ * This definition is shared with other DirectX components whose header files}}
+\DoxyCodeLine{130 \textcolor{comment}{ * might already have defined it. Therefore, we don't define this type if}}
+\DoxyCodeLine{131 \textcolor{comment}{ * someone else already has (as indicated by the definition of}}
+\DoxyCodeLine{132 \textcolor{comment}{ * DX\_SHARED\_DEFINES). We don't set DX\_SHARED\_DEFINES here as there are}}
+\DoxyCodeLine{133 \textcolor{comment}{ * other types in this header that are also shared. The last of these}}
+\DoxyCodeLine{134 \textcolor{comment}{ * shared defines in this file will set DX\_SHARED\_DEFINES.}}
+\DoxyCodeLine{135 \textcolor{comment}{ */}}
+\DoxyCodeLine{136 \textcolor{preprocessor}{\#ifndef D3DCOLOR\_DEFINED}}
+\DoxyCodeLine{137 \textcolor{keyword}{typedef} DWORD D3DCOLOR;}
+\DoxyCodeLine{138 \textcolor{preprocessor}{\#define D3DCOLOR\_DEFINED}}
+\DoxyCodeLine{139 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{140 \textcolor{keyword}{typedef} DWORD *LPD3DCOLOR;}
+\DoxyCodeLine{141 }
+\DoxyCodeLine{142 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DX\_SHARED\_DEFINES */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{143 }
+\DoxyCodeLine{144 \textcolor{keyword}{typedef} DWORD D3DMATERIALHANDLE, *LPD3DMATERIALHANDLE;}
+\DoxyCodeLine{145 \textcolor{keyword}{typedef} DWORD D3DTEXTUREHANDLE, *LPD3DTEXTUREHANDLE;}
+\DoxyCodeLine{146 \textcolor{keyword}{typedef} DWORD D3DMATRIXHANDLE, *LPD3DMATRIXHANDLE;}
+\DoxyCodeLine{147 }
+\DoxyCodeLine{148 \textcolor{preprocessor}{\#ifndef D3DCOLORVALUE\_DEFINED}}
+\DoxyCodeLine{149 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{\_D3DCOLORVALUE}} \{}
+\DoxyCodeLine{150     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{151     D3DVALUE r;}
+\DoxyCodeLine{152     D3DVALUE dvR;}
+\DoxyCodeLine{153     \};}
+\DoxyCodeLine{154     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{155     D3DVALUE g;}
+\DoxyCodeLine{156     D3DVALUE dvG;}
+\DoxyCodeLine{157     \};}
+\DoxyCodeLine{158     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{159     D3DVALUE b;}
+\DoxyCodeLine{160     D3DVALUE dvB;}
+\DoxyCodeLine{161     \};}
+\DoxyCodeLine{162     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{163     D3DVALUE a;}
+\DoxyCodeLine{164     D3DVALUE dvA;}
+\DoxyCodeLine{165     \};}
+\DoxyCodeLine{166 \} \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}};}
+\DoxyCodeLine{167 \textcolor{preprocessor}{\#define D3DCOLORVALUE\_DEFINED}}
+\DoxyCodeLine{168 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{169 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{\_D3DCOLORVALUE}} *\mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{LPD3DCOLORVALUE}};}
+\DoxyCodeLine{170 }
+\DoxyCodeLine{171 \textcolor{preprocessor}{\#ifndef D3DRECT\_DEFINED}}
+\DoxyCodeLine{172 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_r_e_c_t}{\_D3DRECT}} \{}
+\DoxyCodeLine{173     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{174     LONG x1;}
+\DoxyCodeLine{175     LONG lX1;}
+\DoxyCodeLine{176     \};}
+\DoxyCodeLine{177     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{178     LONG y1;}
+\DoxyCodeLine{179     LONG lY1;}
+\DoxyCodeLine{180     \};}
+\DoxyCodeLine{181     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{182     LONG x2;}
+\DoxyCodeLine{183     LONG lX2;}
+\DoxyCodeLine{184     \};}
+\DoxyCodeLine{185     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{186     LONG y2;}
+\DoxyCodeLine{187     LONG lY2;}
+\DoxyCodeLine{188     \};}
+\DoxyCodeLine{189 \} \mbox{\hyperlink{struct___d3_d_r_e_c_t}{D3DRECT}};}
+\DoxyCodeLine{190 \textcolor{preprocessor}{\#define D3DRECT\_DEFINED}}
+\DoxyCodeLine{191 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{192 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_r_e_c_t}{\_D3DRECT}} *\mbox{\hyperlink{struct___d3_d_r_e_c_t}{LPD3DRECT}};}
+\DoxyCodeLine{193 }
+\DoxyCodeLine{194 \textcolor{preprocessor}{\#ifndef DX\_SHARED\_DEFINES}}
+\DoxyCodeLine{195 }
+\DoxyCodeLine{196 \textcolor{comment}{/*}}
+\DoxyCodeLine{197 \textcolor{comment}{ * This definition is shared with other DirectX components whose header files}}
+\DoxyCodeLine{198 \textcolor{comment}{ * might already have defined it. Therefore, we don't define this type if}}
+\DoxyCodeLine{199 \textcolor{comment}{ * someone else already has (as indicated by the definition of}}
+\DoxyCodeLine{200 \textcolor{comment}{ * DX\_SHARED\_DEFINES).}}
+\DoxyCodeLine{201 \textcolor{comment}{ */}}
+\DoxyCodeLine{202 }
+\DoxyCodeLine{203 \textcolor{preprocessor}{\#ifndef D3DVECTOR\_DEFINED}}
+\DoxyCodeLine{204 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}} \{}
+\DoxyCodeLine{205     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{206     D3DVALUE x;}
+\DoxyCodeLine{207     D3DVALUE dvX;}
+\DoxyCodeLine{208     \};}
+\DoxyCodeLine{209     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{210     D3DVALUE y;}
+\DoxyCodeLine{211     D3DVALUE dvY;}
+\DoxyCodeLine{212     \};}
+\DoxyCodeLine{213     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{214     D3DVALUE z;}
+\DoxyCodeLine{215     D3DVALUE dvZ;}
+\DoxyCodeLine{216     \};}
+\DoxyCodeLine{217 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{218 \textcolor{preprocessor}{\#if (defined \_\_cplusplus) \&\& (defined D3D\_OVERLOADS)}}
+\DoxyCodeLine{219 }
+\DoxyCodeLine{220 \textcolor{keyword}{public}:}
+\DoxyCodeLine{221 }
+\DoxyCodeLine{222     \textcolor{comment}{// =====================================}}
+\DoxyCodeLine{223     \textcolor{comment}{// Constructors}}
+\DoxyCodeLine{224     \textcolor{comment}{// =====================================}}
+\DoxyCodeLine{225 }
+\DoxyCodeLine{226     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}() \{ \}}
+\DoxyCodeLine{227     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}(D3DVALUE f);}
+\DoxyCodeLine{228     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}(D3DVALUE \_x, D3DVALUE \_y, D3DVALUE \_z);}
+\DoxyCodeLine{229     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}(\textcolor{keyword}{const} D3DVALUE f[3]);}
+\DoxyCodeLine{230 }
+\DoxyCodeLine{231     \textcolor{comment}{// =====================================}}
+\DoxyCodeLine{232     \textcolor{comment}{// Access grants}}
+\DoxyCodeLine{233     \textcolor{comment}{// =====================================}}
+\DoxyCodeLine{234 }
+\DoxyCodeLine{235     \textcolor{keyword}{const} D3DVALUE\&operator[](\textcolor{keywordtype}{int} i) \textcolor{keyword}{const};}
+\DoxyCodeLine{236     D3DVALUE\&operator[](\textcolor{keywordtype}{int} i);}
+\DoxyCodeLine{237 }
+\DoxyCodeLine{238     \textcolor{comment}{// =====================================}}
+\DoxyCodeLine{239     \textcolor{comment}{// Assignment operators}}
+\DoxyCodeLine{240     \textcolor{comment}{// =====================================}}
+\DoxyCodeLine{241 }
+\DoxyCodeLine{242     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& operator += (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v);}
+\DoxyCodeLine{243     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& operator -\/= (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v);}
+\DoxyCodeLine{244     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& operator *= (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v);}
+\DoxyCodeLine{245     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& operator /= (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v);}
+\DoxyCodeLine{246     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& operator *= (D3DVALUE s);}
+\DoxyCodeLine{247     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& operator /= (D3DVALUE s);}
+\DoxyCodeLine{248 }
+\DoxyCodeLine{249     \textcolor{comment}{// =====================================}}
+\DoxyCodeLine{250     \textcolor{comment}{// Unary operators}}
+\DoxyCodeLine{251     \textcolor{comment}{// =====================================}}
+\DoxyCodeLine{252 }
+\DoxyCodeLine{253     \textcolor{keyword}{friend} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}} operator + (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v);}
+\DoxyCodeLine{254     \textcolor{keyword}{friend} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}} operator -\/ (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v);}
+\DoxyCodeLine{255 }
+\DoxyCodeLine{256 }
+\DoxyCodeLine{257     \textcolor{comment}{// =====================================}}
+\DoxyCodeLine{258     \textcolor{comment}{// Binary operators}}
+\DoxyCodeLine{259     \textcolor{comment}{// =====================================}}
+\DoxyCodeLine{260 }
+\DoxyCodeLine{261     \textcolor{comment}{// Addition and subtraction}}
+\DoxyCodeLine{262         \textcolor{keyword}{friend} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}} operator + (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v1, \textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v2);}
+\DoxyCodeLine{263         \textcolor{keyword}{friend} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}} operator -\/ (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v1, \textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v2);}
+\DoxyCodeLine{264     \textcolor{comment}{// Scalar multiplication and division}}
+\DoxyCodeLine{265         \textcolor{keyword}{friend} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}} operator * (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v, D3DVALUE s);}
+\DoxyCodeLine{266         \textcolor{keyword}{friend} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}} operator * (D3DVALUE s, \textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v);}
+\DoxyCodeLine{267         \textcolor{keyword}{friend} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}} operator / (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v, D3DVALUE s);}
+\DoxyCodeLine{268     \textcolor{comment}{// Memberwise multiplication and division}}
+\DoxyCodeLine{269         \textcolor{keyword}{friend} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}} operator * (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v1, \textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v2);}
+\DoxyCodeLine{270         \textcolor{keyword}{friend} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}} operator / (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v1, \textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v2);}
+\DoxyCodeLine{271 }
+\DoxyCodeLine{272     \textcolor{comment}{// Vector dominance}}
+\DoxyCodeLine{273         \textcolor{keyword}{friend} \textcolor{keywordtype}{int} operator < (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v1, \textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v2);}
+\DoxyCodeLine{274         \textcolor{keyword}{friend} \textcolor{keywordtype}{int} operator <= (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v1, \textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v2);}
+\DoxyCodeLine{275 }
+\DoxyCodeLine{276     \textcolor{comment}{// Bitwise equality}}
+\DoxyCodeLine{277         \textcolor{keyword}{friend} \textcolor{keywordtype}{int} operator == (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v1, \textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v2);}
+\DoxyCodeLine{278 }
+\DoxyCodeLine{279     \textcolor{comment}{// Length-\/related functions}}
+\DoxyCodeLine{280         \textcolor{keyword}{friend} D3DVALUE SquareMagnitude (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v);}
+\DoxyCodeLine{281         \textcolor{keyword}{friend} D3DVALUE Magnitude (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v);}
+\DoxyCodeLine{282 }
+\DoxyCodeLine{283     \textcolor{comment}{// Returns vector with same direction and unit length}}
+\DoxyCodeLine{284         \textcolor{keyword}{friend} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}} Normalize (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v);}
+\DoxyCodeLine{285 }
+\DoxyCodeLine{286     \textcolor{comment}{// Return min/max component of the input vector}}
+\DoxyCodeLine{287         \textcolor{keyword}{friend} D3DVALUE Min (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v);}
+\DoxyCodeLine{288         \textcolor{keyword}{friend} D3DVALUE Max (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v);}
+\DoxyCodeLine{289 }
+\DoxyCodeLine{290     \textcolor{comment}{// Return memberwise min/max of input vectors}}
+\DoxyCodeLine{291         \textcolor{keyword}{friend} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}} Minimize (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v1, \textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v2);}
+\DoxyCodeLine{292         \textcolor{keyword}{friend} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}} Maximize (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v1, \textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v2);}
+\DoxyCodeLine{293 }
+\DoxyCodeLine{294     \textcolor{comment}{// Dot and cross product}}
+\DoxyCodeLine{295         \textcolor{keyword}{friend} D3DVALUE DotProduct (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v1, \textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v2);}
+\DoxyCodeLine{296         \textcolor{keyword}{friend} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}} CrossProduct (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v1, \textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}}\& v2);}
+\DoxyCodeLine{297 }
+\DoxyCodeLine{298 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{299 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{300 \} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DVECTOR}};}
+\DoxyCodeLine{301 \textcolor{preprocessor}{\#define D3DVECTOR\_DEFINED}}
+\DoxyCodeLine{302 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{303 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}} *\mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{LPD3DVECTOR}};}
+\DoxyCodeLine{304 }
+\DoxyCodeLine{305 \textcolor{comment}{/*}}
+\DoxyCodeLine{306 \textcolor{comment}{ * As this is the last of the shared defines to be defined we now set}}
+\DoxyCodeLine{307 \textcolor{comment}{ * D3D\_SHARED\_DEFINES to flag that fact that this header has defined these}}
+\DoxyCodeLine{308 \textcolor{comment}{ * types.}}
+\DoxyCodeLine{309 \textcolor{comment}{ */}}
+\DoxyCodeLine{310 \textcolor{preprocessor}{\#define DX\_SHARED\_DEFINES}}
+\DoxyCodeLine{311 }
+\DoxyCodeLine{312 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DX\_SHARED\_DEFINES */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{313 }
+\DoxyCodeLine{314 \textcolor{comment}{/*}}
+\DoxyCodeLine{315 \textcolor{comment}{ * Vertex data types supported in an ExecuteBuffer.}}
+\DoxyCodeLine{316 \textcolor{comment}{ */}}
+\DoxyCodeLine{317 }
+\DoxyCodeLine{318 \textcolor{comment}{/*}}
+\DoxyCodeLine{319 \textcolor{comment}{ * Homogeneous vertices}}
+\DoxyCodeLine{320 \textcolor{comment}{ */}}
+\DoxyCodeLine{321 }
+\DoxyCodeLine{322 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_h_v_e_r_t_e_x}{\_D3DHVERTEX}} \{}
+\DoxyCodeLine{323     DWORD           dwFlags;        \textcolor{comment}{/* Homogeneous clipping flags */}}
+\DoxyCodeLine{324     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{325     D3DVALUE    hx;}
+\DoxyCodeLine{326     D3DVALUE    dvHX;}
+\DoxyCodeLine{327     \};}
+\DoxyCodeLine{328     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{329     D3DVALUE    hy;}
+\DoxyCodeLine{330     D3DVALUE    dvHY;}
+\DoxyCodeLine{331     \};}
+\DoxyCodeLine{332     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{333     D3DVALUE    hz;}
+\DoxyCodeLine{334     D3DVALUE    dvHZ;}
+\DoxyCodeLine{335     \};}
+\DoxyCodeLine{336 \} \mbox{\hyperlink{struct___d3_d_h_v_e_r_t_e_x}{D3DHVERTEX}}, *\mbox{\hyperlink{struct___d3_d_h_v_e_r_t_e_x}{LPD3DHVERTEX}};}
+\DoxyCodeLine{337 }
+\DoxyCodeLine{338 \textcolor{comment}{/*}}
+\DoxyCodeLine{339 \textcolor{comment}{ * Transformed/lit vertices}}
+\DoxyCodeLine{340 \textcolor{comment}{ */}}
+\DoxyCodeLine{341 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_t_l_v_e_r_t_e_x}{\_D3DTLVERTEX}} \{}
+\DoxyCodeLine{342     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{343     D3DVALUE    sx;             \textcolor{comment}{/* Screen coordinates */}}
+\DoxyCodeLine{344     D3DVALUE    dvSX;}
+\DoxyCodeLine{345     \};}
+\DoxyCodeLine{346     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{347     D3DVALUE    sy;}
+\DoxyCodeLine{348     D3DVALUE    dvSY;}
+\DoxyCodeLine{349     \};}
+\DoxyCodeLine{350     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{351     D3DVALUE    sz;}
+\DoxyCodeLine{352     D3DVALUE    dvSZ;}
+\DoxyCodeLine{353     \};}
+\DoxyCodeLine{354     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{355     D3DVALUE    rhw;        \textcolor{comment}{/* Reciprocal of homogeneous w */}}
+\DoxyCodeLine{356     D3DVALUE    dvRHW;}
+\DoxyCodeLine{357     \};}
+\DoxyCodeLine{358     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{359     D3DCOLOR    color;          \textcolor{comment}{/* Vertex color */}}
+\DoxyCodeLine{360     D3DCOLOR    dcColor;}
+\DoxyCodeLine{361     \};}
+\DoxyCodeLine{362     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{363     D3DCOLOR    specular;       \textcolor{comment}{/* Specular component of vertex */}}
+\DoxyCodeLine{364     D3DCOLOR    dcSpecular;}
+\DoxyCodeLine{365     \};}
+\DoxyCodeLine{366     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{367     D3DVALUE    tu;             \textcolor{comment}{/* Texture coordinates */}}
+\DoxyCodeLine{368     D3DVALUE    dvTU;}
+\DoxyCodeLine{369     \};}
+\DoxyCodeLine{370     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{371     D3DVALUE    tv;}
+\DoxyCodeLine{372     D3DVALUE    dvTV;}
+\DoxyCodeLine{373     \};}
+\DoxyCodeLine{374 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{375 \textcolor{preprocessor}{\#if (defined \_\_cplusplus) \&\& (defined D3D\_OVERLOADS)}}
+\DoxyCodeLine{376     \mbox{\hyperlink{struct___d3_d_t_l_v_e_r_t_e_x}{\_D3DTLVERTEX}}() \{ \}}
+\DoxyCodeLine{377     \mbox{\hyperlink{struct___d3_d_t_l_v_e_r_t_e_x}{\_D3DTLVERTEX}}(\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DVECTOR}}\& v, \textcolor{keywordtype}{float} \_rhw,}
+\DoxyCodeLine{378                  D3DCOLOR \_color, D3DCOLOR \_specular,}
+\DoxyCodeLine{379                  \textcolor{keywordtype}{float} \_tu, \textcolor{keywordtype}{float} \_tv)}
+\DoxyCodeLine{380         \{ sx = v.x; sy = v.y; sz = v.z; rhw = \_rhw;}
+\DoxyCodeLine{381           color = \_color; specular = \_specular;}
+\DoxyCodeLine{382           tu = \_tu; tv = \_tv;}
+\DoxyCodeLine{383         \}}
+\DoxyCodeLine{384 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{385 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{386 \} \mbox{\hyperlink{struct___d3_d_t_l_v_e_r_t_e_x}{D3DTLVERTEX}}, *\mbox{\hyperlink{struct___d3_d_t_l_v_e_r_t_e_x}{LPD3DTLVERTEX}};}
+\DoxyCodeLine{387 }
+\DoxyCodeLine{388 \textcolor{comment}{/*}}
+\DoxyCodeLine{389 \textcolor{comment}{ * Untransformed/lit vertices}}
+\DoxyCodeLine{390 \textcolor{comment}{ */}}
+\DoxyCodeLine{391 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_l_v_e_r_t_e_x}{\_D3DLVERTEX}} \{}
+\DoxyCodeLine{392     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{393     D3DVALUE     x;             \textcolor{comment}{/* Homogeneous coordinates */}}
+\DoxyCodeLine{394     D3DVALUE     dvX;}
+\DoxyCodeLine{395     \};}
+\DoxyCodeLine{396     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{397     D3DVALUE     y;}
+\DoxyCodeLine{398     D3DVALUE     dvY;}
+\DoxyCodeLine{399     \};}
+\DoxyCodeLine{400     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{401     D3DVALUE     z;}
+\DoxyCodeLine{402     D3DVALUE     dvZ;}
+\DoxyCodeLine{403     \};}
+\DoxyCodeLine{404     DWORD            dwReserved;}
+\DoxyCodeLine{405     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{406     D3DCOLOR     color;         \textcolor{comment}{/* Vertex color */}}
+\DoxyCodeLine{407     D3DCOLOR     dcColor;}
+\DoxyCodeLine{408     \};}
+\DoxyCodeLine{409     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{410     D3DCOLOR     specular;      \textcolor{comment}{/* Specular component of vertex */}}
+\DoxyCodeLine{411     D3DCOLOR     dcSpecular;}
+\DoxyCodeLine{412     \};}
+\DoxyCodeLine{413     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{414     D3DVALUE     tu;            \textcolor{comment}{/* Texture coordinates */}}
+\DoxyCodeLine{415     D3DVALUE     dvTU;}
+\DoxyCodeLine{416     \};}
+\DoxyCodeLine{417     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{418     D3DVALUE     tv;}
+\DoxyCodeLine{419     D3DVALUE     dvTV;}
+\DoxyCodeLine{420     \};}
+\DoxyCodeLine{421 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{422 \textcolor{preprocessor}{\#if (defined \_\_cplusplus) \&\& (defined D3D\_OVERLOADS)}}
+\DoxyCodeLine{423     \mbox{\hyperlink{struct___d3_d_l_v_e_r_t_e_x}{\_D3DLVERTEX}}() \{ \}}
+\DoxyCodeLine{424     \mbox{\hyperlink{struct___d3_d_l_v_e_r_t_e_x}{\_D3DLVERTEX}}(\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DVECTOR}}\& v,}
+\DoxyCodeLine{425                 D3DCOLOR \_color, D3DCOLOR \_specular,}
+\DoxyCodeLine{426                 \textcolor{keywordtype}{float} \_tu, \textcolor{keywordtype}{float} \_tv)}
+\DoxyCodeLine{427         \{ x = v.x; y = v.y; z = v.z; dwReserved = 0;}
+\DoxyCodeLine{428           color = \_color; specular = \_specular;}
+\DoxyCodeLine{429           tu = \_tu; tv = \_tv;}
+\DoxyCodeLine{430         \}}
+\DoxyCodeLine{431 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{432 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{433 \} \mbox{\hyperlink{struct___d3_d_l_v_e_r_t_e_x}{D3DLVERTEX}}, *\mbox{\hyperlink{struct___d3_d_l_v_e_r_t_e_x}{LPD3DLVERTEX}};}
+\DoxyCodeLine{434 }
+\DoxyCodeLine{435 \textcolor{comment}{/*}}
+\DoxyCodeLine{436 \textcolor{comment}{ * Untransformed/unlit vertices}}
+\DoxyCodeLine{437 \textcolor{comment}{ */}}
+\DoxyCodeLine{438 }
+\DoxyCodeLine{439 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_v_e_r_t_e_x}{\_D3DVERTEX}} \{}
+\DoxyCodeLine{440     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{441     D3DVALUE     x;             \textcolor{comment}{/* Homogeneous coordinates */}}
+\DoxyCodeLine{442     D3DVALUE     dvX;}
+\DoxyCodeLine{443     \};}
+\DoxyCodeLine{444     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{445     D3DVALUE     y;}
+\DoxyCodeLine{446     D3DVALUE     dvY;}
+\DoxyCodeLine{447     \};}
+\DoxyCodeLine{448     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{449     D3DVALUE     z;}
+\DoxyCodeLine{450     D3DVALUE     dvZ;}
+\DoxyCodeLine{451     \};}
+\DoxyCodeLine{452     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{453     D3DVALUE     nx;            \textcolor{comment}{/* Normal */}}
+\DoxyCodeLine{454     D3DVALUE     dvNX;}
+\DoxyCodeLine{455     \};}
+\DoxyCodeLine{456     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{457     D3DVALUE     ny;}
+\DoxyCodeLine{458     D3DVALUE     dvNY;}
+\DoxyCodeLine{459     \};}
+\DoxyCodeLine{460     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{461     D3DVALUE     nz;}
+\DoxyCodeLine{462     D3DVALUE     dvNZ;}
+\DoxyCodeLine{463     \};}
+\DoxyCodeLine{464     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{465     D3DVALUE     tu;            \textcolor{comment}{/* Texture coordinates */}}
+\DoxyCodeLine{466     D3DVALUE     dvTU;}
+\DoxyCodeLine{467     \};}
+\DoxyCodeLine{468     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{469     D3DVALUE     tv;}
+\DoxyCodeLine{470     D3DVALUE     dvTV;}
+\DoxyCodeLine{471     \};}
+\DoxyCodeLine{472 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{473 \textcolor{preprocessor}{\#if (defined \_\_cplusplus) \&\& (defined D3D\_OVERLOADS)}}
+\DoxyCodeLine{474     \mbox{\hyperlink{struct___d3_d_v_e_r_t_e_x}{\_D3DVERTEX}}() \{ \}}
+\DoxyCodeLine{475     \mbox{\hyperlink{struct___d3_d_v_e_r_t_e_x}{\_D3DVERTEX}}(\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DVECTOR}}\& v, \textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DVECTOR}}\& n, \textcolor{keywordtype}{float} \_tu, \textcolor{keywordtype}{float} \_tv)}
+\DoxyCodeLine{476         \{ x = v.x; y = v.y; z = v.z;}
+\DoxyCodeLine{477           nx = n.x; ny = n.y; nz = n.z;}
+\DoxyCodeLine{478           tu = \_tu; tv = \_tv;}
+\DoxyCodeLine{479         \}}
+\DoxyCodeLine{480 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{481 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{482 \} \mbox{\hyperlink{struct___d3_d_v_e_r_t_e_x}{D3DVERTEX}}, *\mbox{\hyperlink{struct___d3_d_v_e_r_t_e_x}{LPD3DVERTEX}};}
+\DoxyCodeLine{483 }
+\DoxyCodeLine{484 }
+\DoxyCodeLine{485 \textcolor{comment}{/*}}
+\DoxyCodeLine{486 \textcolor{comment}{ * Matrix, viewport, and tranformation structures and definitions.}}
+\DoxyCodeLine{487 \textcolor{comment}{ */}}
+\DoxyCodeLine{488 }
+\DoxyCodeLine{489 \textcolor{preprocessor}{\#ifndef D3DMATRIX\_DEFINED}}
+\DoxyCodeLine{490 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{\_D3DMATRIX}} \{}
+\DoxyCodeLine{491 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{492 \textcolor{preprocessor}{\#if (defined \_\_cplusplus) \&\& (defined D3D\_OVERLOADS)}}
+\DoxyCodeLine{493     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{494         \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{495 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{496 }
+\DoxyCodeLine{497 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{498             D3DVALUE        \_11, \_12, \_13, \_14;}
+\DoxyCodeLine{499             D3DVALUE        \_21, \_22, \_23, \_24;}
+\DoxyCodeLine{500             D3DVALUE        \_31, \_32, \_33, \_34;}
+\DoxyCodeLine{501             D3DVALUE        \_41, \_42, \_43, \_44;}
+\DoxyCodeLine{502 }
+\DoxyCodeLine{503 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{504 \textcolor{preprocessor}{\#if (defined \_\_cplusplus) \&\& (defined D3D\_OVERLOADS)}}
+\DoxyCodeLine{505         \};}
+\DoxyCodeLine{506         D3DVALUE m[4][4];}
+\DoxyCodeLine{507     \};}
+\DoxyCodeLine{508     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{\_D3DMATRIX}}() \{ \}}
+\DoxyCodeLine{509     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{\_D3DMATRIX}}( D3DVALUE \_m00, D3DVALUE \_m01, D3DVALUE \_m02, D3DVALUE \_m03,}
+\DoxyCodeLine{510                 D3DVALUE \_m10, D3DVALUE \_m11, D3DVALUE \_m12, D3DVALUE \_m13,}
+\DoxyCodeLine{511                 D3DVALUE \_m20, D3DVALUE \_m21, D3DVALUE \_m22, D3DVALUE \_m23,}
+\DoxyCodeLine{512                 D3DVALUE \_m30, D3DVALUE \_m31, D3DVALUE \_m32, D3DVALUE \_m33}
+\DoxyCodeLine{513         )}
+\DoxyCodeLine{514         \{}
+\DoxyCodeLine{515                 m[0][0] = \_m00; m[0][1] = \_m01; m[0][2] = \_m02; m[0][3] = \_m03;}
+\DoxyCodeLine{516                 m[1][0] = \_m10; m[1][1] = \_m11; m[1][2] = \_m12; m[1][3] = \_m13;}
+\DoxyCodeLine{517                 m[2][0] = \_m20; m[2][1] = \_m21; m[2][2] = \_m22; m[2][3] = \_m23;}
+\DoxyCodeLine{518                 m[3][0] = \_m30; m[3][1] = \_m31; m[3][2] = \_m32; m[3][3] = \_m33;}
+\DoxyCodeLine{519         \}}
+\DoxyCodeLine{520 }
+\DoxyCodeLine{521     D3DVALUE\& operator()(\textcolor{keywordtype}{int} iRow, \textcolor{keywordtype}{int} iColumn) \{ \textcolor{keywordflow}{return} m[iRow][iColumn]; \}}
+\DoxyCodeLine{522     \textcolor{keyword}{const} D3DVALUE\& operator()(\textcolor{keywordtype}{int} iRow, \textcolor{keywordtype}{int} iColumn)\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} m[iRow][iColumn]; \}}
+\DoxyCodeLine{523 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0600)}}
+\DoxyCodeLine{524     \textcolor{keyword}{friend} \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{\_D3DMATRIX}} operator* (\textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{\_D3DMATRIX}}\&, \textcolor{keyword}{const} \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{\_D3DMATRIX}}\&);}
+\DoxyCodeLine{525 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0600 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{526 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{527 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{528 \} \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DMATRIX}};}
+\DoxyCodeLine{529 \textcolor{preprocessor}{\#define D3DMATRIX\_DEFINED}}
+\DoxyCodeLine{530 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{531 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{\_D3DMATRIX}} *\mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{LPD3DMATRIX}};}
+\DoxyCodeLine{532 }
+\DoxyCodeLine{533 \textcolor{preprocessor}{\#if (defined \_\_cplusplus) \&\& (defined D3D\_OVERLOADS)}}
+\DoxyCodeLine{534 \textcolor{preprocessor}{\#include "{}d3dvec.inl"{}}}
+\DoxyCodeLine{535 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{536 }
+\DoxyCodeLine{537 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_v_i_e_w_p_o_r_t}{\_D3DVIEWPORT}} \{}
+\DoxyCodeLine{538     DWORD       dwSize;}
+\DoxyCodeLine{539     DWORD       dwX;}
+\DoxyCodeLine{540     DWORD       dwY;        \textcolor{comment}{/* Top left */}}
+\DoxyCodeLine{541     DWORD       dwWidth;}
+\DoxyCodeLine{542     DWORD       dwHeight;   \textcolor{comment}{/* Dimensions */}}
+\DoxyCodeLine{543     D3DVALUE    dvScaleX;   \textcolor{comment}{/* Scale homogeneous to screen */}}
+\DoxyCodeLine{544     D3DVALUE    dvScaleY;   \textcolor{comment}{/* Scale homogeneous to screen */}}
+\DoxyCodeLine{545     D3DVALUE    dvMaxX;     \textcolor{comment}{/* Min/max homogeneous x coord */}}
+\DoxyCodeLine{546     D3DVALUE    dvMaxY;     \textcolor{comment}{/* Min/max homogeneous y coord */}}
+\DoxyCodeLine{547     D3DVALUE    dvMinZ;}
+\DoxyCodeLine{548     D3DVALUE    dvMaxZ;     \textcolor{comment}{/* Min/max homogeneous z coord */}}
+\DoxyCodeLine{549 \} \mbox{\hyperlink{struct___d3_d_v_i_e_w_p_o_r_t}{D3DVIEWPORT}}, *\mbox{\hyperlink{struct___d3_d_v_i_e_w_p_o_r_t}{LPD3DVIEWPORT}};}
+\DoxyCodeLine{550 }
+\DoxyCodeLine{551 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{552 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_v_i_e_w_p_o_r_t2}{\_D3DVIEWPORT2}} \{}
+\DoxyCodeLine{553     DWORD       dwSize;}
+\DoxyCodeLine{554     DWORD       dwX;}
+\DoxyCodeLine{555     DWORD       dwY;        \textcolor{comment}{/* Viewport Top left */}}
+\DoxyCodeLine{556     DWORD       dwWidth;}
+\DoxyCodeLine{557     DWORD       dwHeight;   \textcolor{comment}{/* Viewport Dimensions */}}
+\DoxyCodeLine{558     D3DVALUE    dvClipX;        \textcolor{comment}{/* Top left of clip volume */}}
+\DoxyCodeLine{559     D3DVALUE    dvClipY;}
+\DoxyCodeLine{560     D3DVALUE    dvClipWidth;    \textcolor{comment}{/* Clip Volume Dimensions */}}
+\DoxyCodeLine{561     D3DVALUE    dvClipHeight;}
+\DoxyCodeLine{562     D3DVALUE    dvMinZ;         \textcolor{comment}{/* Min/max of clip Volume */}}
+\DoxyCodeLine{563     D3DVALUE    dvMaxZ;}
+\DoxyCodeLine{564 \} \mbox{\hyperlink{struct___d3_d_v_i_e_w_p_o_r_t2}{D3DVIEWPORT2}}, *\mbox{\hyperlink{struct___d3_d_v_i_e_w_p_o_r_t2}{LPD3DVIEWPORT2}};}
+\DoxyCodeLine{565 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{566 }
+\DoxyCodeLine{567 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0700)}}
+\DoxyCodeLine{568 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_v_i_e_w_p_o_r_t7}{\_D3DVIEWPORT7}} \{}
+\DoxyCodeLine{569     DWORD       dwX;}
+\DoxyCodeLine{570     DWORD       dwY;            \textcolor{comment}{/* Viewport Top left */}}
+\DoxyCodeLine{571     DWORD       dwWidth;}
+\DoxyCodeLine{572     DWORD       dwHeight;       \textcolor{comment}{/* Viewport Dimensions */}}
+\DoxyCodeLine{573     D3DVALUE    dvMinZ;         \textcolor{comment}{/* Min/max of clip Volume */}}
+\DoxyCodeLine{574     D3DVALUE    dvMaxZ;}
+\DoxyCodeLine{575 \} \mbox{\hyperlink{struct___d3_d_v_i_e_w_p_o_r_t7}{D3DVIEWPORT7}}, *\mbox{\hyperlink{struct___d3_d_v_i_e_w_p_o_r_t7}{LPD3DVIEWPORT7}};}
+\DoxyCodeLine{576 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0700 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{577 }
+\DoxyCodeLine{578 \textcolor{comment}{/*}}
+\DoxyCodeLine{579 \textcolor{comment}{ * Values for clip fields.}}
+\DoxyCodeLine{580 \textcolor{comment}{ */}}
+\DoxyCodeLine{581 }
+\DoxyCodeLine{582 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0700)}}
+\DoxyCodeLine{583 }
+\DoxyCodeLine{584 \textcolor{comment}{// Max number of user clipping planes, supported in D3D.}}
+\DoxyCodeLine{585 \textcolor{preprocessor}{\#define D3DMAXUSERCLIPPLANES 32}}
+\DoxyCodeLine{586 }
+\DoxyCodeLine{587 \textcolor{comment}{// These bits could be ORed together to use with D3DRENDERSTATE\_CLIPPLANEENABLE}}
+\DoxyCodeLine{588 \textcolor{comment}{//}}
+\DoxyCodeLine{589 \textcolor{preprocessor}{\#define D3DCLIPPLANE0 (1 << 0)}}
+\DoxyCodeLine{590 \textcolor{preprocessor}{\#define D3DCLIPPLANE1 (1 << 1)}}
+\DoxyCodeLine{591 \textcolor{preprocessor}{\#define D3DCLIPPLANE2 (1 << 2)}}
+\DoxyCodeLine{592 \textcolor{preprocessor}{\#define D3DCLIPPLANE3 (1 << 3)}}
+\DoxyCodeLine{593 \textcolor{preprocessor}{\#define D3DCLIPPLANE4 (1 << 4)}}
+\DoxyCodeLine{594 \textcolor{preprocessor}{\#define D3DCLIPPLANE5 (1 << 5)}}
+\DoxyCodeLine{595 }
+\DoxyCodeLine{596 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0700 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{597 }
+\DoxyCodeLine{598 \textcolor{preprocessor}{\#define D3DCLIP\_LEFT                0x00000001L}}
+\DoxyCodeLine{599 \textcolor{preprocessor}{\#define D3DCLIP\_RIGHT               0x00000002L}}
+\DoxyCodeLine{600 \textcolor{preprocessor}{\#define D3DCLIP\_TOP             0x00000004L}}
+\DoxyCodeLine{601 \textcolor{preprocessor}{\#define D3DCLIP\_BOTTOM              0x00000008L}}
+\DoxyCodeLine{602 \textcolor{preprocessor}{\#define D3DCLIP\_FRONT               0x00000010L}}
+\DoxyCodeLine{603 \textcolor{preprocessor}{\#define D3DCLIP\_BACK                0x00000020L}}
+\DoxyCodeLine{604 \textcolor{preprocessor}{\#define D3DCLIP\_GEN0                0x00000040L}}
+\DoxyCodeLine{605 \textcolor{preprocessor}{\#define D3DCLIP\_GEN1                0x00000080L}}
+\DoxyCodeLine{606 \textcolor{preprocessor}{\#define D3DCLIP\_GEN2                0x00000100L}}
+\DoxyCodeLine{607 \textcolor{preprocessor}{\#define D3DCLIP\_GEN3                0x00000200L}}
+\DoxyCodeLine{608 \textcolor{preprocessor}{\#define D3DCLIP\_GEN4                0x00000400L}}
+\DoxyCodeLine{609 \textcolor{preprocessor}{\#define D3DCLIP\_GEN5                0x00000800L}}
+\DoxyCodeLine{610 }
+\DoxyCodeLine{611 \textcolor{comment}{/*}}
+\DoxyCodeLine{612 \textcolor{comment}{ * Values for d3d status.}}
+\DoxyCodeLine{613 \textcolor{comment}{ */}}
+\DoxyCodeLine{614 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPUNIONLEFT         D3DCLIP\_LEFT}}
+\DoxyCodeLine{615 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPUNIONRIGHT        D3DCLIP\_RIGHT}}
+\DoxyCodeLine{616 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPUNIONTOP          D3DCLIP\_TOP}}
+\DoxyCodeLine{617 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPUNIONBOTTOM       D3DCLIP\_BOTTOM}}
+\DoxyCodeLine{618 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPUNIONFRONT        D3DCLIP\_FRONT}}
+\DoxyCodeLine{619 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPUNIONBACK         D3DCLIP\_BACK}}
+\DoxyCodeLine{620 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPUNIONGEN0         D3DCLIP\_GEN0}}
+\DoxyCodeLine{621 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPUNIONGEN1         D3DCLIP\_GEN1}}
+\DoxyCodeLine{622 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPUNIONGEN2         D3DCLIP\_GEN2}}
+\DoxyCodeLine{623 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPUNIONGEN3         D3DCLIP\_GEN3}}
+\DoxyCodeLine{624 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPUNIONGEN4         D3DCLIP\_GEN4}}
+\DoxyCodeLine{625 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPUNIONGEN5         D3DCLIP\_GEN5}}
+\DoxyCodeLine{626 }
+\DoxyCodeLine{627 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPINTERSECTIONLEFT      0x00001000L}}
+\DoxyCodeLine{628 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPINTERSECTIONRIGHT     0x00002000L}}
+\DoxyCodeLine{629 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPINTERSECTIONTOP       0x00004000L}}
+\DoxyCodeLine{630 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPINTERSECTIONBOTTOM    0x00008000L}}
+\DoxyCodeLine{631 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPINTERSECTIONFRONT     0x00010000L}}
+\DoxyCodeLine{632 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPINTERSECTIONBACK      0x00020000L}}
+\DoxyCodeLine{633 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPINTERSECTIONGEN0      0x00040000L}}
+\DoxyCodeLine{634 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPINTERSECTIONGEN1      0x00080000L}}
+\DoxyCodeLine{635 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPINTERSECTIONGEN2      0x00100000L}}
+\DoxyCodeLine{636 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPINTERSECTIONGEN3      0x00200000L}}
+\DoxyCodeLine{637 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPINTERSECTIONGEN4      0x00400000L}}
+\DoxyCodeLine{638 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPINTERSECTIONGEN5      0x00800000L}}
+\DoxyCodeLine{639 \textcolor{preprocessor}{\#define D3DSTATUS\_ZNOTVISIBLE               0x01000000L}}
+\DoxyCodeLine{640 \textcolor{comment}{/* Do not use 0x80000000 for any status flags in future as it is reserved */}}
+\DoxyCodeLine{641 }
+\DoxyCodeLine{642 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPUNIONALL  (       \(\backslash\)}}
+\DoxyCodeLine{643 \textcolor{preprocessor}{        D3DSTATUS\_CLIPUNIONLEFT |   \(\backslash\)}}
+\DoxyCodeLine{644 \textcolor{preprocessor}{        D3DSTATUS\_CLIPUNIONRIGHT    |   \(\backslash\)}}
+\DoxyCodeLine{645 \textcolor{preprocessor}{        D3DSTATUS\_CLIPUNIONTOP  |   \(\backslash\)}}
+\DoxyCodeLine{646 \textcolor{preprocessor}{        D3DSTATUS\_CLIPUNIONBOTTOM   |   \(\backslash\)}}
+\DoxyCodeLine{647 \textcolor{preprocessor}{        D3DSTATUS\_CLIPUNIONFRONT    |   \(\backslash\)}}
+\DoxyCodeLine{648 \textcolor{preprocessor}{        D3DSTATUS\_CLIPUNIONBACK |   \(\backslash\)}}
+\DoxyCodeLine{649 \textcolor{preprocessor}{        D3DSTATUS\_CLIPUNIONGEN0 |   \(\backslash\)}}
+\DoxyCodeLine{650 \textcolor{preprocessor}{        D3DSTATUS\_CLIPUNIONGEN1 |   \(\backslash\)}}
+\DoxyCodeLine{651 \textcolor{preprocessor}{        D3DSTATUS\_CLIPUNIONGEN2 |   \(\backslash\)}}
+\DoxyCodeLine{652 \textcolor{preprocessor}{        D3DSTATUS\_CLIPUNIONGEN3 |   \(\backslash\)}}
+\DoxyCodeLine{653 \textcolor{preprocessor}{        D3DSTATUS\_CLIPUNIONGEN4 |   \(\backslash\)}}
+\DoxyCodeLine{654 \textcolor{preprocessor}{        D3DSTATUS\_CLIPUNIONGEN5     \(\backslash\)}}
+\DoxyCodeLine{655 \textcolor{preprocessor}{        )}}
+\DoxyCodeLine{656 }
+\DoxyCodeLine{657 \textcolor{preprocessor}{\#define D3DSTATUS\_CLIPINTERSECTIONALL   (       \(\backslash\)}}
+\DoxyCodeLine{658 \textcolor{preprocessor}{        D3DSTATUS\_CLIPINTERSECTIONLEFT  |   \(\backslash\)}}
+\DoxyCodeLine{659 \textcolor{preprocessor}{        D3DSTATUS\_CLIPINTERSECTIONRIGHT |   \(\backslash\)}}
+\DoxyCodeLine{660 \textcolor{preprocessor}{        D3DSTATUS\_CLIPINTERSECTIONTOP   |   \(\backslash\)}}
+\DoxyCodeLine{661 \textcolor{preprocessor}{        D3DSTATUS\_CLIPINTERSECTIONBOTTOM    |   \(\backslash\)}}
+\DoxyCodeLine{662 \textcolor{preprocessor}{        D3DSTATUS\_CLIPINTERSECTIONFRONT |   \(\backslash\)}}
+\DoxyCodeLine{663 \textcolor{preprocessor}{        D3DSTATUS\_CLIPINTERSECTIONBACK  |   \(\backslash\)}}
+\DoxyCodeLine{664 \textcolor{preprocessor}{        D3DSTATUS\_CLIPINTERSECTIONGEN0  |   \(\backslash\)}}
+\DoxyCodeLine{665 \textcolor{preprocessor}{        D3DSTATUS\_CLIPINTERSECTIONGEN1  |   \(\backslash\)}}
+\DoxyCodeLine{666 \textcolor{preprocessor}{        D3DSTATUS\_CLIPINTERSECTIONGEN2  |   \(\backslash\)}}
+\DoxyCodeLine{667 \textcolor{preprocessor}{        D3DSTATUS\_CLIPINTERSECTIONGEN3  |   \(\backslash\)}}
+\DoxyCodeLine{668 \textcolor{preprocessor}{        D3DSTATUS\_CLIPINTERSECTIONGEN4  |   \(\backslash\)}}
+\DoxyCodeLine{669 \textcolor{preprocessor}{        D3DSTATUS\_CLIPINTERSECTIONGEN5      \(\backslash\)}}
+\DoxyCodeLine{670 \textcolor{preprocessor}{        )}}
+\DoxyCodeLine{671 }
+\DoxyCodeLine{672 \textcolor{preprocessor}{\#define D3DSTATUS\_DEFAULT   (           \(\backslash\)}}
+\DoxyCodeLine{673 \textcolor{preprocessor}{        D3DSTATUS\_CLIPINTERSECTIONALL   |   \(\backslash\)}}
+\DoxyCodeLine{674 \textcolor{preprocessor}{        D3DSTATUS\_ZNOTVISIBLE)}}
+\DoxyCodeLine{675 }
+\DoxyCodeLine{676 }
+\DoxyCodeLine{677 \textcolor{comment}{/*}}
+\DoxyCodeLine{678 \textcolor{comment}{ * Options for direct transform calls}}
+\DoxyCodeLine{679 \textcolor{comment}{ */}}
+\DoxyCodeLine{680 \textcolor{preprocessor}{\#define D3DTRANSFORM\_CLIPPED       0x00000001l}}
+\DoxyCodeLine{681 \textcolor{preprocessor}{\#define D3DTRANSFORM\_UNCLIPPED     0x00000002l}}
+\DoxyCodeLine{682 }
+\DoxyCodeLine{683 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_t_r_a_n_s_f_o_r_m_d_a_t_a}{\_D3DTRANSFORMDATA}} \{}
+\DoxyCodeLine{684     DWORD           dwSize;}
+\DoxyCodeLine{685     LPVOID      lpIn;           \textcolor{comment}{/* Input vertices */}}
+\DoxyCodeLine{686     DWORD           dwInSize;       \textcolor{comment}{/* Stride of input vertices */}}
+\DoxyCodeLine{687     LPVOID      lpOut;          \textcolor{comment}{/* Output vertices */}}
+\DoxyCodeLine{688     DWORD           dwOutSize;      \textcolor{comment}{/* Stride of output vertices */}}
+\DoxyCodeLine{689     \mbox{\hyperlink{struct___d3_d_h_v_e_r_t_e_x}{LPD3DHVERTEX}}    lpHOut;         \textcolor{comment}{/* Output homogeneous vertices */}}
+\DoxyCodeLine{690     DWORD           dwClip;         \textcolor{comment}{/* Clipping hint */}}
+\DoxyCodeLine{691     DWORD           dwClipIntersection;}
+\DoxyCodeLine{692     DWORD           dwClipUnion;    \textcolor{comment}{/* Union of all clip flags */}}
+\DoxyCodeLine{693     \mbox{\hyperlink{struct___d3_d_r_e_c_t}{D3DRECT}}         drExtent;       \textcolor{comment}{/* Extent of transformed vertices */}}
+\DoxyCodeLine{694 \} \mbox{\hyperlink{struct___d3_d_t_r_a_n_s_f_o_r_m_d_a_t_a}{D3DTRANSFORMDATA}}, *\mbox{\hyperlink{struct___d3_d_t_r_a_n_s_f_o_r_m_d_a_t_a}{LPD3DTRANSFORMDATA}};}
+\DoxyCodeLine{695 }
+\DoxyCodeLine{696 \textcolor{comment}{/*}}
+\DoxyCodeLine{697 \textcolor{comment}{ * Structure defining position and direction properties for lighting.}}
+\DoxyCodeLine{698 \textcolor{comment}{ */}}
+\DoxyCodeLine{699 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_l_i_g_h_t_i_n_g_e_l_e_m_e_n_t}{\_D3DLIGHTINGELEMENT}} \{}
+\DoxyCodeLine{700     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DVECTOR}} dvPosition;           \textcolor{comment}{/* Lightable point in model space */}}
+\DoxyCodeLine{701     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DVECTOR}} dvNormal;             \textcolor{comment}{/* Normalised unit vector */}}
+\DoxyCodeLine{702 \} \mbox{\hyperlink{struct___d3_d_l_i_g_h_t_i_n_g_e_l_e_m_e_n_t}{D3DLIGHTINGELEMENT}}, *\mbox{\hyperlink{struct___d3_d_l_i_g_h_t_i_n_g_e_l_e_m_e_n_t}{LPD3DLIGHTINGELEMENT}};}
+\DoxyCodeLine{703 }
+\DoxyCodeLine{704 \textcolor{comment}{/*}}
+\DoxyCodeLine{705 \textcolor{comment}{ * Structure defining material properties for lighting.}}
+\DoxyCodeLine{706 \textcolor{comment}{ */}}
+\DoxyCodeLine{707 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_m_a_t_e_r_i_a_l}{\_D3DMATERIAL}} \{}
+\DoxyCodeLine{708     DWORD           dwSize;}
+\DoxyCodeLine{709     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{710     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   diffuse;        \textcolor{comment}{/* Diffuse color RGBA */}}
+\DoxyCodeLine{711     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   dcvDiffuse;}
+\DoxyCodeLine{712     \};}
+\DoxyCodeLine{713     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{714     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   ambient;        \textcolor{comment}{/* Ambient color RGB */}}
+\DoxyCodeLine{715     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   dcvAmbient;}
+\DoxyCodeLine{716     \};}
+\DoxyCodeLine{717     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{718     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   specular;       \textcolor{comment}{/* Specular 'shininess' */}}
+\DoxyCodeLine{719     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   dcvSpecular;}
+\DoxyCodeLine{720     \};}
+\DoxyCodeLine{721     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{722     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   emissive;       \textcolor{comment}{/* Emissive color RGB */}}
+\DoxyCodeLine{723     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   dcvEmissive;}
+\DoxyCodeLine{724     \};}
+\DoxyCodeLine{725     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{726     D3DVALUE        power;          \textcolor{comment}{/* Sharpness if specular highlight */}}
+\DoxyCodeLine{727     D3DVALUE        dvPower;}
+\DoxyCodeLine{728     \};}
+\DoxyCodeLine{729     D3DTEXTUREHANDLE    hTexture;       \textcolor{comment}{/* Handle to texture map */}}
+\DoxyCodeLine{730     DWORD           dwRampSize;}
+\DoxyCodeLine{731 \} \mbox{\hyperlink{struct___d3_d_m_a_t_e_r_i_a_l}{D3DMATERIAL}}, *\mbox{\hyperlink{struct___d3_d_m_a_t_e_r_i_a_l}{LPD3DMATERIAL}};}
+\DoxyCodeLine{732 }
+\DoxyCodeLine{733 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0700)}}
+\DoxyCodeLine{734 }
+\DoxyCodeLine{735 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_m_a_t_e_r_i_a_l7}{\_D3DMATERIAL7}} \{}
+\DoxyCodeLine{736     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{737     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   diffuse;        \textcolor{comment}{/* Diffuse color RGBA */}}
+\DoxyCodeLine{738     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   dcvDiffuse;}
+\DoxyCodeLine{739     \};}
+\DoxyCodeLine{740     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{741     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   ambient;        \textcolor{comment}{/* Ambient color RGB */}}
+\DoxyCodeLine{742     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   dcvAmbient;}
+\DoxyCodeLine{743     \};}
+\DoxyCodeLine{744     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{745     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   specular;       \textcolor{comment}{/* Specular 'shininess' */}}
+\DoxyCodeLine{746     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   dcvSpecular;}
+\DoxyCodeLine{747     \};}
+\DoxyCodeLine{748     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{749     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   emissive;       \textcolor{comment}{/* Emissive color RGB */}}
+\DoxyCodeLine{750     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   dcvEmissive;}
+\DoxyCodeLine{751     \};}
+\DoxyCodeLine{752     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{753     D3DVALUE        power;          \textcolor{comment}{/* Sharpness if specular highlight */}}
+\DoxyCodeLine{754     D3DVALUE        dvPower;}
+\DoxyCodeLine{755     \};}
+\DoxyCodeLine{756 \} \mbox{\hyperlink{struct___d3_d_m_a_t_e_r_i_a_l7}{D3DMATERIAL7}}, *\mbox{\hyperlink{struct___d3_d_m_a_t_e_r_i_a_l7}{LPD3DMATERIAL7}};}
+\DoxyCodeLine{757 }
+\DoxyCodeLine{758 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0700 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{759 }
+\DoxyCodeLine{760 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{761 }
+\DoxyCodeLine{762 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DLIGHTTYPE \{}
+\DoxyCodeLine{763     D3DLIGHT\_POINT          = 1,}
+\DoxyCodeLine{764     D3DLIGHT\_SPOT           = 2,}
+\DoxyCodeLine{765     D3DLIGHT\_DIRECTIONAL    = 3,}
+\DoxyCodeLine{766 \textcolor{comment}{// Note: The following light type (D3DLIGHT\_PARALLELPOINT)}}
+\DoxyCodeLine{767 \textcolor{comment}{// is no longer supported from D3D for DX7 onwards.}}
+\DoxyCodeLine{768     D3DLIGHT\_PARALLELPOINT  = 4,}
+\DoxyCodeLine{769 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION < 0x0500) }\textcolor{comment}{// For backward compatible headers}}
+\DoxyCodeLine{770     D3DLIGHT\_GLSPOT         = 5,}
+\DoxyCodeLine{771 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{772     D3DLIGHT\_FORCE\_DWORD    = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{773 \} D3DLIGHTTYPE;}
+\DoxyCodeLine{774 }
+\DoxyCodeLine{775 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{776 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DLIGHTTYPE D3DLIGHTTYPE;}
+\DoxyCodeLine{777 \textcolor{preprocessor}{\#define D3DLIGHT\_PARALLELPOINT  (D3DLIGHTTYPE)4}}
+\DoxyCodeLine{778 \textcolor{preprocessor}{\#define D3DLIGHT\_GLSPOT         (D3DLIGHTTYPE)5}}
+\DoxyCodeLine{779 }
+\DoxyCodeLine{780 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{781 }
+\DoxyCodeLine{782 \textcolor{comment}{/*}}
+\DoxyCodeLine{783 \textcolor{comment}{ * Structure defining a light source and its properties.}}
+\DoxyCodeLine{784 \textcolor{comment}{ */}}
+\DoxyCodeLine{785 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_l_i_g_h_t}{\_D3DLIGHT}} \{}
+\DoxyCodeLine{786     DWORD           dwSize;}
+\DoxyCodeLine{787     D3DLIGHTTYPE    dltType;            \textcolor{comment}{/* Type of light source */}}
+\DoxyCodeLine{788     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   dcvColor;           \textcolor{comment}{/* Color of light */}}
+\DoxyCodeLine{789     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DVECTOR}}       dvPosition;         \textcolor{comment}{/* Position in world space */}}
+\DoxyCodeLine{790     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DVECTOR}}       dvDirection;        \textcolor{comment}{/* Direction in world space */}}
+\DoxyCodeLine{791     D3DVALUE        dvRange;            \textcolor{comment}{/* Cutoff range */}}
+\DoxyCodeLine{792     D3DVALUE        dvFalloff;          \textcolor{comment}{/* Falloff */}}
+\DoxyCodeLine{793     D3DVALUE        dvAttenuation0;     \textcolor{comment}{/* Constant attenuation */}}
+\DoxyCodeLine{794     D3DVALUE        dvAttenuation1;     \textcolor{comment}{/* Linear attenuation */}}
+\DoxyCodeLine{795     D3DVALUE        dvAttenuation2;     \textcolor{comment}{/* Quadratic attenuation */}}
+\DoxyCodeLine{796     D3DVALUE        dvTheta;            \textcolor{comment}{/* Inner angle of spotlight cone */}}
+\DoxyCodeLine{797     D3DVALUE        dvPhi;              \textcolor{comment}{/* Outer angle of spotlight cone */}}
+\DoxyCodeLine{798 \} \mbox{\hyperlink{struct___d3_d_l_i_g_h_t}{D3DLIGHT}}, *\mbox{\hyperlink{struct___d3_d_l_i_g_h_t}{LPD3DLIGHT}};}
+\DoxyCodeLine{799 }
+\DoxyCodeLine{800 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0700)}}
+\DoxyCodeLine{801 }
+\DoxyCodeLine{802 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_l_i_g_h_t7}{\_D3DLIGHT7}} \{}
+\DoxyCodeLine{803     D3DLIGHTTYPE    dltType;            \textcolor{comment}{/* Type of light source */}}
+\DoxyCodeLine{804     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   dcvDiffuse;         \textcolor{comment}{/* Diffuse color of light */}}
+\DoxyCodeLine{805     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   dcvSpecular;        \textcolor{comment}{/* Specular color of light */}}
+\DoxyCodeLine{806     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   dcvAmbient;         \textcolor{comment}{/* Ambient color of light */}}
+\DoxyCodeLine{807     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DVECTOR}}       dvPosition;         \textcolor{comment}{/* Position in world space */}}
+\DoxyCodeLine{808     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DVECTOR}}       dvDirection;        \textcolor{comment}{/* Direction in world space */}}
+\DoxyCodeLine{809     D3DVALUE        dvRange;            \textcolor{comment}{/* Cutoff range */}}
+\DoxyCodeLine{810     D3DVALUE        dvFalloff;          \textcolor{comment}{/* Falloff */}}
+\DoxyCodeLine{811     D3DVALUE        dvAttenuation0;     \textcolor{comment}{/* Constant attenuation */}}
+\DoxyCodeLine{812     D3DVALUE        dvAttenuation1;     \textcolor{comment}{/* Linear attenuation */}}
+\DoxyCodeLine{813     D3DVALUE        dvAttenuation2;     \textcolor{comment}{/* Quadratic attenuation */}}
+\DoxyCodeLine{814     D3DVALUE        dvTheta;            \textcolor{comment}{/* Inner angle of spotlight cone */}}
+\DoxyCodeLine{815     D3DVALUE        dvPhi;              \textcolor{comment}{/* Outer angle of spotlight cone */}}
+\DoxyCodeLine{816 \} \mbox{\hyperlink{struct___d3_d_l_i_g_h_t7}{D3DLIGHT7}}, *\mbox{\hyperlink{struct___d3_d_l_i_g_h_t7}{LPD3DLIGHT7}};}
+\DoxyCodeLine{817 }
+\DoxyCodeLine{818 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0700 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{819 }
+\DoxyCodeLine{820 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{821 \textcolor{comment}{/*}}
+\DoxyCodeLine{822 \textcolor{comment}{ * Structure defining a light source and its properties.}}
+\DoxyCodeLine{823 \textcolor{comment}{ */}}
+\DoxyCodeLine{824 }
+\DoxyCodeLine{825 \textcolor{comment}{/* flags bits */}}
+\DoxyCodeLine{826 \textcolor{preprocessor}{\#define D3DLIGHT\_ACTIVE         0x00000001}}
+\DoxyCodeLine{827 \textcolor{preprocessor}{\#define D3DLIGHT\_NO\_SPECULAR    0x00000002}}
+\DoxyCodeLine{828 \textcolor{preprocessor}{\#define D3DLIGHT\_ALL (D3DLIGHT\_ACTIVE | D3DLIGHT\_NO\_SPECULAR)}}
+\DoxyCodeLine{829 }
+\DoxyCodeLine{830 \textcolor{comment}{/* maximum valid light range */}}
+\DoxyCodeLine{831 \textcolor{preprocessor}{\#define D3DLIGHT\_RANGE\_MAX      ((float)sqrt(FLT\_MAX))}}
+\DoxyCodeLine{832 }
+\DoxyCodeLine{833 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_l_i_g_h_t2}{\_D3DLIGHT2}} \{}
+\DoxyCodeLine{834     DWORD           dwSize;}
+\DoxyCodeLine{835     D3DLIGHTTYPE    dltType;        \textcolor{comment}{/* Type of light source */}}
+\DoxyCodeLine{836     \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}   dcvColor;       \textcolor{comment}{/* Color of light */}}
+\DoxyCodeLine{837     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DVECTOR}}       dvPosition;     \textcolor{comment}{/* Position in world space */}}
+\DoxyCodeLine{838     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DVECTOR}}       dvDirection;    \textcolor{comment}{/* Direction in world space */}}
+\DoxyCodeLine{839     D3DVALUE        dvRange;        \textcolor{comment}{/* Cutoff range */}}
+\DoxyCodeLine{840     D3DVALUE        dvFalloff;      \textcolor{comment}{/* Falloff */}}
+\DoxyCodeLine{841     D3DVALUE        dvAttenuation0; \textcolor{comment}{/* Constant attenuation */}}
+\DoxyCodeLine{842     D3DVALUE        dvAttenuation1; \textcolor{comment}{/* Linear attenuation */}}
+\DoxyCodeLine{843     D3DVALUE        dvAttenuation2; \textcolor{comment}{/* Quadratic attenuation */}}
+\DoxyCodeLine{844     D3DVALUE        dvTheta;        \textcolor{comment}{/* Inner angle of spotlight cone */}}
+\DoxyCodeLine{845     D3DVALUE        dvPhi;          \textcolor{comment}{/* Outer angle of spotlight cone */}}
+\DoxyCodeLine{846     DWORD           dwFlags;}
+\DoxyCodeLine{847 \} \mbox{\hyperlink{struct___d3_d_l_i_g_h_t2}{D3DLIGHT2}}, *\mbox{\hyperlink{struct___d3_d_l_i_g_h_t2}{LPD3DLIGHT2}};}
+\DoxyCodeLine{848 }
+\DoxyCodeLine{849 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{850 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_l_i_g_h_t_d_a_t_a}{\_D3DLIGHTDATA}} \{}
+\DoxyCodeLine{851     DWORD                dwSize;}
+\DoxyCodeLine{852     \mbox{\hyperlink{struct___d3_d_l_i_g_h_t_i_n_g_e_l_e_m_e_n_t}{LPD3DLIGHTINGELEMENT}} lpIn;      \textcolor{comment}{/* Input positions and normals */}}
+\DoxyCodeLine{853     DWORD                dwInSize;  \textcolor{comment}{/* Stride of input elements */}}
+\DoxyCodeLine{854     \mbox{\hyperlink{struct___d3_d_t_l_v_e_r_t_e_x}{LPD3DTLVERTEX}}        lpOut;     \textcolor{comment}{/* Output colors */}}
+\DoxyCodeLine{855     DWORD                dwOutSize; \textcolor{comment}{/* Stride of output colors */}}
+\DoxyCodeLine{856 \} \mbox{\hyperlink{struct___d3_d_l_i_g_h_t_d_a_t_a}{D3DLIGHTDATA}}, *\mbox{\hyperlink{struct___d3_d_l_i_g_h_t_d_a_t_a}{LPD3DLIGHTDATA}};}
+\DoxyCodeLine{857 }
+\DoxyCodeLine{858 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{859 \textcolor{comment}{/*}}
+\DoxyCodeLine{860 \textcolor{comment}{ * Before DX5, these values were in an enum called}}
+\DoxyCodeLine{861 \textcolor{comment}{ * D3DCOLORMODEL. This was not correct, since they are}}
+\DoxyCodeLine{862 \textcolor{comment}{ * bit flags. A driver can surface either or both flags}}
+\DoxyCodeLine{863 \textcolor{comment}{ * in the dcmColorModel member of D3DDEVICEDESC.}}
+\DoxyCodeLine{864 \textcolor{comment}{ */}}
+\DoxyCodeLine{865 \textcolor{preprocessor}{\#define D3DCOLOR\_MONO   1}}
+\DoxyCodeLine{866 \textcolor{preprocessor}{\#define D3DCOLOR\_RGB    2}}
+\DoxyCodeLine{867 }
+\DoxyCodeLine{868 \textcolor{keyword}{typedef} DWORD D3DCOLORMODEL;}
+\DoxyCodeLine{869 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{870 }
+\DoxyCodeLine{871 \textcolor{comment}{/*}}
+\DoxyCodeLine{872 \textcolor{comment}{ * Options for clearing}}
+\DoxyCodeLine{873 \textcolor{comment}{ */}}
+\DoxyCodeLine{874 \textcolor{preprocessor}{\#define D3DCLEAR\_TARGET            0x00000001l  }\textcolor{comment}{/* Clear target surface */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{875 \textcolor{preprocessor}{\#define D3DCLEAR\_ZBUFFER           0x00000002l  }\textcolor{comment}{/* Clear target z buffer */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{876 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0600)}}
+\DoxyCodeLine{877 \textcolor{preprocessor}{\#define D3DCLEAR\_STENCIL           0x00000004l  }\textcolor{comment}{/* Clear stencil planes */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{878 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0600 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{879 }
+\DoxyCodeLine{880 \textcolor{comment}{/*}}
+\DoxyCodeLine{881 \textcolor{comment}{ * Execute buffers are allocated via Direct3D.  These buffers may then}}
+\DoxyCodeLine{882 \textcolor{comment}{ * be filled by the application with instructions to execute along with}}
+\DoxyCodeLine{883 \textcolor{comment}{ * vertex data.}}
+\DoxyCodeLine{884 \textcolor{comment}{ */}}
+\DoxyCodeLine{885 }
+\DoxyCodeLine{886 \textcolor{comment}{/*}}
+\DoxyCodeLine{887 \textcolor{comment}{ * Supported op codes for execute instructions.}}
+\DoxyCodeLine{888 \textcolor{comment}{ */}}
+\DoxyCodeLine{889 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DOPCODE \{}
+\DoxyCodeLine{890     D3DOP\_POINT                 = 1,}
+\DoxyCodeLine{891     D3DOP\_LINE                  = 2,}
+\DoxyCodeLine{892     D3DOP\_TRIANGLE      = 3,}
+\DoxyCodeLine{893     D3DOP\_MATRIXLOAD        = 4,}
+\DoxyCodeLine{894     D3DOP\_MATRIXMULTIPLY    = 5,}
+\DoxyCodeLine{895     D3DOP\_STATETRANSFORM        = 6,}
+\DoxyCodeLine{896     D3DOP\_STATELIGHT        = 7,}
+\DoxyCodeLine{897     D3DOP\_STATERENDER       = 8,}
+\DoxyCodeLine{898     D3DOP\_PROCESSVERTICES       = 9,}
+\DoxyCodeLine{899     D3DOP\_TEXTURELOAD       = 10,}
+\DoxyCodeLine{900     D3DOP\_EXIT                  = 11,}
+\DoxyCodeLine{901     D3DOP\_BRANCHFORWARD     = 12,}
+\DoxyCodeLine{902     D3DOP\_SPAN          = 13,}
+\DoxyCodeLine{903     D3DOP\_SETSTATUS     = 14,}
+\DoxyCodeLine{904 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{905     D3DOP\_FORCE\_DWORD           = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{906 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{907 \} D3DOPCODE;}
+\DoxyCodeLine{908 }
+\DoxyCodeLine{909 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_i_n_s_t_r_u_c_t_i_o_n}{\_D3DINSTRUCTION}} \{}
+\DoxyCodeLine{910     BYTE bOpcode;   \textcolor{comment}{/* Instruction opcode */}}
+\DoxyCodeLine{911     BYTE bSize;     \textcolor{comment}{/* Size of each instruction data unit */}}
+\DoxyCodeLine{912     WORD wCount;    \textcolor{comment}{/* Count of instruction data units to follow */}}
+\DoxyCodeLine{913 \} \mbox{\hyperlink{struct___d3_d_i_n_s_t_r_u_c_t_i_o_n}{D3DINSTRUCTION}}, *\mbox{\hyperlink{struct___d3_d_i_n_s_t_r_u_c_t_i_o_n}{LPD3DINSTRUCTION}};}
+\DoxyCodeLine{914 }
+\DoxyCodeLine{915 \textcolor{comment}{/*}}
+\DoxyCodeLine{916 \textcolor{comment}{ * Structure for texture loads}}
+\DoxyCodeLine{917 \textcolor{comment}{ */}}
+\DoxyCodeLine{918 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_t_e_x_t_u_r_e_l_o_a_d}{\_D3DTEXTURELOAD}} \{}
+\DoxyCodeLine{919     D3DTEXTUREHANDLE hDestTexture;}
+\DoxyCodeLine{920     D3DTEXTUREHANDLE hSrcTexture;}
+\DoxyCodeLine{921 \} \mbox{\hyperlink{struct___d3_d_t_e_x_t_u_r_e_l_o_a_d}{D3DTEXTURELOAD}}, *\mbox{\hyperlink{struct___d3_d_t_e_x_t_u_r_e_l_o_a_d}{LPD3DTEXTURELOAD}};}
+\DoxyCodeLine{922 }
+\DoxyCodeLine{923 \textcolor{comment}{/*}}
+\DoxyCodeLine{924 \textcolor{comment}{ * Structure for picking}}
+\DoxyCodeLine{925 \textcolor{comment}{ */}}
+\DoxyCodeLine{926 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_p_i_c_k_r_e_c_o_r_d}{\_D3DPICKRECORD}} \{}
+\DoxyCodeLine{927     BYTE     bOpcode;}
+\DoxyCodeLine{928     BYTE     bPad;}
+\DoxyCodeLine{929     DWORD    dwOffset;}
+\DoxyCodeLine{930     D3DVALUE dvZ;}
+\DoxyCodeLine{931 \} \mbox{\hyperlink{struct___d3_d_p_i_c_k_r_e_c_o_r_d}{D3DPICKRECORD}}, *\mbox{\hyperlink{struct___d3_d_p_i_c_k_r_e_c_o_r_d}{LPD3DPICKRECORD}};}
+\DoxyCodeLine{932 }
+\DoxyCodeLine{933 \textcolor{comment}{/*}}
+\DoxyCodeLine{934 \textcolor{comment}{ * The following defines the rendering states which can be set in the}}
+\DoxyCodeLine{935 \textcolor{comment}{ * execute buffer.}}
+\DoxyCodeLine{936 \textcolor{comment}{ */}}
+\DoxyCodeLine{937 }
+\DoxyCodeLine{938 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{939 }
+\DoxyCodeLine{940 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DSHADEMODE \{}
+\DoxyCodeLine{941     D3DSHADE\_FLAT              = 1,}
+\DoxyCodeLine{942     D3DSHADE\_GOURAUD           = 2,}
+\DoxyCodeLine{943     D3DSHADE\_PHONG             = 3,}
+\DoxyCodeLine{944 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{945     D3DSHADE\_FORCE\_DWORD       = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{946 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{947 \} D3DSHADEMODE;}
+\DoxyCodeLine{948 }
+\DoxyCodeLine{949 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DFILLMODE \{}
+\DoxyCodeLine{950     D3DFILL\_POINT          = 1,}
+\DoxyCodeLine{951     D3DFILL\_WIREFRAME          = 2,}
+\DoxyCodeLine{952     D3DFILL\_SOLID          = 3,}
+\DoxyCodeLine{953 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{954     D3DFILL\_FORCE\_DWORD        = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{955 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{956 \} D3DFILLMODE;}
+\DoxyCodeLine{957 }
+\DoxyCodeLine{958 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_l_i_n_e_p_a_t_t_e_r_n}{\_D3DLINEPATTERN}} \{}
+\DoxyCodeLine{959     WORD    wRepeatFactor;}
+\DoxyCodeLine{960     WORD    wLinePattern;}
+\DoxyCodeLine{961 \} \mbox{\hyperlink{struct___d3_d_l_i_n_e_p_a_t_t_e_r_n}{D3DLINEPATTERN}};}
+\DoxyCodeLine{962 }
+\DoxyCodeLine{963 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{964 }
+\DoxyCodeLine{965 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DTEXTUREFILTER \{}
+\DoxyCodeLine{966     D3DFILTER\_NEAREST          = 1,}
+\DoxyCodeLine{967     D3DFILTER\_LINEAR           = 2,}
+\DoxyCodeLine{968     D3DFILTER\_MIPNEAREST       = 3,}
+\DoxyCodeLine{969     D3DFILTER\_MIPLINEAR        = 4,}
+\DoxyCodeLine{970     D3DFILTER\_LINEARMIPNEAREST = 5,}
+\DoxyCodeLine{971     D3DFILTER\_LINEARMIPLINEAR  = 6,}
+\DoxyCodeLine{972 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{973     D3DFILTER\_FORCE\_DWORD      = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{974 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{975 \} D3DTEXTUREFILTER;}
+\DoxyCodeLine{976 }
+\DoxyCodeLine{977 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{978 }
+\DoxyCodeLine{979 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DBLEND \{}
+\DoxyCodeLine{980     D3DBLEND\_ZERO              = 1,}
+\DoxyCodeLine{981     D3DBLEND\_ONE               = 2,}
+\DoxyCodeLine{982     D3DBLEND\_SRCCOLOR          = 3,}
+\DoxyCodeLine{983     D3DBLEND\_INVSRCCOLOR       = 4,}
+\DoxyCodeLine{984     D3DBLEND\_SRCALPHA          = 5,}
+\DoxyCodeLine{985     D3DBLEND\_INVSRCALPHA       = 6,}
+\DoxyCodeLine{986     D3DBLEND\_DESTALPHA         = 7,}
+\DoxyCodeLine{987     D3DBLEND\_INVDESTALPHA      = 8,}
+\DoxyCodeLine{988     D3DBLEND\_DESTCOLOR         = 9,}
+\DoxyCodeLine{989     D3DBLEND\_INVDESTCOLOR      = 10,}
+\DoxyCodeLine{990     D3DBLEND\_SRCALPHASAT       = 11,}
+\DoxyCodeLine{991     D3DBLEND\_BOTHSRCALPHA      = 12,}
+\DoxyCodeLine{992     D3DBLEND\_BOTHINVSRCALPHA   = 13,}
+\DoxyCodeLine{993 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{994     D3DBLEND\_FORCE\_DWORD       = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{995 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{996 \} D3DBLEND;}
+\DoxyCodeLine{997 }
+\DoxyCodeLine{998 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{999 }
+\DoxyCodeLine{1000 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DTEXTUREBLEND \{}
+\DoxyCodeLine{1001     D3DTBLEND\_DECAL            = 1,}
+\DoxyCodeLine{1002     D3DTBLEND\_MODULATE         = 2,}
+\DoxyCodeLine{1003     D3DTBLEND\_DECALALPHA       = 3,}
+\DoxyCodeLine{1004     D3DTBLEND\_MODULATEALPHA    = 4,}
+\DoxyCodeLine{1005     D3DTBLEND\_DECALMASK        = 5,}
+\DoxyCodeLine{1006     D3DTBLEND\_MODULATEMASK     = 6,}
+\DoxyCodeLine{1007     D3DTBLEND\_COPY             = 7,}
+\DoxyCodeLine{1008 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{1009     D3DTBLEND\_ADD              = 8,}
+\DoxyCodeLine{1010     D3DTBLEND\_FORCE\_DWORD      = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{1011 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1012 \} D3DTEXTUREBLEND;}
+\DoxyCodeLine{1013 }
+\DoxyCodeLine{1014 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{1015 }
+\DoxyCodeLine{1016 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DTEXTUREADDRESS \{}
+\DoxyCodeLine{1017     D3DTADDRESS\_WRAP           = 1,}
+\DoxyCodeLine{1018     D3DTADDRESS\_MIRROR         = 2,}
+\DoxyCodeLine{1019     D3DTADDRESS\_CLAMP          = 3,}
+\DoxyCodeLine{1020 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{1021     D3DTADDRESS\_BORDER         = 4,}
+\DoxyCodeLine{1022     D3DTADDRESS\_FORCE\_DWORD    = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{1023 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1024 \} D3DTEXTUREADDRESS;}
+\DoxyCodeLine{1025 }
+\DoxyCodeLine{1026 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DCULL \{}
+\DoxyCodeLine{1027     D3DCULL\_NONE               = 1,}
+\DoxyCodeLine{1028     D3DCULL\_CW                 = 2,}
+\DoxyCodeLine{1029     D3DCULL\_CCW                = 3,}
+\DoxyCodeLine{1030 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{1031     D3DCULL\_FORCE\_DWORD        = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{1032 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1033 \} D3DCULL;}
+\DoxyCodeLine{1034 }
+\DoxyCodeLine{1035 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DCMPFUNC \{}
+\DoxyCodeLine{1036     D3DCMP\_NEVER               = 1,}
+\DoxyCodeLine{1037     D3DCMP\_LESS                = 2,}
+\DoxyCodeLine{1038     D3DCMP\_EQUAL               = 3,}
+\DoxyCodeLine{1039     D3DCMP\_LESSEQUAL           = 4,}
+\DoxyCodeLine{1040     D3DCMP\_GREATER             = 5,}
+\DoxyCodeLine{1041     D3DCMP\_NOTEQUAL            = 6,}
+\DoxyCodeLine{1042     D3DCMP\_GREATEREQUAL        = 7,}
+\DoxyCodeLine{1043     D3DCMP\_ALWAYS              = 8,}
+\DoxyCodeLine{1044 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{1045     D3DCMP\_FORCE\_DWORD         = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{1046 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1047 \} D3DCMPFUNC;}
+\DoxyCodeLine{1048 }
+\DoxyCodeLine{1049 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0600)}}
+\DoxyCodeLine{1050 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DSTENCILOP \{}
+\DoxyCodeLine{1051     D3DSTENCILOP\_KEEP           = 1,}
+\DoxyCodeLine{1052     D3DSTENCILOP\_ZERO           = 2,}
+\DoxyCodeLine{1053     D3DSTENCILOP\_REPLACE        = 3,}
+\DoxyCodeLine{1054     D3DSTENCILOP\_INCRSAT        = 4,}
+\DoxyCodeLine{1055     D3DSTENCILOP\_DECRSAT        = 5,}
+\DoxyCodeLine{1056     D3DSTENCILOP\_INVERT         = 6,}
+\DoxyCodeLine{1057     D3DSTENCILOP\_INCR           = 7,}
+\DoxyCodeLine{1058     D3DSTENCILOP\_DECR           = 8,}
+\DoxyCodeLine{1059     D3DSTENCILOP\_FORCE\_DWORD    = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{1060 \} D3DSTENCILOP;}
+\DoxyCodeLine{1061 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0600 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1062 }
+\DoxyCodeLine{1063 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DFOGMODE \{}
+\DoxyCodeLine{1064     D3DFOG\_NONE                = 0,}
+\DoxyCodeLine{1065     D3DFOG\_EXP                 = 1,}
+\DoxyCodeLine{1066     D3DFOG\_EXP2                = 2,}
+\DoxyCodeLine{1067 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{1068     D3DFOG\_LINEAR              = 3,}
+\DoxyCodeLine{1069     D3DFOG\_FORCE\_DWORD         = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{1070 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1071 \} D3DFOGMODE;}
+\DoxyCodeLine{1072 }
+\DoxyCodeLine{1073 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0600)}}
+\DoxyCodeLine{1074 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DZBUFFERTYPE \{}
+\DoxyCodeLine{1075     D3DZB\_FALSE                 = 0,}
+\DoxyCodeLine{1076     D3DZB\_TRUE                  = 1, \textcolor{comment}{// Z buffering}}
+\DoxyCodeLine{1077     D3DZB\_USEW                  = 2, \textcolor{comment}{// W buffering}}
+\DoxyCodeLine{1078     D3DZB\_FORCE\_DWORD           = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{1079 \} D3DZBUFFERTYPE;}
+\DoxyCodeLine{1080 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0600 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1081 }
+\DoxyCodeLine{1082 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{1083 }
+\DoxyCodeLine{1084 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{1085 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DANTIALIASMODE \{}
+\DoxyCodeLine{1086     D3DANTIALIAS\_NONE          = 0,}
+\DoxyCodeLine{1087     D3DANTIALIAS\_SORTDEPENDENT = 1,}
+\DoxyCodeLine{1088     D3DANTIALIAS\_SORTINDEPENDENT = 2,}
+\DoxyCodeLine{1089     D3DANTIALIAS\_FORCE\_DWORD   = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{1090 \} D3DANTIALIASMODE;}
+\DoxyCodeLine{1091 }
+\DoxyCodeLine{1092 \textcolor{comment}{// Vertex types supported by Direct3D}}
+\DoxyCodeLine{1093 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DVERTEXTYPE \{}
+\DoxyCodeLine{1094     D3DVT\_VERTEX        = 1,}
+\DoxyCodeLine{1095     D3DVT\_LVERTEX       = 2,}
+\DoxyCodeLine{1096     D3DVT\_TLVERTEX      = 3,}
+\DoxyCodeLine{1097     D3DVT\_FORCE\_DWORD   = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{1098 \} D3DVERTEXTYPE;}
+\DoxyCodeLine{1099 }
+\DoxyCodeLine{1100 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{1101 }
+\DoxyCodeLine{1102 \textcolor{comment}{// Primitives supported by draw-\/primitive API}}
+\DoxyCodeLine{1103 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DPRIMITIVETYPE \{}
+\DoxyCodeLine{1104     D3DPT\_POINTLIST     = 1,}
+\DoxyCodeLine{1105     D3DPT\_LINELIST      = 2,}
+\DoxyCodeLine{1106     D3DPT\_LINESTRIP     = 3,}
+\DoxyCodeLine{1107     D3DPT\_TRIANGLELIST  = 4,}
+\DoxyCodeLine{1108     D3DPT\_TRIANGLESTRIP = 5,}
+\DoxyCodeLine{1109     D3DPT\_TRIANGLEFAN   = 6,}
+\DoxyCodeLine{1110     D3DPT\_FORCE\_DWORD   = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{1111 \} D3DPRIMITIVETYPE;}
+\DoxyCodeLine{1112 }
+\DoxyCodeLine{1113 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{1114 }
+\DoxyCodeLine{1115 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1116 \textcolor{comment}{/*}}
+\DoxyCodeLine{1117 \textcolor{comment}{ * Amount to add to a state to generate the override for that state.}}
+\DoxyCodeLine{1118 \textcolor{comment}{ */}}
+\DoxyCodeLine{1119 \textcolor{preprocessor}{\#define D3DSTATE\_OVERRIDE\_BIAS      256}}
+\DoxyCodeLine{1120 }
+\DoxyCodeLine{1121 \textcolor{comment}{/*}}
+\DoxyCodeLine{1122 \textcolor{comment}{ * A state which sets the override flag for the specified state type.}}
+\DoxyCodeLine{1123 \textcolor{comment}{ */}}
+\DoxyCodeLine{1124 \textcolor{preprocessor}{\#define D3DSTATE\_OVERRIDE(type) (D3DRENDERSTATETYPE)(((DWORD) (type) + D3DSTATE\_OVERRIDE\_BIAS))}}
+\DoxyCodeLine{1125 }
+\DoxyCodeLine{1126 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{1127 }
+\DoxyCodeLine{1128 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DTRANSFORMSTATETYPE \{}
+\DoxyCodeLine{1129     D3DTRANSFORMSTATE\_WORLD         = 1,}
+\DoxyCodeLine{1130     D3DTRANSFORMSTATE\_VIEW          = 2,}
+\DoxyCodeLine{1131     D3DTRANSFORMSTATE\_PROJECTION    = 3,}
+\DoxyCodeLine{1132 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0700)}}
+\DoxyCodeLine{1133     D3DTRANSFORMSTATE\_WORLD1        = 4,  \textcolor{comment}{// 2nd matrix to blend}}
+\DoxyCodeLine{1134     D3DTRANSFORMSTATE\_WORLD2        = 5,  \textcolor{comment}{// 3rd matrix to blend}}
+\DoxyCodeLine{1135     D3DTRANSFORMSTATE\_WORLD3        = 6,  \textcolor{comment}{// 4th matrix to blend}}
+\DoxyCodeLine{1136     D3DTRANSFORMSTATE\_TEXTURE0      = 16,}
+\DoxyCodeLine{1137     D3DTRANSFORMSTATE\_TEXTURE1      = 17,}
+\DoxyCodeLine{1138     D3DTRANSFORMSTATE\_TEXTURE2      = 18,}
+\DoxyCodeLine{1139     D3DTRANSFORMSTATE\_TEXTURE3      = 19,}
+\DoxyCodeLine{1140     D3DTRANSFORMSTATE\_TEXTURE4      = 20,}
+\DoxyCodeLine{1141     D3DTRANSFORMSTATE\_TEXTURE5      = 21,}
+\DoxyCodeLine{1142     D3DTRANSFORMSTATE\_TEXTURE6      = 22,}
+\DoxyCodeLine{1143     D3DTRANSFORMSTATE\_TEXTURE7      = 23,}
+\DoxyCodeLine{1144 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0700 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1145 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{1146     D3DTRANSFORMSTATE\_FORCE\_DWORD     = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{1147 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1148 \} D3DTRANSFORMSTATETYPE;}
+\DoxyCodeLine{1149 }
+\DoxyCodeLine{1150 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1151 }
+\DoxyCodeLine{1152 \textcolor{comment}{//}}
+\DoxyCodeLine{1153 \textcolor{comment}{// legacy transform state names}}
+\DoxyCodeLine{1154 \textcolor{comment}{//}}
+\DoxyCodeLine{1155 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DTRANSFORMSTATETYPE D3DTRANSFORMSTATETYPE;}
+\DoxyCodeLine{1156 \textcolor{preprocessor}{\#define D3DTRANSFORMSTATE\_WORLD         (D3DTRANSFORMSTATETYPE)1}}
+\DoxyCodeLine{1157 \textcolor{preprocessor}{\#define D3DTRANSFORMSTATE\_VIEW          (D3DTRANSFORMSTATETYPE)2}}
+\DoxyCodeLine{1158 \textcolor{preprocessor}{\#define D3DTRANSFORMSTATE\_PROJECTION    (D3DTRANSFORMSTATETYPE)3}}
+\DoxyCodeLine{1159 \textcolor{preprocessor}{\#define D3DTRANSFORMSTATE\_WORLD1        (D3DTRANSFORMSTATETYPE)4}}
+\DoxyCodeLine{1160 \textcolor{preprocessor}{\#define D3DTRANSFORMSTATE\_WORLD2        (D3DTRANSFORMSTATETYPE)5}}
+\DoxyCodeLine{1161 \textcolor{preprocessor}{\#define D3DTRANSFORMSTATE\_WORLD3        (D3DTRANSFORMSTATETYPE)6}}
+\DoxyCodeLine{1162 \textcolor{preprocessor}{\#define D3DTRANSFORMSTATE\_TEXTURE0      (D3DTRANSFORMSTATETYPE)16}}
+\DoxyCodeLine{1163 \textcolor{preprocessor}{\#define D3DTRANSFORMSTATE\_TEXTURE1      (D3DTRANSFORMSTATETYPE)17}}
+\DoxyCodeLine{1164 \textcolor{preprocessor}{\#define D3DTRANSFORMSTATE\_TEXTURE2      (D3DTRANSFORMSTATETYPE)18}}
+\DoxyCodeLine{1165 \textcolor{preprocessor}{\#define D3DTRANSFORMSTATE\_TEXTURE3      (D3DTRANSFORMSTATETYPE)19}}
+\DoxyCodeLine{1166 \textcolor{preprocessor}{\#define D3DTRANSFORMSTATE\_TEXTURE4      (D3DTRANSFORMSTATETYPE)20}}
+\DoxyCodeLine{1167 \textcolor{preprocessor}{\#define D3DTRANSFORMSTATE\_TEXTURE5      (D3DTRANSFORMSTATETYPE)21}}
+\DoxyCodeLine{1168 \textcolor{preprocessor}{\#define D3DTRANSFORMSTATE\_TEXTURE6      (D3DTRANSFORMSTATETYPE)22}}
+\DoxyCodeLine{1169 \textcolor{preprocessor}{\#define D3DTRANSFORMSTATE\_TEXTURE7      (D3DTRANSFORMSTATETYPE)23}}
+\DoxyCodeLine{1170 }
+\DoxyCodeLine{1171 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{1172 }
+\DoxyCodeLine{1173 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DLIGHTSTATETYPE \{}
+\DoxyCodeLine{1174     D3DLIGHTSTATE\_MATERIAL          = 1,}
+\DoxyCodeLine{1175     D3DLIGHTSTATE\_AMBIENT           = 2,}
+\DoxyCodeLine{1176     D3DLIGHTSTATE\_COLORMODEL        = 3,}
+\DoxyCodeLine{1177     D3DLIGHTSTATE\_FOGMODE           = 4,}
+\DoxyCodeLine{1178     D3DLIGHTSTATE\_FOGSTART          = 5,}
+\DoxyCodeLine{1179     D3DLIGHTSTATE\_FOGEND            = 6,}
+\DoxyCodeLine{1180     D3DLIGHTSTATE\_FOGDENSITY        = 7,}
+\DoxyCodeLine{1181 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0600)}}
+\DoxyCodeLine{1182     D3DLIGHTSTATE\_COLORVERTEX       = 8,}
+\DoxyCodeLine{1183 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0600 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1184 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{1185     D3DLIGHTSTATE\_FORCE\_DWORD         = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{1186 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1187 \} D3DLIGHTSTATETYPE;}
+\DoxyCodeLine{1188 }
+\DoxyCodeLine{1189 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{1190 }
+\DoxyCodeLine{1191 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DRENDERSTATETYPE \{}
+\DoxyCodeLine{1192     D3DRENDERSTATE\_ANTIALIAS          = 2,    \textcolor{comment}{/* D3DANTIALIASMODE */}}
+\DoxyCodeLine{1193     D3DRENDERSTATE\_TEXTUREPERSPECTIVE = 4,    \textcolor{comment}{/* TRUE for perspective correction */}}
+\DoxyCodeLine{1194     D3DRENDERSTATE\_ZENABLE            = 7,    \textcolor{comment}{/* D3DZBUFFERTYPE (or TRUE/FALSE for legacy) */}}
+\DoxyCodeLine{1195     D3DRENDERSTATE\_FILLMODE           = 8,    \textcolor{comment}{/* D3DFILL\_MODE        */}}
+\DoxyCodeLine{1196     D3DRENDERSTATE\_SHADEMODE          = 9,    \textcolor{comment}{/* D3DSHADEMODE */}}
+\DoxyCodeLine{1197     D3DRENDERSTATE\_LINEPATTERN        = 10,   \textcolor{comment}{/* D3DLINEPATTERN */}}
+\DoxyCodeLine{1198     D3DRENDERSTATE\_ZWRITEENABLE       = 14,   \textcolor{comment}{/* TRUE to enable z writes */}}
+\DoxyCodeLine{1199     D3DRENDERSTATE\_ALPHATESTENABLE    = 15,   \textcolor{comment}{/* TRUE to enable alpha tests */}}
+\DoxyCodeLine{1200     D3DRENDERSTATE\_LASTPIXEL          = 16,   \textcolor{comment}{/* TRUE for last-\/pixel on lines */}}
+\DoxyCodeLine{1201     D3DRENDERSTATE\_SRCBLEND           = 19,   \textcolor{comment}{/* D3DBLEND */}}
+\DoxyCodeLine{1202     D3DRENDERSTATE\_DESTBLEND          = 20,   \textcolor{comment}{/* D3DBLEND */}}
+\DoxyCodeLine{1203     D3DRENDERSTATE\_CULLMODE           = 22,   \textcolor{comment}{/* D3DCULL */}}
+\DoxyCodeLine{1204     D3DRENDERSTATE\_ZFUNC              = 23,   \textcolor{comment}{/* D3DCMPFUNC */}}
+\DoxyCodeLine{1205     D3DRENDERSTATE\_ALPHAREF           = 24,   \textcolor{comment}{/* D3DFIXED */}}
+\DoxyCodeLine{1206     D3DRENDERSTATE\_ALPHAFUNC          = 25,   \textcolor{comment}{/* D3DCMPFUNC */}}
+\DoxyCodeLine{1207     D3DRENDERSTATE\_DITHERENABLE       = 26,   \textcolor{comment}{/* TRUE to enable dithering */}}
+\DoxyCodeLine{1208 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{1209     D3DRENDERSTATE\_ALPHABLENDENABLE   = 27,   \textcolor{comment}{/* TRUE to enable alpha blending */}}
+\DoxyCodeLine{1210 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1211     D3DRENDERSTATE\_FOGENABLE          = 28,   \textcolor{comment}{/* TRUE to enable fog blending */}}
+\DoxyCodeLine{1212     D3DRENDERSTATE\_SPECULARENABLE     = 29,   \textcolor{comment}{/* TRUE to enable specular */}}
+\DoxyCodeLine{1213     D3DRENDERSTATE\_ZVISIBLE           = 30,   \textcolor{comment}{/* TRUE to enable z checking */}}
+\DoxyCodeLine{1214     D3DRENDERSTATE\_STIPPLEDALPHA      = 33,   \textcolor{comment}{/* TRUE to enable stippled alpha (RGB device only) */}}
+\DoxyCodeLine{1215     D3DRENDERSTATE\_FOGCOLOR           = 34,   \textcolor{comment}{/* D3DCOLOR */}}
+\DoxyCodeLine{1216     D3DRENDERSTATE\_FOGTABLEMODE       = 35,   \textcolor{comment}{/* D3DFOGMODE */}}
+\DoxyCodeLine{1217 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0700)}}
+\DoxyCodeLine{1218     D3DRENDERSTATE\_FOGSTART           = 36,   \textcolor{comment}{/* Fog start (for both vertex and pixel fog) */}}
+\DoxyCodeLine{1219     D3DRENDERSTATE\_FOGEND             = 37,   \textcolor{comment}{/* Fog end      */}}
+\DoxyCodeLine{1220     D3DRENDERSTATE\_FOGDENSITY         = 38,   \textcolor{comment}{/* Fog density  */}}
+\DoxyCodeLine{1221 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0700 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1222 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{1223     D3DRENDERSTATE\_EDGEANTIALIAS      = 40,   \textcolor{comment}{/* TRUE to enable edge antialiasing */}}
+\DoxyCodeLine{1224     D3DRENDERSTATE\_COLORKEYENABLE     = 41,   \textcolor{comment}{/* TRUE to enable source colorkeyed textures */}}
+\DoxyCodeLine{1225     D3DRENDERSTATE\_ZBIAS              = 47,   \textcolor{comment}{/* LONG Z bias */}}
+\DoxyCodeLine{1226     D3DRENDERSTATE\_RANGEFOGENABLE     = 48,   \textcolor{comment}{/* Enables range-\/based fog */}}
+\DoxyCodeLine{1227 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1228 }
+\DoxyCodeLine{1229 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0600)}}
+\DoxyCodeLine{1230     D3DRENDERSTATE\_STENCILENABLE      = 52,   \textcolor{comment}{/* BOOL enable/disable stenciling */}}
+\DoxyCodeLine{1231     D3DRENDERSTATE\_STENCILFAIL        = 53,   \textcolor{comment}{/* D3DSTENCILOP to do if stencil test fails */}}
+\DoxyCodeLine{1232     D3DRENDERSTATE\_STENCILZFAIL       = 54,   \textcolor{comment}{/* D3DSTENCILOP to do if stencil test passes and Z test fails */}}
+\DoxyCodeLine{1233     D3DRENDERSTATE\_STENCILPASS        = 55,   \textcolor{comment}{/* D3DSTENCILOP to do if both stencil and Z tests pass */}}
+\DoxyCodeLine{1234     D3DRENDERSTATE\_STENCILFUNC        = 56,   \textcolor{comment}{/* D3DCMPFUNC fn.  Stencil Test passes if ((ref \& mask) stencilfn (stencil \& mask)) is true */}}
+\DoxyCodeLine{1235     D3DRENDERSTATE\_STENCILREF         = 57,   \textcolor{comment}{/* Reference value used in stencil test */}}
+\DoxyCodeLine{1236     D3DRENDERSTATE\_STENCILMASK        = 58,   \textcolor{comment}{/* Mask value used in stencil test */}}
+\DoxyCodeLine{1237     D3DRENDERSTATE\_STENCILWRITEMASK   = 59,   \textcolor{comment}{/* Write mask applied to values written to stencil buffer */}}
+\DoxyCodeLine{1238     D3DRENDERSTATE\_TEXTUREFACTOR      = 60,   \textcolor{comment}{/* D3DCOLOR used for multi-\/texture blend */}}
+\DoxyCodeLine{1239 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0600 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1240 }
+\DoxyCodeLine{1241 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0600)}}
+\DoxyCodeLine{1242 }
+\DoxyCodeLine{1243     \textcolor{comment}{/*}}
+\DoxyCodeLine{1244 \textcolor{comment}{     * 128 values [128, 255] are reserved for texture coordinate wrap flags.}}
+\DoxyCodeLine{1245 \textcolor{comment}{     * These are constructed with the D3DWRAP\_U and D3DWRAP\_V macros. Using}}
+\DoxyCodeLine{1246 \textcolor{comment}{     * a flags word preserves forward compatibility with texture coordinates}}
+\DoxyCodeLine{1247 \textcolor{comment}{     * that are >2D.}}
+\DoxyCodeLine{1248 \textcolor{comment}{     */}}
+\DoxyCodeLine{1249     D3DRENDERSTATE\_WRAP0              = 128,  \textcolor{comment}{/* wrap for 1st texture coord. set */}}
+\DoxyCodeLine{1250     D3DRENDERSTATE\_WRAP1              = 129,  \textcolor{comment}{/* wrap for 2nd texture coord. set */}}
+\DoxyCodeLine{1251     D3DRENDERSTATE\_WRAP2              = 130,  \textcolor{comment}{/* wrap for 3rd texture coord. set */}}
+\DoxyCodeLine{1252     D3DRENDERSTATE\_WRAP3              = 131,  \textcolor{comment}{/* wrap for 4th texture coord. set */}}
+\DoxyCodeLine{1253     D3DRENDERSTATE\_WRAP4              = 132,  \textcolor{comment}{/* wrap for 5th texture coord. set */}}
+\DoxyCodeLine{1254     D3DRENDERSTATE\_WRAP5              = 133,  \textcolor{comment}{/* wrap for 6th texture coord. set */}}
+\DoxyCodeLine{1255     D3DRENDERSTATE\_WRAP6              = 134,  \textcolor{comment}{/* wrap for 7th texture coord. set */}}
+\DoxyCodeLine{1256     D3DRENDERSTATE\_WRAP7              = 135,  \textcolor{comment}{/* wrap for 8th texture coord. set */}}
+\DoxyCodeLine{1257 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0600 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1258 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0700)}}
+\DoxyCodeLine{1259     D3DRENDERSTATE\_CLIPPING            = 136,}
+\DoxyCodeLine{1260     D3DRENDERSTATE\_LIGHTING            = 137,}
+\DoxyCodeLine{1261     D3DRENDERSTATE\_EXTENTS             = 138,}
+\DoxyCodeLine{1262     D3DRENDERSTATE\_AMBIENT             = 139,}
+\DoxyCodeLine{1263     D3DRENDERSTATE\_FOGVERTEXMODE       = 140,}
+\DoxyCodeLine{1264     D3DRENDERSTATE\_COLORVERTEX         = 141,}
+\DoxyCodeLine{1265     D3DRENDERSTATE\_LOCALVIEWER         = 142,}
+\DoxyCodeLine{1266     D3DRENDERSTATE\_NORMALIZENORMALS    = 143,}
+\DoxyCodeLine{1267     D3DRENDERSTATE\_COLORKEYBLENDENABLE = 144,}
+\DoxyCodeLine{1268     D3DRENDERSTATE\_DIFFUSEMATERIALSOURCE    = 145,}
+\DoxyCodeLine{1269     D3DRENDERSTATE\_SPECULARMATERIALSOURCE   = 146,}
+\DoxyCodeLine{1270     D3DRENDERSTATE\_AMBIENTMATERIALSOURCE    = 147,}
+\DoxyCodeLine{1271     D3DRENDERSTATE\_EMISSIVEMATERIALSOURCE   = 148,}
+\DoxyCodeLine{1272     D3DRENDERSTATE\_VERTEXBLEND              = 151,}
+\DoxyCodeLine{1273     D3DRENDERSTATE\_CLIPPLANEENABLE          = 152,}
+\DoxyCodeLine{1274 }
+\DoxyCodeLine{1275 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0700 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1276 }
+\DoxyCodeLine{1277 \textcolor{comment}{//}}
+\DoxyCodeLine{1278 \textcolor{comment}{// retired renderstates -\/ not supported for DX7 interfaces}}
+\DoxyCodeLine{1279 \textcolor{comment}{//}}
+\DoxyCodeLine{1280     D3DRENDERSTATE\_TEXTUREHANDLE      = 1,    \textcolor{comment}{/* Texture handle for legacy interfaces (Texture,Texture2) */}}
+\DoxyCodeLine{1281     D3DRENDERSTATE\_TEXTUREADDRESS     = 3,    \textcolor{comment}{/* D3DTEXTUREADDRESS  */}}
+\DoxyCodeLine{1282     D3DRENDERSTATE\_WRAPU              = 5,    \textcolor{comment}{/* TRUE for wrapping in u */}}
+\DoxyCodeLine{1283     D3DRENDERSTATE\_WRAPV              = 6,    \textcolor{comment}{/* TRUE for wrapping in v */}}
+\DoxyCodeLine{1284     D3DRENDERSTATE\_MONOENABLE         = 11,   \textcolor{comment}{/* TRUE to enable mono rasterization */}}
+\DoxyCodeLine{1285     D3DRENDERSTATE\_ROP2               = 12,   \textcolor{comment}{/* ROP2 */}}
+\DoxyCodeLine{1286     D3DRENDERSTATE\_PLANEMASK          = 13,   \textcolor{comment}{/* DWORD physical plane mask */}}
+\DoxyCodeLine{1287     D3DRENDERSTATE\_TEXTUREMAG         = 17,   \textcolor{comment}{/* D3DTEXTUREFILTER */}}
+\DoxyCodeLine{1288     D3DRENDERSTATE\_TEXTUREMIN         = 18,   \textcolor{comment}{/* D3DTEXTUREFILTER */}}
+\DoxyCodeLine{1289     D3DRENDERSTATE\_TEXTUREMAPBLEND    = 21,   \textcolor{comment}{/* D3DTEXTUREBLEND */}}
+\DoxyCodeLine{1290     D3DRENDERSTATE\_SUBPIXEL           = 31,   \textcolor{comment}{/* TRUE to enable subpixel correction */}}
+\DoxyCodeLine{1291     D3DRENDERSTATE\_SUBPIXELX          = 32,   \textcolor{comment}{/* TRUE to enable correction in X only */}}
+\DoxyCodeLine{1292     D3DRENDERSTATE\_STIPPLEENABLE      = 39,   \textcolor{comment}{/* TRUE to enable stippling */}}
+\DoxyCodeLine{1293 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{1294     D3DRENDERSTATE\_BORDERCOLOR        = 43,   \textcolor{comment}{/* Border color for texturing w/border */}}
+\DoxyCodeLine{1295     D3DRENDERSTATE\_TEXTUREADDRESSU    = 44,   \textcolor{comment}{/* Texture addressing mode for U coordinate */}}
+\DoxyCodeLine{1296     D3DRENDERSTATE\_TEXTUREADDRESSV    = 45,   \textcolor{comment}{/* Texture addressing mode for V coordinate */}}
+\DoxyCodeLine{1297     D3DRENDERSTATE\_MIPMAPLODBIAS      = 46,   \textcolor{comment}{/* D3DVALUE Mipmap LOD bias */}}
+\DoxyCodeLine{1298     D3DRENDERSTATE\_ANISOTROPY         = 49,   \textcolor{comment}{/* Max. anisotropy. 1 = no anisotropy */}}
+\DoxyCodeLine{1299 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1300     D3DRENDERSTATE\_FLUSHBATCH         = 50,   \textcolor{comment}{/* Explicit flush for DP batching (DX5 Only) */}}
+\DoxyCodeLine{1301 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0600)}}
+\DoxyCodeLine{1302     D3DRENDERSTATE\_TRANSLUCENTSORTINDEPENDENT=51, \textcolor{comment}{/* BOOL enable sort-\/independent transparency */}}
+\DoxyCodeLine{1303 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0600 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1304     D3DRENDERSTATE\_STIPPLEPATTERN00   = 64,   \textcolor{comment}{/* Stipple pattern 01...  */}}
+\DoxyCodeLine{1305     D3DRENDERSTATE\_STIPPLEPATTERN01   = 65,}
+\DoxyCodeLine{1306     D3DRENDERSTATE\_STIPPLEPATTERN02   = 66,}
+\DoxyCodeLine{1307     D3DRENDERSTATE\_STIPPLEPATTERN03   = 67,}
+\DoxyCodeLine{1308     D3DRENDERSTATE\_STIPPLEPATTERN04   = 68,}
+\DoxyCodeLine{1309     D3DRENDERSTATE\_STIPPLEPATTERN05   = 69,}
+\DoxyCodeLine{1310     D3DRENDERSTATE\_STIPPLEPATTERN06   = 70,}
+\DoxyCodeLine{1311     D3DRENDERSTATE\_STIPPLEPATTERN07   = 71,}
+\DoxyCodeLine{1312     D3DRENDERSTATE\_STIPPLEPATTERN08   = 72,}
+\DoxyCodeLine{1313     D3DRENDERSTATE\_STIPPLEPATTERN09   = 73,}
+\DoxyCodeLine{1314     D3DRENDERSTATE\_STIPPLEPATTERN10   = 74,}
+\DoxyCodeLine{1315     D3DRENDERSTATE\_STIPPLEPATTERN11   = 75,}
+\DoxyCodeLine{1316     D3DRENDERSTATE\_STIPPLEPATTERN12   = 76,}
+\DoxyCodeLine{1317     D3DRENDERSTATE\_STIPPLEPATTERN13   = 77,}
+\DoxyCodeLine{1318     D3DRENDERSTATE\_STIPPLEPATTERN14   = 78,}
+\DoxyCodeLine{1319     D3DRENDERSTATE\_STIPPLEPATTERN15   = 79,}
+\DoxyCodeLine{1320     D3DRENDERSTATE\_STIPPLEPATTERN16   = 80,}
+\DoxyCodeLine{1321     D3DRENDERSTATE\_STIPPLEPATTERN17   = 81,}
+\DoxyCodeLine{1322     D3DRENDERSTATE\_STIPPLEPATTERN18   = 82,}
+\DoxyCodeLine{1323     D3DRENDERSTATE\_STIPPLEPATTERN19   = 83,}
+\DoxyCodeLine{1324     D3DRENDERSTATE\_STIPPLEPATTERN20   = 84,}
+\DoxyCodeLine{1325     D3DRENDERSTATE\_STIPPLEPATTERN21   = 85,}
+\DoxyCodeLine{1326     D3DRENDERSTATE\_STIPPLEPATTERN22   = 86,}
+\DoxyCodeLine{1327     D3DRENDERSTATE\_STIPPLEPATTERN23   = 87,}
+\DoxyCodeLine{1328     D3DRENDERSTATE\_STIPPLEPATTERN24   = 88,}
+\DoxyCodeLine{1329     D3DRENDERSTATE\_STIPPLEPATTERN25   = 89,}
+\DoxyCodeLine{1330     D3DRENDERSTATE\_STIPPLEPATTERN26   = 90,}
+\DoxyCodeLine{1331     D3DRENDERSTATE\_STIPPLEPATTERN27   = 91,}
+\DoxyCodeLine{1332     D3DRENDERSTATE\_STIPPLEPATTERN28   = 92,}
+\DoxyCodeLine{1333     D3DRENDERSTATE\_STIPPLEPATTERN29   = 93,}
+\DoxyCodeLine{1334     D3DRENDERSTATE\_STIPPLEPATTERN30   = 94,}
+\DoxyCodeLine{1335     D3DRENDERSTATE\_STIPPLEPATTERN31   = 95,}
+\DoxyCodeLine{1336 }
+\DoxyCodeLine{1337 \textcolor{comment}{//}}
+\DoxyCodeLine{1338 \textcolor{comment}{// retired renderstate names -\/ the values are still used under new naming conventions}}
+\DoxyCodeLine{1339 \textcolor{comment}{//}}
+\DoxyCodeLine{1340     D3DRENDERSTATE\_FOGTABLESTART      = 36,   \textcolor{comment}{/* Fog table start    */}}
+\DoxyCodeLine{1341     D3DRENDERSTATE\_FOGTABLEEND        = 37,   \textcolor{comment}{/* Fog table end      */}}
+\DoxyCodeLine{1342     D3DRENDERSTATE\_FOGTABLEDENSITY    = 38,   \textcolor{comment}{/* Fog table density  */}}
+\DoxyCodeLine{1343 }
+\DoxyCodeLine{1344 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{1345     D3DRENDERSTATE\_FORCE\_DWORD        = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{1346 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1347 \} D3DRENDERSTATETYPE;}
+\DoxyCodeLine{1348 }
+\DoxyCodeLine{1349 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1350 }
+\DoxyCodeLine{1351 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DRENDERSTATETYPE D3DRENDERSTATETYPE;}
+\DoxyCodeLine{1352 }
+\DoxyCodeLine{1353 \textcolor{comment}{//}}
+\DoxyCodeLine{1354 \textcolor{comment}{// legacy renderstate names}}
+\DoxyCodeLine{1355 \textcolor{comment}{//}}
+\DoxyCodeLine{1356 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_TEXTUREPERSPECTIVE       (D3DRENDERSTATETYPE)4}}
+\DoxyCodeLine{1357 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_ZENABLE                  (D3DRENDERSTATETYPE)7}}
+\DoxyCodeLine{1358 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_FILLMODE                 (D3DRENDERSTATETYPE)8}}
+\DoxyCodeLine{1359 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_SHADEMODE                (D3DRENDERSTATETYPE)9}}
+\DoxyCodeLine{1360 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_LINEPATTERN              (D3DRENDERSTATETYPE)10}}
+\DoxyCodeLine{1361 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_ZWRITEENABLE             (D3DRENDERSTATETYPE)14}}
+\DoxyCodeLine{1362 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_ALPHATESTENABLE          (D3DRENDERSTATETYPE)15}}
+\DoxyCodeLine{1363 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_LASTPIXEL                (D3DRENDERSTATETYPE)16}}
+\DoxyCodeLine{1364 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_SRCBLEND                 (D3DRENDERSTATETYPE)19}}
+\DoxyCodeLine{1365 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_DESTBLEND                (D3DRENDERSTATETYPE)20}}
+\DoxyCodeLine{1366 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_CULLMODE                 (D3DRENDERSTATETYPE)22}}
+\DoxyCodeLine{1367 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_ZFUNC                    (D3DRENDERSTATETYPE)23}}
+\DoxyCodeLine{1368 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_ALPHAREF                 (D3DRENDERSTATETYPE)24}}
+\DoxyCodeLine{1369 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_ALPHAFUNC                (D3DRENDERSTATETYPE)25}}
+\DoxyCodeLine{1370 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_DITHERENABLE             (D3DRENDERSTATETYPE)26}}
+\DoxyCodeLine{1371 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_ALPHABLENDENABLE         (D3DRENDERSTATETYPE)27}}
+\DoxyCodeLine{1372 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_FOGENABLE                (D3DRENDERSTATETYPE)28}}
+\DoxyCodeLine{1373 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_SPECULARENABLE           (D3DRENDERSTATETYPE)29}}
+\DoxyCodeLine{1374 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_ZVISIBLE                 (D3DRENDERSTATETYPE)30}}
+\DoxyCodeLine{1375 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEDALPHA            (D3DRENDERSTATETYPE)33}}
+\DoxyCodeLine{1376 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_FOGCOLOR                 (D3DRENDERSTATETYPE)34}}
+\DoxyCodeLine{1377 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_FOGTABLEMODE             (D3DRENDERSTATETYPE)35}}
+\DoxyCodeLine{1378 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_FOGSTART                 (D3DRENDERSTATETYPE)36}}
+\DoxyCodeLine{1379 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_FOGEND                   (D3DRENDERSTATETYPE)37}}
+\DoxyCodeLine{1380 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_FOGDENSITY               (D3DRENDERSTATETYPE)38}}
+\DoxyCodeLine{1381 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_EDGEANTIALIAS            (D3DRENDERSTATETYPE)40}}
+\DoxyCodeLine{1382 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_ZBIAS                    (D3DRENDERSTATETYPE)47}}
+\DoxyCodeLine{1383 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_RANGEFOGENABLE           (D3DRENDERSTATETYPE)48}}
+\DoxyCodeLine{1384 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STENCILENABLE            (D3DRENDERSTATETYPE)52}}
+\DoxyCodeLine{1385 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STENCILFAIL              (D3DRENDERSTATETYPE)53}}
+\DoxyCodeLine{1386 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STENCILZFAIL             (D3DRENDERSTATETYPE)54}}
+\DoxyCodeLine{1387 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STENCILPASS              (D3DRENDERSTATETYPE)55}}
+\DoxyCodeLine{1388 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STENCILFUNC              (D3DRENDERSTATETYPE)56}}
+\DoxyCodeLine{1389 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STENCILREF               (D3DRENDERSTATETYPE)57}}
+\DoxyCodeLine{1390 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STENCILMASK              (D3DRENDERSTATETYPE)58}}
+\DoxyCodeLine{1391 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STENCILWRITEMASK         (D3DRENDERSTATETYPE)59}}
+\DoxyCodeLine{1392 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_TEXTUREFACTOR            (D3DRENDERSTATETYPE)60}}
+\DoxyCodeLine{1393 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_WRAP0                    (D3DRENDERSTATETYPE)128}}
+\DoxyCodeLine{1394 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_WRAP1                    (D3DRENDERSTATETYPE)129}}
+\DoxyCodeLine{1395 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_WRAP2                    (D3DRENDERSTATETYPE)130}}
+\DoxyCodeLine{1396 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_WRAP3                    (D3DRENDERSTATETYPE)131}}
+\DoxyCodeLine{1397 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_WRAP4                    (D3DRENDERSTATETYPE)132}}
+\DoxyCodeLine{1398 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_WRAP5                    (D3DRENDERSTATETYPE)133}}
+\DoxyCodeLine{1399 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_WRAP6                    (D3DRENDERSTATETYPE)134}}
+\DoxyCodeLine{1400 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_WRAP7                    (D3DRENDERSTATETYPE)135}}
+\DoxyCodeLine{1401 }
+\DoxyCodeLine{1402 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_CLIPPING                 (D3DRENDERSTATETYPE)136}}
+\DoxyCodeLine{1403 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_LIGHTING                 (D3DRENDERSTATETYPE)137}}
+\DoxyCodeLine{1404 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_EXTENTS                  (D3DRENDERSTATETYPE)138}}
+\DoxyCodeLine{1405 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_AMBIENT                  (D3DRENDERSTATETYPE)139}}
+\DoxyCodeLine{1406 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_FOGVERTEXMODE            (D3DRENDERSTATETYPE)140}}
+\DoxyCodeLine{1407 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_COLORVERTEX              (D3DRENDERSTATETYPE)141}}
+\DoxyCodeLine{1408 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_LOCALVIEWER              (D3DRENDERSTATETYPE)142}}
+\DoxyCodeLine{1409 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_NORMALIZENORMALS         (D3DRENDERSTATETYPE)143}}
+\DoxyCodeLine{1410 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_COLORKEYBLENDENABLE      (D3DRENDERSTATETYPE)144}}
+\DoxyCodeLine{1411 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_DIFFUSEMATERIALSOURCE    (D3DRENDERSTATETYPE)145}}
+\DoxyCodeLine{1412 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_SPECULARMATERIALSOURCE   (D3DRENDERSTATETYPE)146}}
+\DoxyCodeLine{1413 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_AMBIENTMATERIALSOURCE    (D3DRENDERSTATETYPE)147}}
+\DoxyCodeLine{1414 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_EMISSIVEMATERIALSOURCE   (D3DRENDERSTATETYPE)148}}
+\DoxyCodeLine{1415 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_VERTEXBLEND              (D3DRENDERSTATETYPE)151}}
+\DoxyCodeLine{1416 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_CLIPPLANEENABLE          (D3DRENDERSTATETYPE)152}}
+\DoxyCodeLine{1417 }
+\DoxyCodeLine{1418 \textcolor{comment}{//}}
+\DoxyCodeLine{1419 \textcolor{comment}{// retired renderstates -\/ not supported for DX7 interfaces}}
+\DoxyCodeLine{1420 \textcolor{comment}{//}}
+\DoxyCodeLine{1421 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_TEXTUREHANDLE     (D3DRENDERSTATETYPE)1}}
+\DoxyCodeLine{1422 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_ANTIALIAS         (D3DRENDERSTATETYPE)2}}
+\DoxyCodeLine{1423 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_TEXTUREADDRESS    (D3DRENDERSTATETYPE)3}}
+\DoxyCodeLine{1424 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_WRAPU             (D3DRENDERSTATETYPE)5}}
+\DoxyCodeLine{1425 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_WRAPV             (D3DRENDERSTATETYPE)6}}
+\DoxyCodeLine{1426 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_MONOENABLE        (D3DRENDERSTATETYPE)11}}
+\DoxyCodeLine{1427 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_ROP2              (D3DRENDERSTATETYPE)12}}
+\DoxyCodeLine{1428 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_PLANEMASK         (D3DRENDERSTATETYPE)13}}
+\DoxyCodeLine{1429 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_TEXTUREMAG        (D3DRENDERSTATETYPE)17}}
+\DoxyCodeLine{1430 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_TEXTUREMIN        (D3DRENDERSTATETYPE)18}}
+\DoxyCodeLine{1431 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_TEXTUREMAPBLEND   (D3DRENDERSTATETYPE)21}}
+\DoxyCodeLine{1432 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_SUBPIXEL          (D3DRENDERSTATETYPE)31}}
+\DoxyCodeLine{1433 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_SUBPIXELX         (D3DRENDERSTATETYPE)32}}
+\DoxyCodeLine{1434 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEENABLE     (D3DRENDERSTATETYPE)39}}
+\DoxyCodeLine{1435 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_OLDALPHABLENDENABLE  (D3DRENDERSTATETYPE)42}}
+\DoxyCodeLine{1436 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_BORDERCOLOR       (D3DRENDERSTATETYPE)43}}
+\DoxyCodeLine{1437 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_TEXTUREADDRESSU   (D3DRENDERSTATETYPE)44}}
+\DoxyCodeLine{1438 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_TEXTUREADDRESSV   (D3DRENDERSTATETYPE)45}}
+\DoxyCodeLine{1439 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_MIPMAPLODBIAS     (D3DRENDERSTATETYPE)46}}
+\DoxyCodeLine{1440 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_ANISOTROPY        (D3DRENDERSTATETYPE)49}}
+\DoxyCodeLine{1441 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_FLUSHBATCH        (D3DRENDERSTATETYPE)50}}
+\DoxyCodeLine{1442 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_TRANSLUCENTSORTINDEPENDENT (D3DRENDERSTATETYPE)51}}
+\DoxyCodeLine{1443 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN00  (D3DRENDERSTATETYPE)64}}
+\DoxyCodeLine{1444 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN01  (D3DRENDERSTATETYPE)65}}
+\DoxyCodeLine{1445 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN02  (D3DRENDERSTATETYPE)66}}
+\DoxyCodeLine{1446 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN03  (D3DRENDERSTATETYPE)67}}
+\DoxyCodeLine{1447 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN04  (D3DRENDERSTATETYPE)68}}
+\DoxyCodeLine{1448 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN05  (D3DRENDERSTATETYPE)69}}
+\DoxyCodeLine{1449 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN06  (D3DRENDERSTATETYPE)70}}
+\DoxyCodeLine{1450 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN07  (D3DRENDERSTATETYPE)71}}
+\DoxyCodeLine{1451 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN08  (D3DRENDERSTATETYPE)72}}
+\DoxyCodeLine{1452 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN09  (D3DRENDERSTATETYPE)73}}
+\DoxyCodeLine{1453 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN10  (D3DRENDERSTATETYPE)74}}
+\DoxyCodeLine{1454 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN11  (D3DRENDERSTATETYPE)75}}
+\DoxyCodeLine{1455 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN12  (D3DRENDERSTATETYPE)76}}
+\DoxyCodeLine{1456 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN13  (D3DRENDERSTATETYPE)77}}
+\DoxyCodeLine{1457 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN14  (D3DRENDERSTATETYPE)78}}
+\DoxyCodeLine{1458 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN15  (D3DRENDERSTATETYPE)79}}
+\DoxyCodeLine{1459 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN16  (D3DRENDERSTATETYPE)80}}
+\DoxyCodeLine{1460 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN17  (D3DRENDERSTATETYPE)81}}
+\DoxyCodeLine{1461 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN18  (D3DRENDERSTATETYPE)82}}
+\DoxyCodeLine{1462 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN19  (D3DRENDERSTATETYPE)83}}
+\DoxyCodeLine{1463 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN20  (D3DRENDERSTATETYPE)84}}
+\DoxyCodeLine{1464 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN21  (D3DRENDERSTATETYPE)85}}
+\DoxyCodeLine{1465 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN22  (D3DRENDERSTATETYPE)86}}
+\DoxyCodeLine{1466 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN23  (D3DRENDERSTATETYPE)87}}
+\DoxyCodeLine{1467 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN24  (D3DRENDERSTATETYPE)88}}
+\DoxyCodeLine{1468 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN25  (D3DRENDERSTATETYPE)89}}
+\DoxyCodeLine{1469 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN26  (D3DRENDERSTATETYPE)90}}
+\DoxyCodeLine{1470 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN27  (D3DRENDERSTATETYPE)91}}
+\DoxyCodeLine{1471 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN28  (D3DRENDERSTATETYPE)92}}
+\DoxyCodeLine{1472 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN29  (D3DRENDERSTATETYPE)93}}
+\DoxyCodeLine{1473 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN30  (D3DRENDERSTATETYPE)94}}
+\DoxyCodeLine{1474 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN31  (D3DRENDERSTATETYPE)95}}
+\DoxyCodeLine{1475 }
+\DoxyCodeLine{1476 \textcolor{comment}{//}}
+\DoxyCodeLine{1477 \textcolor{comment}{// retired renderstates -\/ not supported for DX8 interfaces}}
+\DoxyCodeLine{1478 \textcolor{comment}{//}}
+\DoxyCodeLine{1479 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_COLORKEYENABLE        (D3DRENDERSTATETYPE)41}}
+\DoxyCodeLine{1480 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_COLORKEYBLENDENABLE   (D3DRENDERSTATETYPE)144}}
+\DoxyCodeLine{1481 }
+\DoxyCodeLine{1482 \textcolor{comment}{//}}
+\DoxyCodeLine{1483 \textcolor{comment}{// retired renderstate names -\/ the values are still used under new naming conventions}}
+\DoxyCodeLine{1484 \textcolor{comment}{//}}
+\DoxyCodeLine{1485 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_BLENDENABLE       (D3DRENDERSTATETYPE)27}}
+\DoxyCodeLine{1486 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_FOGTABLESTART     (D3DRENDERSTATETYPE)36}}
+\DoxyCodeLine{1487 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_FOGTABLEEND       (D3DRENDERSTATETYPE)37}}
+\DoxyCodeLine{1488 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_FOGTABLEDENSITY   (D3DRENDERSTATETYPE)38}}
+\DoxyCodeLine{1489 }
+\DoxyCodeLine{1490 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{1491 }
+\DoxyCodeLine{1492 }
+\DoxyCodeLine{1493 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{1494 }
+\DoxyCodeLine{1495 \textcolor{comment}{// Values for material source}}
+\DoxyCodeLine{1496 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DMATERIALCOLORSOURCE}
+\DoxyCodeLine{1497 \{}
+\DoxyCodeLine{1498     D3DMCS\_MATERIAL = 0,                \textcolor{comment}{// Color from material is used}}
+\DoxyCodeLine{1499     D3DMCS\_COLOR1   = 1,                \textcolor{comment}{// Diffuse vertex color is used}}
+\DoxyCodeLine{1500     D3DMCS\_COLOR2   = 2,                \textcolor{comment}{// Specular vertex color is used}}
+\DoxyCodeLine{1501     D3DMCS\_FORCE\_DWORD = 0x7fffffff,    \textcolor{comment}{// force 32-\/bit size enum}}
+\DoxyCodeLine{1502 \} D3DMATERIALCOLORSOURCE;}
+\DoxyCodeLine{1503 }
+\DoxyCodeLine{1504 }
+\DoxyCodeLine{1505 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{1506 \textcolor{comment}{// For back-\/compatibility with legacy compilations}}
+\DoxyCodeLine{1507 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_BLENDENABLE      D3DRENDERSTATE\_ALPHABLENDENABLE}}
+\DoxyCodeLine{1508 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1509 }
+\DoxyCodeLine{1510 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0600)}}
+\DoxyCodeLine{1511 }
+\DoxyCodeLine{1512 \textcolor{comment}{// Bias to apply to the texture coordinate set to apply a wrap to.}}
+\DoxyCodeLine{1513 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_WRAPBIAS                 128UL}}
+\DoxyCodeLine{1514 }
+\DoxyCodeLine{1515 \textcolor{comment}{/* Flags to construct the WRAP render states */}}
+\DoxyCodeLine{1516 \textcolor{preprocessor}{\#define D3DWRAP\_U   0x00000001L}}
+\DoxyCodeLine{1517 \textcolor{preprocessor}{\#define D3DWRAP\_V   0x00000002L}}
+\DoxyCodeLine{1518 }
+\DoxyCodeLine{1519 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0600 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1520 }
+\DoxyCodeLine{1521 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0700)}}
+\DoxyCodeLine{1522 }
+\DoxyCodeLine{1523 \textcolor{comment}{/* Flags to construct the WRAP render states for 1D thru 4D texture coordinates */}}
+\DoxyCodeLine{1524 \textcolor{preprocessor}{\#define D3DWRAPCOORD\_0   0x00000001L    }\textcolor{comment}{// same as D3DWRAP\_U}}
+\DoxyCodeLine{1525 \textcolor{preprocessor}{\#define D3DWRAPCOORD\_1   0x00000002L    }\textcolor{comment}{// same as D3DWRAP\_V}}
+\DoxyCodeLine{1526 \textcolor{preprocessor}{\#define D3DWRAPCOORD\_2   0x00000004L}}
+\DoxyCodeLine{1527 \textcolor{preprocessor}{\#define D3DWRAPCOORD\_3   0x00000008L}}
+\DoxyCodeLine{1528 }
+\DoxyCodeLine{1529 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0700 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1530 }
+\DoxyCodeLine{1531 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{1532 }
+\DoxyCodeLine{1533 \textcolor{preprocessor}{\#define D3DRENDERSTATE\_STIPPLEPATTERN(y) (D3DRENDERSTATE\_STIPPLEPATTERN00 + (y))}}
+\DoxyCodeLine{1534 }
+\DoxyCodeLine{1535 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_s_t_a_t_e}{\_D3DSTATE}} \{}
+\DoxyCodeLine{1536     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{1537 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{1538     D3DTRANSFORMSTATETYPE   dtstTransformStateType;}
+\DoxyCodeLine{1539 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{1540     D3DLIGHTSTATETYPE   dlstLightStateType;}
+\DoxyCodeLine{1541     D3DRENDERSTATETYPE  drstRenderStateType;}
+\DoxyCodeLine{1542     \};}
+\DoxyCodeLine{1543     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{1544     DWORD           dwArg[1];}
+\DoxyCodeLine{1545     D3DVALUE        dvArg[1];}
+\DoxyCodeLine{1546     \};}
+\DoxyCodeLine{1547 \} \mbox{\hyperlink{struct___d3_d_s_t_a_t_e}{D3DSTATE}}, *\mbox{\hyperlink{struct___d3_d_s_t_a_t_e}{LPD3DSTATE}};}
+\DoxyCodeLine{1548 }
+\DoxyCodeLine{1549 }
+\DoxyCodeLine{1550 \textcolor{comment}{/*}}
+\DoxyCodeLine{1551 \textcolor{comment}{ * Operation used to load matrices}}
+\DoxyCodeLine{1552 \textcolor{comment}{ * hDstMat = hSrcMat}}
+\DoxyCodeLine{1553 \textcolor{comment}{ */}}
+\DoxyCodeLine{1554 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x_l_o_a_d}{\_D3DMATRIXLOAD}} \{}
+\DoxyCodeLine{1555     D3DMATRIXHANDLE hDestMatrix;   \textcolor{comment}{/* Destination matrix */}}
+\DoxyCodeLine{1556     D3DMATRIXHANDLE hSrcMatrix;   \textcolor{comment}{/* Source matrix */}}
+\DoxyCodeLine{1557 \} \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x_l_o_a_d}{D3DMATRIXLOAD}}, *\mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x_l_o_a_d}{LPD3DMATRIXLOAD}};}
+\DoxyCodeLine{1558 }
+\DoxyCodeLine{1559 \textcolor{comment}{/*}}
+\DoxyCodeLine{1560 \textcolor{comment}{ * Operation used to multiply matrices}}
+\DoxyCodeLine{1561 \textcolor{comment}{ * hDstMat = hSrcMat1 * hSrcMat2}}
+\DoxyCodeLine{1562 \textcolor{comment}{ */}}
+\DoxyCodeLine{1563 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x_m_u_l_t_i_p_l_y}{\_D3DMATRIXMULTIPLY}} \{}
+\DoxyCodeLine{1564     D3DMATRIXHANDLE hDestMatrix;   \textcolor{comment}{/* Destination matrix */}}
+\DoxyCodeLine{1565     D3DMATRIXHANDLE hSrcMatrix1;  \textcolor{comment}{/* First source matrix */}}
+\DoxyCodeLine{1566     D3DMATRIXHANDLE hSrcMatrix2;  \textcolor{comment}{/* Second source matrix */}}
+\DoxyCodeLine{1567 \} \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x_m_u_l_t_i_p_l_y}{D3DMATRIXMULTIPLY}}, *\mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x_m_u_l_t_i_p_l_y}{LPD3DMATRIXMULTIPLY}};}
+\DoxyCodeLine{1568 }
+\DoxyCodeLine{1569 \textcolor{comment}{/*}}
+\DoxyCodeLine{1570 \textcolor{comment}{ * Operation used to transform and light vertices.}}
+\DoxyCodeLine{1571 \textcolor{comment}{ */}}
+\DoxyCodeLine{1572 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_p_r_o_c_e_s_s_v_e_r_t_i_c_e_s}{\_D3DPROCESSVERTICES}} \{}
+\DoxyCodeLine{1573     DWORD        dwFlags;    \textcolor{comment}{/* Do we transform or light or just copy? */}}
+\DoxyCodeLine{1574     WORD         wStart;     \textcolor{comment}{/* Index to first vertex in source */}}
+\DoxyCodeLine{1575     WORD         wDest;      \textcolor{comment}{/* Index to first vertex in local buffer */}}
+\DoxyCodeLine{1576     DWORD        dwCount;    \textcolor{comment}{/* Number of vertices to be processed */}}
+\DoxyCodeLine{1577     DWORD    dwReserved; \textcolor{comment}{/* Must be zero */}}
+\DoxyCodeLine{1578 \} \mbox{\hyperlink{struct___d3_d_p_r_o_c_e_s_s_v_e_r_t_i_c_e_s}{D3DPROCESSVERTICES}}, *\mbox{\hyperlink{struct___d3_d_p_r_o_c_e_s_s_v_e_r_t_i_c_e_s}{LPD3DPROCESSVERTICES}};}
+\DoxyCodeLine{1579 }
+\DoxyCodeLine{1580 \textcolor{preprocessor}{\#define D3DPROCESSVERTICES\_TRANSFORMLIGHT   0x00000000L}}
+\DoxyCodeLine{1581 \textcolor{preprocessor}{\#define D3DPROCESSVERTICES\_TRANSFORM        0x00000001L}}
+\DoxyCodeLine{1582 \textcolor{preprocessor}{\#define D3DPROCESSVERTICES\_COPY         0x00000002L}}
+\DoxyCodeLine{1583 \textcolor{preprocessor}{\#define D3DPROCESSVERTICES\_OPMASK       0x00000007L}}
+\DoxyCodeLine{1584 }
+\DoxyCodeLine{1585 \textcolor{preprocessor}{\#define D3DPROCESSVERTICES\_UPDATEEXTENTS    0x00000008L}}
+\DoxyCodeLine{1586 \textcolor{preprocessor}{\#define D3DPROCESSVERTICES\_NOCOLOR      0x00000010L}}
+\DoxyCodeLine{1587 }
+\DoxyCodeLine{1588 }
+\DoxyCodeLine{1589 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0600)}}
+\DoxyCodeLine{1590 }
+\DoxyCodeLine{1591 }
+\DoxyCodeLine{1592 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{1593 }
+\DoxyCodeLine{1594 \textcolor{comment}{/*}}
+\DoxyCodeLine{1595 \textcolor{comment}{ * State enumerants for per-\/stage texture processing.}}
+\DoxyCodeLine{1596 \textcolor{comment}{ */}}
+\DoxyCodeLine{1597 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DTEXTURESTAGESTATETYPE}
+\DoxyCodeLine{1598 \{}
+\DoxyCodeLine{1599     D3DTSS\_COLOROP        =  1, \textcolor{comment}{/* D3DTEXTUREOP -\/ per-\/stage blending controls for color channels */}}
+\DoxyCodeLine{1600     D3DTSS\_COLORARG1      =  2, \textcolor{comment}{/* D3DTA\_* (texture arg) */}}
+\DoxyCodeLine{1601     D3DTSS\_COLORARG2      =  3, \textcolor{comment}{/* D3DTA\_* (texture arg) */}}
+\DoxyCodeLine{1602     D3DTSS\_ALPHAOP        =  4, \textcolor{comment}{/* D3DTEXTUREOP -\/ per-\/stage blending controls for alpha channel */}}
+\DoxyCodeLine{1603     D3DTSS\_ALPHAARG1      =  5, \textcolor{comment}{/* D3DTA\_* (texture arg) */}}
+\DoxyCodeLine{1604     D3DTSS\_ALPHAARG2      =  6, \textcolor{comment}{/* D3DTA\_* (texture arg) */}}
+\DoxyCodeLine{1605     D3DTSS\_BUMPENVMAT00   =  7, \textcolor{comment}{/* D3DVALUE (bump mapping matrix) */}}
+\DoxyCodeLine{1606     D3DTSS\_BUMPENVMAT01   =  8, \textcolor{comment}{/* D3DVALUE (bump mapping matrix) */}}
+\DoxyCodeLine{1607     D3DTSS\_BUMPENVMAT10   =  9, \textcolor{comment}{/* D3DVALUE (bump mapping matrix) */}}
+\DoxyCodeLine{1608     D3DTSS\_BUMPENVMAT11   = 10, \textcolor{comment}{/* D3DVALUE (bump mapping matrix) */}}
+\DoxyCodeLine{1609     D3DTSS\_TEXCOORDINDEX  = 11, \textcolor{comment}{/* identifies which set of texture coordinates index this texture */}}
+\DoxyCodeLine{1610     D3DTSS\_ADDRESS        = 12, \textcolor{comment}{/* D3DTEXTUREADDRESS for both coordinates */}}
+\DoxyCodeLine{1611     D3DTSS\_ADDRESSU       = 13, \textcolor{comment}{/* D3DTEXTUREADDRESS for U coordinate */}}
+\DoxyCodeLine{1612     D3DTSS\_ADDRESSV       = 14, \textcolor{comment}{/* D3DTEXTUREADDRESS for V coordinate */}}
+\DoxyCodeLine{1613     D3DTSS\_BORDERCOLOR    = 15, \textcolor{comment}{/* D3DCOLOR */}}
+\DoxyCodeLine{1614     D3DTSS\_MAGFILTER      = 16, \textcolor{comment}{/* D3DTEXTUREMAGFILTER filter to use for magnification */}}
+\DoxyCodeLine{1615     D3DTSS\_MINFILTER      = 17, \textcolor{comment}{/* D3DTEXTUREMINFILTER filter to use for minification */}}
+\DoxyCodeLine{1616     D3DTSS\_MIPFILTER      = 18, \textcolor{comment}{/* D3DTEXTUREMIPFILTER filter to use between mipmaps during minification */}}
+\DoxyCodeLine{1617     D3DTSS\_MIPMAPLODBIAS  = 19, \textcolor{comment}{/* D3DVALUE Mipmap LOD bias */}}
+\DoxyCodeLine{1618     D3DTSS\_MAXMIPLEVEL    = 20, \textcolor{comment}{/* DWORD 0..(n-\/1) LOD index of largest map to use (0 == largest) */}}
+\DoxyCodeLine{1619     D3DTSS\_MAXANISOTROPY  = 21, \textcolor{comment}{/* DWORD maximum anisotropy */}}
+\DoxyCodeLine{1620     D3DTSS\_BUMPENVLSCALE  = 22, \textcolor{comment}{/* D3DVALUE scale for bump map luminance */}}
+\DoxyCodeLine{1621     D3DTSS\_BUMPENVLOFFSET = 23, \textcolor{comment}{/* D3DVALUE offset for bump map luminance */}}
+\DoxyCodeLine{1622 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0700)}}
+\DoxyCodeLine{1623     D3DTSS\_TEXTURETRANSFORMFLAGS = 24, \textcolor{comment}{/* D3DTEXTURETRANSFORMFLAGS controls texture transform */}}
+\DoxyCodeLine{1624 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0700 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1625     D3DTSS\_FORCE\_DWORD   = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{1626 \} D3DTEXTURESTAGESTATETYPE;}
+\DoxyCodeLine{1627 }
+\DoxyCodeLine{1628 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0700)}}
+\DoxyCodeLine{1629 \textcolor{comment}{// Values, used with D3DTSS\_TEXCOORDINDEX, to specify that the vertex data(position}}
+\DoxyCodeLine{1630 \textcolor{comment}{// and normal in the camera space) should be taken as texture coordinates}}
+\DoxyCodeLine{1631 \textcolor{comment}{// Low 16 bits are used to specify texture coordinate index, to take the WRAP mode from}}
+\DoxyCodeLine{1632 \textcolor{comment}{//}}
+\DoxyCodeLine{1633 \textcolor{preprocessor}{\#define D3DTSS\_TCI\_PASSTHRU                             0x00000000}}
+\DoxyCodeLine{1634 \textcolor{preprocessor}{\#define D3DTSS\_TCI\_CAMERASPACENORMAL                    0x00010000}}
+\DoxyCodeLine{1635 \textcolor{preprocessor}{\#define D3DTSS\_TCI\_CAMERASPACEPOSITION                  0x00020000}}
+\DoxyCodeLine{1636 \textcolor{preprocessor}{\#define D3DTSS\_TCI\_CAMERASPACEREFLECTIONVECTOR          0x00030000}}
+\DoxyCodeLine{1637 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0700 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1638 }
+\DoxyCodeLine{1639 \textcolor{comment}{/*}}
+\DoxyCodeLine{1640 \textcolor{comment}{ * Enumerations for COLOROP and ALPHAOP texture blending operations set in}}
+\DoxyCodeLine{1641 \textcolor{comment}{ * texture processing stage controls in D3DRENDERSTATE.}}
+\DoxyCodeLine{1642 \textcolor{comment}{ */}}
+\DoxyCodeLine{1643 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DTEXTUREOP}
+\DoxyCodeLine{1644 \{}
+\DoxyCodeLine{1645 \textcolor{comment}{// Control}}
+\DoxyCodeLine{1646     D3DTOP\_DISABLE    = 1,      \textcolor{comment}{// disables stage}}
+\DoxyCodeLine{1647     D3DTOP\_SELECTARG1 = 2,      \textcolor{comment}{// the default}}
+\DoxyCodeLine{1648     D3DTOP\_SELECTARG2 = 3,}
+\DoxyCodeLine{1649 }
+\DoxyCodeLine{1650 \textcolor{comment}{// Modulate}}
+\DoxyCodeLine{1651     D3DTOP\_MODULATE   = 4,      \textcolor{comment}{// multiply args together}}
+\DoxyCodeLine{1652     D3DTOP\_MODULATE2X = 5,      \textcolor{comment}{// multiply and  1 bit}}
+\DoxyCodeLine{1653     D3DTOP\_MODULATE4X = 6,      \textcolor{comment}{// multiply and  2 bits}}
+\DoxyCodeLine{1654 }
+\DoxyCodeLine{1655 \textcolor{comment}{// Add}}
+\DoxyCodeLine{1656     D3DTOP\_ADD          =  7,   \textcolor{comment}{// add arguments together}}
+\DoxyCodeLine{1657     D3DTOP\_ADDSIGNED    =  8,   \textcolor{comment}{// add with -\/0.5 bias}}
+\DoxyCodeLine{1658     D3DTOP\_ADDSIGNED2X  =  9,   \textcolor{comment}{// as above but left  1 bit}}
+\DoxyCodeLine{1659     D3DTOP\_SUBTRACT     = 10,   \textcolor{comment}{// Arg1 -\/ Arg2, with no saturation}}
+\DoxyCodeLine{1660     D3DTOP\_ADDSMOOTH    = 11,   \textcolor{comment}{// add 2 args, subtract product}}
+\DoxyCodeLine{1661                                 \textcolor{comment}{// Arg1 + Arg2 -\/ Arg1*Arg2}}
+\DoxyCodeLine{1662                                 \textcolor{comment}{// = Arg1 + (1-\/Arg1)*Arg2}}
+\DoxyCodeLine{1663 }
+\DoxyCodeLine{1664 \textcolor{comment}{// Linear alpha blend: Arg1*(Alpha) + Arg2*(1-\/Alpha)}}
+\DoxyCodeLine{1665     D3DTOP\_BLENDDIFFUSEALPHA    = 12, \textcolor{comment}{// iterated alpha}}
+\DoxyCodeLine{1666     D3DTOP\_BLENDTEXTUREALPHA    = 13, \textcolor{comment}{// texture alpha}}
+\DoxyCodeLine{1667     D3DTOP\_BLENDFACTORALPHA     = 14, \textcolor{comment}{// alpha from D3DRENDERSTATE\_TEXTUREFACTOR}}
+\DoxyCodeLine{1668     \textcolor{comment}{// Linear alpha blend with pre-\/multiplied arg1 input: Arg1 + Arg2*(1-\/Alpha)}}
+\DoxyCodeLine{1669     D3DTOP\_BLENDTEXTUREALPHAPM  = 15, \textcolor{comment}{// texture alpha}}
+\DoxyCodeLine{1670     D3DTOP\_BLENDCURRENTALPHA    = 16, \textcolor{comment}{// by alpha of current color}}
+\DoxyCodeLine{1671 }
+\DoxyCodeLine{1672 \textcolor{comment}{// Specular mapping}}
+\DoxyCodeLine{1673     D3DTOP\_PREMODULATE            = 17,     \textcolor{comment}{// modulate with next texture before use}}
+\DoxyCodeLine{1674     D3DTOP\_MODULATEALPHA\_ADDCOLOR = 18,     \textcolor{comment}{// Arg1.RGB + Arg1.A*Arg2.RGB}}
+\DoxyCodeLine{1675                                             \textcolor{comment}{// COLOROP only}}
+\DoxyCodeLine{1676     D3DTOP\_MODULATECOLOR\_ADDALPHA = 19,     \textcolor{comment}{// Arg1.RGB*Arg2.RGB + Arg1.A}}
+\DoxyCodeLine{1677                                             \textcolor{comment}{// COLOROP only}}
+\DoxyCodeLine{1678     D3DTOP\_MODULATEINVALPHA\_ADDCOLOR = 20,  \textcolor{comment}{// (1-\/Arg1.A)*Arg2.RGB + Arg1.RGB}}
+\DoxyCodeLine{1679                                             \textcolor{comment}{// COLOROP only}}
+\DoxyCodeLine{1680     D3DTOP\_MODULATEINVCOLOR\_ADDALPHA = 21,  \textcolor{comment}{// (1-\/Arg1.RGB)*Arg2.RGB + Arg1.A}}
+\DoxyCodeLine{1681                                             \textcolor{comment}{// COLOROP only}}
+\DoxyCodeLine{1682 }
+\DoxyCodeLine{1683 \textcolor{comment}{// Bump mapping}}
+\DoxyCodeLine{1684     D3DTOP\_BUMPENVMAP           = 22, \textcolor{comment}{// per pixel env map perturbation}}
+\DoxyCodeLine{1685     D3DTOP\_BUMPENVMAPLUMINANCE  = 23, \textcolor{comment}{// with luminance channel}}
+\DoxyCodeLine{1686     \textcolor{comment}{// This can do either diffuse or specular bump mapping with correct input.}}
+\DoxyCodeLine{1687     \textcolor{comment}{// Performs the function (Arg1.R*Arg2.R + Arg1.G*Arg2.G + Arg1.B*Arg2.B)}}
+\DoxyCodeLine{1688     \textcolor{comment}{// where each component has been scaled and offset to make it signed.}}
+\DoxyCodeLine{1689     \textcolor{comment}{// The result is replicated into all four (including alpha) channels.}}
+\DoxyCodeLine{1690     \textcolor{comment}{// This is a valid COLOROP only.}}
+\DoxyCodeLine{1691     D3DTOP\_DOTPRODUCT3          = 24,}
+\DoxyCodeLine{1692 }
+\DoxyCodeLine{1693     D3DTOP\_FORCE\_DWORD = 0x7fffffff,}
+\DoxyCodeLine{1694 \} D3DTEXTUREOP;}
+\DoxyCodeLine{1695 }
+\DoxyCodeLine{1696 \textcolor{comment}{/*}}
+\DoxyCodeLine{1697 \textcolor{comment}{ * Values for COLORARG1,2 and ALPHAARG1,2 texture blending operations}}
+\DoxyCodeLine{1698 \textcolor{comment}{ * set in texture processing stage controls in D3DRENDERSTATE.}}
+\DoxyCodeLine{1699 \textcolor{comment}{ */}}
+\DoxyCodeLine{1700 \textcolor{preprocessor}{\#define D3DTA\_SELECTMASK        0x0000000f  }\textcolor{comment}{// mask for arg selector}}
+\DoxyCodeLine{1701 \textcolor{preprocessor}{\#define D3DTA\_DIFFUSE           0x00000000  }\textcolor{comment}{// select diffuse color}}
+\DoxyCodeLine{1702 \textcolor{preprocessor}{\#define D3DTA\_CURRENT           0x00000001  }\textcolor{comment}{// select result of previous stage}}
+\DoxyCodeLine{1703 \textcolor{preprocessor}{\#define D3DTA\_TEXTURE           0x00000002  }\textcolor{comment}{// select texture color}}
+\DoxyCodeLine{1704 \textcolor{preprocessor}{\#define D3DTA\_TFACTOR           0x00000003  }\textcolor{comment}{// select RENDERSTATE\_TEXTUREFACTOR}}
+\DoxyCodeLine{1705 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0700)}}
+\DoxyCodeLine{1706 \textcolor{preprocessor}{\#define D3DTA\_SPECULAR          0x00000004  }\textcolor{comment}{// select specular color}}
+\DoxyCodeLine{1707 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0700 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1708 \textcolor{preprocessor}{\#define D3DTA\_COMPLEMENT        0x00000010  }\textcolor{comment}{// take 1.0 -\/ x}}
+\DoxyCodeLine{1709 \textcolor{preprocessor}{\#define D3DTA\_ALPHAREPLICATE    0x00000020  }\textcolor{comment}{// replicate alpha to color components}}
+\DoxyCodeLine{1710 }
+\DoxyCodeLine{1711 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{1712 }
+\DoxyCodeLine{1713 \textcolor{comment}{/*}}
+\DoxyCodeLine{1714 \textcolor{comment}{ *  IDirect3DTexture2 State Filter Types}}
+\DoxyCodeLine{1715 \textcolor{comment}{ */}}
+\DoxyCodeLine{1716 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DTEXTUREMAGFILTER}
+\DoxyCodeLine{1717 \{}
+\DoxyCodeLine{1718     D3DTFG\_POINT        = 1,    \textcolor{comment}{// nearest}}
+\DoxyCodeLine{1719     D3DTFG\_LINEAR       = 2,    \textcolor{comment}{// linear interpolation}}
+\DoxyCodeLine{1720     D3DTFG\_FLATCUBIC    = 3,    \textcolor{comment}{// cubic}}
+\DoxyCodeLine{1721     D3DTFG\_GAUSSIANCUBIC = 4,   \textcolor{comment}{// different cubic kernel}}
+\DoxyCodeLine{1722     D3DTFG\_ANISOTROPIC  = 5,    \textcolor{comment}{//}}
+\DoxyCodeLine{1723 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0700)}}
+\DoxyCodeLine{1724 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0700 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1725     D3DTFG\_FORCE\_DWORD  = 0x7fffffff,   \textcolor{comment}{// force 32-\/bit size enum}}
+\DoxyCodeLine{1726 \} D3DTEXTUREMAGFILTER;}
+\DoxyCodeLine{1727 }
+\DoxyCodeLine{1728 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DTEXTUREMINFILTER}
+\DoxyCodeLine{1729 \{}
+\DoxyCodeLine{1730     D3DTFN\_POINT        = 1,    \textcolor{comment}{// nearest}}
+\DoxyCodeLine{1731     D3DTFN\_LINEAR       = 2,    \textcolor{comment}{// linear interpolation}}
+\DoxyCodeLine{1732     D3DTFN\_ANISOTROPIC  = 3,    \textcolor{comment}{//}}
+\DoxyCodeLine{1733     D3DTFN\_FORCE\_DWORD  = 0x7fffffff,   \textcolor{comment}{// force 32-\/bit size enum}}
+\DoxyCodeLine{1734 \} D3DTEXTUREMINFILTER;}
+\DoxyCodeLine{1735 }
+\DoxyCodeLine{1736 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DTEXTUREMIPFILTER}
+\DoxyCodeLine{1737 \{}
+\DoxyCodeLine{1738     D3DTFP\_NONE         = 1,    \textcolor{comment}{// mipmapping disabled (use MAG filter)}}
+\DoxyCodeLine{1739     D3DTFP\_POINT        = 2,    \textcolor{comment}{// nearest}}
+\DoxyCodeLine{1740     D3DTFP\_LINEAR       = 3,    \textcolor{comment}{// linear interpolation}}
+\DoxyCodeLine{1741     D3DTFP\_FORCE\_DWORD  = 0x7fffffff,   \textcolor{comment}{// force 32-\/bit size enum}}
+\DoxyCodeLine{1742 \} D3DTEXTUREMIPFILTER;}
+\DoxyCodeLine{1743 }
+\DoxyCodeLine{1744 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0600 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1745 }
+\DoxyCodeLine{1746 \textcolor{comment}{/*}}
+\DoxyCodeLine{1747 \textcolor{comment}{ * Triangle flags}}
+\DoxyCodeLine{1748 \textcolor{comment}{ */}}
+\DoxyCodeLine{1749 }
+\DoxyCodeLine{1750 \textcolor{comment}{/*}}
+\DoxyCodeLine{1751 \textcolor{comment}{ * Tri strip and fan flags.}}
+\DoxyCodeLine{1752 \textcolor{comment}{ * START loads all three vertices}}
+\DoxyCodeLine{1753 \textcolor{comment}{ * EVEN and ODD load just v3 with even or odd culling}}
+\DoxyCodeLine{1754 \textcolor{comment}{ * START\_FLAT contains a count from 0 to 29 that allows the}}
+\DoxyCodeLine{1755 \textcolor{comment}{ * whole strip or fan to be culled in one hit.}}
+\DoxyCodeLine{1756 \textcolor{comment}{ * e.g. for a quad len = 1}}
+\DoxyCodeLine{1757 \textcolor{comment}{ */}}
+\DoxyCodeLine{1758 \textcolor{preprocessor}{\#define D3DTRIFLAG\_START            0x00000000L}}
+\DoxyCodeLine{1759 \textcolor{preprocessor}{\#define D3DTRIFLAG\_STARTFLAT(len) (len)     }\textcolor{comment}{/* 0 < len < 30 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1760 \textcolor{preprocessor}{\#define D3DTRIFLAG\_ODD              0x0000001eL}}
+\DoxyCodeLine{1761 \textcolor{preprocessor}{\#define D3DTRIFLAG\_EVEN             0x0000001fL}}
+\DoxyCodeLine{1762 }
+\DoxyCodeLine{1763 \textcolor{comment}{/*}}
+\DoxyCodeLine{1764 \textcolor{comment}{ * Triangle edge flags}}
+\DoxyCodeLine{1765 \textcolor{comment}{ * enable edges for wireframe or antialiasing}}
+\DoxyCodeLine{1766 \textcolor{comment}{ */}}
+\DoxyCodeLine{1767 \textcolor{preprocessor}{\#define D3DTRIFLAG\_EDGEENABLE1          0x00000100L }\textcolor{comment}{/* v0-\/v1 edge */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1768 \textcolor{preprocessor}{\#define D3DTRIFLAG\_EDGEENABLE2          0x00000200L }\textcolor{comment}{/* v1-\/v2 edge */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1769 \textcolor{preprocessor}{\#define D3DTRIFLAG\_EDGEENABLE3          0x00000400L }\textcolor{comment}{/* v2-\/v0 edge */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1770 \textcolor{preprocessor}{\#define D3DTRIFLAG\_EDGEENABLETRIANGLE \(\backslash\)}}
+\DoxyCodeLine{1771 \textcolor{preprocessor}{        (D3DTRIFLAG\_EDGEENABLE1 | D3DTRIFLAG\_EDGEENABLE2 | D3DTRIFLAG\_EDGEENABLE3)}}
+\DoxyCodeLine{1772 }
+\DoxyCodeLine{1773 \textcolor{comment}{/*}}
+\DoxyCodeLine{1774 \textcolor{comment}{ * Primitive structures and related defines.  Vertex offsets are to types}}
+\DoxyCodeLine{1775 \textcolor{comment}{ * D3DVERTEX, D3DLVERTEX, or D3DTLVERTEX.}}
+\DoxyCodeLine{1776 \textcolor{comment}{ */}}
+\DoxyCodeLine{1777 }
+\DoxyCodeLine{1778 \textcolor{comment}{/*}}
+\DoxyCodeLine{1779 \textcolor{comment}{ * Triangle list primitive structure}}
+\DoxyCodeLine{1780 \textcolor{comment}{ */}}
+\DoxyCodeLine{1781 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_t_r_i_a_n_g_l_e}{\_D3DTRIANGLE}} \{}
+\DoxyCodeLine{1782     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{1783     WORD    v1;            \textcolor{comment}{/* Vertex indices */}}
+\DoxyCodeLine{1784     WORD    wV1;}
+\DoxyCodeLine{1785     \};}
+\DoxyCodeLine{1786     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{1787     WORD    v2;}
+\DoxyCodeLine{1788     WORD    wV2;}
+\DoxyCodeLine{1789     \};}
+\DoxyCodeLine{1790     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{1791     WORD    v3;}
+\DoxyCodeLine{1792     WORD    wV3;}
+\DoxyCodeLine{1793     \};}
+\DoxyCodeLine{1794     WORD        wFlags;       \textcolor{comment}{/* Edge (and other) flags */}}
+\DoxyCodeLine{1795 \} \mbox{\hyperlink{struct___d3_d_t_r_i_a_n_g_l_e}{D3DTRIANGLE}}, *\mbox{\hyperlink{struct___d3_d_t_r_i_a_n_g_l_e}{LPD3DTRIANGLE}};}
+\DoxyCodeLine{1796 }
+\DoxyCodeLine{1797 \textcolor{comment}{/*}}
+\DoxyCodeLine{1798 \textcolor{comment}{ * Line list structure.}}
+\DoxyCodeLine{1799 \textcolor{comment}{ * The instruction count defines the number of line segments.}}
+\DoxyCodeLine{1800 \textcolor{comment}{ */}}
+\DoxyCodeLine{1801 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_l_i_n_e}{\_D3DLINE}} \{}
+\DoxyCodeLine{1802     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{1803     WORD    v1;            \textcolor{comment}{/* Vertex indices */}}
+\DoxyCodeLine{1804     WORD    wV1;}
+\DoxyCodeLine{1805     \};}
+\DoxyCodeLine{1806     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{1807     WORD    v2;}
+\DoxyCodeLine{1808     WORD    wV2;}
+\DoxyCodeLine{1809     \};}
+\DoxyCodeLine{1810 \} \mbox{\hyperlink{struct___d3_d_l_i_n_e}{D3DLINE}}, *\mbox{\hyperlink{struct___d3_d_l_i_n_e}{LPD3DLINE}};}
+\DoxyCodeLine{1811 }
+\DoxyCodeLine{1812 \textcolor{comment}{/*}}
+\DoxyCodeLine{1813 \textcolor{comment}{ * Span structure}}
+\DoxyCodeLine{1814 \textcolor{comment}{ * Spans join a list of points with the same y value.}}
+\DoxyCodeLine{1815 \textcolor{comment}{ * If the y value changes, a new span is started.}}
+\DoxyCodeLine{1816 \textcolor{comment}{ */}}
+\DoxyCodeLine{1817 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_s_p_a_n}{\_D3DSPAN}} \{}
+\DoxyCodeLine{1818     WORD    wCount; \textcolor{comment}{/* Number of spans */}}
+\DoxyCodeLine{1819     WORD    wFirst; \textcolor{comment}{/* Index to first vertex */}}
+\DoxyCodeLine{1820 \} \mbox{\hyperlink{struct___d3_d_s_p_a_n}{D3DSPAN}}, *\mbox{\hyperlink{struct___d3_d_s_p_a_n}{LPD3DSPAN}};}
+\DoxyCodeLine{1821 }
+\DoxyCodeLine{1822 \textcolor{comment}{/*}}
+\DoxyCodeLine{1823 \textcolor{comment}{ * Point structure}}
+\DoxyCodeLine{1824 \textcolor{comment}{ */}}
+\DoxyCodeLine{1825 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_p_o_i_n_t}{\_D3DPOINT}} \{}
+\DoxyCodeLine{1826     WORD    wCount;     \textcolor{comment}{/* number of points     */}}
+\DoxyCodeLine{1827     WORD    wFirst;     \textcolor{comment}{/* index to first vertex    */}}
+\DoxyCodeLine{1828 \} \mbox{\hyperlink{struct___d3_d_p_o_i_n_t}{D3DPOINT}}, *\mbox{\hyperlink{struct___d3_d_p_o_i_n_t}{LPD3DPOINT}};}
+\DoxyCodeLine{1829 }
+\DoxyCodeLine{1830 }
+\DoxyCodeLine{1831 \textcolor{comment}{/*}}
+\DoxyCodeLine{1832 \textcolor{comment}{ * Forward branch structure.}}
+\DoxyCodeLine{1833 \textcolor{comment}{ * Mask is logically anded with the driver status mask}}
+\DoxyCodeLine{1834 \textcolor{comment}{ * if the result equals 'value', the branch is taken.}}
+\DoxyCodeLine{1835 \textcolor{comment}{ */}}
+\DoxyCodeLine{1836 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_b_r_a_n_c_h}{\_D3DBRANCH}} \{}
+\DoxyCodeLine{1837     DWORD   dwMask;     \textcolor{comment}{/* Bitmask against D3D status */}}
+\DoxyCodeLine{1838     DWORD   dwValue;}
+\DoxyCodeLine{1839     BOOL    bNegate;        \textcolor{comment}{/* TRUE to negate comparison */}}
+\DoxyCodeLine{1840     DWORD   dwOffset;   \textcolor{comment}{/* How far to branch forward (0 for exit)*/}}
+\DoxyCodeLine{1841 \} \mbox{\hyperlink{struct___d3_d_b_r_a_n_c_h}{D3DBRANCH}}, *\mbox{\hyperlink{struct___d3_d_b_r_a_n_c_h}{LPD3DBRANCH}};}
+\DoxyCodeLine{1842 }
+\DoxyCodeLine{1843 \textcolor{comment}{/*}}
+\DoxyCodeLine{1844 \textcolor{comment}{ * Status used for set status instruction.}}
+\DoxyCodeLine{1845 \textcolor{comment}{ * The D3D status is initialised on device creation}}
+\DoxyCodeLine{1846 \textcolor{comment}{ * and is modified by all execute calls.}}
+\DoxyCodeLine{1847 \textcolor{comment}{ */}}
+\DoxyCodeLine{1848 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_s_t_a_t_u_s}{\_D3DSTATUS}} \{}
+\DoxyCodeLine{1849     DWORD       dwFlags;    \textcolor{comment}{/* Do we set extents or status */}}
+\DoxyCodeLine{1850     DWORD   dwStatus;   \textcolor{comment}{/* D3D status */}}
+\DoxyCodeLine{1851     \mbox{\hyperlink{struct___d3_d_r_e_c_t}{D3DRECT}} drExtent;}
+\DoxyCodeLine{1852 \} \mbox{\hyperlink{struct___d3_d_s_t_a_t_u_s}{D3DSTATUS}}, *\mbox{\hyperlink{struct___d3_d_s_t_a_t_u_s}{LPD3DSTATUS}};}
+\DoxyCodeLine{1853 }
+\DoxyCodeLine{1854 \textcolor{preprocessor}{\#define D3DSETSTATUS\_STATUS     0x00000001L}}
+\DoxyCodeLine{1855 \textcolor{preprocessor}{\#define D3DSETSTATUS\_EXTENTS        0x00000002L}}
+\DoxyCodeLine{1856 \textcolor{preprocessor}{\#define D3DSETSTATUS\_ALL    (D3DSETSTATUS\_STATUS | D3DSETSTATUS\_EXTENTS)}}
+\DoxyCodeLine{1857 }
+\DoxyCodeLine{1858 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0500)}}
+\DoxyCodeLine{1859 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_c_l_i_p_s_t_a_t_u_s}{\_D3DCLIPSTATUS}} \{}
+\DoxyCodeLine{1860     DWORD dwFlags; \textcolor{comment}{/* Do we set 2d extents, 3D extents or status */}}
+\DoxyCodeLine{1861     DWORD dwStatus; \textcolor{comment}{/* Clip status */}}
+\DoxyCodeLine{1862     \textcolor{keywordtype}{float} minx, maxx; \textcolor{comment}{/* X extents */}}
+\DoxyCodeLine{1863     \textcolor{keywordtype}{float} miny, maxy; \textcolor{comment}{/* Y extents */}}
+\DoxyCodeLine{1864     \textcolor{keywordtype}{float} minz, maxz; \textcolor{comment}{/* Z extents */}}
+\DoxyCodeLine{1865 \} \mbox{\hyperlink{struct___d3_d_c_l_i_p_s_t_a_t_u_s}{D3DCLIPSTATUS}}, *\mbox{\hyperlink{struct___d3_d_c_l_i_p_s_t_a_t_u_s}{LPD3DCLIPSTATUS}};}
+\DoxyCodeLine{1866 }
+\DoxyCodeLine{1867 \textcolor{preprocessor}{\#define D3DCLIPSTATUS\_STATUS        0x00000001L}}
+\DoxyCodeLine{1868 \textcolor{preprocessor}{\#define D3DCLIPSTATUS\_EXTENTS2      0x00000002L}}
+\DoxyCodeLine{1869 \textcolor{preprocessor}{\#define D3DCLIPSTATUS\_EXTENTS3      0x00000004L}}
+\DoxyCodeLine{1870 }
+\DoxyCodeLine{1871 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0500 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1872 \textcolor{comment}{/*}}
+\DoxyCodeLine{1873 \textcolor{comment}{ * Statistics structure}}
+\DoxyCodeLine{1874 \textcolor{comment}{ */}}
+\DoxyCodeLine{1875 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_s_t_a_t_s}{\_D3DSTATS}} \{}
+\DoxyCodeLine{1876     DWORD        dwSize;}
+\DoxyCodeLine{1877     DWORD        dwTrianglesDrawn;}
+\DoxyCodeLine{1878     DWORD        dwLinesDrawn;}
+\DoxyCodeLine{1879     DWORD        dwPointsDrawn;}
+\DoxyCodeLine{1880     DWORD        dwSpansDrawn;}
+\DoxyCodeLine{1881     DWORD        dwVerticesProcessed;}
+\DoxyCodeLine{1882 \} \mbox{\hyperlink{struct___d3_d_s_t_a_t_s}{D3DSTATS}}, *\mbox{\hyperlink{struct___d3_d_s_t_a_t_s}{LPD3DSTATS}};}
+\DoxyCodeLine{1883 }
+\DoxyCodeLine{1884 \textcolor{comment}{/*}}
+\DoxyCodeLine{1885 \textcolor{comment}{ * Execute options.}}
+\DoxyCodeLine{1886 \textcolor{comment}{ * When calling using D3DEXECUTE\_UNCLIPPED all the primitives}}
+\DoxyCodeLine{1887 \textcolor{comment}{ * inside the buffer must be contained within the viewport.}}
+\DoxyCodeLine{1888 \textcolor{comment}{ */}}
+\DoxyCodeLine{1889 \textcolor{preprocessor}{\#define D3DEXECUTE\_CLIPPED       0x00000001l}}
+\DoxyCodeLine{1890 \textcolor{preprocessor}{\#define D3DEXECUTE\_UNCLIPPED     0x00000002l}}
+\DoxyCodeLine{1891 }
+\DoxyCodeLine{1892 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_e_x_e_c_u_t_e_d_a_t_a}{\_D3DEXECUTEDATA}} \{}
+\DoxyCodeLine{1893     DWORD       dwSize;}
+\DoxyCodeLine{1894     DWORD       dwVertexOffset;}
+\DoxyCodeLine{1895     DWORD       dwVertexCount;}
+\DoxyCodeLine{1896     DWORD       dwInstructionOffset;}
+\DoxyCodeLine{1897     DWORD       dwInstructionLength;}
+\DoxyCodeLine{1898     DWORD       dwHVertexOffset;}
+\DoxyCodeLine{1899     \mbox{\hyperlink{struct___d3_d_s_t_a_t_u_s}{D3DSTATUS}}   dsStatus;   \textcolor{comment}{/* Status after execute */}}
+\DoxyCodeLine{1900 \} \mbox{\hyperlink{struct___d3_d_e_x_e_c_u_t_e_d_a_t_a}{D3DEXECUTEDATA}}, *\mbox{\hyperlink{struct___d3_d_e_x_e_c_u_t_e_d_a_t_a}{LPD3DEXECUTEDATA}};}
+\DoxyCodeLine{1901 }
+\DoxyCodeLine{1902 \textcolor{comment}{/*}}
+\DoxyCodeLine{1903 \textcolor{comment}{ * Palette flags.}}
+\DoxyCodeLine{1904 \textcolor{comment}{ * This are or'ed with the peFlags in the PALETTEENTRYs passed to DirectDraw.}}
+\DoxyCodeLine{1905 \textcolor{comment}{ */}}
+\DoxyCodeLine{1906 \textcolor{preprocessor}{\#define D3DPAL\_FREE 0x00    }\textcolor{comment}{/* Renderer may use this entry freely */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1907 \textcolor{preprocessor}{\#define D3DPAL\_READONLY 0x40    }\textcolor{comment}{/* Renderer may not set this entry */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1908 \textcolor{preprocessor}{\#define D3DPAL\_RESERVED 0x80    }\textcolor{comment}{/* Renderer may not use this entry */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1909 }
+\DoxyCodeLine{1910 }
+\DoxyCodeLine{1911 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0600)}}
+\DoxyCodeLine{1912 }
+\DoxyCodeLine{1913 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_v_e_r_t_e_x_b_u_f_f_e_r_d_e_s_c}{\_D3DVERTEXBUFFERDESC}} \{}
+\DoxyCodeLine{1914     DWORD dwSize;}
+\DoxyCodeLine{1915     DWORD dwCaps;}
+\DoxyCodeLine{1916     DWORD dwFVF;}
+\DoxyCodeLine{1917     DWORD dwNumVertices;}
+\DoxyCodeLine{1918 \} \mbox{\hyperlink{struct___d3_d_v_e_r_t_e_x_b_u_f_f_e_r_d_e_s_c}{D3DVERTEXBUFFERDESC}}, *\mbox{\hyperlink{struct___d3_d_v_e_r_t_e_x_b_u_f_f_e_r_d_e_s_c}{LPD3DVERTEXBUFFERDESC}};}
+\DoxyCodeLine{1919 }
+\DoxyCodeLine{1920 \textcolor{preprocessor}{\#define D3DVBCAPS\_SYSTEMMEMORY      0x00000800l}}
+\DoxyCodeLine{1921 \textcolor{preprocessor}{\#define D3DVBCAPS\_WRITEONLY         0x00010000l}}
+\DoxyCodeLine{1922 \textcolor{preprocessor}{\#define D3DVBCAPS\_OPTIMIZED         0x80000000l}}
+\DoxyCodeLine{1923 \textcolor{preprocessor}{\#define D3DVBCAPS\_DONOTCLIP         0x00000001l}}
+\DoxyCodeLine{1924 }
+\DoxyCodeLine{1925 \textcolor{comment}{/* Vertex Operations for ProcessVertices */}}
+\DoxyCodeLine{1926 \textcolor{preprocessor}{\#define D3DVOP\_LIGHT       (1 << 10)}}
+\DoxyCodeLine{1927 \textcolor{preprocessor}{\#define D3DVOP\_TRANSFORM   (1 << 0)}}
+\DoxyCodeLine{1928 \textcolor{preprocessor}{\#define D3DVOP\_CLIP        (1 << 2)}}
+\DoxyCodeLine{1929 \textcolor{preprocessor}{\#define D3DVOP\_EXTENTS     (1 << 3)}}
+\DoxyCodeLine{1930 }
+\DoxyCodeLine{1931 }
+\DoxyCodeLine{1932 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{1933 }
+\DoxyCodeLine{1934 \textcolor{comment}{/* The maximum number of vertices user can pass to any d3d}}
+\DoxyCodeLine{1935 \textcolor{comment}{   drawing function or to create vertex buffer with}}
+\DoxyCodeLine{1936 \textcolor{comment}{*/}}
+\DoxyCodeLine{1937 \textcolor{preprocessor}{\#define D3DMAXNUMVERTICES    ((1<<16) -\/ 1)}}
+\DoxyCodeLine{1938 \textcolor{comment}{/* The maximum number of primitives user can pass to any d3d}}
+\DoxyCodeLine{1939 \textcolor{comment}{   drawing function.}}
+\DoxyCodeLine{1940 \textcolor{comment}{*/}}
+\DoxyCodeLine{1941 \textcolor{preprocessor}{\#define D3DMAXNUMPRIMITIVES  ((1<<16) -\/ 1)}}
+\DoxyCodeLine{1942 }
+\DoxyCodeLine{1943 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0700)}}
+\DoxyCodeLine{1944 }
+\DoxyCodeLine{1945 \textcolor{comment}{/* Bits for dwFlags in ProcessVertices call */}}
+\DoxyCodeLine{1946 \textcolor{preprocessor}{\#define D3DPV\_DONOTCOPYDATA (1 << 0)}}
+\DoxyCodeLine{1947 }
+\DoxyCodeLine{1948 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0700 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1949 }
+\DoxyCodeLine{1950 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{1951 }
+\DoxyCodeLine{1952 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1953 }
+\DoxyCodeLine{1954 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{1955 }
+\DoxyCodeLine{1956 \textcolor{comment}{// Flexible vertex format bits}}
+\DoxyCodeLine{1957 \textcolor{comment}{//}}
+\DoxyCodeLine{1958 \textcolor{preprocessor}{\#define D3DFVF\_RESERVED0        0x001}}
+\DoxyCodeLine{1959 \textcolor{preprocessor}{\#define D3DFVF\_POSITION\_MASK    0x00E}}
+\DoxyCodeLine{1960 \textcolor{preprocessor}{\#define D3DFVF\_XYZ              0x002}}
+\DoxyCodeLine{1961 \textcolor{preprocessor}{\#define D3DFVF\_XYZRHW           0x004}}
+\DoxyCodeLine{1962 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0700)}}
+\DoxyCodeLine{1963 \textcolor{preprocessor}{\#define D3DFVF\_XYZB1            0x006}}
+\DoxyCodeLine{1964 \textcolor{preprocessor}{\#define D3DFVF\_XYZB2            0x008}}
+\DoxyCodeLine{1965 \textcolor{preprocessor}{\#define D3DFVF\_XYZB3            0x00a}}
+\DoxyCodeLine{1966 \textcolor{preprocessor}{\#define D3DFVF\_XYZB4            0x00c}}
+\DoxyCodeLine{1967 \textcolor{preprocessor}{\#define D3DFVF\_XYZB5            0x00e}}
+\DoxyCodeLine{1968 }
+\DoxyCodeLine{1969 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0700 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1970 \textcolor{preprocessor}{\#define D3DFVF\_NORMAL           0x010}}
+\DoxyCodeLine{1971 \textcolor{preprocessor}{\#define D3DFVF\_RESERVED1        0x020}}
+\DoxyCodeLine{1972 \textcolor{preprocessor}{\#define D3DFVF\_DIFFUSE          0x040}}
+\DoxyCodeLine{1973 \textcolor{preprocessor}{\#define D3DFVF\_SPECULAR         0x080}}
+\DoxyCodeLine{1974 }
+\DoxyCodeLine{1975 \textcolor{preprocessor}{\#define D3DFVF\_TEXCOUNT\_MASK    0xf00}}
+\DoxyCodeLine{1976 \textcolor{preprocessor}{\#define D3DFVF\_TEXCOUNT\_SHIFT   8}}
+\DoxyCodeLine{1977 \textcolor{preprocessor}{\#define D3DFVF\_TEX0             0x000}}
+\DoxyCodeLine{1978 \textcolor{preprocessor}{\#define D3DFVF\_TEX1             0x100}}
+\DoxyCodeLine{1979 \textcolor{preprocessor}{\#define D3DFVF\_TEX2             0x200}}
+\DoxyCodeLine{1980 \textcolor{preprocessor}{\#define D3DFVF\_TEX3             0x300}}
+\DoxyCodeLine{1981 \textcolor{preprocessor}{\#define D3DFVF\_TEX4             0x400}}
+\DoxyCodeLine{1982 \textcolor{preprocessor}{\#define D3DFVF\_TEX5             0x500}}
+\DoxyCodeLine{1983 \textcolor{preprocessor}{\#define D3DFVF\_TEX6             0x600}}
+\DoxyCodeLine{1984 \textcolor{preprocessor}{\#define D3DFVF\_TEX7             0x700}}
+\DoxyCodeLine{1985 \textcolor{preprocessor}{\#define D3DFVF\_TEX8             0x800}}
+\DoxyCodeLine{1986 }
+\DoxyCodeLine{1987 \textcolor{preprocessor}{\#define D3DFVF\_RESERVED2        0xf000  }\textcolor{comment}{// 4 reserved bits}}
+\DoxyCodeLine{1988 }
+\DoxyCodeLine{1989 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1990 \textcolor{preprocessor}{\#define D3DFVF\_RESERVED1        0x020}}
+\DoxyCodeLine{1991 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{1992 }
+\DoxyCodeLine{1993 \textcolor{preprocessor}{\#define D3DFVF\_VERTEX ( D3DFVF\_XYZ | D3DFVF\_NORMAL | D3DFVF\_TEX1 )}}
+\DoxyCodeLine{1994 \textcolor{preprocessor}{\#define D3DFVF\_LVERTEX ( D3DFVF\_XYZ | D3DFVF\_RESERVED1 | D3DFVF\_DIFFUSE | \(\backslash\)}}
+\DoxyCodeLine{1995 \textcolor{preprocessor}{                         D3DFVF\_SPECULAR | D3DFVF\_TEX1 )}}
+\DoxyCodeLine{1996 \textcolor{preprocessor}{\#define D3DFVF\_TLVERTEX ( D3DFVF\_XYZRHW | D3DFVF\_DIFFUSE | D3DFVF\_SPECULAR | \(\backslash\)}}
+\DoxyCodeLine{1997 \textcolor{preprocessor}{                          D3DFVF\_TEX1 )}}
+\DoxyCodeLine{1998 }
+\DoxyCodeLine{1999 }
+\DoxyCodeLine{2000 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_d_p___p_t_r_s_t_r_i_d_e}{\_D3DDP\_PTRSTRIDE}}}
+\DoxyCodeLine{2001 \{}
+\DoxyCodeLine{2002     LPVOID lpvData;}
+\DoxyCodeLine{2003     DWORD  dwStride;}
+\DoxyCodeLine{2004 \} \mbox{\hyperlink{struct___d3_d_d_p___p_t_r_s_t_r_i_d_e}{D3DDP\_PTRSTRIDE}};}
+\DoxyCodeLine{2005 }
+\DoxyCodeLine{2006 \textcolor{preprocessor}{\#define D3DDP\_MAXTEXCOORD 8}}
+\DoxyCodeLine{2007 }
+\DoxyCodeLine{2008 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_d_r_a_w_p_r_i_m_i_t_i_v_e_s_t_r_i_d_e_d_d_a_t_a}{\_D3DDRAWPRIMITIVESTRIDEDDATA}}}
+\DoxyCodeLine{2009 \{}
+\DoxyCodeLine{2010     \mbox{\hyperlink{struct___d3_d_d_p___p_t_r_s_t_r_i_d_e}{D3DDP\_PTRSTRIDE}} position;}
+\DoxyCodeLine{2011     \mbox{\hyperlink{struct___d3_d_d_p___p_t_r_s_t_r_i_d_e}{D3DDP\_PTRSTRIDE}} normal;}
+\DoxyCodeLine{2012     \mbox{\hyperlink{struct___d3_d_d_p___p_t_r_s_t_r_i_d_e}{D3DDP\_PTRSTRIDE}} diffuse;}
+\DoxyCodeLine{2013     \mbox{\hyperlink{struct___d3_d_d_p___p_t_r_s_t_r_i_d_e}{D3DDP\_PTRSTRIDE}} specular;}
+\DoxyCodeLine{2014     \mbox{\hyperlink{struct___d3_d_d_p___p_t_r_s_t_r_i_d_e}{D3DDP\_PTRSTRIDE}} textureCoords[D3DDP\_MAXTEXCOORD];}
+\DoxyCodeLine{2015 \} \mbox{\hyperlink{struct___d3_d_d_r_a_w_p_r_i_m_i_t_i_v_e_s_t_r_i_d_e_d_d_a_t_a}{D3DDRAWPRIMITIVESTRIDEDDATA}}, *\mbox{\hyperlink{struct___d3_d_d_r_a_w_p_r_i_m_i_t_i_v_e_s_t_r_i_d_e_d_d_a_t_a}{LPD3DDRAWPRIMITIVESTRIDEDDATA}};}
+\DoxyCodeLine{2016 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{2017 \textcolor{comment}{// ComputeSphereVisibility return values}}
+\DoxyCodeLine{2018 \textcolor{comment}{//}}
+\DoxyCodeLine{2019 \textcolor{preprocessor}{\#define D3DVIS\_INSIDE\_FRUSTUM       0}}
+\DoxyCodeLine{2020 \textcolor{preprocessor}{\#define D3DVIS\_INTERSECT\_FRUSTUM    1}}
+\DoxyCodeLine{2021 \textcolor{preprocessor}{\#define D3DVIS\_OUTSIDE\_FRUSTUM      2}}
+\DoxyCodeLine{2022 \textcolor{preprocessor}{\#define D3DVIS\_INSIDE\_LEFT          0}}
+\DoxyCodeLine{2023 \textcolor{preprocessor}{\#define D3DVIS\_INTERSECT\_LEFT       (1 << 2)}}
+\DoxyCodeLine{2024 \textcolor{preprocessor}{\#define D3DVIS\_OUTSIDE\_LEFT         (2 << 2)}}
+\DoxyCodeLine{2025 \textcolor{preprocessor}{\#define D3DVIS\_INSIDE\_RIGHT         0}}
+\DoxyCodeLine{2026 \textcolor{preprocessor}{\#define D3DVIS\_INTERSECT\_RIGHT      (1 << 4)}}
+\DoxyCodeLine{2027 \textcolor{preprocessor}{\#define D3DVIS\_OUTSIDE\_RIGHT        (2 << 4)}}
+\DoxyCodeLine{2028 \textcolor{preprocessor}{\#define D3DVIS\_INSIDE\_TOP           0}}
+\DoxyCodeLine{2029 \textcolor{preprocessor}{\#define D3DVIS\_INTERSECT\_TOP        (1 << 6)}}
+\DoxyCodeLine{2030 \textcolor{preprocessor}{\#define D3DVIS\_OUTSIDE\_TOP          (2 << 6)}}
+\DoxyCodeLine{2031 \textcolor{preprocessor}{\#define D3DVIS\_INSIDE\_BOTTOM        0}}
+\DoxyCodeLine{2032 \textcolor{preprocessor}{\#define D3DVIS\_INTERSECT\_BOTTOM     (1 << 8)}}
+\DoxyCodeLine{2033 \textcolor{preprocessor}{\#define D3DVIS\_OUTSIDE\_BOTTOM       (2 << 8)}}
+\DoxyCodeLine{2034 \textcolor{preprocessor}{\#define D3DVIS\_INSIDE\_NEAR          0}}
+\DoxyCodeLine{2035 \textcolor{preprocessor}{\#define D3DVIS\_INTERSECT\_NEAR       (1 << 10)}}
+\DoxyCodeLine{2036 \textcolor{preprocessor}{\#define D3DVIS\_OUTSIDE\_NEAR         (2 << 10)}}
+\DoxyCodeLine{2037 \textcolor{preprocessor}{\#define D3DVIS\_INSIDE\_FAR           0}}
+\DoxyCodeLine{2038 \textcolor{preprocessor}{\#define D3DVIS\_INTERSECT\_FAR        (1 << 12)}}
+\DoxyCodeLine{2039 \textcolor{preprocessor}{\#define D3DVIS\_OUTSIDE\_FAR          (2 << 12)}}
+\DoxyCodeLine{2040 }
+\DoxyCodeLine{2041 \textcolor{preprocessor}{\#define D3DVIS\_MASK\_FRUSTUM         (3 << 0)}}
+\DoxyCodeLine{2042 \textcolor{preprocessor}{\#define D3DVIS\_MASK\_LEFT            (3 << 2)}}
+\DoxyCodeLine{2043 \textcolor{preprocessor}{\#define D3DVIS\_MASK\_RIGHT           (3 << 4)}}
+\DoxyCodeLine{2044 \textcolor{preprocessor}{\#define D3DVIS\_MASK\_TOP             (3 << 6)}}
+\DoxyCodeLine{2045 \textcolor{preprocessor}{\#define D3DVIS\_MASK\_BOTTOM          (3 << 8)}}
+\DoxyCodeLine{2046 \textcolor{preprocessor}{\#define D3DVIS\_MASK\_NEAR            (3 << 10)}}
+\DoxyCodeLine{2047 \textcolor{preprocessor}{\#define D3DVIS\_MASK\_FAR             (3 << 12)}}
+\DoxyCodeLine{2048 }
+\DoxyCodeLine{2049 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0600 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{2050 }
+\DoxyCodeLine{2051 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{2052 }
+\DoxyCodeLine{2053 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0700)}}
+\DoxyCodeLine{2054 }
+\DoxyCodeLine{2055 \textcolor{comment}{// To be used with GetInfo()}}
+\DoxyCodeLine{2056 \textcolor{preprocessor}{\#define D3DDEVINFOID\_TEXTUREMANAGER    1}}
+\DoxyCodeLine{2057 \textcolor{preprocessor}{\#define D3DDEVINFOID\_D3DTEXTUREMANAGER 2}}
+\DoxyCodeLine{2058 \textcolor{preprocessor}{\#define D3DDEVINFOID\_TEXTURING         3}}
+\DoxyCodeLine{2059 }
+\DoxyCodeLine{2060 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DSTATEBLOCKTYPE}
+\DoxyCodeLine{2061 \{}
+\DoxyCodeLine{2062     D3DSBT\_ALL           = 1, \textcolor{comment}{// capture all state}}
+\DoxyCodeLine{2063     D3DSBT\_PIXELSTATE    = 2, \textcolor{comment}{// capture pixel state}}
+\DoxyCodeLine{2064     D3DSBT\_VERTEXSTATE   = 3, \textcolor{comment}{// capture vertex state}}
+\DoxyCodeLine{2065     D3DSBT\_FORCE\_DWORD   = 0xffffffff}
+\DoxyCodeLine{2066 \} D3DSTATEBLOCKTYPE;}
+\DoxyCodeLine{2067 }
+\DoxyCodeLine{2068 \textcolor{comment}{// The D3DVERTEXBLENDFLAGS type is used with D3DRENDERSTATE\_VERTEXBLEND state.}}
+\DoxyCodeLine{2069 \textcolor{comment}{//}}
+\DoxyCodeLine{2070 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DVERTEXBLENDFLAGS}
+\DoxyCodeLine{2071 \{}
+\DoxyCodeLine{2072     D3DVBLEND\_DISABLE  = 0, \textcolor{comment}{// Disable vertex blending}}
+\DoxyCodeLine{2073     D3DVBLEND\_1WEIGHT  = 1, \textcolor{comment}{// blend between 2 matrices}}
+\DoxyCodeLine{2074     D3DVBLEND\_2WEIGHTS = 2, \textcolor{comment}{// blend between 3 matrices}}
+\DoxyCodeLine{2075     D3DVBLEND\_3WEIGHTS = 3, \textcolor{comment}{// blend between 4 matrices}}
+\DoxyCodeLine{2076 \} D3DVERTEXBLENDFLAGS;}
+\DoxyCodeLine{2077 }
+\DoxyCodeLine{2078 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DTEXTURETRANSFORMFLAGS \{}
+\DoxyCodeLine{2079     D3DTTFF\_DISABLE         = 0,    \textcolor{comment}{// texture coordinates are passed directly}}
+\DoxyCodeLine{2080     D3DTTFF\_COUNT1          = 1,    \textcolor{comment}{// rasterizer should expect 1-\/D texture coords}}
+\DoxyCodeLine{2081     D3DTTFF\_COUNT2          = 2,    \textcolor{comment}{// rasterizer should expect 2-\/D texture coords}}
+\DoxyCodeLine{2082     D3DTTFF\_COUNT3          = 3,    \textcolor{comment}{// rasterizer should expect 3-\/D texture coords}}
+\DoxyCodeLine{2083     D3DTTFF\_COUNT4          = 4,    \textcolor{comment}{// rasterizer should expect 4-\/D texture coords}}
+\DoxyCodeLine{2084     D3DTTFF\_PROJECTED       = 256,  \textcolor{comment}{// texcoords to be divided by COUNTth element}}
+\DoxyCodeLine{2085     D3DTTFF\_FORCE\_DWORD     = 0x7fffffff,}
+\DoxyCodeLine{2086 \} D3DTEXTURETRANSFORMFLAGS;}
+\DoxyCodeLine{2087 }
+\DoxyCodeLine{2088 \textcolor{comment}{// Macros to set texture coordinate format bits in the FVF id}}
+\DoxyCodeLine{2089 }
+\DoxyCodeLine{2090 \textcolor{preprocessor}{\#define D3DFVF\_TEXTUREFORMAT2 0         }\textcolor{comment}{// Two floating point values}}
+\DoxyCodeLine{2091 \textcolor{preprocessor}{\#define D3DFVF\_TEXTUREFORMAT1 3         }\textcolor{comment}{// One floating point value}}
+\DoxyCodeLine{2092 \textcolor{preprocessor}{\#define D3DFVF\_TEXTUREFORMAT3 1         }\textcolor{comment}{// Three floating point values}}
+\DoxyCodeLine{2093 \textcolor{preprocessor}{\#define D3DFVF\_TEXTUREFORMAT4 2         }\textcolor{comment}{// Four floating point values}}
+\DoxyCodeLine{2094 }
+\DoxyCodeLine{2095 \textcolor{preprocessor}{\#define D3DFVF\_TEXCOORDSIZE3(CoordIndex) (D3DFVF\_TEXTUREFORMAT3 << (CoordIndex*2 + 16))}}
+\DoxyCodeLine{2096 \textcolor{preprocessor}{\#define D3DFVF\_TEXCOORDSIZE2(CoordIndex) (D3DFVF\_TEXTUREFORMAT2)}}
+\DoxyCodeLine{2097 \textcolor{preprocessor}{\#define D3DFVF\_TEXCOORDSIZE4(CoordIndex) (D3DFVF\_TEXTUREFORMAT4 << (CoordIndex*2 + 16))}}
+\DoxyCodeLine{2098 \textcolor{preprocessor}{\#define D3DFVF\_TEXCOORDSIZE1(CoordIndex) (D3DFVF\_TEXTUREFORMAT1 << (CoordIndex*2 + 16))}}
+\DoxyCodeLine{2099 }
+\DoxyCodeLine{2100 }
+\DoxyCodeLine{2101 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DIRECT3D\_VERSION >= 0x0700 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{2102 }
+\DoxyCodeLine{2103 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{2104 \textcolor{comment}{//}}
+\DoxyCodeLine{2105 \textcolor{comment}{// legacy vertex blend names}}
+\DoxyCodeLine{2106 \textcolor{comment}{//}}
+\DoxyCodeLine{2107 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DVERTEXBLENDFLAGS D3DVERTEXBLENDFLAGS;}
+\DoxyCodeLine{2108 \textcolor{preprocessor}{\#define D3DVBLEND\_DISABLE  (D3DVERTEXBLENDFLAGS)0}}
+\DoxyCodeLine{2109 \textcolor{preprocessor}{\#define D3DVBLEND\_1WEIGHT  (D3DVERTEXBLENDFLAGS)1}}
+\DoxyCodeLine{2110 \textcolor{preprocessor}{\#define D3DVBLEND\_2WEIGHTS (D3DVERTEXBLENDFLAGS)2}}
+\DoxyCodeLine{2111 \textcolor{preprocessor}{\#define D3DVBLEND\_3WEIGHTS (D3DVERTEXBLENDFLAGS)3}}
+\DoxyCodeLine{2112 }
+\DoxyCodeLine{2113 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//(DIRECT3D\_VERSION < 0x0800)}}
+\DoxyCodeLine{2114 }
+\DoxyCodeLine{2115 \textcolor{preprocessor}{\#pragma pack()}}
+\DoxyCodeLine{2116 \textcolor{preprocessor}{\#pragma warning(default:4201)}}
+\DoxyCodeLine{2117 }
+\DoxyCodeLine{2118 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* \_D3DTYPES\_H\_ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{2119 }
+
+\end{DoxyCode}

@@ -1,0 +1,105 @@
+\hypertarget{_dx_err_8h_source}{}\doxysection{Dx\+Err.\+h}
+\label{_dx_err_8h_source}\index{src/lib/dx/Include/DxErr.h@{src/lib/dx/Include/DxErr.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*==========================================================================;}}
+\DoxyCodeLine{2 \textcolor{comment}{ *}}
+\DoxyCodeLine{3 \textcolor{comment}{ *}}
+\DoxyCodeLine{4 \textcolor{comment}{ *  File:   dxerr.h}}
+\DoxyCodeLine{5 \textcolor{comment}{ *  Content:    DirectX Error Library Include File}}
+\DoxyCodeLine{6 \textcolor{comment}{ *}}
+\DoxyCodeLine{7 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#ifndef \_DXERR\_H\_}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#define \_DXERR\_H\_}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{13 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{comment}{//}}
+\DoxyCodeLine{17 \textcolor{comment}{//  DXGetErrorString}}
+\DoxyCodeLine{18 \textcolor{comment}{//  }}
+\DoxyCodeLine{19 \textcolor{comment}{//  Desc:  Converts a DirectX HRESULT to a string }}
+\DoxyCodeLine{20 \textcolor{comment}{//}}
+\DoxyCodeLine{21 \textcolor{comment}{//  Args:  HRESULT hr   Can be any error code from}}
+\DoxyCodeLine{22 \textcolor{comment}{//                      XACT D3D10 D3DX10 D3D9 D3DX9 D3D8 D3DX8 DDRAW DPLAY8 DMUSIC DSOUND DINPUT DSHOW}}
+\DoxyCodeLine{23 \textcolor{comment}{//}}
+\DoxyCodeLine{24 \textcolor{comment}{//  Return: Converted string }}
+\DoxyCodeLine{25 \textcolor{comment}{//}}
+\DoxyCodeLine{26 \textcolor{keyword}{const} \textcolor{keywordtype}{char}*  WINAPI DXGetErrorStringA(HRESULT hr);}
+\DoxyCodeLine{27 \textcolor{keyword}{const} WCHAR* WINAPI DXGetErrorStringW(HRESULT hr);}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#define DXGetErrorString DXGetErrorStringW}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#define DXGetErrorString DXGetErrorStringA}}
+\DoxyCodeLine{33 \textcolor{preprocessor}{\#endif }}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36 \textcolor{comment}{//}}
+\DoxyCodeLine{37 \textcolor{comment}{//  DXGetErrorDescription}}
+\DoxyCodeLine{38 \textcolor{comment}{//  }}
+\DoxyCodeLine{39 \textcolor{comment}{//  Desc:  Returns a string description of a DirectX HRESULT}}
+\DoxyCodeLine{40 \textcolor{comment}{//}}
+\DoxyCodeLine{41 \textcolor{comment}{//  Args:  HRESULT hr   Can be any error code from}}
+\DoxyCodeLine{42 \textcolor{comment}{//                      XACT D3D10 D3DX10 D3D9 D3DX9 D3D8 D3DX8 DDRAW DPLAY8 DMUSIC DSOUND DINPUT DSHOW }}
+\DoxyCodeLine{43 \textcolor{comment}{//}}
+\DoxyCodeLine{44 \textcolor{comment}{//  Return: String description}}
+\DoxyCodeLine{45 \textcolor{comment}{//}}
+\DoxyCodeLine{46 \textcolor{keyword}{const} \textcolor{keywordtype}{char}*  WINAPI DXGetErrorDescriptionA(HRESULT hr);}
+\DoxyCodeLine{47 \textcolor{keyword}{const} WCHAR* WINAPI DXGetErrorDescriptionW(HRESULT hr);}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{50 \textcolor{preprocessor}{    \#define DXGetErrorDescription DXGetErrorDescriptionW}}
+\DoxyCodeLine{51 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{52 \textcolor{preprocessor}{    \#define DXGetErrorDescription DXGetErrorDescriptionA}}
+\DoxyCodeLine{53 \textcolor{preprocessor}{\#endif }}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56 \textcolor{comment}{//}}
+\DoxyCodeLine{57 \textcolor{comment}{//  DXTrace}}
+\DoxyCodeLine{58 \textcolor{comment}{//}}
+\DoxyCodeLine{59 \textcolor{comment}{//  Desc:  Outputs a formatted error message to the debug stream}}
+\DoxyCodeLine{60 \textcolor{comment}{//}}
+\DoxyCodeLine{61 \textcolor{comment}{//  Args:  CHAR* strFile   The current file, typically passed in using the }}
+\DoxyCodeLine{62 \textcolor{comment}{//                         \_\_FILE\_\_ macro.}}
+\DoxyCodeLine{63 \textcolor{comment}{//         DWORD dwLine    The current line number, typically passed in using the }}
+\DoxyCodeLine{64 \textcolor{comment}{//                         \_\_LINE\_\_ macro.}}
+\DoxyCodeLine{65 \textcolor{comment}{//         HRESULT hr      An HRESULT that will be traced to the debug stream.}}
+\DoxyCodeLine{66 \textcolor{comment}{//         CHAR* strMsg    A string that will be traced to the debug stream (may be NULL)}}
+\DoxyCodeLine{67 \textcolor{comment}{//         BOOL bPopMsgBox If TRUE, then a message box will popup also containing the passed info.}}
+\DoxyCodeLine{68 \textcolor{comment}{//}}
+\DoxyCodeLine{69 \textcolor{comment}{//  Return: The hr that was passed in.  }}
+\DoxyCodeLine{70 \textcolor{comment}{//}}
+\DoxyCodeLine{71 HRESULT WINAPI DXTraceA( \textcolor{keyword}{const} \textcolor{keywordtype}{char}* strFile, DWORD dwLine, HRESULT hr, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* strMsg, BOOL bPopMsgBox );}
+\DoxyCodeLine{72 HRESULT WINAPI DXTraceW( \textcolor{keyword}{const} \textcolor{keywordtype}{char}* strFile, DWORD dwLine, HRESULT hr, \textcolor{keyword}{const} WCHAR* strMsg, BOOL bPopMsgBox );}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{75 \textcolor{preprocessor}{\#define DXTrace DXTraceW}}
+\DoxyCodeLine{76 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{77 \textcolor{preprocessor}{\#define DXTrace DXTraceA}}
+\DoxyCodeLine{78 \textcolor{preprocessor}{\#endif }}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80 }
+\DoxyCodeLine{81 \textcolor{comment}{//}}
+\DoxyCodeLine{82 \textcolor{comment}{// Helper macros}}
+\DoxyCodeLine{83 \textcolor{comment}{//}}
+\DoxyCodeLine{84 \textcolor{preprocessor}{\#if defined(DEBUG) | defined(\_DEBUG)}}
+\DoxyCodeLine{85 \textcolor{preprocessor}{\#define DXTRACE\_MSG(str)              DXTrace( \_\_FILE\_\_, (DWORD)\_\_LINE\_\_, 0, str, FALSE )}}
+\DoxyCodeLine{86 \textcolor{preprocessor}{\#define DXTRACE\_ERR(str,hr)           DXTrace( \_\_FILE\_\_, (DWORD)\_\_LINE\_\_, hr, str, FALSE )}}
+\DoxyCodeLine{87 \textcolor{preprocessor}{\#define DXTRACE\_ERR\_MSGBOX(str,hr)    DXTrace( \_\_FILE\_\_, (DWORD)\_\_LINE\_\_, hr, str, TRUE )}}
+\DoxyCodeLine{88 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{89 \textcolor{preprocessor}{\#define DXTRACE\_MSG(str)              (0L)}}
+\DoxyCodeLine{90 \textcolor{preprocessor}{\#define DXTRACE\_ERR(str,hr)           (hr)}}
+\DoxyCodeLine{91 \textcolor{preprocessor}{\#define DXTRACE\_ERR\_MSGBOX(str,hr)    (hr)}}
+\DoxyCodeLine{92 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{93 }
+\DoxyCodeLine{94 }
+\DoxyCodeLine{95 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{96 \}}
+\DoxyCodeLine{97 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{98 }
+\DoxyCodeLine{99 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_DXERR\_H\_}}
+
+\end{DoxyCode}

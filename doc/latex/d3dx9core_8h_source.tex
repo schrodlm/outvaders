@@ -1,0 +1,733 @@
+\hypertarget{d3dx9core_8h_source}{}\doxysection{d3dx9core.\+h}
+\label{d3dx9core_8h_source}\index{src/lib/dx/Include/d3dx9core.h@{src/lib/dx/Include/d3dx9core.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{2 \textcolor{comment}{//}}
+\DoxyCodeLine{3 \textcolor{comment}{//  Copyright (C) Microsoft Corporation.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{//}}
+\DoxyCodeLine{5 \textcolor{comment}{//  File:       d3dx9core.h}}
+\DoxyCodeLine{6 \textcolor{comment}{//  Content:    D3DX core types and functions}}
+\DoxyCodeLine{7 \textcolor{comment}{//}}
+\DoxyCodeLine{9 \textcolor{comment}{}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}d3dx9.h"{}}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#ifndef \_\_D3DX9CORE\_H\_\_}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#define \_\_D3DX9CORE\_H\_\_}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 }
+\DoxyCodeLine{17 \textcolor{comment}{// D3DX\_SDK\_VERSION:}}
+\DoxyCodeLine{18 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{19 \textcolor{comment}{// This identifier is passed to D3DXCheckVersion in order to ensure that an}}
+\DoxyCodeLine{20 \textcolor{comment}{// application was built against the correct header files and lib files. }}
+\DoxyCodeLine{21 \textcolor{comment}{// This number is incremented whenever a header (or other) change would }}
+\DoxyCodeLine{22 \textcolor{comment}{// require applications to be rebuilt. If the version doesn't match, }}
+\DoxyCodeLine{23 \textcolor{comment}{// D3DXCheckVersion will return FALSE. (The number itself has no meaning.)}}
+\DoxyCodeLine{25 \textcolor{comment}{}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#define D3DX\_VERSION 0x0902}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#define D3DX\_SDK\_VERSION 28}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{30 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33 BOOL WINAPI}
+\DoxyCodeLine{34     D3DXCheckVersion(UINT D3DSdkVersion, UINT D3DXSdkVersion);}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{37 \}}
+\DoxyCodeLine{38 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41 }
+\DoxyCodeLine{43 \textcolor{comment}{// D3DXDebugMute}}
+\DoxyCodeLine{44 \textcolor{comment}{//    Mutes D3DX and D3D debug spew (TRUE -\/ mute, FALSE -\/ not mute)}}
+\DoxyCodeLine{45 \textcolor{comment}{//}}
+\DoxyCodeLine{46 \textcolor{comment}{//  returns previous mute value}}
+\DoxyCodeLine{47 \textcolor{comment}{//}}
+\DoxyCodeLine{49 \textcolor{comment}{}}
+\DoxyCodeLine{50 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{51 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{52 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54 BOOL WINAPI}
+\DoxyCodeLine{55     D3DXDebugMute(BOOL Mute);  }
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{58 \}}
+\DoxyCodeLine{59 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61 }
+\DoxyCodeLine{63 \textcolor{comment}{// D3DXGetDriverLevel:}}
+\DoxyCodeLine{64 \textcolor{comment}{//    Returns driver version information:}}
+\DoxyCodeLine{65 \textcolor{comment}{//}}
+\DoxyCodeLine{66 \textcolor{comment}{//    700 -\/ DX7 level driver}}
+\DoxyCodeLine{67 \textcolor{comment}{//    800 -\/ DX8 level driver}}
+\DoxyCodeLine{68 \textcolor{comment}{//    900 -\/ DX9 level driver}}
+\DoxyCodeLine{70 \textcolor{comment}{}}
+\DoxyCodeLine{71 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{72 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{73 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75 UINT WINAPI}
+\DoxyCodeLine{76     D3DXGetDriverLevel(LPDIRECT3DDEVICE9 pDevice);}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{79 \}}
+\DoxyCodeLine{80 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{82 }
+\DoxyCodeLine{84 \textcolor{comment}{// ID3DXBuffer:}}
+\DoxyCodeLine{85 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{86 \textcolor{comment}{// The buffer object is used by D3DX to return arbitrary size data.}}
+\DoxyCodeLine{87 \textcolor{comment}{//}}
+\DoxyCodeLine{88 \textcolor{comment}{// GetBufferPointer -\/}}
+\DoxyCodeLine{89 \textcolor{comment}{//    Returns a pointer to the beginning of the buffer.}}
+\DoxyCodeLine{90 \textcolor{comment}{//}}
+\DoxyCodeLine{91 \textcolor{comment}{// GetBufferSize -\/}}
+\DoxyCodeLine{92 \textcolor{comment}{//    Returns the size of the buffer, in bytes.}}
+\DoxyCodeLine{94 \textcolor{comment}{}}
+\DoxyCodeLine{95 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXBuffer ID3DXBuffer;}
+\DoxyCodeLine{96 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXBuffer *LPD3DXBUFFER;}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{98 \textcolor{comment}{// \{8BA5FB08-\/5195-\/40e2-\/AC58-\/0D989C3A0102\}}}
+\DoxyCodeLine{99 DEFINE\_GUID(IID\_ID3DXBuffer, }
+\DoxyCodeLine{100 0x8ba5fb08, 0x5195, 0x40e2, 0xac, 0x58, 0xd, 0x98, 0x9c, 0x3a, 0x1, 0x2);}
+\DoxyCodeLine{101 }
+\DoxyCodeLine{102 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{103 \textcolor{preprocessor}{\#define INTERFACE ID3DXBuffer}}
+\DoxyCodeLine{104 }
+\DoxyCodeLine{105 DECLARE\_INTERFACE\_(ID3DXBuffer, IUnknown)}
+\DoxyCodeLine{106 \{}
+\DoxyCodeLine{107     \textcolor{comment}{// IUnknown}}
+\DoxyCodeLine{108     STDMETHOD(QueryInterface)(THIS\_ REFIID iid, LPVOID *ppv) PURE;}
+\DoxyCodeLine{109     STDMETHOD\_(ULONG, AddRef)(THIS) PURE;}
+\DoxyCodeLine{110     STDMETHOD\_(ULONG, Release)(THIS) PURE;}
+\DoxyCodeLine{111 }
+\DoxyCodeLine{112     \textcolor{comment}{// ID3DXBuffer}}
+\DoxyCodeLine{113     STDMETHOD\_(LPVOID, GetBufferPointer)(THIS) PURE;}
+\DoxyCodeLine{114     STDMETHOD\_(DWORD, GetBufferSize)(THIS) PURE;}
+\DoxyCodeLine{115 \};}
+\DoxyCodeLine{116 }
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118 }
+\DoxyCodeLine{120 \textcolor{comment}{// D3DXSPRITE flags:}}
+\DoxyCodeLine{121 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{122 \textcolor{comment}{// D3DXSPRITE\_DONOTSAVESTATE}}
+\DoxyCodeLine{123 \textcolor{comment}{//   Specifies device state is not to be saved and restored in Begin/End.}}
+\DoxyCodeLine{124 \textcolor{comment}{// D3DXSPRITE\_DONOTMODIFY\_RENDERSTATE}}
+\DoxyCodeLine{125 \textcolor{comment}{//   Specifies device render state is not to be changed in Begin.  The device}}
+\DoxyCodeLine{126 \textcolor{comment}{//   is assumed to be in a valid state to draw vertices containing POSITION0, }}
+\DoxyCodeLine{127 \textcolor{comment}{//   TEXCOORD0, and COLOR0 data.}}
+\DoxyCodeLine{128 \textcolor{comment}{// D3DXSPRITE\_OBJECTSPACE}}
+\DoxyCodeLine{129 \textcolor{comment}{//   The WORLD, VIEW, and PROJECTION transforms are NOT modified.  The }}
+\DoxyCodeLine{130 \textcolor{comment}{//   transforms currently set to the device are used to transform the sprites }}
+\DoxyCodeLine{131 \textcolor{comment}{//   when the batch is drawn (at Flush or End).  If this is not specified, }}
+\DoxyCodeLine{132 \textcolor{comment}{//   WORLD, VIEW, and PROJECTION transforms are modified so that sprites are }}
+\DoxyCodeLine{133 \textcolor{comment}{//   drawn in screenspace coordinates.}}
+\DoxyCodeLine{134 \textcolor{comment}{// D3DXSPRITE\_BILLBOARD}}
+\DoxyCodeLine{135 \textcolor{comment}{//   Rotates each sprite about its center so that it is facing the viewer.}}
+\DoxyCodeLine{136 \textcolor{comment}{// D3DXSPRITE\_ALPHABLEND}}
+\DoxyCodeLine{137 \textcolor{comment}{//   Enables ALPHABLEND(SRCALPHA, INVSRCALPHA) and ALPHATEST(alpha > 0).}}
+\DoxyCodeLine{138 \textcolor{comment}{//   ID3DXFont expects this to be set when drawing text.}}
+\DoxyCodeLine{139 \textcolor{comment}{// D3DXSPRITE\_SORT\_TEXTURE}}
+\DoxyCodeLine{140 \textcolor{comment}{//   Sprites are sorted by texture prior to drawing.  This is recommended when}}
+\DoxyCodeLine{141 \textcolor{comment}{//   drawing non-\/overlapping sprites of uniform depth.  For example, drawing}}
+\DoxyCodeLine{142 \textcolor{comment}{//   screen-\/aligned text with ID3DXFont.}}
+\DoxyCodeLine{143 \textcolor{comment}{// D3DXSPRITE\_SORT\_DEPTH\_FRONTTOBACK}}
+\DoxyCodeLine{144 \textcolor{comment}{//   Sprites are sorted by depth front-\/to-\/back prior to drawing.  This is }}
+\DoxyCodeLine{145 \textcolor{comment}{//   recommended when drawing opaque sprites of varying depths.}}
+\DoxyCodeLine{146 \textcolor{comment}{// D3DXSPRITE\_SORT\_DEPTH\_BACKTOFRONT}}
+\DoxyCodeLine{147 \textcolor{comment}{//   Sprites are sorted by depth back-\/to-\/front prior to drawing.  This is }}
+\DoxyCodeLine{148 \textcolor{comment}{//   recommended when drawing transparent sprites of varying depths.}}
+\DoxyCodeLine{150 \textcolor{comment}{}}
+\DoxyCodeLine{151 \textcolor{preprocessor}{\#define D3DXSPRITE\_DONOTSAVESTATE               (1 << 0)}}
+\DoxyCodeLine{152 \textcolor{preprocessor}{\#define D3DXSPRITE\_DONOTMODIFY\_RENDERSTATE      (1 << 1)}}
+\DoxyCodeLine{153 \textcolor{preprocessor}{\#define D3DXSPRITE\_OBJECTSPACE                  (1 << 2)}}
+\DoxyCodeLine{154 \textcolor{preprocessor}{\#define D3DXSPRITE\_BILLBOARD                    (1 << 3)}}
+\DoxyCodeLine{155 \textcolor{preprocessor}{\#define D3DXSPRITE\_ALPHABLEND                   (1 << 4)}}
+\DoxyCodeLine{156 \textcolor{preprocessor}{\#define D3DXSPRITE\_SORT\_TEXTURE                 (1 << 5)}}
+\DoxyCodeLine{157 \textcolor{preprocessor}{\#define D3DXSPRITE\_SORT\_DEPTH\_FRONTTOBACK       (1 << 6)}}
+\DoxyCodeLine{158 \textcolor{preprocessor}{\#define D3DXSPRITE\_SORT\_DEPTH\_BACKTOFRONT       (1 << 7)}}
+\DoxyCodeLine{159 }
+\DoxyCodeLine{160 }
+\DoxyCodeLine{162 \textcolor{comment}{// ID3DXSprite:}}
+\DoxyCodeLine{163 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{164 \textcolor{comment}{// This object intends to provide an easy way to drawing sprites using D3D.}}
+\DoxyCodeLine{165 \textcolor{comment}{//}}
+\DoxyCodeLine{166 \textcolor{comment}{// Begin -\/ }}
+\DoxyCodeLine{167 \textcolor{comment}{//    Prepares device for drawing sprites.}}
+\DoxyCodeLine{168 \textcolor{comment}{//}}
+\DoxyCodeLine{169 \textcolor{comment}{// Draw -\/}}
+\DoxyCodeLine{170 \textcolor{comment}{//    Draws a sprite.  Before transformation, the sprite is the size of }}
+\DoxyCodeLine{171 \textcolor{comment}{//    SrcRect, with its top-\/left corner specified by Position.  The color }}
+\DoxyCodeLine{172 \textcolor{comment}{//    and alpha channels are modulated by Color.}}
+\DoxyCodeLine{173 \textcolor{comment}{//}}
+\DoxyCodeLine{174 \textcolor{comment}{// Flush -\/}}
+\DoxyCodeLine{175 \textcolor{comment}{//    Forces all batched sprites to submitted to the device.}}
+\DoxyCodeLine{176 \textcolor{comment}{//}}
+\DoxyCodeLine{177 \textcolor{comment}{// End -\/ }}
+\DoxyCodeLine{178 \textcolor{comment}{//    Restores device state to how it was when Begin was called.}}
+\DoxyCodeLine{179 \textcolor{comment}{//}}
+\DoxyCodeLine{180 \textcolor{comment}{// OnLostDevice, OnResetDevice -\/}}
+\DoxyCodeLine{181 \textcolor{comment}{//    Call OnLostDevice() on this object before calling Reset() on the}}
+\DoxyCodeLine{182 \textcolor{comment}{//    device, so that this object can release any stateblocks and video}}
+\DoxyCodeLine{183 \textcolor{comment}{//    memory resources.  After Reset(), the call OnResetDevice().}}
+\DoxyCodeLine{185 \textcolor{comment}{}}
+\DoxyCodeLine{186 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXSprite ID3DXSprite;}
+\DoxyCodeLine{187 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXSprite *LPD3DXSPRITE;}
+\DoxyCodeLine{188 }
+\DoxyCodeLine{189 }
+\DoxyCodeLine{190 \textcolor{comment}{// \{BA0B762D-\/7D28-\/43ec-\/B9DC-\/2F84443B0614\}}}
+\DoxyCodeLine{191 DEFINE\_GUID(IID\_ID3DXSprite, }
+\DoxyCodeLine{192 0xba0b762d, 0x7d28, 0x43ec, 0xb9, 0xdc, 0x2f, 0x84, 0x44, 0x3b, 0x6, 0x14);}
+\DoxyCodeLine{193 }
+\DoxyCodeLine{194 }
+\DoxyCodeLine{195 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{196 \textcolor{preprocessor}{\#define INTERFACE ID3DXSprite}}
+\DoxyCodeLine{197 }
+\DoxyCodeLine{198 DECLARE\_INTERFACE\_(ID3DXSprite, IUnknown)}
+\DoxyCodeLine{199 \{}
+\DoxyCodeLine{200     \textcolor{comment}{// IUnknown}}
+\DoxyCodeLine{201     STDMETHOD(QueryInterface)(THIS\_ REFIID iid, LPVOID *ppv) PURE;}
+\DoxyCodeLine{202     STDMETHOD\_(ULONG, AddRef)(THIS) PURE;}
+\DoxyCodeLine{203     STDMETHOD\_(ULONG, Release)(THIS) PURE;}
+\DoxyCodeLine{204 }
+\DoxyCodeLine{205     \textcolor{comment}{// ID3DXSprite}}
+\DoxyCodeLine{206     STDMETHOD(GetDevice)(THIS\_ LPDIRECT3DDEVICE9* ppDevice) PURE;}
+\DoxyCodeLine{207 }
+\DoxyCodeLine{208     STDMETHOD(GetTransform)(THIS\_ \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pTransform) PURE;}
+\DoxyCodeLine{209     STDMETHOD(SetTransform)(THIS\_ CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pTransform) PURE;}
+\DoxyCodeLine{210 }
+\DoxyCodeLine{211     STDMETHOD(SetWorldViewRH)(THIS\_ CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pWorld, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pView) PURE;}
+\DoxyCodeLine{212     STDMETHOD(SetWorldViewLH)(THIS\_ CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pWorld, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pView) PURE;}
+\DoxyCodeLine{213 }
+\DoxyCodeLine{214     STDMETHOD(Begin)(THIS\_ DWORD Flags) PURE;}
+\DoxyCodeLine{215     STDMETHOD(Draw)(THIS\_ LPDIRECT3DTEXTURE9 pTexture, CONST RECT *pSrcRect, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pCenter, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pPosition, D3DCOLOR Color) PURE;}
+\DoxyCodeLine{216     STDMETHOD(Flush)(THIS) PURE;}
+\DoxyCodeLine{217     STDMETHOD(End)(THIS) PURE;}
+\DoxyCodeLine{218 }
+\DoxyCodeLine{219     STDMETHOD(OnLostDevice)(THIS) PURE;}
+\DoxyCodeLine{220     STDMETHOD(OnResetDevice)(THIS) PURE;}
+\DoxyCodeLine{221 \};}
+\DoxyCodeLine{222 }
+\DoxyCodeLine{223 }
+\DoxyCodeLine{224 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{225 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{226 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{227 }
+\DoxyCodeLine{228 HRESULT WINAPI }
+\DoxyCodeLine{229     D3DXCreateSprite( }
+\DoxyCodeLine{230         LPDIRECT3DDEVICE9   pDevice, }
+\DoxyCodeLine{231         LPD3DXSPRITE*       ppSprite);}
+\DoxyCodeLine{232 }
+\DoxyCodeLine{233 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{234 \}}
+\DoxyCodeLine{235 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{236 }
+\DoxyCodeLine{237 }
+\DoxyCodeLine{238 }
+\DoxyCodeLine{240 \textcolor{comment}{// ID3DXFont:}}
+\DoxyCodeLine{241 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{242 \textcolor{comment}{// Font objects contain the textures and resources needed to render a specific }}
+\DoxyCodeLine{243 \textcolor{comment}{// font on a specific device.}}
+\DoxyCodeLine{244 \textcolor{comment}{//}}
+\DoxyCodeLine{245 \textcolor{comment}{// GetGlyphData -\/}}
+\DoxyCodeLine{246 \textcolor{comment}{//    Returns glyph cache data, for a given glyph.}}
+\DoxyCodeLine{247 \textcolor{comment}{//}}
+\DoxyCodeLine{248 \textcolor{comment}{// PreloadCharacters/PreloadGlyphs/PreloadText -\/}}
+\DoxyCodeLine{249 \textcolor{comment}{//    Preloads glyphs into the glyph cache textures.}}
+\DoxyCodeLine{250 \textcolor{comment}{//}}
+\DoxyCodeLine{251 \textcolor{comment}{// DrawText -\/}}
+\DoxyCodeLine{252 \textcolor{comment}{//    Draws formatted text on a D3D device.  Some parameters are }}
+\DoxyCodeLine{253 \textcolor{comment}{//    surprisingly similar to those of GDI's DrawText function.  See GDI }}
+\DoxyCodeLine{254 \textcolor{comment}{//    documentation for a detailed description of these parameters.}}
+\DoxyCodeLine{255 \textcolor{comment}{//    If pSprite is NULL, an internal sprite object will be used.}}
+\DoxyCodeLine{256 \textcolor{comment}{//}}
+\DoxyCodeLine{257 \textcolor{comment}{// OnLostDevice, OnResetDevice -\/}}
+\DoxyCodeLine{258 \textcolor{comment}{//    Call OnLostDevice() on this object before calling Reset() on the}}
+\DoxyCodeLine{259 \textcolor{comment}{//    device, so that this object can release any stateblocks and video}}
+\DoxyCodeLine{260 \textcolor{comment}{//    memory resources.  After Reset(), the call OnResetDevice().}}
+\DoxyCodeLine{262 \textcolor{comment}{}}
+\DoxyCodeLine{263 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x_f_o_n_t___d_e_s_c_a}{\_D3DXFONT\_DESCA}}}
+\DoxyCodeLine{264 \{}
+\DoxyCodeLine{265     INT Height;}
+\DoxyCodeLine{266     UINT Width;}
+\DoxyCodeLine{267     UINT Weight;}
+\DoxyCodeLine{268     UINT MipLevels;}
+\DoxyCodeLine{269     BOOL Italic;}
+\DoxyCodeLine{270     BYTE CharSet;}
+\DoxyCodeLine{271     BYTE OutputPrecision;}
+\DoxyCodeLine{272     BYTE Quality;}
+\DoxyCodeLine{273     BYTE PitchAndFamily;}
+\DoxyCodeLine{274     CHAR FaceName[LF\_FACESIZE];}
+\DoxyCodeLine{275 }
+\DoxyCodeLine{276 \} \mbox{\hyperlink{struct___d3_d_x_f_o_n_t___d_e_s_c_a}{D3DXFONT\_DESCA}}, *\mbox{\hyperlink{struct___d3_d_x_f_o_n_t___d_e_s_c_a}{LPD3DXFONT\_DESCA}};}
+\DoxyCodeLine{277 }
+\DoxyCodeLine{278 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x_f_o_n_t___d_e_s_c_w}{\_D3DXFONT\_DESCW}}}
+\DoxyCodeLine{279 \{}
+\DoxyCodeLine{280     INT Height;}
+\DoxyCodeLine{281     UINT Width;}
+\DoxyCodeLine{282     UINT Weight;}
+\DoxyCodeLine{283     UINT MipLevels;}
+\DoxyCodeLine{284     BOOL Italic;}
+\DoxyCodeLine{285     BYTE CharSet;}
+\DoxyCodeLine{286     BYTE OutputPrecision;}
+\DoxyCodeLine{287     BYTE Quality;}
+\DoxyCodeLine{288     BYTE PitchAndFamily;}
+\DoxyCodeLine{289     WCHAR FaceName[LF\_FACESIZE];}
+\DoxyCodeLine{290 }
+\DoxyCodeLine{291 \} \mbox{\hyperlink{struct___d3_d_x_f_o_n_t___d_e_s_c_w}{D3DXFONT\_DESCW}}, *\mbox{\hyperlink{struct___d3_d_x_f_o_n_t___d_e_s_c_w}{LPD3DXFONT\_DESCW}};}
+\DoxyCodeLine{292 }
+\DoxyCodeLine{293 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{294 \textcolor{keyword}{typedef} \mbox{\hyperlink{struct___d3_d_x_f_o_n_t___d_e_s_c_w}{D3DXFONT\_DESCW}} \mbox{\hyperlink{struct___d3_d_x_f_o_n_t___d_e_s_c_a}{D3DXFONT\_DESC}};}
+\DoxyCodeLine{295 \textcolor{keyword}{typedef} \mbox{\hyperlink{struct___d3_d_x_f_o_n_t___d_e_s_c_w}{LPD3DXFONT\_DESCW}} \mbox{\hyperlink{struct___d3_d_x_f_o_n_t___d_e_s_c_a}{LPD3DXFONT\_DESC}};}
+\DoxyCodeLine{296 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{297 \textcolor{keyword}{typedef} \mbox{\hyperlink{struct___d3_d_x_f_o_n_t___d_e_s_c_a}{D3DXFONT\_DESCA}} \mbox{\hyperlink{struct___d3_d_x_f_o_n_t___d_e_s_c_a}{D3DXFONT\_DESC}};}
+\DoxyCodeLine{298 \textcolor{keyword}{typedef} \mbox{\hyperlink{struct___d3_d_x_f_o_n_t___d_e_s_c_a}{LPD3DXFONT\_DESCA}} \mbox{\hyperlink{struct___d3_d_x_f_o_n_t___d_e_s_c_a}{LPD3DXFONT\_DESC}};}
+\DoxyCodeLine{299 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{300 }
+\DoxyCodeLine{301 }
+\DoxyCodeLine{302 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXFont ID3DXFont;}
+\DoxyCodeLine{303 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXFont *LPD3DXFONT;}
+\DoxyCodeLine{304 }
+\DoxyCodeLine{305 }
+\DoxyCodeLine{306 \textcolor{comment}{// \{D79DBB70-\/5F21-\/4d36-\/BBC2-\/FF525C213CDC\}}}
+\DoxyCodeLine{307 DEFINE\_GUID(IID\_ID3DXFont, }
+\DoxyCodeLine{308 0xd79dbb70, 0x5f21, 0x4d36, 0xbb, 0xc2, 0xff, 0x52, 0x5c, 0x21, 0x3c, 0xdc);}
+\DoxyCodeLine{309 }
+\DoxyCodeLine{310 }
+\DoxyCodeLine{311 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{312 \textcolor{preprocessor}{\#define INTERFACE ID3DXFont}}
+\DoxyCodeLine{313 }
+\DoxyCodeLine{314 DECLARE\_INTERFACE\_(ID3DXFont, IUnknown)}
+\DoxyCodeLine{315 \{}
+\DoxyCodeLine{316     \textcolor{comment}{// IUnknown}}
+\DoxyCodeLine{317     STDMETHOD(QueryInterface)(THIS\_ REFIID iid, LPVOID *ppv) PURE;}
+\DoxyCodeLine{318     STDMETHOD\_(ULONG, AddRef)(THIS) PURE;}
+\DoxyCodeLine{319     STDMETHOD\_(ULONG, Release)(THIS) PURE;}
+\DoxyCodeLine{320 }
+\DoxyCodeLine{321     \textcolor{comment}{// ID3DXFont}}
+\DoxyCodeLine{322     STDMETHOD(GetDevice)(THIS\_ LPDIRECT3DDEVICE9 *ppDevice) PURE;}
+\DoxyCodeLine{323     STDMETHOD(GetDescA)(THIS\_ \mbox{\hyperlink{struct___d3_d_x_f_o_n_t___d_e_s_c_a}{D3DXFONT\_DESCA}} *pDesc) PURE;}
+\DoxyCodeLine{324     STDMETHOD(GetDescW)(THIS\_ \mbox{\hyperlink{struct___d3_d_x_f_o_n_t___d_e_s_c_w}{D3DXFONT\_DESCW}} *pDesc) PURE;}
+\DoxyCodeLine{325     STDMETHOD\_(BOOL, GetTextMetricsA)(THIS\_ TEXTMETRICA *pTextMetrics) PURE;}
+\DoxyCodeLine{326     STDMETHOD\_(BOOL, GetTextMetricsW)(THIS\_ TEXTMETRICW *pTextMetrics) PURE;}
+\DoxyCodeLine{327 }
+\DoxyCodeLine{328     STDMETHOD\_(HDC, GetDC)(THIS) PURE;}
+\DoxyCodeLine{329     STDMETHOD(GetGlyphData)(THIS\_ UINT Glyph, LPDIRECT3DTEXTURE9 *ppTexture, RECT *pBlackBox, POINT *pCellInc) PURE;}
+\DoxyCodeLine{330 }
+\DoxyCodeLine{331     STDMETHOD(PreloadCharacters)(THIS\_ UINT First, UINT Last) PURE;}
+\DoxyCodeLine{332     STDMETHOD(PreloadGlyphs)(THIS\_ UINT First, UINT Last) PURE;}
+\DoxyCodeLine{333     STDMETHOD(PreloadTextA)(THIS\_ LPCSTR pString, INT Count) PURE;}
+\DoxyCodeLine{334     STDMETHOD(PreloadTextW)(THIS\_ LPCWSTR pString, INT Count) PURE;}
+\DoxyCodeLine{335 }
+\DoxyCodeLine{336     STDMETHOD\_(INT, DrawTextA)(THIS\_ LPD3DXSPRITE pSprite, LPCSTR pString, INT Count, LPRECT pRect, DWORD Format, D3DCOLOR Color) PURE;}
+\DoxyCodeLine{337     STDMETHOD\_(INT, DrawTextW)(THIS\_ LPD3DXSPRITE pSprite, LPCWSTR pString, INT Count, LPRECT pRect, DWORD Format, D3DCOLOR Color) PURE;}
+\DoxyCodeLine{338 }
+\DoxyCodeLine{339     STDMETHOD(OnLostDevice)(THIS) PURE;}
+\DoxyCodeLine{340     STDMETHOD(OnResetDevice)(THIS) PURE;}
+\DoxyCodeLine{341 }
+\DoxyCodeLine{342 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{343 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{344     HRESULT GetDesc(\mbox{\hyperlink{struct___d3_d_x_f_o_n_t___d_e_s_c_w}{D3DXFONT\_DESCW}} *pDesc) \{ \textcolor{keywordflow}{return} GetDescW(pDesc); \}}
+\DoxyCodeLine{345     HRESULT PreloadText(LPCWSTR pString, INT Count) \{ \textcolor{keywordflow}{return} PreloadTextW(pString, Count); \}}
+\DoxyCodeLine{346 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{347     HRESULT GetDesc(\mbox{\hyperlink{struct___d3_d_x_f_o_n_t___d_e_s_c_a}{D3DXFONT\_DESCA}} *pDesc) \{ \textcolor{keywordflow}{return} GetDescA(pDesc); \}}
+\DoxyCodeLine{348     HRESULT PreloadText(LPCSTR pString, INT Count) \{ \textcolor{keywordflow}{return} PreloadTextA(pString, Count); \}}
+\DoxyCodeLine{349 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{350 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{351 \};}
+\DoxyCodeLine{352 }
+\DoxyCodeLine{353 \textcolor{preprocessor}{\#ifndef GetTextMetrics}}
+\DoxyCodeLine{354 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{355 \textcolor{preprocessor}{\#define GetTextMetrics GetTextMetricsW}}
+\DoxyCodeLine{356 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{357 \textcolor{preprocessor}{\#define GetTextMetrics GetTextMetricsA}}
+\DoxyCodeLine{358 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{359 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{360 }
+\DoxyCodeLine{361 \textcolor{preprocessor}{\#ifndef DrawText}}
+\DoxyCodeLine{362 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{363 \textcolor{preprocessor}{\#define DrawText DrawTextW}}
+\DoxyCodeLine{364 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{365 \textcolor{preprocessor}{\#define DrawText DrawTextA}}
+\DoxyCodeLine{366 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{367 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{368 }
+\DoxyCodeLine{369 }
+\DoxyCodeLine{370 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{371 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{372 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{373 }
+\DoxyCodeLine{374 }
+\DoxyCodeLine{375 HRESULT WINAPI }
+\DoxyCodeLine{376     D3DXCreateFontA(}
+\DoxyCodeLine{377         LPDIRECT3DDEVICE9       pDevice,  }
+\DoxyCodeLine{378         INT                     Height,}
+\DoxyCodeLine{379         UINT                    Width,}
+\DoxyCodeLine{380         UINT                    Weight,}
+\DoxyCodeLine{381         UINT                    MipLevels,}
+\DoxyCodeLine{382         BOOL                    Italic,}
+\DoxyCodeLine{383         DWORD                   CharSet,}
+\DoxyCodeLine{384         DWORD                   OutputPrecision,}
+\DoxyCodeLine{385         DWORD                   Quality,}
+\DoxyCodeLine{386         DWORD                   PitchAndFamily,}
+\DoxyCodeLine{387         LPCSTR                  pFaceName,}
+\DoxyCodeLine{388         LPD3DXFONT*             ppFont);}
+\DoxyCodeLine{389 }
+\DoxyCodeLine{390 HRESULT WINAPI }
+\DoxyCodeLine{391     D3DXCreateFontW(}
+\DoxyCodeLine{392         LPDIRECT3DDEVICE9       pDevice,  }
+\DoxyCodeLine{393         INT                     Height,}
+\DoxyCodeLine{394         UINT                    Width,}
+\DoxyCodeLine{395         UINT                    Weight,}
+\DoxyCodeLine{396         UINT                    MipLevels,}
+\DoxyCodeLine{397         BOOL                    Italic,}
+\DoxyCodeLine{398         DWORD                   CharSet,}
+\DoxyCodeLine{399         DWORD                   OutputPrecision,}
+\DoxyCodeLine{400         DWORD                   Quality,}
+\DoxyCodeLine{401         DWORD                   PitchAndFamily,}
+\DoxyCodeLine{402         LPCWSTR                 pFaceName,}
+\DoxyCodeLine{403         LPD3DXFONT*             ppFont);}
+\DoxyCodeLine{404 }
+\DoxyCodeLine{405 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{406 \textcolor{preprocessor}{\#define D3DXCreateFont D3DXCreateFontW}}
+\DoxyCodeLine{407 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{408 \textcolor{preprocessor}{\#define D3DXCreateFont D3DXCreateFontA}}
+\DoxyCodeLine{409 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{410 }
+\DoxyCodeLine{411 }
+\DoxyCodeLine{412 HRESULT WINAPI }
+\DoxyCodeLine{413     D3DXCreateFontIndirectA( }
+\DoxyCodeLine{414         LPDIRECT3DDEVICE9       pDevice, }
+\DoxyCodeLine{415         CONST \mbox{\hyperlink{struct___d3_d_x_f_o_n_t___d_e_s_c_a}{D3DXFONT\_DESCA}}*   pDesc, }
+\DoxyCodeLine{416         LPD3DXFONT*             ppFont);}
+\DoxyCodeLine{417 }
+\DoxyCodeLine{418 HRESULT WINAPI }
+\DoxyCodeLine{419     D3DXCreateFontIndirectW( }
+\DoxyCodeLine{420         LPDIRECT3DDEVICE9       pDevice, }
+\DoxyCodeLine{421         CONST \mbox{\hyperlink{struct___d3_d_x_f_o_n_t___d_e_s_c_w}{D3DXFONT\_DESCW}}*   pDesc, }
+\DoxyCodeLine{422         LPD3DXFONT*             ppFont);}
+\DoxyCodeLine{423 }
+\DoxyCodeLine{424 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{425 \textcolor{preprocessor}{\#define D3DXCreateFontIndirect D3DXCreateFontIndirectW}}
+\DoxyCodeLine{426 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{427 \textcolor{preprocessor}{\#define D3DXCreateFontIndirect D3DXCreateFontIndirectA}}
+\DoxyCodeLine{428 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{429 }
+\DoxyCodeLine{430 }
+\DoxyCodeLine{431 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{432 \}}
+\DoxyCodeLine{433 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{434 }
+\DoxyCodeLine{435 }
+\DoxyCodeLine{436 }
+\DoxyCodeLine{438 \textcolor{comment}{// ID3DXRenderToSurface:}}
+\DoxyCodeLine{439 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{440 \textcolor{comment}{// This object abstracts rendering to surfaces.  These surfaces do not }}
+\DoxyCodeLine{441 \textcolor{comment}{// necessarily need to be render targets.  If they are not, a compatible}}
+\DoxyCodeLine{442 \textcolor{comment}{// render target is used, and the result copied into surface at end scene.}}
+\DoxyCodeLine{443 \textcolor{comment}{//}}
+\DoxyCodeLine{444 \textcolor{comment}{// BeginScene, EndScene -\/}}
+\DoxyCodeLine{445 \textcolor{comment}{//    Call BeginScene() and EndScene() at the beginning and ending of your}}
+\DoxyCodeLine{446 \textcolor{comment}{//    scene.  These calls will setup and restore render targets, viewports, }}
+\DoxyCodeLine{447 \textcolor{comment}{//    etc.. }}
+\DoxyCodeLine{448 \textcolor{comment}{//}}
+\DoxyCodeLine{449 \textcolor{comment}{// OnLostDevice, OnResetDevice -\/}}
+\DoxyCodeLine{450 \textcolor{comment}{//    Call OnLostDevice() on this object before calling Reset() on the}}
+\DoxyCodeLine{451 \textcolor{comment}{//    device, so that this object can release any stateblocks and video}}
+\DoxyCodeLine{452 \textcolor{comment}{//    memory resources.  After Reset(), the call OnResetDevice().}}
+\DoxyCodeLine{454 \textcolor{comment}{}}
+\DoxyCodeLine{455 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x_r_t_s___d_e_s_c}{\_D3DXRTS\_DESC}}}
+\DoxyCodeLine{456 \{}
+\DoxyCodeLine{457     UINT                Width;}
+\DoxyCodeLine{458     UINT                Height;}
+\DoxyCodeLine{459     D3DFORMAT           Format;}
+\DoxyCodeLine{460     BOOL                DepthStencil;}
+\DoxyCodeLine{461     D3DFORMAT           DepthStencilFormat;}
+\DoxyCodeLine{462 }
+\DoxyCodeLine{463 \} \mbox{\hyperlink{struct___d3_d_x_r_t_s___d_e_s_c}{D3DXRTS\_DESC}}, *\mbox{\hyperlink{struct___d3_d_x_r_t_s___d_e_s_c}{LPD3DXRTS\_DESC}};}
+\DoxyCodeLine{464 }
+\DoxyCodeLine{465 }
+\DoxyCodeLine{466 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXRenderToSurface ID3DXRenderToSurface;}
+\DoxyCodeLine{467 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXRenderToSurface *LPD3DXRENDERTOSURFACE;}
+\DoxyCodeLine{468 }
+\DoxyCodeLine{469 }
+\DoxyCodeLine{470 \textcolor{comment}{// \{6985F346-\/2C3D-\/43b3-\/BE8B-\/DAAE8A03D894\}}}
+\DoxyCodeLine{471 DEFINE\_GUID(IID\_ID3DXRenderToSurface, }
+\DoxyCodeLine{472 0x6985f346, 0x2c3d, 0x43b3, 0xbe, 0x8b, 0xda, 0xae, 0x8a, 0x3, 0xd8, 0x94);}
+\DoxyCodeLine{473 }
+\DoxyCodeLine{474 }
+\DoxyCodeLine{475 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{476 \textcolor{preprocessor}{\#define INTERFACE ID3DXRenderToSurface}}
+\DoxyCodeLine{477 }
+\DoxyCodeLine{478 DECLARE\_INTERFACE\_(ID3DXRenderToSurface, IUnknown)}
+\DoxyCodeLine{479 \{}
+\DoxyCodeLine{480     \textcolor{comment}{// IUnknown}}
+\DoxyCodeLine{481     STDMETHOD(QueryInterface)(THIS\_ REFIID iid, LPVOID *ppv) PURE;}
+\DoxyCodeLine{482     STDMETHOD\_(ULONG, AddRef)(THIS) PURE;}
+\DoxyCodeLine{483     STDMETHOD\_(ULONG, Release)(THIS) PURE;}
+\DoxyCodeLine{484 }
+\DoxyCodeLine{485     \textcolor{comment}{// ID3DXRenderToSurface}}
+\DoxyCodeLine{486     STDMETHOD(GetDevice)(THIS\_ LPDIRECT3DDEVICE9* ppDevice) PURE;}
+\DoxyCodeLine{487     STDMETHOD(GetDesc)(THIS\_ \mbox{\hyperlink{struct___d3_d_x_r_t_s___d_e_s_c}{D3DXRTS\_DESC}}* pDesc) PURE;}
+\DoxyCodeLine{488 }
+\DoxyCodeLine{489     STDMETHOD(BeginScene)(THIS\_ LPDIRECT3DSURFACE9 pSurface, CONST \mbox{\hyperlink{struct___d3_d_v_i_e_w_p_o_r_t9}{D3DVIEWPORT9}}* pViewport) PURE;}
+\DoxyCodeLine{490     STDMETHOD(EndScene)(THIS\_ DWORD MipFilter) PURE;}
+\DoxyCodeLine{491 }
+\DoxyCodeLine{492     STDMETHOD(OnLostDevice)(THIS) PURE;}
+\DoxyCodeLine{493     STDMETHOD(OnResetDevice)(THIS) PURE;}
+\DoxyCodeLine{494 \};}
+\DoxyCodeLine{495 }
+\DoxyCodeLine{496 }
+\DoxyCodeLine{497 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{498 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{499 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{500 }
+\DoxyCodeLine{501 HRESULT WINAPI}
+\DoxyCodeLine{502     D3DXCreateRenderToSurface(}
+\DoxyCodeLine{503         LPDIRECT3DDEVICE9       pDevice,}
+\DoxyCodeLine{504         UINT                    Width,}
+\DoxyCodeLine{505         UINT                    Height,}
+\DoxyCodeLine{506         D3DFORMAT               Format,}
+\DoxyCodeLine{507         BOOL                    DepthStencil,}
+\DoxyCodeLine{508         D3DFORMAT               DepthStencilFormat,}
+\DoxyCodeLine{509         LPD3DXRENDERTOSURFACE*  ppRenderToSurface);}
+\DoxyCodeLine{510 }
+\DoxyCodeLine{511 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{512 \}}
+\DoxyCodeLine{513 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{514 }
+\DoxyCodeLine{515 }
+\DoxyCodeLine{516 }
+\DoxyCodeLine{518 \textcolor{comment}{// ID3DXRenderToEnvMap:}}
+\DoxyCodeLine{519 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{520 \textcolor{comment}{// This object abstracts rendering to environment maps.  These surfaces }}
+\DoxyCodeLine{521 \textcolor{comment}{// do not necessarily need to be render targets.  If they are not, a }}
+\DoxyCodeLine{522 \textcolor{comment}{// compatible render target is used, and the result copied into the}}
+\DoxyCodeLine{523 \textcolor{comment}{// environment map at end scene.}}
+\DoxyCodeLine{524 \textcolor{comment}{//}}
+\DoxyCodeLine{525 \textcolor{comment}{// BeginCube, BeginSphere, BeginHemisphere, BeginParabolic -\/}}
+\DoxyCodeLine{526 \textcolor{comment}{//    This function initiates the rendering of the environment map.  As}}
+\DoxyCodeLine{527 \textcolor{comment}{//    parameters, you pass the textures in which will get filled in with}}
+\DoxyCodeLine{528 \textcolor{comment}{//    the resulting environment map.}}
+\DoxyCodeLine{529 \textcolor{comment}{//}}
+\DoxyCodeLine{530 \textcolor{comment}{// Face -\/}}
+\DoxyCodeLine{531 \textcolor{comment}{//    Call this function to initiate the drawing of each face.  For each }}
+\DoxyCodeLine{532 \textcolor{comment}{//    environment map, you will call this six times.. once for each face }}
+\DoxyCodeLine{533 \textcolor{comment}{//    in D3DCUBEMAP\_FACES.}}
+\DoxyCodeLine{534 \textcolor{comment}{//}}
+\DoxyCodeLine{535 \textcolor{comment}{// End -\/}}
+\DoxyCodeLine{536 \textcolor{comment}{//    This will restore all render targets, and if needed compose all the}}
+\DoxyCodeLine{537 \textcolor{comment}{//    rendered faces into the environment map surfaces.}}
+\DoxyCodeLine{538 \textcolor{comment}{//}}
+\DoxyCodeLine{539 \textcolor{comment}{// OnLostDevice, OnResetDevice -\/}}
+\DoxyCodeLine{540 \textcolor{comment}{//    Call OnLostDevice() on this object before calling Reset() on the}}
+\DoxyCodeLine{541 \textcolor{comment}{//    device, so that this object can release any stateblocks and video}}
+\DoxyCodeLine{542 \textcolor{comment}{//    memory resources.  After Reset(), the call OnResetDevice().}}
+\DoxyCodeLine{544 \textcolor{comment}{}}
+\DoxyCodeLine{545 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x_r_t_e___d_e_s_c}{\_D3DXRTE\_DESC}}}
+\DoxyCodeLine{546 \{}
+\DoxyCodeLine{547     UINT        Size;}
+\DoxyCodeLine{548     UINT        MipLevels;}
+\DoxyCodeLine{549     D3DFORMAT   Format;}
+\DoxyCodeLine{550     BOOL        DepthStencil;}
+\DoxyCodeLine{551     D3DFORMAT   DepthStencilFormat;}
+\DoxyCodeLine{552 }
+\DoxyCodeLine{553 \} \mbox{\hyperlink{struct___d3_d_x_r_t_e___d_e_s_c}{D3DXRTE\_DESC}}, *\mbox{\hyperlink{struct___d3_d_x_r_t_e___d_e_s_c}{LPD3DXRTE\_DESC}};}
+\DoxyCodeLine{554 }
+\DoxyCodeLine{555 }
+\DoxyCodeLine{556 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXRenderToEnvMap ID3DXRenderToEnvMap;}
+\DoxyCodeLine{557 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXRenderToEnvMap *LPD3DXRenderToEnvMap;}
+\DoxyCodeLine{558 }
+\DoxyCodeLine{559 }
+\DoxyCodeLine{560 \textcolor{comment}{// \{313F1B4B-\/C7B0-\/4fa2-\/9D9D-\/8D380B64385E\}}}
+\DoxyCodeLine{561 DEFINE\_GUID(IID\_ID3DXRenderToEnvMap, }
+\DoxyCodeLine{562 0x313f1b4b, 0xc7b0, 0x4fa2, 0x9d, 0x9d, 0x8d, 0x38, 0xb, 0x64, 0x38, 0x5e);}
+\DoxyCodeLine{563 }
+\DoxyCodeLine{564 }
+\DoxyCodeLine{565 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{566 \textcolor{preprocessor}{\#define INTERFACE ID3DXRenderToEnvMap}}
+\DoxyCodeLine{567 }
+\DoxyCodeLine{568 DECLARE\_INTERFACE\_(ID3DXRenderToEnvMap, IUnknown)}
+\DoxyCodeLine{569 \{}
+\DoxyCodeLine{570     \textcolor{comment}{// IUnknown}}
+\DoxyCodeLine{571     STDMETHOD(QueryInterface)(THIS\_ REFIID iid, LPVOID *ppv) PURE;}
+\DoxyCodeLine{572     STDMETHOD\_(ULONG, AddRef)(THIS) PURE;}
+\DoxyCodeLine{573     STDMETHOD\_(ULONG, Release)(THIS) PURE;}
+\DoxyCodeLine{574 }
+\DoxyCodeLine{575     \textcolor{comment}{// ID3DXRenderToEnvMap}}
+\DoxyCodeLine{576     STDMETHOD(GetDevice)(THIS\_ LPDIRECT3DDEVICE9* ppDevice) PURE;}
+\DoxyCodeLine{577     STDMETHOD(GetDesc)(THIS\_ \mbox{\hyperlink{struct___d3_d_x_r_t_e___d_e_s_c}{D3DXRTE\_DESC}}* pDesc) PURE;}
+\DoxyCodeLine{578 }
+\DoxyCodeLine{579     STDMETHOD(BeginCube)(THIS\_ }
+\DoxyCodeLine{580         LPDIRECT3DCUBETEXTURE9 pCubeTex) PURE;}
+\DoxyCodeLine{581 }
+\DoxyCodeLine{582     STDMETHOD(BeginSphere)(THIS\_}
+\DoxyCodeLine{583         LPDIRECT3DTEXTURE9 pTex) PURE;}
+\DoxyCodeLine{584 }
+\DoxyCodeLine{585     STDMETHOD(BeginHemisphere)(THIS\_ }
+\DoxyCodeLine{586         LPDIRECT3DTEXTURE9 pTexZPos,}
+\DoxyCodeLine{587         LPDIRECT3DTEXTURE9 pTexZNeg) PURE;}
+\DoxyCodeLine{588 }
+\DoxyCodeLine{589     STDMETHOD(BeginParabolic)(THIS\_ }
+\DoxyCodeLine{590         LPDIRECT3DTEXTURE9 pTexZPos,}
+\DoxyCodeLine{591         LPDIRECT3DTEXTURE9 pTexZNeg) PURE;}
+\DoxyCodeLine{592 }
+\DoxyCodeLine{593     STDMETHOD(Face)(THIS\_ D3DCUBEMAP\_FACES Face, DWORD MipFilter) PURE;}
+\DoxyCodeLine{594     STDMETHOD(End)(THIS\_ DWORD MipFilter) PURE;}
+\DoxyCodeLine{595 }
+\DoxyCodeLine{596     STDMETHOD(OnLostDevice)(THIS) PURE;}
+\DoxyCodeLine{597     STDMETHOD(OnResetDevice)(THIS) PURE;}
+\DoxyCodeLine{598 \};}
+\DoxyCodeLine{599 }
+\DoxyCodeLine{600 }
+\DoxyCodeLine{601 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{602 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{603 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{604 }
+\DoxyCodeLine{605 HRESULT WINAPI}
+\DoxyCodeLine{606     D3DXCreateRenderToEnvMap(}
+\DoxyCodeLine{607         LPDIRECT3DDEVICE9       pDevice,}
+\DoxyCodeLine{608         UINT                    Size,}
+\DoxyCodeLine{609         UINT                    MipLevels,}
+\DoxyCodeLine{610         D3DFORMAT               Format,}
+\DoxyCodeLine{611         BOOL                    DepthStencil,}
+\DoxyCodeLine{612         D3DFORMAT               DepthStencilFormat,}
+\DoxyCodeLine{613         LPD3DXRenderToEnvMap*   ppRenderToEnvMap);}
+\DoxyCodeLine{614 }
+\DoxyCodeLine{615 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{616 \}}
+\DoxyCodeLine{617 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{618 }
+\DoxyCodeLine{619 }
+\DoxyCodeLine{620 }
+\DoxyCodeLine{622 \textcolor{comment}{// ID3DXLine:}}
+\DoxyCodeLine{623 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{624 \textcolor{comment}{// This object intends to provide an easy way to draw lines using D3D.}}
+\DoxyCodeLine{625 \textcolor{comment}{//}}
+\DoxyCodeLine{626 \textcolor{comment}{// Begin -\/ }}
+\DoxyCodeLine{627 \textcolor{comment}{//    Prepares device for drawing lines}}
+\DoxyCodeLine{628 \textcolor{comment}{//}}
+\DoxyCodeLine{629 \textcolor{comment}{// Draw -\/}}
+\DoxyCodeLine{630 \textcolor{comment}{//    Draws a line strip in screen-\/space.}}
+\DoxyCodeLine{631 \textcolor{comment}{//    Input is in the form of a array defining points on the line strip. of D3DXVECTOR2 }}
+\DoxyCodeLine{632 \textcolor{comment}{//}}
+\DoxyCodeLine{633 \textcolor{comment}{// DrawTransform -\/}}
+\DoxyCodeLine{634 \textcolor{comment}{//    Draws a line in screen-\/space with a specified input transformation matrix.}}
+\DoxyCodeLine{635 \textcolor{comment}{//}}
+\DoxyCodeLine{636 \textcolor{comment}{// End -\/ }}
+\DoxyCodeLine{637 \textcolor{comment}{//     Restores device state to how it was when Begin was called.}}
+\DoxyCodeLine{638 \textcolor{comment}{//}}
+\DoxyCodeLine{639 \textcolor{comment}{// SetPattern -\/ }}
+\DoxyCodeLine{640 \textcolor{comment}{//     Applies a stipple pattern to the line.  Input is one 32-\/bit}}
+\DoxyCodeLine{641 \textcolor{comment}{//     DWORD which describes the stipple pattern. 1 is opaque, 0 is}}
+\DoxyCodeLine{642 \textcolor{comment}{//     transparent.}}
+\DoxyCodeLine{643 \textcolor{comment}{//}}
+\DoxyCodeLine{644 \textcolor{comment}{// SetPatternScale -\/ }}
+\DoxyCodeLine{645 \textcolor{comment}{//     Stretches the stipple pattern in the u direction.  Input is one}}
+\DoxyCodeLine{646 \textcolor{comment}{//     floating-\/point value.  0.0f is no scaling, whereas 1.0f doubles}}
+\DoxyCodeLine{647 \textcolor{comment}{//     the length of the stipple pattern.}}
+\DoxyCodeLine{648 \textcolor{comment}{//}}
+\DoxyCodeLine{649 \textcolor{comment}{// SetWidth -\/ }}
+\DoxyCodeLine{650 \textcolor{comment}{//     Specifies the thickness of the line in the v direction.  Input is}}
+\DoxyCodeLine{651 \textcolor{comment}{//     one floating-\/point value.}}
+\DoxyCodeLine{652 \textcolor{comment}{//}}
+\DoxyCodeLine{653 \textcolor{comment}{// SetAntialias -\/ }}
+\DoxyCodeLine{654 \textcolor{comment}{//     Toggles line antialiasing.  Input is a BOOL.}}
+\DoxyCodeLine{655 \textcolor{comment}{//     TRUE  = Antialiasing on.}}
+\DoxyCodeLine{656 \textcolor{comment}{//     FALSE = Antialiasing off.}}
+\DoxyCodeLine{657 \textcolor{comment}{//}}
+\DoxyCodeLine{658 \textcolor{comment}{// SetGLLines -\/ }}
+\DoxyCodeLine{659 \textcolor{comment}{//     Toggles non-\/antialiased OpenGL line emulation.  Input is a BOOL.}}
+\DoxyCodeLine{660 \textcolor{comment}{//     TRUE  = OpenGL line emulation on.}}
+\DoxyCodeLine{661 \textcolor{comment}{//     FALSE = OpenGL line emulation off.}}
+\DoxyCodeLine{662 \textcolor{comment}{//}}
+\DoxyCodeLine{663 \textcolor{comment}{// OpenGL line:     Regular line:  }}
+\DoxyCodeLine{664 \textcolor{comment}{//   *\(\backslash\)                *\(\backslash\)}}
+\DoxyCodeLine{665 \textcolor{comment}{//   | \(\backslash\)              /  \(\backslash\)}}
+\DoxyCodeLine{666 \textcolor{comment}{//   |  \(\backslash\)            *\(\backslash\)   \(\backslash\)}}
+\DoxyCodeLine{667 \textcolor{comment}{//   *\(\backslash\)  \(\backslash\)             \(\backslash\)   \(\backslash\)}}
+\DoxyCodeLine{668 \textcolor{comment}{//     \(\backslash\)  \(\backslash\)             \(\backslash\)   \(\backslash\)}}
+\DoxyCodeLine{669 \textcolor{comment}{//      \(\backslash\)  *             \(\backslash\)   *}}
+\DoxyCodeLine{670 \textcolor{comment}{//       \(\backslash\) |              \(\backslash\) /}}
+\DoxyCodeLine{671 \textcolor{comment}{//        \(\backslash\)|               *}}
+\DoxyCodeLine{672 \textcolor{comment}{//         *}}
+\DoxyCodeLine{673 \textcolor{comment}{//}}
+\DoxyCodeLine{674 \textcolor{comment}{// OnLostDevice, OnResetDevice -\/}}
+\DoxyCodeLine{675 \textcolor{comment}{//    Call OnLostDevice() on this object before calling Reset() on the}}
+\DoxyCodeLine{676 \textcolor{comment}{//    device, so that this object can release any stateblocks and video}}
+\DoxyCodeLine{677 \textcolor{comment}{//    memory resources.  After Reset(), the call OnResetDevice().}}
+\DoxyCodeLine{679 \textcolor{comment}{}}
+\DoxyCodeLine{680 }
+\DoxyCodeLine{681 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXLine ID3DXLine;}
+\DoxyCodeLine{682 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXLine *LPD3DXLINE;}
+\DoxyCodeLine{683 }
+\DoxyCodeLine{684 }
+\DoxyCodeLine{685 \textcolor{comment}{// \{D379BA7F-\/9042-\/4ac4-\/9F5E-\/58192A4C6BD8\}}}
+\DoxyCodeLine{686 DEFINE\_GUID(IID\_ID3DXLine, }
+\DoxyCodeLine{687 0xd379ba7f, 0x9042, 0x4ac4, 0x9f, 0x5e, 0x58, 0x19, 0x2a, 0x4c, 0x6b, 0xd8);}
+\DoxyCodeLine{688 }
+\DoxyCodeLine{689 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{690 \textcolor{preprocessor}{\#define INTERFACE ID3DXLine}}
+\DoxyCodeLine{691 }
+\DoxyCodeLine{692 DECLARE\_INTERFACE\_(ID3DXLine, IUnknown)}
+\DoxyCodeLine{693 \{}
+\DoxyCodeLine{694     \textcolor{comment}{// IUnknown}}
+\DoxyCodeLine{695     STDMETHOD(QueryInterface)(THIS\_ REFIID iid, LPVOID *ppv) PURE;}
+\DoxyCodeLine{696     STDMETHOD\_(ULONG, AddRef)(THIS) PURE;}
+\DoxyCodeLine{697     STDMETHOD\_(ULONG, Release)(THIS) PURE;}
+\DoxyCodeLine{698 }
+\DoxyCodeLine{699     \textcolor{comment}{// ID3DXLine}}
+\DoxyCodeLine{700     STDMETHOD(GetDevice)(THIS\_ LPDIRECT3DDEVICE9* ppDevice) PURE;}
+\DoxyCodeLine{701 }
+\DoxyCodeLine{702     STDMETHOD(Begin)(THIS) PURE;}
+\DoxyCodeLine{703 }
+\DoxyCodeLine{704     STDMETHOD(Draw)(THIS\_ CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pVertexList,}
+\DoxyCodeLine{705         DWORD dwVertexListCount, D3DCOLOR Color) PURE;}
+\DoxyCodeLine{706 }
+\DoxyCodeLine{707     STDMETHOD(DrawTransform)(THIS\_ CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pVertexList,}
+\DoxyCodeLine{708         DWORD dwVertexListCount, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* pTransform, }
+\DoxyCodeLine{709         D3DCOLOR Color) PURE;}
+\DoxyCodeLine{710 }
+\DoxyCodeLine{711     STDMETHOD(SetPattern)(THIS\_ DWORD dwPattern) PURE;}
+\DoxyCodeLine{712     STDMETHOD\_(DWORD, GetPattern)(THIS) PURE;}
+\DoxyCodeLine{713 }
+\DoxyCodeLine{714     STDMETHOD(SetPatternScale)(THIS\_ FLOAT fPatternScale) PURE;}
+\DoxyCodeLine{715     STDMETHOD\_(FLOAT, GetPatternScale)(THIS) PURE;}
+\DoxyCodeLine{716 }
+\DoxyCodeLine{717     STDMETHOD(SetWidth)(THIS\_ FLOAT fWidth) PURE;}
+\DoxyCodeLine{718     STDMETHOD\_(FLOAT, GetWidth)(THIS) PURE;}
+\DoxyCodeLine{719 }
+\DoxyCodeLine{720     STDMETHOD(SetAntialias)(THIS\_ BOOL bAntialias) PURE;}
+\DoxyCodeLine{721     STDMETHOD\_(BOOL, GetAntialias)(THIS) PURE;}
+\DoxyCodeLine{722 }
+\DoxyCodeLine{723     STDMETHOD(SetGLLines)(THIS\_ BOOL bGLLines) PURE;}
+\DoxyCodeLine{724     STDMETHOD\_(BOOL, GetGLLines)(THIS) PURE;}
+\DoxyCodeLine{725 }
+\DoxyCodeLine{726     STDMETHOD(End)(THIS) PURE;}
+\DoxyCodeLine{727 }
+\DoxyCodeLine{728     STDMETHOD(OnLostDevice)(THIS) PURE;}
+\DoxyCodeLine{729     STDMETHOD(OnResetDevice)(THIS) PURE;}
+\DoxyCodeLine{730 \};}
+\DoxyCodeLine{731 }
+\DoxyCodeLine{732 }
+\DoxyCodeLine{733 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{734 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{735 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{736 }
+\DoxyCodeLine{737 }
+\DoxyCodeLine{738 HRESULT WINAPI}
+\DoxyCodeLine{739     D3DXCreateLine(}
+\DoxyCodeLine{740         LPDIRECT3DDEVICE9   pDevice,}
+\DoxyCodeLine{741         LPD3DXLINE*         ppLine);}
+\DoxyCodeLine{742 }
+\DoxyCodeLine{743 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{744 \}}
+\DoxyCodeLine{745 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{746 }
+\DoxyCodeLine{747 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_D3DX9CORE\_H\_\_}}
+\DoxyCodeLine{748 }
+
+\end{DoxyCode}

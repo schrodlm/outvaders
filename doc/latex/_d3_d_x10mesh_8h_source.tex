@@ -1,0 +1,289 @@
+\hypertarget{_d3_d_x10mesh_8h_source}{}\doxysection{D3\+DX10mesh.\+h}
+\label{_d3_d_x10mesh_8h_source}\index{src/lib/dx/Include/D3DX10mesh.h@{src/lib/dx/Include/D3DX10mesh.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{2 \textcolor{comment}{//}}
+\DoxyCodeLine{3 \textcolor{comment}{//  Copyright (C) Microsoft Corporation.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{//}}
+\DoxyCodeLine{5 \textcolor{comment}{//  File:       d3dx10mesh.h}}
+\DoxyCodeLine{6 \textcolor{comment}{//  Content:    D3DX10 mesh types and functions}}
+\DoxyCodeLine{7 \textcolor{comment}{//}}
+\DoxyCodeLine{9 \textcolor{comment}{}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}d3dx10.h"{}}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#ifndef \_\_D3DX10MESH\_H\_\_}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#define \_\_D3DX10MESH\_H\_\_}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{comment}{// \{7ED943DD-\/52E8-\/40b5-\/A8D8-\/76685C406330\}}}
+\DoxyCodeLine{16 DEFINE\_GUID(IID\_ID3DX10BaseMesh, }
+\DoxyCodeLine{17 0x7ed943dd, 0x52e8, 0x40b5, 0xa8, 0xd8, 0x76, 0x68, 0x5c, 0x40, 0x63, 0x30);}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{comment}{// \{04B0D117-\/1041-\/46b1-\/AA8A-\/3952848BA22E\}}}
+\DoxyCodeLine{20 DEFINE\_GUID(IID\_ID3DX10MeshBuffer, }
+\DoxyCodeLine{21 0x4b0d117, 0x1041, 0x46b1, 0xaa, 0x8a, 0x39, 0x52, 0x84, 0x8b, 0xa2, 0x2e);}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{comment}{// \{4020E5C2-\/1403-\/4929-\/883F-\/E2E849FAC195\}}}
+\DoxyCodeLine{24 DEFINE\_GUID(IID\_ID3DX10Mesh, }
+\DoxyCodeLine{25 0x4020e5c2, 0x1403, 0x4929, 0x88, 0x3f, 0xe2, 0xe8, 0x49, 0xfa, 0xc1, 0x95);}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{comment}{// \{8875769A-\/D579-\/4088-\/AAEB-\/534D1AD84E96\}}}
+\DoxyCodeLine{28 DEFINE\_GUID(IID\_ID3DX10PMesh, }
+\DoxyCodeLine{29 0x8875769a, 0xd579, 0x4088, 0xaa, 0xeb, 0x53, 0x4d, 0x1a, 0xd8, 0x4e, 0x96);}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{comment}{// \{667EA4C7-\/F1CD-\/4386-\/B523-\/7C0290B83CC5\}}}
+\DoxyCodeLine{32 DEFINE\_GUID(IID\_ID3DX10SPMesh, }
+\DoxyCodeLine{33 0x667ea4c7, 0xf1cd, 0x4386, 0xb5, 0x23, 0x7c, 0x2, 0x90, 0xb8, 0x3c, 0xc5);}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \textcolor{comment}{// \{3CE6CC22-\/DBF2-\/44f4-\/894D-\/F9C34A337139\}}}
+\DoxyCodeLine{36 DEFINE\_GUID(IID\_ID3DX10PatchMesh, }
+\DoxyCodeLine{37 0x3ce6cc22, 0xdbf2, 0x44f4, 0x89, 0x4d, 0xf9, 0xc3, 0x4a, 0x33, 0x71, 0x39);}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 \textcolor{comment}{// Mesh options -\/ lower 3 bytes only, upper byte used by \_D3DX10MESHOPT option flags}}
+\DoxyCodeLine{41 \textcolor{keyword}{enum} \_D3DX10MESH \{}
+\DoxyCodeLine{42     D3DX10MESH\_32BIT                  = 0x001, \textcolor{comment}{// If set, then use 32 bit indices, if not set use 16 bit indices.}}
+\DoxyCodeLine{43     D3DX10MESH\_GS\_ADJACENCY           = 0x004, \textcolor{comment}{// If set, mesh contains GS adjacency info. Not valid on input.}}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45 \};}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x10_a_t_t_r_i_b_u_t_e_r_a_n_g_e}{\_D3DX10ATTRIBUTERANGE}}}
+\DoxyCodeLine{48 \{}
+\DoxyCodeLine{49     UINT  AttribId;}
+\DoxyCodeLine{50     UINT  FaceStart;}
+\DoxyCodeLine{51     UINT  FaceCount;}
+\DoxyCodeLine{52     UINT  VertexStart;}
+\DoxyCodeLine{53     UINT  VertexCount;}
+\DoxyCodeLine{54 \} \mbox{\hyperlink{struct___d3_d_x10_a_t_t_r_i_b_u_t_e_r_a_n_g_e}{D3DX10ATTRIBUTERANGE}};}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56 \textcolor{keyword}{typedef} \mbox{\hyperlink{struct___d3_d_x10_a_t_t_r_i_b_u_t_e_r_a_n_g_e}{D3DX10ATTRIBUTERANGE}}* \mbox{\hyperlink{struct___d3_d_x10_a_t_t_r_i_b_u_t_e_r_a_n_g_e}{LPD3DX10ATTRIBUTERANGE}};}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DX10\_MESH\_DISCARD\_FLAGS}
+\DoxyCodeLine{59 \{}
+\DoxyCodeLine{60     D3DX10\_MESH\_DISCARD\_ATTRIBUTE\_BUFFER = 0x01,}
+\DoxyCodeLine{61     D3DX10\_MESH\_DISCARD\_ATTRIBUTE\_TABLE = 0x02,}
+\DoxyCodeLine{62     D3DX10\_MESH\_DISCARD\_POINTREPS = 0x04,}
+\DoxyCodeLine{63     D3DX10\_MESH\_DISCARD\_ADJACENCY = 0x08,}
+\DoxyCodeLine{64     D3DX10\_MESH\_DISCARD\_DEVICE\_BUFFERS = 0x10,}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66 \} D3DX10\_MESH\_DISCARD\_FLAGS;}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{68 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x10_w_e_l_d_e_p_s_i_l_o_n_s}{\_D3DX10WELDEPSILONS}}}
+\DoxyCodeLine{69 \{}
+\DoxyCodeLine{70     FLOAT Position;                 \textcolor{comment}{// NOTE: This does NOT replace the epsilon in GenerateAdjacency}}
+\DoxyCodeLine{71                                             \textcolor{comment}{// in general, it should be the same value or greater than the one passed to GeneratedAdjacency}}
+\DoxyCodeLine{72     FLOAT BlendWeights;}
+\DoxyCodeLine{73     FLOAT Normal;}
+\DoxyCodeLine{74     FLOAT PSize;}
+\DoxyCodeLine{75     FLOAT Specular;}
+\DoxyCodeLine{76     FLOAT Diffuse;}
+\DoxyCodeLine{77     FLOAT Texcoord[8];}
+\DoxyCodeLine{78     FLOAT Tangent;}
+\DoxyCodeLine{79     FLOAT Binormal;}
+\DoxyCodeLine{80     FLOAT TessFactor;}
+\DoxyCodeLine{81 \} \mbox{\hyperlink{struct___d3_d_x10_w_e_l_d_e_p_s_i_l_o_n_s}{D3DX10WELDEPSILONS}};}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{83 \textcolor{keyword}{typedef} \mbox{\hyperlink{struct___d3_d_x10_w_e_l_d_e_p_s_i_l_o_n_s}{D3DX10WELDEPSILONS}}* \mbox{\hyperlink{struct___d3_d_x10_w_e_l_d_e_p_s_i_l_o_n_s}{LPD3DX10WELDEPSILONS}};}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x10_i_n_t_e_r_s_e_c_t_i_n_f_o}{\_D3DX10INTERSECTINFO}}}
+\DoxyCodeLine{86 \{}
+\DoxyCodeLine{87     UINT  FaceIndex;                \textcolor{comment}{// index of face intersected}}
+\DoxyCodeLine{88     FLOAT U;                        \textcolor{comment}{// Barycentric Hit Coordinates    }}
+\DoxyCodeLine{89     FLOAT V;                        \textcolor{comment}{// Barycentric Hit Coordinates}}
+\DoxyCodeLine{90     FLOAT Dist;                     \textcolor{comment}{// Ray-\/Intersection Parameter Distance}}
+\DoxyCodeLine{91 \} \mbox{\hyperlink{struct___d3_d_x10_i_n_t_e_r_s_e_c_t_i_n_f_o}{D3DX10INTERSECTINFO}}, *\mbox{\hyperlink{struct___d3_d_x10_i_n_t_e_r_s_e_c_t_i_n_f_o}{LPD3DX10INTERSECTINFO}};}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{93 \textcolor{comment}{// ID3DX10MeshBuffer is used by D3DX10Mesh vertex and index buffers}}
+\DoxyCodeLine{94 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{95 \textcolor{preprocessor}{\#define INTERFACE ID3DX10MeshBuffer}}
+\DoxyCodeLine{96 }
+\DoxyCodeLine{97 DECLARE\_INTERFACE\_(ID3DX10MeshBuffer, IUnknown)}
+\DoxyCodeLine{98 \{}
+\DoxyCodeLine{99     \textcolor{comment}{// IUnknown}}
+\DoxyCodeLine{100     STDMETHOD(QueryInterface)(THIS\_ REFIID iid, LPVOID *ppv) PURE;}
+\DoxyCodeLine{101     STDMETHOD\_(ULONG, AddRef)(THIS) PURE;}
+\DoxyCodeLine{102     STDMETHOD\_(ULONG, Release)(THIS) PURE;}
+\DoxyCodeLine{103     }
+\DoxyCodeLine{104     \textcolor{comment}{// ID3DX10MeshBuffer}}
+\DoxyCodeLine{105     STDMETHOD(Lock)(THIS\_ \textcolor{keywordtype}{void} **ppData, SIZE\_T *pSize) PURE;}
+\DoxyCodeLine{106     STDMETHOD(Unlock)(THIS) PURE;}
+\DoxyCodeLine{107     STDMETHOD\_(SIZE\_T, GetSize)(THIS) PURE;}
+\DoxyCodeLine{108 \};}
+\DoxyCodeLine{109 }
+\DoxyCodeLine{110 \textcolor{comment}{// D3DX10 Mesh interfaces}}
+\DoxyCodeLine{111 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{112 \textcolor{preprocessor}{\#define INTERFACE ID3DX10Mesh}}
+\DoxyCodeLine{113 }
+\DoxyCodeLine{114 DECLARE\_INTERFACE\_(ID3DX10Mesh, IUnknown)}
+\DoxyCodeLine{115 \{}
+\DoxyCodeLine{116     \textcolor{comment}{// IUnknown}}
+\DoxyCodeLine{117     STDMETHOD(QueryInterface)(THIS\_ REFIID iid, LPVOID *ppv) PURE;}
+\DoxyCodeLine{118     STDMETHOD\_(ULONG, AddRef)(THIS) PURE;}
+\DoxyCodeLine{119     STDMETHOD\_(ULONG, Release)(THIS) PURE;}
+\DoxyCodeLine{120 }
+\DoxyCodeLine{121     \textcolor{comment}{// ID3DX10Mesh}}
+\DoxyCodeLine{122     STDMETHOD\_(UINT, GetFaceCount)(THIS) PURE;}
+\DoxyCodeLine{123     STDMETHOD\_(UINT, GetVertexCount)(THIS) PURE;}
+\DoxyCodeLine{124     STDMETHOD\_(UINT, GetVertexBufferCount)(THIS) PURE;}
+\DoxyCodeLine{125     STDMETHOD\_(UINT, GetFlags)(THIS) PURE;}
+\DoxyCodeLine{126     STDMETHOD(GetVertexDescription)(THIS\_ CONST \mbox{\hyperlink{struct_d3_d10___i_n_p_u_t___e_l_e_m_e_n_t___d_e_s_c}{D3D10\_INPUT\_ELEMENT\_DESC}} **ppDesc, UINT *pDeclCount) PURE;}
+\DoxyCodeLine{127 }
+\DoxyCodeLine{128     STDMETHOD(SetVertexData)(THIS\_ UINT iBuffer, CONST \textcolor{keywordtype}{void} *pData) PURE;}
+\DoxyCodeLine{129     STDMETHOD(GetVertexBuffer)(THIS\_ UINT iBuffer, ID3DX10MeshBuffer **ppVertexBuffer) PURE;}
+\DoxyCodeLine{130 }
+\DoxyCodeLine{131     STDMETHOD(SetIndexData)(THIS\_ CONST \textcolor{keywordtype}{void} *pData, UINT cIndices) PURE;}
+\DoxyCodeLine{132     STDMETHOD(GetIndexBuffer)(THIS\_ ID3DX10MeshBuffer **ppIndexBuffer) PURE;}
+\DoxyCodeLine{133 }
+\DoxyCodeLine{134     STDMETHOD(SetAttributeData)(THIS\_ CONST UINT *pData) PURE;}
+\DoxyCodeLine{135     STDMETHOD(GetAttributeBuffer)(THIS\_ ID3DX10MeshBuffer **ppAttributeBuffer) PURE;}
+\DoxyCodeLine{136 }
+\DoxyCodeLine{137     STDMETHOD(SetAttributeTable)(THIS\_ CONST \mbox{\hyperlink{struct___d3_d_x10_a_t_t_r_i_b_u_t_e_r_a_n_g_e}{D3DX10ATTRIBUTERANGE}} *pAttribTable, UINT  cAttribTableSize) PURE;}
+\DoxyCodeLine{138     STDMETHOD(GetAttributeTable)(THIS\_ \mbox{\hyperlink{struct___d3_d_x10_a_t_t_r_i_b_u_t_e_r_a_n_g_e}{D3DX10ATTRIBUTERANGE}} *pAttribTable, UINT  *pAttribTableSize) PURE;}
+\DoxyCodeLine{139 }
+\DoxyCodeLine{140     STDMETHOD(GenerateAdjacencyAndPointReps)(THIS\_ FLOAT Epsilon) PURE;}
+\DoxyCodeLine{141     STDMETHOD(GenerateGSAdjacency)(THIS) PURE;}
+\DoxyCodeLine{142 }
+\DoxyCodeLine{143     STDMETHOD(SetAdjacencyData)(THIS\_ CONST UINT *pAdjacency) PURE;}
+\DoxyCodeLine{144     STDMETHOD(GetAdjacencyBuffer)(THIS\_ ID3DX10MeshBuffer **ppAdjacency) PURE;}
+\DoxyCodeLine{145 }
+\DoxyCodeLine{146     STDMETHOD(SetPointRepData)(THIS\_ CONST UINT *pPointReps) PURE;}
+\DoxyCodeLine{147     STDMETHOD(GetPointRepBuffer)(THIS\_ ID3DX10MeshBuffer **ppPointReps) PURE;}
+\DoxyCodeLine{148     }
+\DoxyCodeLine{149     STDMETHOD(Discard)(THIS\_ D3DX10\_MESH\_DISCARD\_FLAGS dwDiscard) PURE;}
+\DoxyCodeLine{150     STDMETHOD(CloneMesh)(THIS\_ UINT Flags, LPCWSTR pPosSemantic, CONST \mbox{\hyperlink{struct_d3_d10___i_n_p_u_t___e_l_e_m_e_n_t___d_e_s_c}{D3D10\_INPUT\_ELEMENT\_DESC}} *pDesc, UINT  DeclCount, ID3DX10Mesh** ppCloneMesh) PURE;}
+\DoxyCodeLine{151 }
+\DoxyCodeLine{152     STDMETHOD(Optimize)(THIS\_ UINT Flags, UINT * pFaceRemap, LPD3D10BLOB *ppVertexRemap) PURE;}
+\DoxyCodeLine{153     STDMETHOD(GenerateAttributeBufferFromTable)(THIS) PURE;}
+\DoxyCodeLine{154     }
+\DoxyCodeLine{155     STDMETHOD(Intersect)(THIS\_ \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pRayPos, \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pRayDir, }
+\DoxyCodeLine{156                                         UINT *pHitCount, UINT *pFaceIndex, \textcolor{keywordtype}{float} *pU, \textcolor{keywordtype}{float} *pV, \textcolor{keywordtype}{float} *pDist, ID3D10Blob **ppAllHits);}
+\DoxyCodeLine{157     STDMETHOD(IntersectSubset)(THIS\_ UINT AttribId, \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pRayPos, \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pRayDir, }
+\DoxyCodeLine{158                                         UINT *pHitCount, UINT *pFaceIndex, \textcolor{keywordtype}{float} *pU, \textcolor{keywordtype}{float} *pV, \textcolor{keywordtype}{float} *pDist, ID3D10Blob **ppAllHits);}
+\DoxyCodeLine{159     }
+\DoxyCodeLine{160     \textcolor{comment}{// ID3DX10Mesh -\/ Device functions}}
+\DoxyCodeLine{161     STDMETHOD(CommitToDevice)(THIS) PURE;}
+\DoxyCodeLine{162     STDMETHOD(DrawSubset)(THIS\_ UINT AttribId) PURE;}
+\DoxyCodeLine{163     STDMETHOD(DrawSubsetInstanced)(THIS\_ UINT AttribId, UINT InstanceCount, UINT StartInstanceLocation) PURE;}
+\DoxyCodeLine{164 }
+\DoxyCodeLine{165     STDMETHOD(GetDeviceVertexBuffer)(THIS\_ UINT iBuffer, ID3D10Buffer **ppVertexBuffer) PURE;}
+\DoxyCodeLine{166     STDMETHOD(GetDeviceIndexBuffer)(THIS\_ ID3D10Buffer **ppIndexBuffer) PURE;}
+\DoxyCodeLine{167 \};}
+\DoxyCodeLine{168 }
+\DoxyCodeLine{169 }
+\DoxyCodeLine{170 \textcolor{comment}{// Flat API}}
+\DoxyCodeLine{171 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{172 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{173 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{174 }
+\DoxyCodeLine{175 HRESULT WINAPI }
+\DoxyCodeLine{176     D3DX10CreateMesh(}
+\DoxyCodeLine{177         ID3D10Device *pDevice,}
+\DoxyCodeLine{178         CONST \mbox{\hyperlink{struct_d3_d10___i_n_p_u_t___e_l_e_m_e_n_t___d_e_s_c}{D3D10\_INPUT\_ELEMENT\_DESC}} *pDeclaration, }
+\DoxyCodeLine{179         UINT  DeclCount,}
+\DoxyCodeLine{180         LPCWSTR pPositionSemantic,}
+\DoxyCodeLine{181         UINT  VertexCount,}
+\DoxyCodeLine{182         UINT  FaceCount,}
+\DoxyCodeLine{183         UINT  Options, }
+\DoxyCodeLine{184         ID3DX10Mesh **ppMesh);}
+\DoxyCodeLine{185 }
+\DoxyCodeLine{186 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{187 \}}
+\DoxyCodeLine{188 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{189 }
+\DoxyCodeLine{190 }
+\DoxyCodeLine{191 \textcolor{comment}{// ID3DX10Mesh::Optimize options -\/ upper byte only, lower 3 bytes used from \_D3DX10MESH option flags}}
+\DoxyCodeLine{192 \textcolor{keyword}{enum} \_D3DX10MESHOPT \{}
+\DoxyCodeLine{193     D3DX10MESHOPT\_COMPACT       = 0x01000000,}
+\DoxyCodeLine{194     D3DX10MESHOPT\_ATTRSORT      = 0x02000000,}
+\DoxyCodeLine{195     D3DX10MESHOPT\_VERTEXCACHE   = 0x04000000,}
+\DoxyCodeLine{196     D3DX10MESHOPT\_STRIPREORDER  = 0x08000000,}
+\DoxyCodeLine{197     D3DX10MESHOPT\_IGNOREVERTS   = 0x10000000,  \textcolor{comment}{// optimize faces only, don't touch vertices}}
+\DoxyCodeLine{198     D3DX10MESHOPT\_DONOTSPLIT    = 0x20000000,  \textcolor{comment}{// do not split vertices shared between attribute groups when attribute sorting}}
+\DoxyCodeLine{199     D3DX10MESHOPT\_DEVICEINDEPENDENT = 0x00400000,  \textcolor{comment}{// Only affects VCache.  uses a static known good cache size for all cards}}
+\DoxyCodeLine{200                             }
+\DoxyCodeLine{201     \textcolor{comment}{// D3DX10MESHOPT\_SHAREVB has been removed, please use D3DX10MESH\_VB\_SHARE instead}}
+\DoxyCodeLine{202 }
+\DoxyCodeLine{203 \};}
+\DoxyCodeLine{204 }
+\DoxyCodeLine{205 }
+\DoxyCodeLine{207 \textcolor{comment}{// ID3DXSkinInfo}}
+\DoxyCodeLine{209 \textcolor{comment}{}}
+\DoxyCodeLine{210 \textcolor{comment}{// \{420BD604-\/1C76-\/4a34-\/A466-\/E45D0658A32C\}}}
+\DoxyCodeLine{211 DEFINE\_GUID(IID\_ID3DX10SkinInfo, }
+\DoxyCodeLine{212 0x420bd604, 0x1c76, 0x4a34, 0xa4, 0x66, 0xe4, 0x5d, 0x6, 0x58, 0xa3, 0x2c);}
+\DoxyCodeLine{213 }
+\DoxyCodeLine{214 \textcolor{comment}{// scaling modes for ID3DX10SkinInfo::Compact() \& ID3DX10SkinInfo::UpdateMesh()}}
+\DoxyCodeLine{215 \textcolor{preprocessor}{\#define D3DX10\_SKININFO\_NO\_SCALING 0}}
+\DoxyCodeLine{216 \textcolor{preprocessor}{\#define D3DX10\_SKININFO\_SCALE\_TO\_1 1}}
+\DoxyCodeLine{217 \textcolor{preprocessor}{\#define D3DX10\_SKININFO\_SCALE\_TO\_TOTAL 2}}
+\DoxyCodeLine{218 }
+\DoxyCodeLine{219 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x10___s_k_i_n_n_i_n_g___c_h_a_n_n_e_l}{\_D3DX10\_SKINNING\_CHANNEL}}}
+\DoxyCodeLine{220 \{}
+\DoxyCodeLine{221     UINT            SrcOffset;}
+\DoxyCodeLine{222     UINT            DestOffset;}
+\DoxyCodeLine{223     BOOL            IsNormal;}
+\DoxyCodeLine{224 \} \mbox{\hyperlink{struct___d3_d_x10___s_k_i_n_n_i_n_g___c_h_a_n_n_e_l}{D3DX10\_SKINNING\_CHANNEL}};}
+\DoxyCodeLine{225 }
+\DoxyCodeLine{226 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{227 \textcolor{preprocessor}{\#define INTERFACE ID3DX10SkinInfo}}
+\DoxyCodeLine{228 }
+\DoxyCodeLine{229 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }ID3DX10SkinInfo *LPD3DX10SKININFO;}
+\DoxyCodeLine{230 }
+\DoxyCodeLine{231 DECLARE\_INTERFACE\_(ID3DX10SkinInfo, IUnknown)}
+\DoxyCodeLine{232 \{}
+\DoxyCodeLine{233     \textcolor{comment}{// IUnknown}}
+\DoxyCodeLine{234     STDMETHOD(QueryInterface)(THIS\_ REFIID iid, LPVOID *ppv) PURE;}
+\DoxyCodeLine{235     STDMETHOD\_(ULONG, AddRef)(THIS) PURE;}
+\DoxyCodeLine{236     STDMETHOD\_(ULONG, Release)(THIS) PURE;}
+\DoxyCodeLine{237 }
+\DoxyCodeLine{238     STDMETHOD\_(UINT , GetNumVertices)(THIS) PURE;}
+\DoxyCodeLine{239     STDMETHOD\_(UINT , GetNumBones)(THIS) PURE;}
+\DoxyCodeLine{240     STDMETHOD\_(UINT , GetMaxBoneInfluences)(THIS) PURE;}
+\DoxyCodeLine{241 }
+\DoxyCodeLine{242     STDMETHOD(AddVertices)(THIS\_ UINT  Count) PURE;}
+\DoxyCodeLine{243     STDMETHOD(RemapVertices)(THIS\_ UINT  NewVertexCount, UINT  *pVertexRemap) PURE;}
+\DoxyCodeLine{244 }
+\DoxyCodeLine{245     STDMETHOD(AddBones)(THIS\_ UINT  Count) PURE;}
+\DoxyCodeLine{246     STDMETHOD(RemoveBone)(THIS\_ UINT  Index) PURE;}
+\DoxyCodeLine{247     STDMETHOD(RemapBones)(THIS\_ UINT  NewBoneCount, UINT  *pBoneRemap) PURE;}
+\DoxyCodeLine{248 }
+\DoxyCodeLine{249     STDMETHOD(AddBoneInfluences)(THIS\_ UINT  BoneIndex, UINT  InfluenceCount, UINT  *pIndices, \textcolor{keywordtype}{float} *pWeights) PURE;}
+\DoxyCodeLine{250     STDMETHOD(ClearBoneInfluences)(THIS\_ UINT  BoneIndex) PURE;}
+\DoxyCodeLine{251     STDMETHOD\_(UINT , GetBoneInfluenceCount)(THIS\_ UINT  BoneIndex) PURE;}
+\DoxyCodeLine{252     STDMETHOD(GetBoneInfluences)(THIS\_ UINT  BoneIndex, UINT  Offset, UINT  Count, UINT  *pDestIndices, \textcolor{keywordtype}{float} *pDestWeights) PURE;}
+\DoxyCodeLine{253     STDMETHOD(FindBoneInfluenceIndex)(THIS\_ UINT  BoneIndex, UINT  VertexIndex, UINT  *pInfluenceIndex) PURE;}
+\DoxyCodeLine{254     STDMETHOD(SetBoneInfluence)(THIS\_ UINT  BoneIndex, UINT  InfluenceIndex, \textcolor{keywordtype}{float} Weight) PURE;}
+\DoxyCodeLine{255     STDMETHOD(GetBoneInfluence)(THIS\_ UINT  BoneIndex, UINT  InfluenceIndex, \textcolor{keywordtype}{float} *pWeight) PURE;}
+\DoxyCodeLine{256 }
+\DoxyCodeLine{257     STDMETHOD(Compact)(THIS\_ UINT  MaxPerVertexInfluences, UINT  ScaleMode, \textcolor{keywordtype}{float} MinWeight) PURE;}
+\DoxyCodeLine{258     STDMETHOD(DoSoftwareSkinning)(UINT  StartVertex, UINT  VertexCount, \textcolor{keywordtype}{void} *pSrcVertices, UINT  SrcStride, \textcolor{keywordtype}{void} *pDestVertices, UINT  DestStride, \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pBoneMatrices, \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pInverseTransposeBoneMatrices, \mbox{\hyperlink{struct___d3_d_x10___s_k_i_n_n_i_n_g___c_h_a_n_n_e_l}{D3DX10\_SKINNING\_CHANNEL}} *pChannelDescs, UINT  NumChannels) PURE;}
+\DoxyCodeLine{259 \};}
+\DoxyCodeLine{260 }
+\DoxyCodeLine{261 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{262 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{263 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{264 }
+\DoxyCodeLine{265 HRESULT WINAPI}
+\DoxyCodeLine{266     D3DX10CreateSkinInfo(LPD3DX10SKININFO* ppSkinInfo);}
+\DoxyCodeLine{267         }
+\DoxyCodeLine{268 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{269 \}}
+\DoxyCodeLine{270 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{271 }
+\DoxyCodeLine{272 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x10_a_t_t_r_i_b_u_t_e_w_e_i_g_h_t_s}{\_D3DX10ATTRIBUTEWEIGHTS}}}
+\DoxyCodeLine{273 \{}
+\DoxyCodeLine{274     FLOAT Position;}
+\DoxyCodeLine{275     FLOAT Boundary;}
+\DoxyCodeLine{276     FLOAT Normal;}
+\DoxyCodeLine{277     FLOAT Diffuse;}
+\DoxyCodeLine{278     FLOAT Specular;}
+\DoxyCodeLine{279     FLOAT Texcoord[8];}
+\DoxyCodeLine{280     FLOAT Tangent;}
+\DoxyCodeLine{281     FLOAT Binormal;}
+\DoxyCodeLine{282 \} \mbox{\hyperlink{struct___d3_d_x10_a_t_t_r_i_b_u_t_e_w_e_i_g_h_t_s}{D3DX10ATTRIBUTEWEIGHTS}}, *\mbox{\hyperlink{struct___d3_d_x10_a_t_t_r_i_b_u_t_e_w_e_i_g_h_t_s}{LPD3DX10ATTRIBUTEWEIGHTS}};}
+\DoxyCodeLine{283 }
+\DoxyCodeLine{284 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_D3DX10MESH\_H\_\_}}
+\DoxyCodeLine{285 }
+\DoxyCodeLine{286 }
+
+\end{DoxyCode}

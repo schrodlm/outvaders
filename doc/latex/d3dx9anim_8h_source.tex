@@ -1,0 +1,1119 @@
+\hypertarget{d3dx9anim_8h_source}{}\doxysection{d3dx9anim.\+h}
+\label{d3dx9anim_8h_source}\index{src/lib/dx/Include/d3dx9anim.h@{src/lib/dx/Include/d3dx9anim.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{2 \textcolor{comment}{//}}
+\DoxyCodeLine{3 \textcolor{comment}{//  Copyright (C) Microsoft Corporation.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{//}}
+\DoxyCodeLine{5 \textcolor{comment}{//  File:       d3dx9anim.h}}
+\DoxyCodeLine{6 \textcolor{comment}{//  Content:    D3DX mesh types and functions}}
+\DoxyCodeLine{7 \textcolor{comment}{//}}
+\DoxyCodeLine{9 \textcolor{comment}{}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#ifndef \_\_D3DX9ANIM\_H\_\_}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define \_\_D3DX9ANIM\_H\_\_}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{comment}{// \{698CFB3F-\/9289-\/4d95-\/9A57-\/33A94B5A65F9\}}}
+\DoxyCodeLine{14 DEFINE\_GUID(IID\_ID3DXAnimationSet, }
+\DoxyCodeLine{15 0x698cfb3f, 0x9289, 0x4d95, 0x9a, 0x57, 0x33, 0xa9, 0x4b, 0x5a, 0x65, 0xf9);}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{comment}{// \{FA4E8E3A-\/9786-\/407d-\/8B4C-\/5995893764AF\}}}
+\DoxyCodeLine{18 DEFINE\_GUID(IID\_ID3DXKeyframedAnimationSet, }
+\DoxyCodeLine{19 0xfa4e8e3a, 0x9786, 0x407d, 0x8b, 0x4c, 0x59, 0x95, 0x89, 0x37, 0x64, 0xaf);}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 \textcolor{comment}{// \{6CC2480D-\/3808-\/4739-\/9F88-\/DE49FACD8D4C\}}}
+\DoxyCodeLine{22 DEFINE\_GUID(IID\_ID3DXCompressedAnimationSet, }
+\DoxyCodeLine{23 0x6cc2480d, 0x3808, 0x4739, 0x9f, 0x88, 0xde, 0x49, 0xfa, 0xcd, 0x8d, 0x4c);}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{comment}{// \{AC8948EC-\/F86D-\/43e2-\/96DE-\/31FC35F96D9E\}}}
+\DoxyCodeLine{26 DEFINE\_GUID(IID\_ID3DXAnimationController, }
+\DoxyCodeLine{27 0xac8948ec, 0xf86d, 0x43e2, 0x96, 0xde, 0x31, 0xfc, 0x35, 0xf9, 0x6d, 0x9e);}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{31 \textcolor{comment}{// D3DXMESHDATATYPE:}}
+\DoxyCodeLine{32 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{33 \textcolor{comment}{// This enum defines the type of mesh data present in a MeshData structure.}}
+\DoxyCodeLine{34 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{35 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DXMESHDATATYPE \{}
+\DoxyCodeLine{36     D3DXMESHTYPE\_MESH      = 0x001,             \textcolor{comment}{// Normal ID3DXMesh data}}
+\DoxyCodeLine{37     D3DXMESHTYPE\_PMESH     = 0x002,             \textcolor{comment}{// Progressive Mesh -\/ ID3DXPMesh}}
+\DoxyCodeLine{38     D3DXMESHTYPE\_PATCHMESH = 0x003,             \textcolor{comment}{// Patch Mesh -\/ ID3DXPatchMesh}}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40     D3DXMESHTYPE\_FORCE\_DWORD    = 0x7fffffff,   \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{41 \} D3DXMESHDATATYPE;}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{44 \textcolor{comment}{// D3DXMESHDATA:}}
+\DoxyCodeLine{45 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{46 \textcolor{comment}{// This struct encapsulates a the mesh data that can be present in a mesh }}
+\DoxyCodeLine{47 \textcolor{comment}{// container.  The supported mesh types are pMesh, pPMesh, pPatchMesh.}}
+\DoxyCodeLine{48 \textcolor{comment}{// The valid way to access this is determined by the Type enum.}}
+\DoxyCodeLine{49 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{50 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x_m_e_s_h_d_a_t_a}{\_D3DXMESHDATA}}}
+\DoxyCodeLine{51 \{}
+\DoxyCodeLine{52     D3DXMESHDATATYPE Type;}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54     \textcolor{comment}{// current mesh data interface}}
+\DoxyCodeLine{55     \textcolor{keyword}{union}}
+\DoxyCodeLine{56     \{}
+\DoxyCodeLine{57         LPD3DXMESH              pMesh;}
+\DoxyCodeLine{58         LPD3DXPMESH             pPMesh;}
+\DoxyCodeLine{59         LPD3DXPATCHMESH         pPatchMesh;}
+\DoxyCodeLine{60     \};}
+\DoxyCodeLine{61 \} \mbox{\hyperlink{struct___d3_d_x_m_e_s_h_d_a_t_a}{D3DXMESHDATA}}, *\mbox{\hyperlink{struct___d3_d_x_m_e_s_h_d_a_t_a}{LPD3DXMESHDATA}};}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{64 \textcolor{comment}{// D3DXMESHCONTAINER:}}
+\DoxyCodeLine{65 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{66 \textcolor{comment}{// This struct encapsulates a mesh object in a transformation frame}}
+\DoxyCodeLine{67 \textcolor{comment}{// hierarchy. The app can derive from this structure to add other app specific}}
+\DoxyCodeLine{68 \textcolor{comment}{// data to this.}}
+\DoxyCodeLine{69 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{70 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x_m_e_s_h_c_o_n_t_a_i_n_e_r}{\_D3DXMESHCONTAINER}}}
+\DoxyCodeLine{71 \{}
+\DoxyCodeLine{72     LPSTR                   Name;}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74     \mbox{\hyperlink{struct___d3_d_x_m_e_s_h_d_a_t_a}{D3DXMESHDATA}}            MeshData;}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{76     \mbox{\hyperlink{struct___d3_d_x_m_a_t_e_r_i_a_l}{LPD3DXMATERIAL}}          pMaterials;}
+\DoxyCodeLine{77     \mbox{\hyperlink{struct___d3_d_x_e_f_f_e_c_t_i_n_s_t_a_n_c_e}{LPD3DXEFFECTINSTANCE}}    pEffects;}
+\DoxyCodeLine{78     DWORD                   NumMaterials;}
+\DoxyCodeLine{79     DWORD                  *pAdjacency;}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{81     LPD3DXSKININFO          pSkinInfo;}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{83     \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x_m_e_s_h_c_o_n_t_a_i_n_e_r}{\_D3DXMESHCONTAINER}} *pNextMeshContainer;}
+\DoxyCodeLine{84 \} \mbox{\hyperlink{struct___d3_d_x_m_e_s_h_c_o_n_t_a_i_n_e_r}{D3DXMESHCONTAINER}}, *\mbox{\hyperlink{struct___d3_d_x_m_e_s_h_c_o_n_t_a_i_n_e_r}{LPD3DXMESHCONTAINER}};}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{87 \textcolor{comment}{// D3DXFRAME:}}
+\DoxyCodeLine{88 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{89 \textcolor{comment}{// This struct is the encapsulates a transform frame in a transformation frame}}
+\DoxyCodeLine{90 \textcolor{comment}{// hierarchy. The app can derive from this structure to add other app specific}}
+\DoxyCodeLine{91 \textcolor{comment}{// data to this}}
+\DoxyCodeLine{92 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{93 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{\_D3DXFRAME}}}
+\DoxyCodeLine{94 \{}
+\DoxyCodeLine{95     LPSTR                   Name;}
+\DoxyCodeLine{96     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}              TransformationMatrix;}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{98     \mbox{\hyperlink{struct___d3_d_x_m_e_s_h_c_o_n_t_a_i_n_e_r}{LPD3DXMESHCONTAINER}}     pMeshContainer;}
+\DoxyCodeLine{99 }
+\DoxyCodeLine{100     \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{\_D3DXFRAME}}       *pFrameSibling;}
+\DoxyCodeLine{101     \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{\_D3DXFRAME}}       *pFrameFirstChild;}
+\DoxyCodeLine{102 \} \mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{D3DXFRAME}}, *\mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{LPD3DXFRAME}};}
+\DoxyCodeLine{103 }
+\DoxyCodeLine{104 }
+\DoxyCodeLine{105 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{106 \textcolor{comment}{// ID3DXAllocateHierarchy:}}
+\DoxyCodeLine{107 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{108 \textcolor{comment}{// This interface is implemented by the application to allocate/free frame and}}
+\DoxyCodeLine{109 \textcolor{comment}{// mesh container objects. Methods on this are called during loading and}}
+\DoxyCodeLine{110 \textcolor{comment}{// destroying frame hierarchies}}
+\DoxyCodeLine{111 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{112 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXAllocateHierarchy ID3DXAllocateHierarchy;}
+\DoxyCodeLine{113 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXAllocateHierarchy *LPD3DXALLOCATEHIERARCHY;}
+\DoxyCodeLine{114 }
+\DoxyCodeLine{115 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{116 \textcolor{preprocessor}{\#define INTERFACE ID3DXAllocateHierarchy}}
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118 DECLARE\_INTERFACE(ID3DXAllocateHierarchy)}
+\DoxyCodeLine{119 \{}
+\DoxyCodeLine{120     \textcolor{comment}{// ID3DXAllocateHierarchy}}
+\DoxyCodeLine{121 }
+\DoxyCodeLine{122     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{123     \textcolor{comment}{// CreateFrame:}}
+\DoxyCodeLine{124     \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{125     \textcolor{comment}{// Requests allocation of a frame object.}}
+\DoxyCodeLine{126     \textcolor{comment}{//}}
+\DoxyCodeLine{127     \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{128     \textcolor{comment}{//  Name}}
+\DoxyCodeLine{129     \textcolor{comment}{//      Name of the frame to be created}}
+\DoxyCodeLine{130     \textcolor{comment}{//  ppNewFrame}}
+\DoxyCodeLine{131     \textcolor{comment}{//      Returns the created frame object}}
+\DoxyCodeLine{132     \textcolor{comment}{//}}
+\DoxyCodeLine{133     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{134     STDMETHOD(CreateFrame)(THIS\_ LPCSTR Name, }
+\DoxyCodeLine{135                             \mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{LPD3DXFRAME}} *ppNewFrame) PURE;}
+\DoxyCodeLine{136 }
+\DoxyCodeLine{137     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{138     \textcolor{comment}{// CreateMeshContainer:}}
+\DoxyCodeLine{139     \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{140     \textcolor{comment}{// Requests allocation of a mesh container object.}}
+\DoxyCodeLine{141     \textcolor{comment}{//}}
+\DoxyCodeLine{142     \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{143     \textcolor{comment}{//  Name}}
+\DoxyCodeLine{144     \textcolor{comment}{//      Name of the mesh}}
+\DoxyCodeLine{145     \textcolor{comment}{//  pMesh}}
+\DoxyCodeLine{146     \textcolor{comment}{//      Pointer to the mesh object if basic polygon data found}}
+\DoxyCodeLine{147     \textcolor{comment}{//  pPMesh}}
+\DoxyCodeLine{148     \textcolor{comment}{//      Pointer to the progressive mesh object if progressive mesh data found}}
+\DoxyCodeLine{149     \textcolor{comment}{//  pPatchMesh}}
+\DoxyCodeLine{150     \textcolor{comment}{//      Pointer to the patch mesh object if patch data found}}
+\DoxyCodeLine{151     \textcolor{comment}{//  pMaterials}}
+\DoxyCodeLine{152     \textcolor{comment}{//      Array of materials used in the mesh}}
+\DoxyCodeLine{153     \textcolor{comment}{//  pEffectInstances}}
+\DoxyCodeLine{154     \textcolor{comment}{//      Array of effect instances used in the mesh}}
+\DoxyCodeLine{155     \textcolor{comment}{//  NumMaterials}}
+\DoxyCodeLine{156     \textcolor{comment}{//      Num elements in the pMaterials array}}
+\DoxyCodeLine{157     \textcolor{comment}{//  pAdjacency}}
+\DoxyCodeLine{158     \textcolor{comment}{//      Adjacency array for the mesh}}
+\DoxyCodeLine{159     \textcolor{comment}{//  pSkinInfo}}
+\DoxyCodeLine{160     \textcolor{comment}{//      Pointer to the skininfo object if the mesh is skinned}}
+\DoxyCodeLine{161     \textcolor{comment}{//  pBoneNames}}
+\DoxyCodeLine{162     \textcolor{comment}{//      Array of names, one for each bone in the skinned mesh. }}
+\DoxyCodeLine{163     \textcolor{comment}{//      The numberof bones can be found from the pSkinMesh object}}
+\DoxyCodeLine{164     \textcolor{comment}{//  pBoneOffsetMatrices}}
+\DoxyCodeLine{165     \textcolor{comment}{//      Array of matrices, one for each bone in the skinned mesh.}}
+\DoxyCodeLine{166     \textcolor{comment}{//}}
+\DoxyCodeLine{167     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{168     STDMETHOD(CreateMeshContainer)(THIS\_ }
+\DoxyCodeLine{169         LPCSTR Name, }
+\DoxyCodeLine{170         CONST \mbox{\hyperlink{struct___d3_d_x_m_e_s_h_d_a_t_a}{D3DXMESHDATA}} *pMeshData, }
+\DoxyCodeLine{171         CONST \mbox{\hyperlink{struct___d3_d_x_m_a_t_e_r_i_a_l}{D3DXMATERIAL}} *pMaterials, }
+\DoxyCodeLine{172         CONST \mbox{\hyperlink{struct___d3_d_x_e_f_f_e_c_t_i_n_s_t_a_n_c_e}{D3DXEFFECTINSTANCE}} *pEffectInstances, }
+\DoxyCodeLine{173         DWORD NumMaterials, }
+\DoxyCodeLine{174         CONST DWORD *pAdjacency, }
+\DoxyCodeLine{175         LPD3DXSKININFO pSkinInfo, }
+\DoxyCodeLine{176         \mbox{\hyperlink{struct___d3_d_x_m_e_s_h_c_o_n_t_a_i_n_e_r}{LPD3DXMESHCONTAINER}} *ppNewMeshContainer) PURE;}
+\DoxyCodeLine{177 }
+\DoxyCodeLine{178     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{179     \textcolor{comment}{// DestroyFrame:}}
+\DoxyCodeLine{180     \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{181     \textcolor{comment}{// Requests de-\/allocation of a frame object.}}
+\DoxyCodeLine{182     \textcolor{comment}{//}}
+\DoxyCodeLine{183     \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{184     \textcolor{comment}{//  pFrameToFree}}
+\DoxyCodeLine{185     \textcolor{comment}{//      Pointer to the frame to be de-\/allocated}}
+\DoxyCodeLine{186     \textcolor{comment}{//}}
+\DoxyCodeLine{187     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{188     STDMETHOD(DestroyFrame)(THIS\_ \mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{LPD3DXFRAME}} pFrameToFree) PURE; }
+\DoxyCodeLine{189 }
+\DoxyCodeLine{190     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{191     \textcolor{comment}{// DestroyMeshContainer:}}
+\DoxyCodeLine{192     \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{193     \textcolor{comment}{// Requests de-\/allocation of a mesh container object.}}
+\DoxyCodeLine{194     \textcolor{comment}{//}}
+\DoxyCodeLine{195     \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{196     \textcolor{comment}{//  pMeshContainerToFree}}
+\DoxyCodeLine{197     \textcolor{comment}{//      Pointer to the mesh container object to be de-\/allocated}}
+\DoxyCodeLine{198     \textcolor{comment}{//}}
+\DoxyCodeLine{199     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{200     STDMETHOD(DestroyMeshContainer)(THIS\_ \mbox{\hyperlink{struct___d3_d_x_m_e_s_h_c_o_n_t_a_i_n_e_r}{LPD3DXMESHCONTAINER}} pMeshContainerToFree) PURE; }
+\DoxyCodeLine{201 \};}
+\DoxyCodeLine{202 }
+\DoxyCodeLine{203 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{204 \textcolor{comment}{// ID3DXLoadUserData:}}
+\DoxyCodeLine{205 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{206 \textcolor{comment}{// This interface is implemented by the application to load user data in a .X file}}
+\DoxyCodeLine{207 \textcolor{comment}{// When user data is found, these callbacks will be used to allow the application}}
+\DoxyCodeLine{208 \textcolor{comment}{// to load the data.}}
+\DoxyCodeLine{209 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{210 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXLoadUserData ID3DXLoadUserData;}
+\DoxyCodeLine{211 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXLoadUserData *LPD3DXLOADUSERDATA;}
+\DoxyCodeLine{212 }
+\DoxyCodeLine{213 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{214 \textcolor{preprocessor}{\#define INTERFACE ID3DXLoadUserData}}
+\DoxyCodeLine{215 }
+\DoxyCodeLine{216 DECLARE\_INTERFACE(ID3DXLoadUserData)}
+\DoxyCodeLine{217 \{}
+\DoxyCodeLine{218     STDMETHOD(LoadTopLevelData)(LPD3DXFILEDATA pXofChildData) PURE;}
+\DoxyCodeLine{219                             }
+\DoxyCodeLine{220     STDMETHOD(LoadFrameChildData)(\mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{LPD3DXFRAME}} pFrame, }
+\DoxyCodeLine{221                             LPD3DXFILEDATA pXofChildData) PURE;}
+\DoxyCodeLine{222                             }
+\DoxyCodeLine{223     STDMETHOD(LoadMeshChildData)(\mbox{\hyperlink{struct___d3_d_x_m_e_s_h_c_o_n_t_a_i_n_e_r}{LPD3DXMESHCONTAINER}} pMeshContainer, }
+\DoxyCodeLine{224                             LPD3DXFILEDATA pXofChildData) PURE;                            }
+\DoxyCodeLine{225 \};}
+\DoxyCodeLine{226 }
+\DoxyCodeLine{227 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{228 \textcolor{comment}{// ID3DXSaveUserData:}}
+\DoxyCodeLine{229 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{230 \textcolor{comment}{// This interface is implemented by the application to save user data in a .X file}}
+\DoxyCodeLine{231 \textcolor{comment}{// The callbacks are called for all data saved.  The user can then add any}}
+\DoxyCodeLine{232 \textcolor{comment}{// child data objects to the object provided to the callback.}}
+\DoxyCodeLine{233 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{234 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXSaveUserData ID3DXSaveUserData;}
+\DoxyCodeLine{235 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXSaveUserData *LPD3DXSAVEUSERDATA;}
+\DoxyCodeLine{236 }
+\DoxyCodeLine{237 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{238 \textcolor{preprocessor}{\#define INTERFACE ID3DXSaveUserData}}
+\DoxyCodeLine{239 }
+\DoxyCodeLine{240 DECLARE\_INTERFACE(ID3DXSaveUserData)}
+\DoxyCodeLine{241 \{}
+\DoxyCodeLine{242     STDMETHOD(AddFrameChildData)(CONST \mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{D3DXFRAME}} *pFrame, }
+\DoxyCodeLine{243                             LPD3DXFILESAVEOBJECT pXofSave, }
+\DoxyCodeLine{244                             LPD3DXFILESAVEDATA pXofFrameData) PURE;}
+\DoxyCodeLine{245                             }
+\DoxyCodeLine{246     STDMETHOD(AddMeshChildData)(CONST \mbox{\hyperlink{struct___d3_d_x_m_e_s_h_c_o_n_t_a_i_n_e_r}{D3DXMESHCONTAINER}} *pMeshContainer, }
+\DoxyCodeLine{247                             LPD3DXFILESAVEOBJECT pXofSave, }
+\DoxyCodeLine{248                             LPD3DXFILESAVEDATA pXofMeshData) PURE;}
+\DoxyCodeLine{249                             }
+\DoxyCodeLine{250     \textcolor{comment}{// NOTE: this is called once per Save.  All top level objects should be added using the }}
+\DoxyCodeLine{251     \textcolor{comment}{//    provided interface.  One call adds objects before the frame hierarchy, the other after}}
+\DoxyCodeLine{252     STDMETHOD(AddTopLevelDataObjectsPre)(LPD3DXFILESAVEOBJECT pXofSave) PURE; }
+\DoxyCodeLine{253     STDMETHOD(AddTopLevelDataObjectsPost)(LPD3DXFILESAVEOBJECT pXofSave) PURE;                             }
+\DoxyCodeLine{254 }
+\DoxyCodeLine{255     \textcolor{comment}{// callbacks for the user to register and then save templates to the XFile}}
+\DoxyCodeLine{256     STDMETHOD(RegisterTemplates)(LPD3DXFILE pXFileApi) PURE;                             }
+\DoxyCodeLine{257     STDMETHOD(SaveTemplates)(LPD3DXFILESAVEOBJECT pXofSave) PURE;                             }
+\DoxyCodeLine{258 \};}
+\DoxyCodeLine{259 }
+\DoxyCodeLine{260 }
+\DoxyCodeLine{261 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{262 \textcolor{comment}{// D3DXCALLBACK\_SEARCH\_FLAGS:}}
+\DoxyCodeLine{263 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{264 \textcolor{comment}{// Flags that can be passed into ID3DXAnimationSet::GetCallback. }}
+\DoxyCodeLine{265 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{266 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DXCALLBACK\_SEARCH\_FLAGS}
+\DoxyCodeLine{267 \{}
+\DoxyCodeLine{268     D3DXCALLBACK\_SEARCH\_EXCLUDING\_INITIAL\_POSITION = 0x01,  \textcolor{comment}{// exclude callbacks at the initial position from the search}}
+\DoxyCodeLine{269     D3DXCALLBACK\_SEARCH\_BEHIND\_INITIAL\_POSITION    = 0x02,  \textcolor{comment}{// reverse the callback search direction}}
+\DoxyCodeLine{270 }
+\DoxyCodeLine{271     D3DXCALLBACK\_SEARCH\_FORCE\_DWORD                = 0x7fffffff,}
+\DoxyCodeLine{272 \} D3DXCALLBACK\_SEARCH\_FLAGS;}
+\DoxyCodeLine{273 }
+\DoxyCodeLine{274 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{275 \textcolor{comment}{// ID3DXAnimationSet:}}
+\DoxyCodeLine{276 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{277 \textcolor{comment}{// This interface implements an animation set.}}
+\DoxyCodeLine{278 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{279 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXAnimationSet ID3DXAnimationSet;}
+\DoxyCodeLine{280 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXAnimationSet *LPD3DXANIMATIONSET;}
+\DoxyCodeLine{281 }
+\DoxyCodeLine{282 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{283 \textcolor{preprocessor}{\#define INTERFACE ID3DXAnimationSet}}
+\DoxyCodeLine{284 }
+\DoxyCodeLine{285 DECLARE\_INTERFACE\_(ID3DXAnimationSet, IUnknown)}
+\DoxyCodeLine{286 \{}
+\DoxyCodeLine{287     \textcolor{comment}{// IUnknown}}
+\DoxyCodeLine{288     STDMETHOD(QueryInterface)(THIS\_ REFIID iid, LPVOID *ppv) PURE;}
+\DoxyCodeLine{289     STDMETHOD\_(ULONG, AddRef)(THIS) PURE;}
+\DoxyCodeLine{290     STDMETHOD\_(ULONG, Release)(THIS) PURE;}
+\DoxyCodeLine{291 }
+\DoxyCodeLine{292     \textcolor{comment}{// Name}}
+\DoxyCodeLine{293     STDMETHOD\_(LPCSTR, GetName)(THIS) PURE;}
+\DoxyCodeLine{294 }
+\DoxyCodeLine{295     \textcolor{comment}{// Period}}
+\DoxyCodeLine{296     STDMETHOD\_(DOUBLE, GetPeriod)(THIS) PURE;}
+\DoxyCodeLine{297     STDMETHOD\_(DOUBLE, GetPeriodicPosition)(THIS\_ DOUBLE Position) PURE;    \textcolor{comment}{// Maps position into animation period}}
+\DoxyCodeLine{298 }
+\DoxyCodeLine{299     \textcolor{comment}{// Animation names}}
+\DoxyCodeLine{300     STDMETHOD\_(UINT, GetNumAnimations)(THIS) PURE;}
+\DoxyCodeLine{301     STDMETHOD(GetAnimationNameByIndex)(THIS\_ UINT Index, LPCSTR *ppName) PURE;}
+\DoxyCodeLine{302     STDMETHOD(GetAnimationIndexByName)(THIS\_ LPCSTR pName, UINT *pIndex) PURE;}
+\DoxyCodeLine{303 }
+\DoxyCodeLine{304     \textcolor{comment}{// SRT}}
+\DoxyCodeLine{305     STDMETHOD(GetSRT)(THIS\_ }
+\DoxyCodeLine{306         DOUBLE PeriodicPosition,            \textcolor{comment}{// Position mapped to period (use GetPeriodicPosition)}}
+\DoxyCodeLine{307         UINT Animation,                     \textcolor{comment}{// Animation index}}
+\DoxyCodeLine{308         \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pScale,                \textcolor{comment}{// Returns the scale}}
+\DoxyCodeLine{309         \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pRotation,          \textcolor{comment}{// Returns the rotation as a quaternion}}
+\DoxyCodeLine{310         \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pTranslation) PURE;    \textcolor{comment}{// Returns the translation}}
+\DoxyCodeLine{311 }
+\DoxyCodeLine{312     \textcolor{comment}{// Callbacks}}
+\DoxyCodeLine{313     STDMETHOD(GetCallback)(THIS\_ }
+\DoxyCodeLine{314         DOUBLE Position,                    \textcolor{comment}{// Position from which to find callbacks}}
+\DoxyCodeLine{315         DWORD Flags,                        \textcolor{comment}{// Callback search flags}}
+\DoxyCodeLine{316         DOUBLE *pCallbackPosition,          \textcolor{comment}{// Returns the position of the callback}}
+\DoxyCodeLine{317         LPVOID *ppCallbackData) PURE;       \textcolor{comment}{// Returns the callback data pointer}}
+\DoxyCodeLine{318 \};}
+\DoxyCodeLine{319 }
+\DoxyCodeLine{320 }
+\DoxyCodeLine{321 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{322 \textcolor{comment}{// D3DXPLAYBACK\_TYPE:}}
+\DoxyCodeLine{323 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{324 \textcolor{comment}{// This enum defines the type of animation set loop modes.}}
+\DoxyCodeLine{325 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{326 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DXPLAYBACK\_TYPE}
+\DoxyCodeLine{327 \{}
+\DoxyCodeLine{328     D3DXPLAY\_LOOP          = 0,}
+\DoxyCodeLine{329     D3DXPLAY\_ONCE          = 1,}
+\DoxyCodeLine{330     D3DXPLAY\_PINGPONG      = 2,}
+\DoxyCodeLine{331 }
+\DoxyCodeLine{332     D3DXPLAY\_FORCE\_DWORD   = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{333 \} D3DXPLAYBACK\_TYPE;}
+\DoxyCodeLine{334 }
+\DoxyCodeLine{335 }
+\DoxyCodeLine{336 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{337 \textcolor{comment}{// D3DXKEY\_VECTOR3:}}
+\DoxyCodeLine{338 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{339 \textcolor{comment}{// This structure describes a vector key for use in keyframe animation.}}
+\DoxyCodeLine{340 \textcolor{comment}{// It specifies a vector Value at a given Time. This is used for scale and}}
+\DoxyCodeLine{341 \textcolor{comment}{// translation keys.}}
+\DoxyCodeLine{342 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{343 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x_k_e_y___v_e_c_t_o_r3}{\_D3DXKEY\_VECTOR3}}}
+\DoxyCodeLine{344 \{}
+\DoxyCodeLine{345     FLOAT Time;}
+\DoxyCodeLine{346     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} Value;}
+\DoxyCodeLine{347 \} \mbox{\hyperlink{struct___d3_d_x_k_e_y___v_e_c_t_o_r3}{D3DXKEY\_VECTOR3}}, *\mbox{\hyperlink{struct___d3_d_x_k_e_y___v_e_c_t_o_r3}{LPD3DXKEY\_VECTOR3}};}
+\DoxyCodeLine{348 }
+\DoxyCodeLine{349 }
+\DoxyCodeLine{350 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{351 \textcolor{comment}{// D3DXKEY\_QUATERNION:}}
+\DoxyCodeLine{352 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{353 \textcolor{comment}{// This structure describes a quaternion key for use in keyframe animation.}}
+\DoxyCodeLine{354 \textcolor{comment}{// It specifies a quaternion Value at a given Time. This is used for rotation}}
+\DoxyCodeLine{355 \textcolor{comment}{// keys.}}
+\DoxyCodeLine{356 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{357 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x_k_e_y___q_u_a_t_e_r_n_i_o_n}{\_D3DXKEY\_QUATERNION}}}
+\DoxyCodeLine{358 \{}
+\DoxyCodeLine{359     FLOAT Time;}
+\DoxyCodeLine{360     \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} Value;}
+\DoxyCodeLine{361 \} \mbox{\hyperlink{struct___d3_d_x_k_e_y___q_u_a_t_e_r_n_i_o_n}{D3DXKEY\_QUATERNION}}, *\mbox{\hyperlink{struct___d3_d_x_k_e_y___q_u_a_t_e_r_n_i_o_n}{LPD3DXKEY\_QUATERNION}};}
+\DoxyCodeLine{362 }
+\DoxyCodeLine{363 }
+\DoxyCodeLine{364 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{365 \textcolor{comment}{// D3DXKEY\_CALLBACK:}}
+\DoxyCodeLine{366 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{367 \textcolor{comment}{// This structure describes an callback key for use in keyframe animation.}}
+\DoxyCodeLine{368 \textcolor{comment}{// It specifies a pointer to user data at a given Time. }}
+\DoxyCodeLine{369 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{370 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x_k_e_y___c_a_l_l_b_a_c_k}{\_D3DXKEY\_CALLBACK}}}
+\DoxyCodeLine{371 \{}
+\DoxyCodeLine{372     FLOAT Time;}
+\DoxyCodeLine{373     LPVOID pCallbackData;}
+\DoxyCodeLine{374 \} \mbox{\hyperlink{struct___d3_d_x_k_e_y___c_a_l_l_b_a_c_k}{D3DXKEY\_CALLBACK}}, *\mbox{\hyperlink{struct___d3_d_x_k_e_y___c_a_l_l_b_a_c_k}{LPD3DXKEY\_CALLBACK}};}
+\DoxyCodeLine{375 }
+\DoxyCodeLine{376 }
+\DoxyCodeLine{377 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{378 \textcolor{comment}{// D3DXCOMPRESSION\_FLAGS:}}
+\DoxyCodeLine{379 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{380 \textcolor{comment}{// Flags that can be passed into ID3DXKeyframedAnimationSet::Compress. }}
+\DoxyCodeLine{381 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{382 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DXCOMPRESSION\_FLAGS}
+\DoxyCodeLine{383 \{}
+\DoxyCodeLine{384     D3DXCOMPRESS\_DEFAULT     = 0x00,}
+\DoxyCodeLine{385 }
+\DoxyCodeLine{386     D3DXCOMPRESS\_FORCE\_DWORD = 0x7fffffff,}
+\DoxyCodeLine{387 \} D3DXCOMPRESSION\_FLAGS;}
+\DoxyCodeLine{388 }
+\DoxyCodeLine{389 }
+\DoxyCodeLine{390 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{391 \textcolor{comment}{// ID3DXKeyframedAnimationSet:}}
+\DoxyCodeLine{392 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{393 \textcolor{comment}{// This interface implements a compressable keyframed animation set.}}
+\DoxyCodeLine{394 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{395 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXKeyframedAnimationSet ID3DXKeyframedAnimationSet;}
+\DoxyCodeLine{396 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXKeyframedAnimationSet *LPD3DXKEYFRAMEDANIMATIONSET;}
+\DoxyCodeLine{397 }
+\DoxyCodeLine{398 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{399 \textcolor{preprocessor}{\#define INTERFACE ID3DXKeyframedAnimationSet}}
+\DoxyCodeLine{400 }
+\DoxyCodeLine{401 DECLARE\_INTERFACE\_(ID3DXKeyframedAnimationSet, ID3DXAnimationSet)}
+\DoxyCodeLine{402 \{}
+\DoxyCodeLine{403     \textcolor{comment}{// ID3DXAnimationSet}}
+\DoxyCodeLine{404     STDMETHOD(QueryInterface)(THIS\_ REFIID iid, LPVOID *ppv) PURE;}
+\DoxyCodeLine{405     STDMETHOD\_(ULONG, AddRef)(THIS) PURE;}
+\DoxyCodeLine{406     STDMETHOD\_(ULONG, Release)(THIS) PURE;}
+\DoxyCodeLine{407 }
+\DoxyCodeLine{408     \textcolor{comment}{// Name}}
+\DoxyCodeLine{409     STDMETHOD\_(LPCSTR, GetName)(THIS) PURE;}
+\DoxyCodeLine{410 }
+\DoxyCodeLine{411     \textcolor{comment}{// Period}}
+\DoxyCodeLine{412     STDMETHOD\_(DOUBLE, GetPeriod)(THIS) PURE;}
+\DoxyCodeLine{413     STDMETHOD\_(DOUBLE, GetPeriodicPosition)(THIS\_ DOUBLE Position) PURE;    \textcolor{comment}{// Maps position into animation period}}
+\DoxyCodeLine{414 }
+\DoxyCodeLine{415     \textcolor{comment}{// Animation names}}
+\DoxyCodeLine{416     STDMETHOD\_(UINT, GetNumAnimations)(THIS) PURE;}
+\DoxyCodeLine{417     STDMETHOD(GetAnimationNameByIndex)(THIS\_ UINT Index, LPCSTR *ppName) PURE;}
+\DoxyCodeLine{418     STDMETHOD(GetAnimationIndexByName)(THIS\_ LPCSTR pName, UINT *pIndex) PURE;}
+\DoxyCodeLine{419 }
+\DoxyCodeLine{420     \textcolor{comment}{// SRT}}
+\DoxyCodeLine{421     STDMETHOD(GetSRT)(THIS\_ }
+\DoxyCodeLine{422         DOUBLE PeriodicPosition,            \textcolor{comment}{// Position mapped to period (use GetPeriodicPosition)}}
+\DoxyCodeLine{423         UINT Animation,                     \textcolor{comment}{// Animation index}}
+\DoxyCodeLine{424         \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pScale,                \textcolor{comment}{// Returns the scale}}
+\DoxyCodeLine{425         \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pRotation,          \textcolor{comment}{// Returns the rotation as a quaternion}}
+\DoxyCodeLine{426         \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pTranslation) PURE;    \textcolor{comment}{// Returns the translation}}
+\DoxyCodeLine{427 }
+\DoxyCodeLine{428     \textcolor{comment}{// Callbacks}}
+\DoxyCodeLine{429     STDMETHOD(GetCallback)(THIS\_ }
+\DoxyCodeLine{430         DOUBLE Position,                    \textcolor{comment}{// Position from which to find callbacks}}
+\DoxyCodeLine{431         DWORD Flags,                        \textcolor{comment}{// Callback search flags}}
+\DoxyCodeLine{432         DOUBLE *pCallbackPosition,          \textcolor{comment}{// Returns the position of the callback}}
+\DoxyCodeLine{433         LPVOID *ppCallbackData) PURE;       \textcolor{comment}{// Returns the callback data pointer}}
+\DoxyCodeLine{434 }
+\DoxyCodeLine{435     \textcolor{comment}{// Playback}}
+\DoxyCodeLine{436     STDMETHOD\_(D3DXPLAYBACK\_TYPE, GetPlaybackType)(THIS) PURE;}
+\DoxyCodeLine{437     STDMETHOD\_(DOUBLE, GetSourceTicksPerSecond)(THIS) PURE;}
+\DoxyCodeLine{438 }
+\DoxyCodeLine{439     \textcolor{comment}{// Scale keys}}
+\DoxyCodeLine{440     STDMETHOD\_(UINT, GetNumScaleKeys)(THIS\_ UINT Animation) PURE;}
+\DoxyCodeLine{441     STDMETHOD(GetScaleKeys)(THIS\_ UINT Animation, \mbox{\hyperlink{struct___d3_d_x_k_e_y___v_e_c_t_o_r3}{LPD3DXKEY\_VECTOR3}} pScaleKeys) PURE;}
+\DoxyCodeLine{442     STDMETHOD(GetScaleKey)(THIS\_ UINT Animation, UINT Key, \mbox{\hyperlink{struct___d3_d_x_k_e_y___v_e_c_t_o_r3}{LPD3DXKEY\_VECTOR3}} pScaleKey) PURE;}
+\DoxyCodeLine{443     STDMETHOD(SetScaleKey)(THIS\_ UINT Animation, UINT Key, \mbox{\hyperlink{struct___d3_d_x_k_e_y___v_e_c_t_o_r3}{LPD3DXKEY\_VECTOR3}} pScaleKey) PURE;}
+\DoxyCodeLine{444 }
+\DoxyCodeLine{445     \textcolor{comment}{// Rotation keys}}
+\DoxyCodeLine{446     STDMETHOD\_(UINT, GetNumRotationKeys)(THIS\_ UINT Animation) PURE;}
+\DoxyCodeLine{447     STDMETHOD(GetRotationKeys)(THIS\_ UINT Animation, \mbox{\hyperlink{struct___d3_d_x_k_e_y___q_u_a_t_e_r_n_i_o_n}{LPD3DXKEY\_QUATERNION}} pRotationKeys) PURE;}
+\DoxyCodeLine{448     STDMETHOD(GetRotationKey)(THIS\_ UINT Animation, UINT Key, \mbox{\hyperlink{struct___d3_d_x_k_e_y___q_u_a_t_e_r_n_i_o_n}{LPD3DXKEY\_QUATERNION}} pRotationKey) PURE;}
+\DoxyCodeLine{449     STDMETHOD(SetRotationKey)(THIS\_ UINT Animation, UINT Key, \mbox{\hyperlink{struct___d3_d_x_k_e_y___q_u_a_t_e_r_n_i_o_n}{LPD3DXKEY\_QUATERNION}} pRotationKey) PURE;}
+\DoxyCodeLine{450 }
+\DoxyCodeLine{451     \textcolor{comment}{// Translation keys}}
+\DoxyCodeLine{452     STDMETHOD\_(UINT, GetNumTranslationKeys)(THIS\_ UINT Animation) PURE;}
+\DoxyCodeLine{453     STDMETHOD(GetTranslationKeys)(THIS\_ UINT Animation, \mbox{\hyperlink{struct___d3_d_x_k_e_y___v_e_c_t_o_r3}{LPD3DXKEY\_VECTOR3}} pTranslationKeys) PURE;}
+\DoxyCodeLine{454     STDMETHOD(GetTranslationKey)(THIS\_ UINT Animation, UINT Key, \mbox{\hyperlink{struct___d3_d_x_k_e_y___v_e_c_t_o_r3}{LPD3DXKEY\_VECTOR3}} pTranslationKey) PURE;}
+\DoxyCodeLine{455     STDMETHOD(SetTranslationKey)(THIS\_ UINT Animation, UINT Key, \mbox{\hyperlink{struct___d3_d_x_k_e_y___v_e_c_t_o_r3}{LPD3DXKEY\_VECTOR3}} pTranslationKey) PURE;}
+\DoxyCodeLine{456 }
+\DoxyCodeLine{457     \textcolor{comment}{// Callback keys}}
+\DoxyCodeLine{458     STDMETHOD\_(UINT, GetNumCallbackKeys)(THIS) PURE;}
+\DoxyCodeLine{459     STDMETHOD(GetCallbackKeys)(THIS\_ \mbox{\hyperlink{struct___d3_d_x_k_e_y___c_a_l_l_b_a_c_k}{LPD3DXKEY\_CALLBACK}} pCallbackKeys) PURE;}
+\DoxyCodeLine{460     STDMETHOD(GetCallbackKey)(THIS\_ UINT Key, \mbox{\hyperlink{struct___d3_d_x_k_e_y___c_a_l_l_b_a_c_k}{LPD3DXKEY\_CALLBACK}} pCallbackKey) PURE;}
+\DoxyCodeLine{461     STDMETHOD(SetCallbackKey)(THIS\_ UINT Key, \mbox{\hyperlink{struct___d3_d_x_k_e_y___c_a_l_l_b_a_c_k}{LPD3DXKEY\_CALLBACK}} pCallbackKey) PURE;}
+\DoxyCodeLine{462 }
+\DoxyCodeLine{463     \textcolor{comment}{// Key removal methods. These are slow, and should not be used once the animation starts playing}}
+\DoxyCodeLine{464     STDMETHOD(UnregisterScaleKey)(THIS\_ UINT Animation, UINT Key) PURE;}
+\DoxyCodeLine{465     STDMETHOD(UnregisterRotationKey)(THIS\_ UINT Animation, UINT Key) PURE;}
+\DoxyCodeLine{466     STDMETHOD(UnregisterTranslationKey)(THIS\_ UINT Animation, UINT Key) PURE;}
+\DoxyCodeLine{467 }
+\DoxyCodeLine{468     \textcolor{comment}{// One-\/time animaton SRT keyframe registration}}
+\DoxyCodeLine{469     STDMETHOD(RegisterAnimationSRTKeys)(THIS\_ }
+\DoxyCodeLine{470         LPCSTR pName,                                   \textcolor{comment}{// Animation name}}
+\DoxyCodeLine{471         UINT NumScaleKeys,                              \textcolor{comment}{// Number of scale keys}}
+\DoxyCodeLine{472         UINT NumRotationKeys,                           \textcolor{comment}{// Number of rotation keys}}
+\DoxyCodeLine{473         UINT NumTranslationKeys,                        \textcolor{comment}{// Number of translation keys}}
+\DoxyCodeLine{474         CONST \mbox{\hyperlink{struct___d3_d_x_k_e_y___v_e_c_t_o_r3}{D3DXKEY\_VECTOR3}} *pScaleKeys,              \textcolor{comment}{// Array of scale keys}}
+\DoxyCodeLine{475         CONST \mbox{\hyperlink{struct___d3_d_x_k_e_y___q_u_a_t_e_r_n_i_o_n}{D3DXKEY\_QUATERNION}} *pRotationKeys,        \textcolor{comment}{// Array of rotation keys}}
+\DoxyCodeLine{476         CONST \mbox{\hyperlink{struct___d3_d_x_k_e_y___v_e_c_t_o_r3}{D3DXKEY\_VECTOR3}} *pTranslationKeys,     \textcolor{comment}{// Array of translation keys}}
+\DoxyCodeLine{477         DWORD *pAnimationIndex) PURE;                   \textcolor{comment}{// Returns the animation index }}
+\DoxyCodeLine{478 }
+\DoxyCodeLine{479     \textcolor{comment}{// Compression}}
+\DoxyCodeLine{480     STDMETHOD(Compress)(THIS\_ }
+\DoxyCodeLine{481         DWORD Flags,                            \textcolor{comment}{// Compression flags (use D3DXCOMPRESS\_STRONG for better results)}}
+\DoxyCodeLine{482         FLOAT Lossiness,                        \textcolor{comment}{// Compression loss ratio in the [0, 1] range}}
+\DoxyCodeLine{483         \mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{LPD3DXFRAME}} pHierarchy,                 \textcolor{comment}{// Frame hierarchy (optional)}}
+\DoxyCodeLine{484         LPD3DXBUFFER *ppCompressedData) PURE;   \textcolor{comment}{// Returns the compressed animation set}}
+\DoxyCodeLine{485 }
+\DoxyCodeLine{486     STDMETHOD(UnregisterAnimation)(THIS\_ UINT Index) PURE;}
+\DoxyCodeLine{487 \};}
+\DoxyCodeLine{488 }
+\DoxyCodeLine{489 }
+\DoxyCodeLine{490 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{491 \textcolor{comment}{// ID3DXCompressedAnimationSet:}}
+\DoxyCodeLine{492 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{493 \textcolor{comment}{// This interface implements a compressed keyframed animation set.}}
+\DoxyCodeLine{494 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{495 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXCompressedAnimationSet ID3DXCompressedAnimationSet;}
+\DoxyCodeLine{496 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXCompressedAnimationSet *LPD3DXCOMPRESSEDANIMATIONSET;}
+\DoxyCodeLine{497 }
+\DoxyCodeLine{498 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{499 \textcolor{preprocessor}{\#define INTERFACE ID3DXCompressedAnimationSet}}
+\DoxyCodeLine{500 }
+\DoxyCodeLine{501 DECLARE\_INTERFACE\_(ID3DXCompressedAnimationSet, ID3DXAnimationSet)}
+\DoxyCodeLine{502 \{}
+\DoxyCodeLine{503     \textcolor{comment}{// ID3DXAnimationSet}}
+\DoxyCodeLine{504     STDMETHOD(QueryInterface)(THIS\_ REFIID iid, LPVOID *ppv) PURE;}
+\DoxyCodeLine{505     STDMETHOD\_(ULONG, AddRef)(THIS) PURE;}
+\DoxyCodeLine{506     STDMETHOD\_(ULONG, Release)(THIS) PURE;}
+\DoxyCodeLine{507 }
+\DoxyCodeLine{508     \textcolor{comment}{// Name}}
+\DoxyCodeLine{509     STDMETHOD\_(LPCSTR, GetName)(THIS) PURE;}
+\DoxyCodeLine{510 }
+\DoxyCodeLine{511     \textcolor{comment}{// Period}}
+\DoxyCodeLine{512     STDMETHOD\_(DOUBLE, GetPeriod)(THIS) PURE;}
+\DoxyCodeLine{513     STDMETHOD\_(DOUBLE, GetPeriodicPosition)(THIS\_ DOUBLE Position) PURE;    \textcolor{comment}{// Maps position into animation period}}
+\DoxyCodeLine{514 }
+\DoxyCodeLine{515     \textcolor{comment}{// Animation names}}
+\DoxyCodeLine{516     STDMETHOD\_(UINT, GetNumAnimations)(THIS) PURE;}
+\DoxyCodeLine{517     STDMETHOD(GetAnimationNameByIndex)(THIS\_ UINT Index, LPCSTR *ppName) PURE;}
+\DoxyCodeLine{518     STDMETHOD(GetAnimationIndexByName)(THIS\_ LPCSTR pName, UINT *pIndex) PURE;}
+\DoxyCodeLine{519 }
+\DoxyCodeLine{520     \textcolor{comment}{// SRT}}
+\DoxyCodeLine{521     STDMETHOD(GetSRT)(THIS\_ }
+\DoxyCodeLine{522         DOUBLE PeriodicPosition,            \textcolor{comment}{// Position mapped to period (use GetPeriodicPosition)}}
+\DoxyCodeLine{523         UINT Animation,                     \textcolor{comment}{// Animation index}}
+\DoxyCodeLine{524         \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pScale,                \textcolor{comment}{// Returns the scale}}
+\DoxyCodeLine{525         \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pRotation,          \textcolor{comment}{// Returns the rotation as a quaternion}}
+\DoxyCodeLine{526         \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pTranslation) PURE;    \textcolor{comment}{// Returns the translation}}
+\DoxyCodeLine{527 }
+\DoxyCodeLine{528     \textcolor{comment}{// Callbacks}}
+\DoxyCodeLine{529     STDMETHOD(GetCallback)(THIS\_ }
+\DoxyCodeLine{530         DOUBLE Position,                    \textcolor{comment}{// Position from which to find callbacks}}
+\DoxyCodeLine{531         DWORD Flags,                        \textcolor{comment}{// Callback search flags}}
+\DoxyCodeLine{532         DOUBLE *pCallbackPosition,          \textcolor{comment}{// Returns the position of the callback}}
+\DoxyCodeLine{533         LPVOID *ppCallbackData) PURE;       \textcolor{comment}{// Returns the callback data pointer}}
+\DoxyCodeLine{534 }
+\DoxyCodeLine{535     \textcolor{comment}{// Playback}}
+\DoxyCodeLine{536     STDMETHOD\_(D3DXPLAYBACK\_TYPE, GetPlaybackType)(THIS) PURE;}
+\DoxyCodeLine{537     STDMETHOD\_(DOUBLE, GetSourceTicksPerSecond)(THIS) PURE;}
+\DoxyCodeLine{538 }
+\DoxyCodeLine{539     \textcolor{comment}{// Scale keys}}
+\DoxyCodeLine{540     STDMETHOD(GetCompressedData)(THIS\_ LPD3DXBUFFER *ppCompressedData) PURE;}
+\DoxyCodeLine{541 }
+\DoxyCodeLine{542     \textcolor{comment}{// Callback keys}}
+\DoxyCodeLine{543     STDMETHOD\_(UINT, GetNumCallbackKeys)(THIS) PURE;}
+\DoxyCodeLine{544     STDMETHOD(GetCallbackKeys)(THIS\_ \mbox{\hyperlink{struct___d3_d_x_k_e_y___c_a_l_l_b_a_c_k}{LPD3DXKEY\_CALLBACK}} pCallbackKeys) PURE;}
+\DoxyCodeLine{545 \};}
+\DoxyCodeLine{546 }
+\DoxyCodeLine{547 }
+\DoxyCodeLine{548 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{549 \textcolor{comment}{// D3DXPRIORITY\_TYPE:}}
+\DoxyCodeLine{550 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{551 \textcolor{comment}{// This enum defines the type of priority group that a track can be assigned to.}}
+\DoxyCodeLine{552 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{553 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DXPRIORITY\_TYPE \{}
+\DoxyCodeLine{554     D3DXPRIORITY\_LOW         = 0,           \textcolor{comment}{// This track should be blended with all low priority tracks before mixed with the high priority result}}
+\DoxyCodeLine{555     D3DXPRIORITY\_HIGH        = 1,           \textcolor{comment}{// This track should be blended with all high priority tracks before mixed with the low priority result}}
+\DoxyCodeLine{556 }
+\DoxyCodeLine{557     D3DXPRIORITY\_FORCE\_DWORD = 0x7fffffff,  \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{558 \} D3DXPRIORITY\_TYPE;}
+\DoxyCodeLine{559 }
+\DoxyCodeLine{560 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{561 \textcolor{comment}{// D3DXTRACK\_DESC:}}
+\DoxyCodeLine{562 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{563 \textcolor{comment}{// This structure describes the mixing information of an animation track. }}
+\DoxyCodeLine{564 \textcolor{comment}{// The mixing information consists of the current position, speed, and blending }}
+\DoxyCodeLine{565 \textcolor{comment}{// weight for the track.  The Flags field also specifies whether the track is }}
+\DoxyCodeLine{566 \textcolor{comment}{// low or high priority.  Tracks with the same priority are blended together}}
+\DoxyCodeLine{567 \textcolor{comment}{// and then the two resulting values are blended using the priority blend factor.}}
+\DoxyCodeLine{568 \textcolor{comment}{// A track also has an animation set (stored separately) associated with it.  }}
+\DoxyCodeLine{569 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{570 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x_t_r_a_c_k___d_e_s_c}{\_D3DXTRACK\_DESC}}}
+\DoxyCodeLine{571 \{}
+\DoxyCodeLine{572     D3DXPRIORITY\_TYPE   Priority;}
+\DoxyCodeLine{573     FLOAT               Weight;}
+\DoxyCodeLine{574     FLOAT               Speed;}
+\DoxyCodeLine{575     DOUBLE              Position;}
+\DoxyCodeLine{576     BOOL                Enable;}
+\DoxyCodeLine{577 \} \mbox{\hyperlink{struct___d3_d_x_t_r_a_c_k___d_e_s_c}{D3DXTRACK\_DESC}}, *\mbox{\hyperlink{struct___d3_d_x_t_r_a_c_k___d_e_s_c}{LPD3DXTRACK\_DESC}};}
+\DoxyCodeLine{578 }
+\DoxyCodeLine{579 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{580 \textcolor{comment}{// D3DXEVENT\_TYPE:}}
+\DoxyCodeLine{581 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{582 \textcolor{comment}{// This enum defines the type of events keyable via the animation controller.}}
+\DoxyCodeLine{583 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{584 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DXEVENT\_TYPE}
+\DoxyCodeLine{585 \{}
+\DoxyCodeLine{586     D3DXEVENT\_TRACKSPEED    = 0,}
+\DoxyCodeLine{587     D3DXEVENT\_TRACKWEIGHT   = 1,}
+\DoxyCodeLine{588     D3DXEVENT\_TRACKPOSITION = 2,}
+\DoxyCodeLine{589     D3DXEVENT\_TRACKENABLE   = 3,}
+\DoxyCodeLine{590     D3DXEVENT\_PRIORITYBLEND = 4,}
+\DoxyCodeLine{591 }
+\DoxyCodeLine{592     D3DXEVENT\_FORCE\_DWORD   = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{593 \} D3DXEVENT\_TYPE;}
+\DoxyCodeLine{594 }
+\DoxyCodeLine{595 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{596 \textcolor{comment}{// D3DXTRANSITION\_TYPE:}}
+\DoxyCodeLine{597 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{598 \textcolor{comment}{// This enum defines the type of transtion performed on a event that }}
+\DoxyCodeLine{599 \textcolor{comment}{// transitions from one value to another.}}
+\DoxyCodeLine{600 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{601 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DXTRANSITION\_TYPE \{}
+\DoxyCodeLine{602     D3DXTRANSITION\_LINEAR        = 0x000,     \textcolor{comment}{// Linear transition from one value to the next}}
+\DoxyCodeLine{603     D3DXTRANSITION\_EASEINEASEOUT = 0x001,     \textcolor{comment}{// Ease-\/In Ease-\/Out spline transtion from one value to the next}}
+\DoxyCodeLine{604 }
+\DoxyCodeLine{605     D3DXTRANSITION\_FORCE\_DWORD   = 0x7fffffff, \textcolor{comment}{/* force 32-\/bit size enum */}}
+\DoxyCodeLine{606 \} D3DXTRANSITION\_TYPE;}
+\DoxyCodeLine{607 }
+\DoxyCodeLine{608 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{609 \textcolor{comment}{// D3DXEVENT\_DESC:}}
+\DoxyCodeLine{610 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{611 \textcolor{comment}{// This structure describes a animation controller event.}}
+\DoxyCodeLine{612 \textcolor{comment}{// It gives the event's type, track (if the event is a track event), global }}
+\DoxyCodeLine{613 \textcolor{comment}{// start time, duration, transition method, and target value.}}
+\DoxyCodeLine{614 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{615 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x_e_v_e_n_t___d_e_s_c}{\_D3DXEVENT\_DESC}}}
+\DoxyCodeLine{616 \{}
+\DoxyCodeLine{617     D3DXEVENT\_TYPE      Type;}
+\DoxyCodeLine{618     UINT                Track;}
+\DoxyCodeLine{619     DOUBLE              StartTime;}
+\DoxyCodeLine{620     DOUBLE              Duration;}
+\DoxyCodeLine{621     D3DXTRANSITION\_TYPE Transition;}
+\DoxyCodeLine{622     \textcolor{keyword}{union}}
+\DoxyCodeLine{623     \{}
+\DoxyCodeLine{624         FLOAT           Weight;}
+\DoxyCodeLine{625         FLOAT           Speed;}
+\DoxyCodeLine{626         DOUBLE          Position;}
+\DoxyCodeLine{627         BOOL            Enable;}
+\DoxyCodeLine{628     \};}
+\DoxyCodeLine{629 \} \mbox{\hyperlink{struct___d3_d_x_e_v_e_n_t___d_e_s_c}{D3DXEVENT\_DESC}}, *\mbox{\hyperlink{struct___d3_d_x_e_v_e_n_t___d_e_s_c}{LPD3DXEVENT\_DESC}};}
+\DoxyCodeLine{630 }
+\DoxyCodeLine{631 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{632 \textcolor{comment}{// D3DXEVENTHANDLE:}}
+\DoxyCodeLine{633 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{634 \textcolor{comment}{// Handle values used to efficiently reference animation controller events.}}
+\DoxyCodeLine{635 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{636 \textcolor{keyword}{typedef} DWORD D3DXEVENTHANDLE;}
+\DoxyCodeLine{637 \textcolor{keyword}{typedef} D3DXEVENTHANDLE *LPD3DXEVENTHANDLE;}
+\DoxyCodeLine{638 }
+\DoxyCodeLine{639 }
+\DoxyCodeLine{640 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{641 \textcolor{comment}{// ID3DXAnimationCallbackHandler:}}
+\DoxyCodeLine{642 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{643 \textcolor{comment}{// This interface is intended to be implemented by the application, and can}}
+\DoxyCodeLine{644 \textcolor{comment}{// be used to handle callbacks in animation sets generated when }}
+\DoxyCodeLine{645 \textcolor{comment}{// ID3DXAnimationController::AdvanceTime() is called.  }}
+\DoxyCodeLine{646 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{647 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXAnimationCallbackHandler ID3DXAnimationCallbackHandler;}
+\DoxyCodeLine{648 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXAnimationCallbackHandler *LPD3DXANIMATIONCALLBACKHANDLER;}
+\DoxyCodeLine{649 }
+\DoxyCodeLine{650 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{651 \textcolor{preprocessor}{\#define INTERFACE ID3DXAnimationCallbackHandler}}
+\DoxyCodeLine{652 }
+\DoxyCodeLine{653 DECLARE\_INTERFACE(ID3DXAnimationCallbackHandler)}
+\DoxyCodeLine{654 \{}
+\DoxyCodeLine{655     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{656     \textcolor{comment}{// ID3DXAnimationCallbackHandler::HandleCallback:}}
+\DoxyCodeLine{657     \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{658     \textcolor{comment}{// This method gets called when a callback occurs for an animation set in one}}
+\DoxyCodeLine{659     \textcolor{comment}{// of the tracks during the ID3DXAnimationController::AdvanceTime() call.  }}
+\DoxyCodeLine{660     \textcolor{comment}{//}}
+\DoxyCodeLine{661     \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{662     \textcolor{comment}{//  Track}}
+\DoxyCodeLine{663     \textcolor{comment}{//      Index of the track on which the callback occured.}}
+\DoxyCodeLine{664     \textcolor{comment}{//  pCallbackData}}
+\DoxyCodeLine{665     \textcolor{comment}{//      Pointer to user owned callback data.}}
+\DoxyCodeLine{666     \textcolor{comment}{//}}
+\DoxyCodeLine{667     \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{668     STDMETHOD(HandleCallback)(THIS\_ UINT Track, LPVOID pCallbackData) PURE; }
+\DoxyCodeLine{669 \};}
+\DoxyCodeLine{670 }
+\DoxyCodeLine{671 }
+\DoxyCodeLine{672 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{673 \textcolor{comment}{// ID3DXAnimationController:}}
+\DoxyCodeLine{674 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{675 \textcolor{comment}{// This interface implements the main animation functionality. It connects}}
+\DoxyCodeLine{676 \textcolor{comment}{// animation sets with the transform frames that are being animated. Allows}}
+\DoxyCodeLine{677 \textcolor{comment}{// mixing multiple animations for blended animations or for transistions}}
+\DoxyCodeLine{678 \textcolor{comment}{// It adds also has methods to modify blending parameters over time to }}
+\DoxyCodeLine{679 \textcolor{comment}{// enable smooth transistions and other effects.}}
+\DoxyCodeLine{680 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{681 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXAnimationController ID3DXAnimationController;}
+\DoxyCodeLine{682 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXAnimationController *LPD3DXANIMATIONCONTROLLER;}
+\DoxyCodeLine{683 }
+\DoxyCodeLine{684 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{685 \textcolor{preprocessor}{\#define INTERFACE ID3DXAnimationController}}
+\DoxyCodeLine{686 }
+\DoxyCodeLine{687 DECLARE\_INTERFACE\_(ID3DXAnimationController, IUnknown)}
+\DoxyCodeLine{688 \{}
+\DoxyCodeLine{689     \textcolor{comment}{// IUnknown}}
+\DoxyCodeLine{690     STDMETHOD(QueryInterface)(THIS\_ REFIID iid, LPVOID *ppv) PURE;}
+\DoxyCodeLine{691     STDMETHOD\_(ULONG, AddRef)(THIS) PURE;}
+\DoxyCodeLine{692     STDMETHOD\_(ULONG, Release)(THIS) PURE;}
+\DoxyCodeLine{693 }
+\DoxyCodeLine{694     \textcolor{comment}{// Max sizes}}
+\DoxyCodeLine{695     STDMETHOD\_(UINT, GetMaxNumAnimationOutputs)(THIS) PURE;}
+\DoxyCodeLine{696     STDMETHOD\_(UINT, GetMaxNumAnimationSets)(THIS) PURE;}
+\DoxyCodeLine{697     STDMETHOD\_(UINT, GetMaxNumTracks)(THIS) PURE;}
+\DoxyCodeLine{698     STDMETHOD\_(UINT, GetMaxNumEvents)(THIS) PURE;}
+\DoxyCodeLine{699 }
+\DoxyCodeLine{700     \textcolor{comment}{// Animation output registration}}
+\DoxyCodeLine{701     STDMETHOD(RegisterAnimationOutput)(THIS\_ }
+\DoxyCodeLine{702         LPCSTR pName, }
+\DoxyCodeLine{703         \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pMatrix, }
+\DoxyCodeLine{704         \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pScale, }
+\DoxyCodeLine{705         \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pRotation, }
+\DoxyCodeLine{706         \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pTranslation) PURE;}
+\DoxyCodeLine{707 }
+\DoxyCodeLine{708     \textcolor{comment}{// Animation set registration}}
+\DoxyCodeLine{709     STDMETHOD(RegisterAnimationSet)(THIS\_ LPD3DXANIMATIONSET pAnimSet) PURE;}
+\DoxyCodeLine{710     STDMETHOD(UnregisterAnimationSet)(THIS\_ LPD3DXANIMATIONSET pAnimSet) PURE;}
+\DoxyCodeLine{711 }
+\DoxyCodeLine{712     STDMETHOD\_(UINT, GetNumAnimationSets)(THIS) PURE;}
+\DoxyCodeLine{713     STDMETHOD(GetAnimationSet)(THIS\_ UINT Index, LPD3DXANIMATIONSET *ppAnimationSet) PURE;}
+\DoxyCodeLine{714     STDMETHOD(GetAnimationSetByName)(THIS\_ LPCSTR szName, LPD3DXANIMATIONSET *ppAnimationSet) PURE;}
+\DoxyCodeLine{715 }
+\DoxyCodeLine{716     \textcolor{comment}{// Global time}}
+\DoxyCodeLine{717     STDMETHOD(AdvanceTime)(THIS\_ DOUBLE TimeDelta, LPD3DXANIMATIONCALLBACKHANDLER pCallbackHandler) PURE;}
+\DoxyCodeLine{718     STDMETHOD(ResetTime)(THIS) PURE;}
+\DoxyCodeLine{719     STDMETHOD\_(DOUBLE, GetTime)(THIS) PURE;}
+\DoxyCodeLine{720 }
+\DoxyCodeLine{721     \textcolor{comment}{// Tracks}}
+\DoxyCodeLine{722     STDMETHOD(SetTrackAnimationSet)(THIS\_ UINT Track, LPD3DXANIMATIONSET pAnimSet) PURE;}
+\DoxyCodeLine{723     STDMETHOD(GetTrackAnimationSet)(THIS\_ UINT Track, LPD3DXANIMATIONSET *ppAnimSet) PURE;}
+\DoxyCodeLine{724 }
+\DoxyCodeLine{725     STDMETHOD(SetTrackPriority)(THIS\_ UINT Track, D3DXPRIORITY\_TYPE Priority) PURE;}
+\DoxyCodeLine{726 }
+\DoxyCodeLine{727     STDMETHOD(SetTrackSpeed)(THIS\_ UINT Track, FLOAT Speed) PURE;}
+\DoxyCodeLine{728     STDMETHOD(SetTrackWeight)(THIS\_ UINT Track, FLOAT Weight) PURE;}
+\DoxyCodeLine{729     STDMETHOD(SetTrackPosition)(THIS\_ UINT Track, DOUBLE Position) PURE;}
+\DoxyCodeLine{730     STDMETHOD(SetTrackEnable)(THIS\_ UINT Track, BOOL Enable) PURE;}
+\DoxyCodeLine{731 }
+\DoxyCodeLine{732     STDMETHOD(SetTrackDesc)(THIS\_ UINT Track, \mbox{\hyperlink{struct___d3_d_x_t_r_a_c_k___d_e_s_c}{LPD3DXTRACK\_DESC}} pDesc) PURE;}
+\DoxyCodeLine{733     STDMETHOD(GetTrackDesc)(THIS\_ UINT Track, \mbox{\hyperlink{struct___d3_d_x_t_r_a_c_k___d_e_s_c}{LPD3DXTRACK\_DESC}} pDesc) PURE;}
+\DoxyCodeLine{734 }
+\DoxyCodeLine{735     \textcolor{comment}{// Priority blending}}
+\DoxyCodeLine{736     STDMETHOD(SetPriorityBlend)(THIS\_ FLOAT BlendWeight) PURE;}
+\DoxyCodeLine{737     STDMETHOD\_(FLOAT, GetPriorityBlend)(THIS) PURE;}
+\DoxyCodeLine{738 }
+\DoxyCodeLine{739     \textcolor{comment}{// Event keying}}
+\DoxyCodeLine{740     STDMETHOD\_(D3DXEVENTHANDLE, KeyTrackSpeed)(THIS\_ UINT Track, FLOAT NewSpeed, DOUBLE StartTime, DOUBLE Duration, D3DXTRANSITION\_TYPE Transition) PURE;}
+\DoxyCodeLine{741     STDMETHOD\_(D3DXEVENTHANDLE, KeyTrackWeight)(THIS\_ UINT Track, FLOAT NewWeight, DOUBLE StartTime, DOUBLE Duration, D3DXTRANSITION\_TYPE Transition) PURE;}
+\DoxyCodeLine{742     STDMETHOD\_(D3DXEVENTHANDLE, KeyTrackPosition)(THIS\_ UINT Track, DOUBLE NewPosition, DOUBLE StartTime) PURE;}
+\DoxyCodeLine{743     STDMETHOD\_(D3DXEVENTHANDLE, KeyTrackEnable)(THIS\_ UINT Track, BOOL NewEnable, DOUBLE StartTime) PURE;}
+\DoxyCodeLine{744 }
+\DoxyCodeLine{745     STDMETHOD\_(D3DXEVENTHANDLE, KeyPriorityBlend)(THIS\_ FLOAT NewBlendWeight, DOUBLE StartTime, DOUBLE Duration, D3DXTRANSITION\_TYPE Transition) PURE;}
+\DoxyCodeLine{746 }
+\DoxyCodeLine{747     \textcolor{comment}{// Event unkeying}}
+\DoxyCodeLine{748     STDMETHOD(UnkeyEvent)(THIS\_ D3DXEVENTHANDLE hEvent) PURE;}
+\DoxyCodeLine{749 }
+\DoxyCodeLine{750     STDMETHOD(UnkeyAllTrackEvents)(THIS\_ UINT Track) PURE;}
+\DoxyCodeLine{751     STDMETHOD(UnkeyAllPriorityBlends)(THIS) PURE;}
+\DoxyCodeLine{752 }
+\DoxyCodeLine{753     \textcolor{comment}{// Event enumeration}}
+\DoxyCodeLine{754     STDMETHOD\_(D3DXEVENTHANDLE, GetCurrentTrackEvent)(THIS\_ UINT Track, D3DXEVENT\_TYPE EventType) PURE;}
+\DoxyCodeLine{755     STDMETHOD\_(D3DXEVENTHANDLE, GetCurrentPriorityBlend)(THIS) PURE;}
+\DoxyCodeLine{756 }
+\DoxyCodeLine{757     STDMETHOD\_(D3DXEVENTHANDLE, GetUpcomingTrackEvent)(THIS\_ UINT Track, D3DXEVENTHANDLE hEvent) PURE;}
+\DoxyCodeLine{758     STDMETHOD\_(D3DXEVENTHANDLE, GetUpcomingPriorityBlend)(THIS\_ D3DXEVENTHANDLE hEvent) PURE;}
+\DoxyCodeLine{759 }
+\DoxyCodeLine{760     STDMETHOD(ValidateEvent)(THIS\_ D3DXEVENTHANDLE hEvent) PURE;}
+\DoxyCodeLine{761 }
+\DoxyCodeLine{762     STDMETHOD(GetEventDesc)(THIS\_ D3DXEVENTHANDLE hEvent, \mbox{\hyperlink{struct___d3_d_x_e_v_e_n_t___d_e_s_c}{LPD3DXEVENT\_DESC}} pDesc) PURE;}
+\DoxyCodeLine{763 }
+\DoxyCodeLine{764     \textcolor{comment}{// Cloning}}
+\DoxyCodeLine{765     STDMETHOD(CloneAnimationController)(THIS\_ }
+\DoxyCodeLine{766         UINT MaxNumAnimationOutputs, }
+\DoxyCodeLine{767         UINT MaxNumAnimationSets, }
+\DoxyCodeLine{768         UINT MaxNumTracks, }
+\DoxyCodeLine{769         UINT MaxNumEvents, }
+\DoxyCodeLine{770         LPD3DXANIMATIONCONTROLLER *ppAnimController) PURE;}
+\DoxyCodeLine{771 \};}
+\DoxyCodeLine{772 }
+\DoxyCodeLine{773 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{774 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{775 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{776 }
+\DoxyCodeLine{777 }
+\DoxyCodeLine{778 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{779 \textcolor{comment}{// D3DXLoadMeshHierarchyFromX:}}
+\DoxyCodeLine{780 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{781 \textcolor{comment}{// Loads the first frame hierarchy in a .X file.}}
+\DoxyCodeLine{782 \textcolor{comment}{//}}
+\DoxyCodeLine{783 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{784 \textcolor{comment}{//  Filename}}
+\DoxyCodeLine{785 \textcolor{comment}{//      Name of the .X file}}
+\DoxyCodeLine{786 \textcolor{comment}{//  MeshOptions}}
+\DoxyCodeLine{787 \textcolor{comment}{//      Mesh creation options for meshes in the file (see d3dx9mesh.h)}}
+\DoxyCodeLine{788 \textcolor{comment}{//  pD3DDevice}}
+\DoxyCodeLine{789 \textcolor{comment}{//      D3D9 device on which meshes in the file are created in}}
+\DoxyCodeLine{790 \textcolor{comment}{//  pAlloc}}
+\DoxyCodeLine{791 \textcolor{comment}{//      Allocation interface used to allocate nodes of the frame hierarchy}}
+\DoxyCodeLine{792 \textcolor{comment}{//  pUserDataLoader}}
+\DoxyCodeLine{793 \textcolor{comment}{//      Application provided interface to allow loading of user data}}
+\DoxyCodeLine{794 \textcolor{comment}{//  ppFrameHierarchy}}
+\DoxyCodeLine{795 \textcolor{comment}{//      Returns root node pointer of the loaded frame hierarchy}}
+\DoxyCodeLine{796 \textcolor{comment}{//  ppAnimController}}
+\DoxyCodeLine{797 \textcolor{comment}{//      Returns pointer to an animation controller corresponding to animation}}
+\DoxyCodeLine{798 \textcolor{comment}{//      in the .X file. This is created with default max tracks and events}}
+\DoxyCodeLine{799 \textcolor{comment}{//}}
+\DoxyCodeLine{800 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{801 HRESULT WINAPI }
+\DoxyCodeLine{802 D3DXLoadMeshHierarchyFromXA}
+\DoxyCodeLine{803     (}
+\DoxyCodeLine{804     LPCSTR Filename,}
+\DoxyCodeLine{805     DWORD MeshOptions,}
+\DoxyCodeLine{806     LPDIRECT3DDEVICE9 pD3DDevice,}
+\DoxyCodeLine{807     LPD3DXALLOCATEHIERARCHY pAlloc,}
+\DoxyCodeLine{808     LPD3DXLOADUSERDATA pUserDataLoader, }
+\DoxyCodeLine{809     \mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{LPD3DXFRAME}} *ppFrameHierarchy,}
+\DoxyCodeLine{810     LPD3DXANIMATIONCONTROLLER *ppAnimController}
+\DoxyCodeLine{811     );}
+\DoxyCodeLine{812 }
+\DoxyCodeLine{813 HRESULT WINAPI }
+\DoxyCodeLine{814 D3DXLoadMeshHierarchyFromXW}
+\DoxyCodeLine{815     (}
+\DoxyCodeLine{816     LPCWSTR Filename,}
+\DoxyCodeLine{817     DWORD MeshOptions,}
+\DoxyCodeLine{818     LPDIRECT3DDEVICE9 pD3DDevice,}
+\DoxyCodeLine{819     LPD3DXALLOCATEHIERARCHY pAlloc,}
+\DoxyCodeLine{820     LPD3DXLOADUSERDATA pUserDataLoader, }
+\DoxyCodeLine{821     \mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{LPD3DXFRAME}} *ppFrameHierarchy,}
+\DoxyCodeLine{822     LPD3DXANIMATIONCONTROLLER *ppAnimController}
+\DoxyCodeLine{823     );}
+\DoxyCodeLine{824 }
+\DoxyCodeLine{825 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{826 \textcolor{preprocessor}{\#define D3DXLoadMeshHierarchyFromX D3DXLoadMeshHierarchyFromXW}}
+\DoxyCodeLine{827 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{828 \textcolor{preprocessor}{\#define D3DXLoadMeshHierarchyFromX D3DXLoadMeshHierarchyFromXA}}
+\DoxyCodeLine{829 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{830 }
+\DoxyCodeLine{831 HRESULT WINAPI }
+\DoxyCodeLine{832 D3DXLoadMeshHierarchyFromXInMemory}
+\DoxyCodeLine{833     (}
+\DoxyCodeLine{834     LPCVOID Memory,}
+\DoxyCodeLine{835     DWORD SizeOfMemory,}
+\DoxyCodeLine{836     DWORD MeshOptions,}
+\DoxyCodeLine{837     LPDIRECT3DDEVICE9 pD3DDevice,}
+\DoxyCodeLine{838     LPD3DXALLOCATEHIERARCHY pAlloc,}
+\DoxyCodeLine{839     LPD3DXLOADUSERDATA pUserDataLoader, }
+\DoxyCodeLine{840     \mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{LPD3DXFRAME}} *ppFrameHierarchy,}
+\DoxyCodeLine{841     LPD3DXANIMATIONCONTROLLER *ppAnimController}
+\DoxyCodeLine{842     );}
+\DoxyCodeLine{843 }
+\DoxyCodeLine{844 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{845 \textcolor{comment}{// D3DXSaveMeshHierarchyToFile:}}
+\DoxyCodeLine{846 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{847 \textcolor{comment}{// Creates a .X file and saves the mesh hierarchy and corresponding animations}}
+\DoxyCodeLine{848 \textcolor{comment}{// in it}}
+\DoxyCodeLine{849 \textcolor{comment}{//}}
+\DoxyCodeLine{850 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{851 \textcolor{comment}{//  Filename}}
+\DoxyCodeLine{852 \textcolor{comment}{//      Name of the .X file}}
+\DoxyCodeLine{853 \textcolor{comment}{//  XFormat}}
+\DoxyCodeLine{854 \textcolor{comment}{//      Format of the .X file (text or binary, compressed or not, etc)}}
+\DoxyCodeLine{855 \textcolor{comment}{//  pFrameRoot}}
+\DoxyCodeLine{856 \textcolor{comment}{//      Root node of the hierarchy to be saved}}
+\DoxyCodeLine{857 \textcolor{comment}{//  pAnimController}}
+\DoxyCodeLine{858 \textcolor{comment}{//      The animation controller whose animation sets are to be stored}}
+\DoxyCodeLine{859 \textcolor{comment}{//  pUserDataSaver}}
+\DoxyCodeLine{860 \textcolor{comment}{//      Application provided interface to allow adding of user data to}}
+\DoxyCodeLine{861 \textcolor{comment}{//        data objects saved to .X file}}
+\DoxyCodeLine{862 \textcolor{comment}{//}}
+\DoxyCodeLine{863 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{864 HRESULT WINAPI }
+\DoxyCodeLine{865 D3DXSaveMeshHierarchyToFileA}
+\DoxyCodeLine{866     (}
+\DoxyCodeLine{867     LPCSTR Filename,}
+\DoxyCodeLine{868     DWORD XFormat,}
+\DoxyCodeLine{869     CONST \mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{D3DXFRAME}} *pFrameRoot, }
+\DoxyCodeLine{870     LPD3DXANIMATIONCONTROLLER pAnimcontroller,}
+\DoxyCodeLine{871     LPD3DXSAVEUSERDATA pUserDataSaver}
+\DoxyCodeLine{872     );}
+\DoxyCodeLine{873 }
+\DoxyCodeLine{874 HRESULT WINAPI }
+\DoxyCodeLine{875 D3DXSaveMeshHierarchyToFileW}
+\DoxyCodeLine{876     (}
+\DoxyCodeLine{877     LPCWSTR Filename,}
+\DoxyCodeLine{878     DWORD XFormat,}
+\DoxyCodeLine{879     CONST \mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{D3DXFRAME}} *pFrameRoot, }
+\DoxyCodeLine{880     LPD3DXANIMATIONCONTROLLER pAnimController,}
+\DoxyCodeLine{881     LPD3DXSAVEUSERDATA pUserDataSaver}
+\DoxyCodeLine{882     );}
+\DoxyCodeLine{883 }
+\DoxyCodeLine{884 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{885 \textcolor{preprocessor}{\#define D3DXSaveMeshHierarchyToFile D3DXSaveMeshHierarchyToFileW}}
+\DoxyCodeLine{886 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{887 \textcolor{preprocessor}{\#define D3DXSaveMeshHierarchyToFile D3DXSaveMeshHierarchyToFileA}}
+\DoxyCodeLine{888 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{889 }
+\DoxyCodeLine{890 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{891 \textcolor{comment}{// D3DXFrameDestroy:}}
+\DoxyCodeLine{892 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{893 \textcolor{comment}{// Destroys the subtree of frames under the root, including the root}}
+\DoxyCodeLine{894 \textcolor{comment}{//}}
+\DoxyCodeLine{895 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{896 \textcolor{comment}{//  pFrameRoot}}
+\DoxyCodeLine{897 \textcolor{comment}{//      Pointer to the root node}}
+\DoxyCodeLine{898 \textcolor{comment}{//  pAlloc}}
+\DoxyCodeLine{899 \textcolor{comment}{//      Allocation interface used to de-\/allocate nodes of the frame hierarchy}}
+\DoxyCodeLine{900 \textcolor{comment}{//}}
+\DoxyCodeLine{901 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{902 HRESULT WINAPI}
+\DoxyCodeLine{903 D3DXFrameDestroy}
+\DoxyCodeLine{904     (}
+\DoxyCodeLine{905     \mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{LPD3DXFRAME}} pFrameRoot,}
+\DoxyCodeLine{906     LPD3DXALLOCATEHIERARCHY pAlloc}
+\DoxyCodeLine{907     );}
+\DoxyCodeLine{908 }
+\DoxyCodeLine{909 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{910 \textcolor{comment}{// D3DXFrameAppendChild:}}
+\DoxyCodeLine{911 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{912 \textcolor{comment}{// Add a child frame to a frame}}
+\DoxyCodeLine{913 \textcolor{comment}{//}}
+\DoxyCodeLine{914 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{915 \textcolor{comment}{//  pFrameParent}}
+\DoxyCodeLine{916 \textcolor{comment}{//      Pointer to the parent node}}
+\DoxyCodeLine{917 \textcolor{comment}{//  pFrameChild}}
+\DoxyCodeLine{918 \textcolor{comment}{//      Pointer to the child node}}
+\DoxyCodeLine{919 \textcolor{comment}{//}}
+\DoxyCodeLine{920 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{921 HRESULT WINAPI }
+\DoxyCodeLine{922 D3DXFrameAppendChild}
+\DoxyCodeLine{923     (}
+\DoxyCodeLine{924     \mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{LPD3DXFRAME}} pFrameParent,}
+\DoxyCodeLine{925     CONST \mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{D3DXFRAME}} *pFrameChild}
+\DoxyCodeLine{926     );}
+\DoxyCodeLine{927 }
+\DoxyCodeLine{928 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{929 \textcolor{comment}{// D3DXFrameFind:}}
+\DoxyCodeLine{930 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{931 \textcolor{comment}{// Finds a frame with the given name.  Returns NULL if no frame found.}}
+\DoxyCodeLine{932 \textcolor{comment}{//}}
+\DoxyCodeLine{933 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{934 \textcolor{comment}{//  pFrameRoot}}
+\DoxyCodeLine{935 \textcolor{comment}{//      Pointer to the root node}}
+\DoxyCodeLine{936 \textcolor{comment}{//  Name}}
+\DoxyCodeLine{937 \textcolor{comment}{//      Name of frame to find}}
+\DoxyCodeLine{938 \textcolor{comment}{//}}
+\DoxyCodeLine{939 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{940 \mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{LPD3DXFRAME}} WINAPI }
+\DoxyCodeLine{941 D3DXFrameFind}
+\DoxyCodeLine{942     (}
+\DoxyCodeLine{943     CONST \mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{D3DXFRAME}} *pFrameRoot,}
+\DoxyCodeLine{944     LPCSTR Name}
+\DoxyCodeLine{945     );}
+\DoxyCodeLine{946 }
+\DoxyCodeLine{947 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{948 \textcolor{comment}{// D3DXFrameRegisterNamedMatrices:}}
+\DoxyCodeLine{949 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{950 \textcolor{comment}{// Finds all frames that have non-\/null names and registers each of those frame}}
+\DoxyCodeLine{951 \textcolor{comment}{// matrices to the given animation controller}}
+\DoxyCodeLine{952 \textcolor{comment}{//}}
+\DoxyCodeLine{953 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{954 \textcolor{comment}{//  pFrameRoot}}
+\DoxyCodeLine{955 \textcolor{comment}{//      Pointer to the root node}}
+\DoxyCodeLine{956 \textcolor{comment}{//  pAnimController}}
+\DoxyCodeLine{957 \textcolor{comment}{//      Pointer to the animation controller where the matrices are registered}}
+\DoxyCodeLine{958 \textcolor{comment}{//}}
+\DoxyCodeLine{959 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{960 HRESULT WINAPI}
+\DoxyCodeLine{961 D3DXFrameRegisterNamedMatrices}
+\DoxyCodeLine{962     (}
+\DoxyCodeLine{963     \mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{LPD3DXFRAME}} pFrameRoot,}
+\DoxyCodeLine{964     LPD3DXANIMATIONCONTROLLER pAnimController}
+\DoxyCodeLine{965     );}
+\DoxyCodeLine{966 }
+\DoxyCodeLine{967 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{968 \textcolor{comment}{// D3DXFrameNumNamedMatrices:}}
+\DoxyCodeLine{969 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{970 \textcolor{comment}{// Counts number of frames in a subtree that have non-\/null names }}
+\DoxyCodeLine{971 \textcolor{comment}{//}}
+\DoxyCodeLine{972 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{973 \textcolor{comment}{//  pFrameRoot}}
+\DoxyCodeLine{974 \textcolor{comment}{//      Pointer to the root node of the subtree}}
+\DoxyCodeLine{975 \textcolor{comment}{// Return Value:}}
+\DoxyCodeLine{976 \textcolor{comment}{//      Count of frames}}
+\DoxyCodeLine{977 \textcolor{comment}{//}}
+\DoxyCodeLine{978 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{979 UINT WINAPI}
+\DoxyCodeLine{980 D3DXFrameNumNamedMatrices}
+\DoxyCodeLine{981     (}
+\DoxyCodeLine{982     CONST \mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{D3DXFRAME}} *pFrameRoot}
+\DoxyCodeLine{983     );}
+\DoxyCodeLine{984 }
+\DoxyCodeLine{985 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{986 \textcolor{comment}{// D3DXFrameCalculateBoundingSphere:}}
+\DoxyCodeLine{987 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{988 \textcolor{comment}{// Computes the bounding sphere of all the meshes in the frame hierarchy.}}
+\DoxyCodeLine{989 \textcolor{comment}{//}}
+\DoxyCodeLine{990 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{991 \textcolor{comment}{//  pFrameRoot}}
+\DoxyCodeLine{992 \textcolor{comment}{//      Pointer to the root node}}
+\DoxyCodeLine{993 \textcolor{comment}{//  pObjectCenter}}
+\DoxyCodeLine{994 \textcolor{comment}{//      Returns the center of the bounding sphere}}
+\DoxyCodeLine{995 \textcolor{comment}{//  pObjectRadius}}
+\DoxyCodeLine{996 \textcolor{comment}{//      Returns the radius of the bounding sphere}}
+\DoxyCodeLine{997 \textcolor{comment}{//}}
+\DoxyCodeLine{998 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{999 HRESULT WINAPI}
+\DoxyCodeLine{1000 D3DXFrameCalculateBoundingSphere}
+\DoxyCodeLine{1001     (}
+\DoxyCodeLine{1002     CONST \mbox{\hyperlink{struct___d3_d_x_f_r_a_m_e}{D3DXFRAME}} *pFrameRoot,       }
+\DoxyCodeLine{1003     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{LPD3DXVECTOR3}} pObjectCenter,  }
+\DoxyCodeLine{1004     FLOAT *pObjectRadius          }
+\DoxyCodeLine{1005     );}
+\DoxyCodeLine{1006 }
+\DoxyCodeLine{1007 }
+\DoxyCodeLine{1008 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1009 \textcolor{comment}{// D3DXCreateKeyframedAnimationSet:}}
+\DoxyCodeLine{1010 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1011 \textcolor{comment}{// This function creates a compressable keyframed animations set interface.}}
+\DoxyCodeLine{1012 \textcolor{comment}{// }}
+\DoxyCodeLine{1013 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{1014 \textcolor{comment}{//  pName}}
+\DoxyCodeLine{1015 \textcolor{comment}{//      Name of the animation set}}
+\DoxyCodeLine{1016 \textcolor{comment}{//  TicksPerSecond}}
+\DoxyCodeLine{1017 \textcolor{comment}{//      Number of keyframe ticks that elapse per second}}
+\DoxyCodeLine{1018 \textcolor{comment}{//  Playback}}
+\DoxyCodeLine{1019 \textcolor{comment}{//      Playback mode of keyframe looping}}
+\DoxyCodeLine{1020 \textcolor{comment}{//  NumAnimations}}
+\DoxyCodeLine{1021 \textcolor{comment}{//      Number of SRT animations}}
+\DoxyCodeLine{1022 \textcolor{comment}{//  NumCallbackKeys}}
+\DoxyCodeLine{1023 \textcolor{comment}{//      Number of callback keys}}
+\DoxyCodeLine{1024 \textcolor{comment}{//  pCallbackKeys}}
+\DoxyCodeLine{1025 \textcolor{comment}{//      Array of callback keys}}
+\DoxyCodeLine{1026 \textcolor{comment}{//  ppAnimationSet}}
+\DoxyCodeLine{1027 \textcolor{comment}{//      Returns the animation set interface}}
+\DoxyCodeLine{1028 \textcolor{comment}{// }}
+\DoxyCodeLine{1029 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/     }}
+\DoxyCodeLine{1030 HRESULT WINAPI}
+\DoxyCodeLine{1031 D3DXCreateKeyframedAnimationSet}
+\DoxyCodeLine{1032     (}
+\DoxyCodeLine{1033     LPCSTR pName,                               }
+\DoxyCodeLine{1034     DOUBLE TicksPerSecond,}
+\DoxyCodeLine{1035     D3DXPLAYBACK\_TYPE Playback,}
+\DoxyCodeLine{1036     UINT NumAnimations,                         }
+\DoxyCodeLine{1037     UINT NumCallbackKeys,                       }
+\DoxyCodeLine{1038     CONST \mbox{\hyperlink{struct___d3_d_x_k_e_y___c_a_l_l_b_a_c_k}{D3DXKEY\_CALLBACK}} *pCallbackKeys,           }
+\DoxyCodeLine{1039     LPD3DXKEYFRAMEDANIMATIONSET *ppAnimationSet }
+\DoxyCodeLine{1040     );}
+\DoxyCodeLine{1041 }
+\DoxyCodeLine{1042 }
+\DoxyCodeLine{1043 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1044 \textcolor{comment}{// D3DXCreateCompressedAnimationSet:}}
+\DoxyCodeLine{1045 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1046 \textcolor{comment}{// This function creates a compressed animations set interface from }}
+\DoxyCodeLine{1047 \textcolor{comment}{// compressed data.}}
+\DoxyCodeLine{1048 \textcolor{comment}{// }}
+\DoxyCodeLine{1049 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{1050 \textcolor{comment}{//  pName}}
+\DoxyCodeLine{1051 \textcolor{comment}{//      Name of the animation set}}
+\DoxyCodeLine{1052 \textcolor{comment}{//  TicksPerSecond}}
+\DoxyCodeLine{1053 \textcolor{comment}{//      Number of keyframe ticks that elapse per second}}
+\DoxyCodeLine{1054 \textcolor{comment}{//  Playback}}
+\DoxyCodeLine{1055 \textcolor{comment}{//      Playback mode of keyframe looping}}
+\DoxyCodeLine{1056 \textcolor{comment}{//  pCompressedData}}
+\DoxyCodeLine{1057 \textcolor{comment}{//      Compressed animation SRT data}}
+\DoxyCodeLine{1058 \textcolor{comment}{//  NumCallbackKeys}}
+\DoxyCodeLine{1059 \textcolor{comment}{//      Number of callback keys}}
+\DoxyCodeLine{1060 \textcolor{comment}{//  pCallbackKeys}}
+\DoxyCodeLine{1061 \textcolor{comment}{//      Array of callback keys}}
+\DoxyCodeLine{1062 \textcolor{comment}{//  ppAnimationSet}}
+\DoxyCodeLine{1063 \textcolor{comment}{//      Returns the animation set interface}}
+\DoxyCodeLine{1064 \textcolor{comment}{// }}
+\DoxyCodeLine{1065 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/     }}
+\DoxyCodeLine{1066 HRESULT WINAPI}
+\DoxyCodeLine{1067 D3DXCreateCompressedAnimationSet}
+\DoxyCodeLine{1068     (}
+\DoxyCodeLine{1069     LPCSTR pName,                               }
+\DoxyCodeLine{1070     DOUBLE TicksPerSecond,}
+\DoxyCodeLine{1071     D3DXPLAYBACK\_TYPE Playback,}
+\DoxyCodeLine{1072     LPD3DXBUFFER pCompressedData,                         }
+\DoxyCodeLine{1073     UINT NumCallbackKeys,                       }
+\DoxyCodeLine{1074     CONST \mbox{\hyperlink{struct___d3_d_x_k_e_y___c_a_l_l_b_a_c_k}{D3DXKEY\_CALLBACK}} *pCallbackKeys,           }
+\DoxyCodeLine{1075     LPD3DXCOMPRESSEDANIMATIONSET *ppAnimationSet }
+\DoxyCodeLine{1076     );}
+\DoxyCodeLine{1077 }
+\DoxyCodeLine{1078 }
+\DoxyCodeLine{1079 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1080 \textcolor{comment}{// D3DXCreateAnimationController:}}
+\DoxyCodeLine{1081 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1082 \textcolor{comment}{// This function creates an animation controller object.}}
+\DoxyCodeLine{1083 \textcolor{comment}{//}}
+\DoxyCodeLine{1084 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{1085 \textcolor{comment}{//  MaxNumMatrices}}
+\DoxyCodeLine{1086 \textcolor{comment}{//      Maximum number of matrices that can be animated}}
+\DoxyCodeLine{1087 \textcolor{comment}{//  MaxNumAnimationSets}}
+\DoxyCodeLine{1088 \textcolor{comment}{//      Maximum number of animation sets that can be played}}
+\DoxyCodeLine{1089 \textcolor{comment}{//  MaxNumTracks}}
+\DoxyCodeLine{1090 \textcolor{comment}{//      Maximum number of animation sets that can be blended}}
+\DoxyCodeLine{1091 \textcolor{comment}{//  MaxNumEvents}}
+\DoxyCodeLine{1092 \textcolor{comment}{//      Maximum number of outstanding events that can be scheduled at any given time}}
+\DoxyCodeLine{1093 \textcolor{comment}{//  ppAnimController}}
+\DoxyCodeLine{1094 \textcolor{comment}{//      Returns the animation controller interface}}
+\DoxyCodeLine{1095 \textcolor{comment}{//}}
+\DoxyCodeLine{1096 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/     }}
+\DoxyCodeLine{1097 HRESULT WINAPI}
+\DoxyCodeLine{1098 D3DXCreateAnimationController}
+\DoxyCodeLine{1099     (}
+\DoxyCodeLine{1100     UINT MaxNumMatrices,                       }
+\DoxyCodeLine{1101     UINT MaxNumAnimationSets,                  }
+\DoxyCodeLine{1102     UINT MaxNumTracks,                         }
+\DoxyCodeLine{1103     UINT MaxNumEvents,                         }
+\DoxyCodeLine{1104     LPD3DXANIMATIONCONTROLLER *ppAnimController}
+\DoxyCodeLine{1105     );}
+\DoxyCodeLine{1106 }
+\DoxyCodeLine{1107 }
+\DoxyCodeLine{1108 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{1109 \}}
+\DoxyCodeLine{1110 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{1111 }
+\DoxyCodeLine{1112 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_D3DX9ANIM\_H\_\_}}
+\DoxyCodeLine{1113 }
+\DoxyCodeLine{1114 }
+
+\end{DoxyCode}

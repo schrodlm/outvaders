@@ -1,0 +1,370 @@
+\hypertarget{d3d8caps_8h_source}{}\doxysection{d3d8caps.\+h}
+\label{d3d8caps_8h_source}\index{src/lib/dx/Include/d3d8caps.h@{src/lib/dx/Include/d3d8caps.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*==========================================================================;}}
+\DoxyCodeLine{2 \textcolor{comment}{ *}}
+\DoxyCodeLine{3 \textcolor{comment}{ *  Copyright (C) Microsoft Corporation.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{ *}}
+\DoxyCodeLine{5 \textcolor{comment}{ *  File:       d3d8caps.h}}
+\DoxyCodeLine{6 \textcolor{comment}{ *  Content:    Direct3D capabilities include file}}
+\DoxyCodeLine{7 \textcolor{comment}{ *}}
+\DoxyCodeLine{8 \textcolor{comment}{ ***************************************************************************/}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#ifndef \_D3D8CAPS\_H}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define \_D3D8CAPS\_H}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#ifndef DIRECT3D\_VERSION}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#define DIRECT3D\_VERSION         0x0800}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{//DIRECT3D\_VERSION}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{comment}{// include this file content only if compiling for DX8 interfaces}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0800)}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#if defined(\_X86\_) || defined(\_IA64\_)}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#pragma pack(4)}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_c_a_p_s8}{\_D3DCAPS8}}}
+\DoxyCodeLine{25 \{}
+\DoxyCodeLine{26     \textcolor{comment}{/* Device Info */}}
+\DoxyCodeLine{27     D3DDEVTYPE  DeviceType;}
+\DoxyCodeLine{28     UINT    AdapterOrdinal;}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30     \textcolor{comment}{/* Caps from DX7 Draw */}}
+\DoxyCodeLine{31     DWORD   Caps;}
+\DoxyCodeLine{32     DWORD   Caps2;}
+\DoxyCodeLine{33     DWORD   Caps3;}
+\DoxyCodeLine{34     DWORD   PresentationIntervals;}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36     \textcolor{comment}{/* Cursor Caps */}}
+\DoxyCodeLine{37     DWORD   CursorCaps;}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39     \textcolor{comment}{/* 3D Device Caps */}}
+\DoxyCodeLine{40     DWORD   DevCaps;}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42     DWORD   PrimitiveMiscCaps;}
+\DoxyCodeLine{43     DWORD   RasterCaps;}
+\DoxyCodeLine{44     DWORD   ZCmpCaps;}
+\DoxyCodeLine{45     DWORD   SrcBlendCaps;}
+\DoxyCodeLine{46     DWORD   DestBlendCaps;}
+\DoxyCodeLine{47     DWORD   AlphaCmpCaps;}
+\DoxyCodeLine{48     DWORD   ShadeCaps;}
+\DoxyCodeLine{49     DWORD   TextureCaps;}
+\DoxyCodeLine{50     DWORD   TextureFilterCaps;          \textcolor{comment}{// D3DPTFILTERCAPS for IDirect3DTexture8's}}
+\DoxyCodeLine{51     DWORD   CubeTextureFilterCaps;      \textcolor{comment}{// D3DPTFILTERCAPS for IDirect3DCubeTexture8's}}
+\DoxyCodeLine{52     DWORD   VolumeTextureFilterCaps;    \textcolor{comment}{// D3DPTFILTERCAPS for IDirect3DVolumeTexture8's}}
+\DoxyCodeLine{53     DWORD   TextureAddressCaps;         \textcolor{comment}{// D3DPTADDRESSCAPS for IDirect3DTexture8's}}
+\DoxyCodeLine{54     DWORD   VolumeTextureAddressCaps;   \textcolor{comment}{// D3DPTADDRESSCAPS for IDirect3DVolumeTexture8's}}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56     DWORD   LineCaps;                   \textcolor{comment}{// D3DLINECAPS}}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58     DWORD   MaxTextureWidth, MaxTextureHeight;}
+\DoxyCodeLine{59     DWORD   MaxVolumeExtent;}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61     DWORD   MaxTextureRepeat;}
+\DoxyCodeLine{62     DWORD   MaxTextureAspectRatio;}
+\DoxyCodeLine{63     DWORD   MaxAnisotropy;}
+\DoxyCodeLine{64     \textcolor{keywordtype}{float}   MaxVertexW;}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66     \textcolor{keywordtype}{float}   GuardBandLeft;}
+\DoxyCodeLine{67     \textcolor{keywordtype}{float}   GuardBandTop;}
+\DoxyCodeLine{68     \textcolor{keywordtype}{float}   GuardBandRight;}
+\DoxyCodeLine{69     \textcolor{keywordtype}{float}   GuardBandBottom;}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{71     \textcolor{keywordtype}{float}   ExtentsAdjust;}
+\DoxyCodeLine{72     DWORD   StencilCaps;}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74     DWORD   FVFCaps;}
+\DoxyCodeLine{75     DWORD   TextureOpCaps;}
+\DoxyCodeLine{76     DWORD   MaxTextureBlendStages;}
+\DoxyCodeLine{77     DWORD   MaxSimultaneousTextures;}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79     DWORD   VertexProcessingCaps;}
+\DoxyCodeLine{80     DWORD   MaxActiveLights;}
+\DoxyCodeLine{81     DWORD   MaxUserClipPlanes;}
+\DoxyCodeLine{82     DWORD   MaxVertexBlendMatrices;}
+\DoxyCodeLine{83     DWORD   MaxVertexBlendMatrixIndex;}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85     \textcolor{keywordtype}{float}   MaxPointSize;}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87     DWORD   MaxPrimitiveCount;          \textcolor{comment}{// max number of primitives per DrawPrimitive call}}
+\DoxyCodeLine{88     DWORD   MaxVertexIndex;}
+\DoxyCodeLine{89     DWORD   MaxStreams;}
+\DoxyCodeLine{90     DWORD   MaxStreamStride;            \textcolor{comment}{// max stride for SetStreamSource}}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{92     DWORD   VertexShaderVersion;}
+\DoxyCodeLine{93     DWORD   MaxVertexShaderConst;       \textcolor{comment}{// number of vertex shader constant registers}}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{95     DWORD   PixelShaderVersion;}
+\DoxyCodeLine{96     \textcolor{keywordtype}{float}   MaxPixelShaderValue;        \textcolor{comment}{// max value of pixel shader arithmetic component}}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{98 \} \mbox{\hyperlink{struct___d3_d_c_a_p_s8}{D3DCAPS8}};}
+\DoxyCodeLine{99 }
+\DoxyCodeLine{100 \textcolor{comment}{//}}
+\DoxyCodeLine{101 \textcolor{comment}{// BIT DEFINES FOR D3DCAPS8 DWORD MEMBERS}}
+\DoxyCodeLine{102 \textcolor{comment}{//}}
+\DoxyCodeLine{103 }
+\DoxyCodeLine{104 \textcolor{comment}{//}}
+\DoxyCodeLine{105 \textcolor{comment}{// Caps}}
+\DoxyCodeLine{106 \textcolor{comment}{//}}
+\DoxyCodeLine{107 \textcolor{preprocessor}{\#define D3DCAPS\_READ\_SCANLINE           0x00020000L}}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{109 \textcolor{comment}{//}}
+\DoxyCodeLine{110 \textcolor{comment}{// Caps2}}
+\DoxyCodeLine{111 \textcolor{comment}{//}}
+\DoxyCodeLine{112 \textcolor{preprocessor}{\#define D3DCAPS2\_NO2DDURING3DSCENE      0x00000002L}}
+\DoxyCodeLine{113 \textcolor{preprocessor}{\#define D3DCAPS2\_FULLSCREENGAMMA        0x00020000L}}
+\DoxyCodeLine{114 \textcolor{preprocessor}{\#define D3DCAPS2\_CANRENDERWINDOWED      0x00080000L}}
+\DoxyCodeLine{115 \textcolor{preprocessor}{\#define D3DCAPS2\_CANCALIBRATEGAMMA      0x00100000L}}
+\DoxyCodeLine{116 \textcolor{preprocessor}{\#define D3DCAPS2\_RESERVED               0x02000000L}}
+\DoxyCodeLine{117 \textcolor{preprocessor}{\#define D3DCAPS2\_CANMANAGERESOURCE      0x10000000L}}
+\DoxyCodeLine{118 \textcolor{preprocessor}{\#define D3DCAPS2\_DYNAMICTEXTURES        0x20000000L}}
+\DoxyCodeLine{119 }
+\DoxyCodeLine{120 \textcolor{comment}{//}}
+\DoxyCodeLine{121 \textcolor{comment}{// Caps3}}
+\DoxyCodeLine{122 \textcolor{comment}{//}}
+\DoxyCodeLine{123 \textcolor{preprocessor}{\#define D3DCAPS3\_RESERVED               0x8000001fL}}
+\DoxyCodeLine{124 }
+\DoxyCodeLine{125 \textcolor{comment}{// Indicates that the device can respect the ALPHABLENDENABLE render state}}
+\DoxyCodeLine{126 \textcolor{comment}{// when fullscreen while using the FLIP or DISCARD swap effect.}}
+\DoxyCodeLine{127 \textcolor{comment}{// COPY and COPYVSYNC swap effects work whether or not this flag is set.}}
+\DoxyCodeLine{128 \textcolor{preprocessor}{\#define D3DCAPS3\_ALPHA\_FULLSCREEN\_FLIP\_OR\_DISCARD   0x00000020L}}
+\DoxyCodeLine{129 }
+\DoxyCodeLine{130 \textcolor{comment}{//}}
+\DoxyCodeLine{131 \textcolor{comment}{// PresentationIntervals}}
+\DoxyCodeLine{132 \textcolor{comment}{//}}
+\DoxyCodeLine{133 \textcolor{preprocessor}{\#define D3DPRESENT\_INTERVAL\_DEFAULT     0x00000000L}}
+\DoxyCodeLine{134 \textcolor{preprocessor}{\#define D3DPRESENT\_INTERVAL\_ONE         0x00000001L}}
+\DoxyCodeLine{135 \textcolor{preprocessor}{\#define D3DPRESENT\_INTERVAL\_TWO         0x00000002L}}
+\DoxyCodeLine{136 \textcolor{preprocessor}{\#define D3DPRESENT\_INTERVAL\_THREE       0x00000004L}}
+\DoxyCodeLine{137 \textcolor{preprocessor}{\#define D3DPRESENT\_INTERVAL\_FOUR        0x00000008L}}
+\DoxyCodeLine{138 \textcolor{preprocessor}{\#define D3DPRESENT\_INTERVAL\_IMMEDIATE   0x80000000L}}
+\DoxyCodeLine{139 }
+\DoxyCodeLine{140 \textcolor{comment}{//}}
+\DoxyCodeLine{141 \textcolor{comment}{// CursorCaps}}
+\DoxyCodeLine{142 \textcolor{comment}{//}}
+\DoxyCodeLine{143 \textcolor{comment}{// Driver supports HW color cursor in at least hi-\/res modes(height >=400)}}
+\DoxyCodeLine{144 \textcolor{preprocessor}{\#define D3DCURSORCAPS\_COLOR             0x00000001L}}
+\DoxyCodeLine{145 \textcolor{comment}{// Driver supports HW cursor also in low-\/res modes(height < 400)}}
+\DoxyCodeLine{146 \textcolor{preprocessor}{\#define D3DCURSORCAPS\_LOWRES            0x00000002L}}
+\DoxyCodeLine{147 }
+\DoxyCodeLine{148 \textcolor{comment}{//}}
+\DoxyCodeLine{149 \textcolor{comment}{// DevCaps}}
+\DoxyCodeLine{150 \textcolor{comment}{//}}
+\DoxyCodeLine{151 \textcolor{preprocessor}{\#define D3DDEVCAPS\_EXECUTESYSTEMMEMORY  0x00000010L }\textcolor{comment}{/* Device can use execute buffers from system memory */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{152 \textcolor{preprocessor}{\#define D3DDEVCAPS\_EXECUTEVIDEOMEMORY   0x00000020L }\textcolor{comment}{/* Device can use execute buffers from video memory */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{153 \textcolor{preprocessor}{\#define D3DDEVCAPS\_TLVERTEXSYSTEMMEMORY 0x00000040L }\textcolor{comment}{/* Device can use TL buffers from system memory */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{154 \textcolor{preprocessor}{\#define D3DDEVCAPS\_TLVERTEXVIDEOMEMORY  0x00000080L }\textcolor{comment}{/* Device can use TL buffers from video memory */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{155 \textcolor{preprocessor}{\#define D3DDEVCAPS\_TEXTURESYSTEMMEMORY  0x00000100L }\textcolor{comment}{/* Device can texture from system memory */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{156 \textcolor{preprocessor}{\#define D3DDEVCAPS\_TEXTUREVIDEOMEMORY   0x00000200L }\textcolor{comment}{/* Device can texture from device memory */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{157 \textcolor{preprocessor}{\#define D3DDEVCAPS\_DRAWPRIMTLVERTEX     0x00000400L }\textcolor{comment}{/* Device can draw TLVERTEX primitives */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{158 \textcolor{preprocessor}{\#define D3DDEVCAPS\_CANRENDERAFTERFLIP   0x00000800L }\textcolor{comment}{/* Device can render without waiting for flip to complete */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{159 \textcolor{preprocessor}{\#define D3DDEVCAPS\_TEXTURENONLOCALVIDMEM 0x00001000L }\textcolor{comment}{/* Device can texture from nonlocal video memory */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{160 \textcolor{preprocessor}{\#define D3DDEVCAPS\_DRAWPRIMITIVES2      0x00002000L }\textcolor{comment}{/* Device can support DrawPrimitives2 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{161 \textcolor{preprocessor}{\#define D3DDEVCAPS\_SEPARATETEXTUREMEMORIES 0x00004000L }\textcolor{comment}{/* Device is texturing from separate memory pools */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{162 \textcolor{preprocessor}{\#define D3DDEVCAPS\_DRAWPRIMITIVES2EX    0x00008000L }\textcolor{comment}{/* Device can support Extended DrawPrimitives2 i.e. DX7 compliant driver*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{163 \textcolor{preprocessor}{\#define D3DDEVCAPS\_HWTRANSFORMANDLIGHT  0x00010000L }\textcolor{comment}{/* Device can support transformation and lighting in hardware and DRAWPRIMITIVES2EX must be also */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{164 \textcolor{preprocessor}{\#define D3DDEVCAPS\_CANBLTSYSTONONLOCAL  0x00020000L }\textcolor{comment}{/* Device supports a Tex Blt from system memory to non-\/local vidmem */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{165 \textcolor{preprocessor}{\#define D3DDEVCAPS\_HWRASTERIZATION      0x00080000L }\textcolor{comment}{/* Device has HW acceleration for rasterization */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{166 \textcolor{preprocessor}{\#define D3DDEVCAPS\_PUREDEVICE           0x00100000L }\textcolor{comment}{/* Device supports D3DCREATE\_PUREDEVICE */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{167 \textcolor{preprocessor}{\#define D3DDEVCAPS\_QUINTICRTPATCHES     0x00200000L }\textcolor{comment}{/* Device supports quintic Beziers and BSplines */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{168 \textcolor{preprocessor}{\#define D3DDEVCAPS\_RTPATCHES            0x00400000L }\textcolor{comment}{/* Device supports Rect and Tri patches */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{169 \textcolor{preprocessor}{\#define D3DDEVCAPS\_RTPATCHHANDLEZERO    0x00800000L }\textcolor{comment}{/* Indicates that RT Patches may be drawn efficiently using handle 0 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{170 \textcolor{preprocessor}{\#define D3DDEVCAPS\_NPATCHES             0x01000000L }\textcolor{comment}{/* Device supports N-\/Patches */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{171 }
+\DoxyCodeLine{172 \textcolor{comment}{//}}
+\DoxyCodeLine{173 \textcolor{comment}{// PrimitiveMiscCaps}}
+\DoxyCodeLine{174 \textcolor{comment}{//}}
+\DoxyCodeLine{175 \textcolor{preprocessor}{\#define D3DPMISCCAPS\_MASKZ              0x00000002L}}
+\DoxyCodeLine{176 \textcolor{preprocessor}{\#define D3DPMISCCAPS\_LINEPATTERNREP     0x00000004L}}
+\DoxyCodeLine{177 \textcolor{preprocessor}{\#define D3DPMISCCAPS\_CULLNONE           0x00000010L}}
+\DoxyCodeLine{178 \textcolor{preprocessor}{\#define D3DPMISCCAPS\_CULLCW             0x00000020L}}
+\DoxyCodeLine{179 \textcolor{preprocessor}{\#define D3DPMISCCAPS\_CULLCCW            0x00000040L}}
+\DoxyCodeLine{180 \textcolor{preprocessor}{\#define D3DPMISCCAPS\_COLORWRITEENABLE   0x00000080L}}
+\DoxyCodeLine{181 \textcolor{preprocessor}{\#define D3DPMISCCAPS\_CLIPPLANESCALEDPOINTS 0x00000100L }\textcolor{comment}{/* Device correctly clips scaled points to clip planes */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{182 \textcolor{preprocessor}{\#define D3DPMISCCAPS\_CLIPTLVERTS        0x00000200L }\textcolor{comment}{/* device will clip post-\/transformed vertex primitives */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{183 \textcolor{preprocessor}{\#define D3DPMISCCAPS\_TSSARGTEMP         0x00000400L }\textcolor{comment}{/* device supports D3DTA\_TEMP for temporary register */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{184 \textcolor{preprocessor}{\#define D3DPMISCCAPS\_BLENDOP            0x00000800L }\textcolor{comment}{/* device supports D3DRS\_BLENDOP */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{185 \textcolor{preprocessor}{\#define D3DPMISCCAPS\_NULLREFERENCE      0x00001000L }\textcolor{comment}{/* Reference Device that doesnt render */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{186 }
+\DoxyCodeLine{187 \textcolor{comment}{//}}
+\DoxyCodeLine{188 \textcolor{comment}{// LineCaps}}
+\DoxyCodeLine{189 \textcolor{comment}{//}}
+\DoxyCodeLine{190 \textcolor{preprocessor}{\#define D3DLINECAPS\_TEXTURE             0x00000001L}}
+\DoxyCodeLine{191 \textcolor{preprocessor}{\#define D3DLINECAPS\_ZTEST               0x00000002L}}
+\DoxyCodeLine{192 \textcolor{preprocessor}{\#define D3DLINECAPS\_BLEND               0x00000004L}}
+\DoxyCodeLine{193 \textcolor{preprocessor}{\#define D3DLINECAPS\_ALPHACMP            0x00000008L}}
+\DoxyCodeLine{194 \textcolor{preprocessor}{\#define D3DLINECAPS\_FOG                 0x00000010L}}
+\DoxyCodeLine{195 }
+\DoxyCodeLine{196 \textcolor{comment}{//}}
+\DoxyCodeLine{197 \textcolor{comment}{// RasterCaps}}
+\DoxyCodeLine{198 \textcolor{comment}{//}}
+\DoxyCodeLine{199 \textcolor{preprocessor}{\#define D3DPRASTERCAPS\_DITHER           0x00000001L}}
+\DoxyCodeLine{200 \textcolor{preprocessor}{\#define D3DPRASTERCAPS\_PAT              0x00000008L}}
+\DoxyCodeLine{201 \textcolor{preprocessor}{\#define D3DPRASTERCAPS\_ZTEST            0x00000010L}}
+\DoxyCodeLine{202 \textcolor{preprocessor}{\#define D3DPRASTERCAPS\_FOGVERTEX        0x00000080L}}
+\DoxyCodeLine{203 \textcolor{preprocessor}{\#define D3DPRASTERCAPS\_FOGTABLE         0x00000100L}}
+\DoxyCodeLine{204 \textcolor{preprocessor}{\#define D3DPRASTERCAPS\_ANTIALIASEDGES   0x00001000L}}
+\DoxyCodeLine{205 \textcolor{preprocessor}{\#define D3DPRASTERCAPS\_MIPMAPLODBIAS    0x00002000L}}
+\DoxyCodeLine{206 \textcolor{preprocessor}{\#define D3DPRASTERCAPS\_ZBIAS            0x00004000L}}
+\DoxyCodeLine{207 \textcolor{preprocessor}{\#define D3DPRASTERCAPS\_ZBUFFERLESSHSR   0x00008000L}}
+\DoxyCodeLine{208 \textcolor{preprocessor}{\#define D3DPRASTERCAPS\_FOGRANGE         0x00010000L}}
+\DoxyCodeLine{209 \textcolor{preprocessor}{\#define D3DPRASTERCAPS\_ANISOTROPY       0x00020000L}}
+\DoxyCodeLine{210 \textcolor{preprocessor}{\#define D3DPRASTERCAPS\_WBUFFER          0x00040000L}}
+\DoxyCodeLine{211 \textcolor{preprocessor}{\#define D3DPRASTERCAPS\_WFOG             0x00100000L}}
+\DoxyCodeLine{212 \textcolor{preprocessor}{\#define D3DPRASTERCAPS\_ZFOG             0x00200000L}}
+\DoxyCodeLine{213 \textcolor{preprocessor}{\#define D3DPRASTERCAPS\_COLORPERSPECTIVE 0x00400000L }\textcolor{comment}{/* Device iterates colors perspective correct */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{214 \textcolor{preprocessor}{\#define D3DPRASTERCAPS\_STRETCHBLTMULTISAMPLE  0x00800000L}}
+\DoxyCodeLine{215 }
+\DoxyCodeLine{216 \textcolor{comment}{//}}
+\DoxyCodeLine{217 \textcolor{comment}{// ZCmpCaps, AlphaCmpCaps}}
+\DoxyCodeLine{218 \textcolor{comment}{//}}
+\DoxyCodeLine{219 \textcolor{preprocessor}{\#define D3DPCMPCAPS\_NEVER               0x00000001L}}
+\DoxyCodeLine{220 \textcolor{preprocessor}{\#define D3DPCMPCAPS\_LESS                0x00000002L}}
+\DoxyCodeLine{221 \textcolor{preprocessor}{\#define D3DPCMPCAPS\_EQUAL               0x00000004L}}
+\DoxyCodeLine{222 \textcolor{preprocessor}{\#define D3DPCMPCAPS\_LESSEQUAL           0x00000008L}}
+\DoxyCodeLine{223 \textcolor{preprocessor}{\#define D3DPCMPCAPS\_GREATER             0x00000010L}}
+\DoxyCodeLine{224 \textcolor{preprocessor}{\#define D3DPCMPCAPS\_NOTEQUAL            0x00000020L}}
+\DoxyCodeLine{225 \textcolor{preprocessor}{\#define D3DPCMPCAPS\_GREATEREQUAL        0x00000040L}}
+\DoxyCodeLine{226 \textcolor{preprocessor}{\#define D3DPCMPCAPS\_ALWAYS              0x00000080L}}
+\DoxyCodeLine{227 }
+\DoxyCodeLine{228 \textcolor{comment}{//}}
+\DoxyCodeLine{229 \textcolor{comment}{// SourceBlendCaps, DestBlendCaps}}
+\DoxyCodeLine{230 \textcolor{comment}{//}}
+\DoxyCodeLine{231 \textcolor{preprocessor}{\#define D3DPBLENDCAPS\_ZERO              0x00000001L}}
+\DoxyCodeLine{232 \textcolor{preprocessor}{\#define D3DPBLENDCAPS\_ONE               0x00000002L}}
+\DoxyCodeLine{233 \textcolor{preprocessor}{\#define D3DPBLENDCAPS\_SRCCOLOR          0x00000004L}}
+\DoxyCodeLine{234 \textcolor{preprocessor}{\#define D3DPBLENDCAPS\_INVSRCCOLOR       0x00000008L}}
+\DoxyCodeLine{235 \textcolor{preprocessor}{\#define D3DPBLENDCAPS\_SRCALPHA          0x00000010L}}
+\DoxyCodeLine{236 \textcolor{preprocessor}{\#define D3DPBLENDCAPS\_INVSRCALPHA       0x00000020L}}
+\DoxyCodeLine{237 \textcolor{preprocessor}{\#define D3DPBLENDCAPS\_DESTALPHA         0x00000040L}}
+\DoxyCodeLine{238 \textcolor{preprocessor}{\#define D3DPBLENDCAPS\_INVDESTALPHA      0x00000080L}}
+\DoxyCodeLine{239 \textcolor{preprocessor}{\#define D3DPBLENDCAPS\_DESTCOLOR         0x00000100L}}
+\DoxyCodeLine{240 \textcolor{preprocessor}{\#define D3DPBLENDCAPS\_INVDESTCOLOR      0x00000200L}}
+\DoxyCodeLine{241 \textcolor{preprocessor}{\#define D3DPBLENDCAPS\_SRCALPHASAT       0x00000400L}}
+\DoxyCodeLine{242 \textcolor{preprocessor}{\#define D3DPBLENDCAPS\_BOTHSRCALPHA      0x00000800L}}
+\DoxyCodeLine{243 \textcolor{preprocessor}{\#define D3DPBLENDCAPS\_BOTHINVSRCALPHA   0x00001000L}}
+\DoxyCodeLine{244 }
+\DoxyCodeLine{245 \textcolor{comment}{//}}
+\DoxyCodeLine{246 \textcolor{comment}{// ShadeCaps}}
+\DoxyCodeLine{247 \textcolor{comment}{//}}
+\DoxyCodeLine{248 \textcolor{preprocessor}{\#define D3DPSHADECAPS\_COLORGOURAUDRGB       0x00000008L}}
+\DoxyCodeLine{249 \textcolor{preprocessor}{\#define D3DPSHADECAPS\_SPECULARGOURAUDRGB    0x00000200L}}
+\DoxyCodeLine{250 \textcolor{preprocessor}{\#define D3DPSHADECAPS\_ALPHAGOURAUDBLEND     0x00004000L}}
+\DoxyCodeLine{251 \textcolor{preprocessor}{\#define D3DPSHADECAPS\_FOGGOURAUD            0x00080000L}}
+\DoxyCodeLine{252 }
+\DoxyCodeLine{253 \textcolor{comment}{//}}
+\DoxyCodeLine{254 \textcolor{comment}{// TextureCaps}}
+\DoxyCodeLine{255 \textcolor{comment}{//}}
+\DoxyCodeLine{256 \textcolor{preprocessor}{\#define D3DPTEXTURECAPS\_PERSPECTIVE         0x00000001L }\textcolor{comment}{/* Perspective-\/correct texturing is supported */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{257 \textcolor{preprocessor}{\#define D3DPTEXTURECAPS\_POW2                0x00000002L }\textcolor{comment}{/* Power-\/of-\/2 texture dimensions are required -\/ applies to non-\/Cube/Volume textures only. */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{258 \textcolor{preprocessor}{\#define D3DPTEXTURECAPS\_ALPHA               0x00000004L }\textcolor{comment}{/* Alpha in texture pixels is supported */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{259 \textcolor{preprocessor}{\#define D3DPTEXTURECAPS\_SQUAREONLY          0x00000020L }\textcolor{comment}{/* Only square textures are supported */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{260 \textcolor{preprocessor}{\#define D3DPTEXTURECAPS\_TEXREPEATNOTSCALEDBYSIZE 0x00000040L }\textcolor{comment}{/* Texture indices are not scaled by the texture size prior to interpolation */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{261 \textcolor{preprocessor}{\#define D3DPTEXTURECAPS\_ALPHAPALETTE        0x00000080L }\textcolor{comment}{/* Device can draw alpha from texture palettes */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{262 \textcolor{comment}{// Device can use non-\/POW2 textures if:}}
+\DoxyCodeLine{263 \textcolor{comment}{//  1) D3DTEXTURE\_ADDRESS is set to CLAMP for this texture's stage}}
+\DoxyCodeLine{264 \textcolor{comment}{//  2) D3DRS\_WRAP(N) is zero for this texture's coordinates}}
+\DoxyCodeLine{265 \textcolor{comment}{//  3) mip mapping is not enabled (use magnification filter only)}}
+\DoxyCodeLine{266 \textcolor{preprocessor}{\#define D3DPTEXTURECAPS\_NONPOW2CONDITIONAL  0x00000100L}}
+\DoxyCodeLine{267 \textcolor{preprocessor}{\#define D3DPTEXTURECAPS\_PROJECTED           0x00000400L }\textcolor{comment}{/* Device can do D3DTTFF\_PROJECTED */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{268 \textcolor{preprocessor}{\#define D3DPTEXTURECAPS\_CUBEMAP             0x00000800L }\textcolor{comment}{/* Device can do cubemap textures */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{269 \textcolor{preprocessor}{\#define D3DPTEXTURECAPS\_VOLUMEMAP           0x00002000L }\textcolor{comment}{/* Device can do volume textures */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{270 \textcolor{preprocessor}{\#define D3DPTEXTURECAPS\_MIPMAP              0x00004000L }\textcolor{comment}{/* Device can do mipmapped textures */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{271 \textcolor{preprocessor}{\#define D3DPTEXTURECAPS\_MIPVOLUMEMAP        0x00008000L }\textcolor{comment}{/* Device can do mipmapped volume textures */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{272 \textcolor{preprocessor}{\#define D3DPTEXTURECAPS\_MIPCUBEMAP          0x00010000L }\textcolor{comment}{/* Device can do mipmapped cube maps */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{273 \textcolor{preprocessor}{\#define D3DPTEXTURECAPS\_CUBEMAP\_POW2        0x00020000L }\textcolor{comment}{/* Device requires that cubemaps be power-\/of-\/2 dimension */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{274 \textcolor{preprocessor}{\#define D3DPTEXTURECAPS\_VOLUMEMAP\_POW2      0x00040000L }\textcolor{comment}{/* Device requires that volume maps be power-\/of-\/2 dimension */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{275 }
+\DoxyCodeLine{276 \textcolor{comment}{//}}
+\DoxyCodeLine{277 \textcolor{comment}{// TextureFilterCaps}}
+\DoxyCodeLine{278 \textcolor{comment}{//}}
+\DoxyCodeLine{279 \textcolor{preprocessor}{\#define D3DPTFILTERCAPS\_MINFPOINT           0x00000100L }\textcolor{comment}{/* Min Filter */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{280 \textcolor{preprocessor}{\#define D3DPTFILTERCAPS\_MINFLINEAR          0x00000200L}}
+\DoxyCodeLine{281 \textcolor{preprocessor}{\#define D3DPTFILTERCAPS\_MINFANISOTROPIC     0x00000400L}}
+\DoxyCodeLine{282 \textcolor{preprocessor}{\#define D3DPTFILTERCAPS\_MIPFPOINT           0x00010000L }\textcolor{comment}{/* Mip Filter */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{283 \textcolor{preprocessor}{\#define D3DPTFILTERCAPS\_MIPFLINEAR          0x00020000L}}
+\DoxyCodeLine{284 \textcolor{preprocessor}{\#define D3DPTFILTERCAPS\_MAGFPOINT           0x01000000L }\textcolor{comment}{/* Mag Filter */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{285 \textcolor{preprocessor}{\#define D3DPTFILTERCAPS\_MAGFLINEAR          0x02000000L}}
+\DoxyCodeLine{286 \textcolor{preprocessor}{\#define D3DPTFILTERCAPS\_MAGFANISOTROPIC     0x04000000L}}
+\DoxyCodeLine{287 \textcolor{preprocessor}{\#define D3DPTFILTERCAPS\_MAGFAFLATCUBIC      0x08000000L}}
+\DoxyCodeLine{288 \textcolor{preprocessor}{\#define D3DPTFILTERCAPS\_MAGFGAUSSIANCUBIC   0x10000000L}}
+\DoxyCodeLine{289 }
+\DoxyCodeLine{290 \textcolor{comment}{//}}
+\DoxyCodeLine{291 \textcolor{comment}{// TextureAddressCaps}}
+\DoxyCodeLine{292 \textcolor{comment}{//}}
+\DoxyCodeLine{293 \textcolor{preprocessor}{\#define D3DPTADDRESSCAPS\_WRAP           0x00000001L}}
+\DoxyCodeLine{294 \textcolor{preprocessor}{\#define D3DPTADDRESSCAPS\_MIRROR         0x00000002L}}
+\DoxyCodeLine{295 \textcolor{preprocessor}{\#define D3DPTADDRESSCAPS\_CLAMP          0x00000004L}}
+\DoxyCodeLine{296 \textcolor{preprocessor}{\#define D3DPTADDRESSCAPS\_BORDER         0x00000008L}}
+\DoxyCodeLine{297 \textcolor{preprocessor}{\#define D3DPTADDRESSCAPS\_INDEPENDENTUV  0x00000010L}}
+\DoxyCodeLine{298 \textcolor{preprocessor}{\#define D3DPTADDRESSCAPS\_MIRRORONCE     0x00000020L}}
+\DoxyCodeLine{299 }
+\DoxyCodeLine{300 \textcolor{comment}{//}}
+\DoxyCodeLine{301 \textcolor{comment}{// StencilCaps}}
+\DoxyCodeLine{302 \textcolor{comment}{//}}
+\DoxyCodeLine{303 \textcolor{preprocessor}{\#define D3DSTENCILCAPS\_KEEP             0x00000001L}}
+\DoxyCodeLine{304 \textcolor{preprocessor}{\#define D3DSTENCILCAPS\_ZERO             0x00000002L}}
+\DoxyCodeLine{305 \textcolor{preprocessor}{\#define D3DSTENCILCAPS\_REPLACE          0x00000004L}}
+\DoxyCodeLine{306 \textcolor{preprocessor}{\#define D3DSTENCILCAPS\_INCRSAT          0x00000008L}}
+\DoxyCodeLine{307 \textcolor{preprocessor}{\#define D3DSTENCILCAPS\_DECRSAT          0x00000010L}}
+\DoxyCodeLine{308 \textcolor{preprocessor}{\#define D3DSTENCILCAPS\_INVERT           0x00000020L}}
+\DoxyCodeLine{309 \textcolor{preprocessor}{\#define D3DSTENCILCAPS\_INCR             0x00000040L}}
+\DoxyCodeLine{310 \textcolor{preprocessor}{\#define D3DSTENCILCAPS\_DECR             0x00000080L}}
+\DoxyCodeLine{311 }
+\DoxyCodeLine{312 \textcolor{comment}{//}}
+\DoxyCodeLine{313 \textcolor{comment}{// TextureOpCaps}}
+\DoxyCodeLine{314 \textcolor{comment}{//}}
+\DoxyCodeLine{315 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_DISABLE                    0x00000001L}}
+\DoxyCodeLine{316 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_SELECTARG1                 0x00000002L}}
+\DoxyCodeLine{317 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_SELECTARG2                 0x00000004L}}
+\DoxyCodeLine{318 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_MODULATE                   0x00000008L}}
+\DoxyCodeLine{319 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_MODULATE2X                 0x00000010L}}
+\DoxyCodeLine{320 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_MODULATE4X                 0x00000020L}}
+\DoxyCodeLine{321 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_ADD                        0x00000040L}}
+\DoxyCodeLine{322 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_ADDSIGNED                  0x00000080L}}
+\DoxyCodeLine{323 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_ADDSIGNED2X                0x00000100L}}
+\DoxyCodeLine{324 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_SUBTRACT                   0x00000200L}}
+\DoxyCodeLine{325 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_ADDSMOOTH                  0x00000400L}}
+\DoxyCodeLine{326 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_BLENDDIFFUSEALPHA          0x00000800L}}
+\DoxyCodeLine{327 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_BLENDTEXTUREALPHA          0x00001000L}}
+\DoxyCodeLine{328 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_BLENDFACTORALPHA           0x00002000L}}
+\DoxyCodeLine{329 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_BLENDTEXTUREALPHAPM        0x00004000L}}
+\DoxyCodeLine{330 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_BLENDCURRENTALPHA          0x00008000L}}
+\DoxyCodeLine{331 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_PREMODULATE                0x00010000L}}
+\DoxyCodeLine{332 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_MODULATEALPHA\_ADDCOLOR     0x00020000L}}
+\DoxyCodeLine{333 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_MODULATECOLOR\_ADDALPHA     0x00040000L}}
+\DoxyCodeLine{334 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_MODULATEINVALPHA\_ADDCOLOR  0x00080000L}}
+\DoxyCodeLine{335 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_MODULATEINVCOLOR\_ADDALPHA  0x00100000L}}
+\DoxyCodeLine{336 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_BUMPENVMAP                 0x00200000L}}
+\DoxyCodeLine{337 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_BUMPENVMAPLUMINANCE        0x00400000L}}
+\DoxyCodeLine{338 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_DOTPRODUCT3                0x00800000L}}
+\DoxyCodeLine{339 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_MULTIPLYADD                0x01000000L}}
+\DoxyCodeLine{340 \textcolor{preprocessor}{\#define D3DTEXOPCAPS\_LERP                       0x02000000L}}
+\DoxyCodeLine{341 }
+\DoxyCodeLine{342 \textcolor{comment}{//}}
+\DoxyCodeLine{343 \textcolor{comment}{// FVFCaps}}
+\DoxyCodeLine{344 \textcolor{comment}{//}}
+\DoxyCodeLine{345 \textcolor{preprocessor}{\#define D3DFVFCAPS\_TEXCOORDCOUNTMASK    0x0000ffffL }\textcolor{comment}{/* mask for texture coordinate count field */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{346 \textcolor{preprocessor}{\#define D3DFVFCAPS\_DONOTSTRIPELEMENTS   0x00080000L }\textcolor{comment}{/* Device prefers that vertex elements not be stripped */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{347 \textcolor{preprocessor}{\#define D3DFVFCAPS\_PSIZE                0x00100000L }\textcolor{comment}{/* Device can receive point size */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{348 }
+\DoxyCodeLine{349 \textcolor{comment}{//}}
+\DoxyCodeLine{350 \textcolor{comment}{// VertexProcessingCaps}}
+\DoxyCodeLine{351 \textcolor{comment}{//}}
+\DoxyCodeLine{352 \textcolor{preprocessor}{\#define D3DVTXPCAPS\_TEXGEN              0x00000001L }\textcolor{comment}{/* device can do texgen */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{353 \textcolor{preprocessor}{\#define D3DVTXPCAPS\_MATERIALSOURCE7     0x00000002L }\textcolor{comment}{/* device can do DX7-\/level colormaterialsource ops */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{354 \textcolor{preprocessor}{\#define D3DVTXPCAPS\_DIRECTIONALLIGHTS   0x00000008L }\textcolor{comment}{/* device can do directional lights */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{355 \textcolor{preprocessor}{\#define D3DVTXPCAPS\_POSITIONALLIGHTS    0x00000010L }\textcolor{comment}{/* device can do positional lights (includes point and spot) */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{356 \textcolor{preprocessor}{\#define D3DVTXPCAPS\_LOCALVIEWER         0x00000020L }\textcolor{comment}{/* device can do local viewer */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{357 \textcolor{preprocessor}{\#define D3DVTXPCAPS\_TWEENING            0x00000040L }\textcolor{comment}{/* device can do vertex tweening */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{358 \textcolor{preprocessor}{\#define D3DVTXPCAPS\_NO\_VSDT\_UBYTE4      0x00000080L }\textcolor{comment}{/* device does not support D3DVSDT\_UBYTE4 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{359 }
+\DoxyCodeLine{360 \textcolor{preprocessor}{\#pragma pack()}}
+\DoxyCodeLine{361 }
+\DoxyCodeLine{362 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* (DIRECT3D\_VERSION >= 0x0800) */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{363 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* \_D3D8CAPS\_H\_ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{364 }
+
+\end{DoxyCode}

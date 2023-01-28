@@ -10,15 +10,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lib\leetlib.cpp">
-      <Filter>library</Filter>
+    <ClCompile Include="src\leetlib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entities.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="lib\leetlib.h">
+    <ClInclude Include="src\lib\leetlib.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lib\entities.h">
       <Filter>library</Filter>
     </ClInclude>
   </ItemGroup>

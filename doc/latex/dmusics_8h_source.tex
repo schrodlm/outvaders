@@ -1,0 +1,199 @@
+\hypertarget{dmusics_8h_source}{}\doxysection{dmusics.\+h}
+\label{dmusics_8h_source}\index{src/lib/dx/Include/dmusics.h@{src/lib/dx/Include/dmusics.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/************************************************************************}}
+\DoxyCodeLine{2 \textcolor{comment}{*                                                                       *}}
+\DoxyCodeLine{3 \textcolor{comment}{*   dmusics.h -\/-\/ Definitions for created a DirectMusic software synth   *}}
+\DoxyCodeLine{4 \textcolor{comment}{*                                                                       *}}
+\DoxyCodeLine{5 \textcolor{comment}{*   Copyright (c) Microsoft Corporation.  All rights reserved.          *}}
+\DoxyCodeLine{6 \textcolor{comment}{*                                                                       *}}
+\DoxyCodeLine{7 \textcolor{comment}{************************************************************************/}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#ifndef \_DMUSICS\_}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#define \_DMUSICS\_}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include "{}dmusicc.h"{}}}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{comment}{/* Software synths are enumerated from under this registry key.}}
+\DoxyCodeLine{15 \textcolor{comment}{ */}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#define REGSTR\_PATH\_SOFTWARESYNTHS  "{}Software\(\backslash\)\(\backslash\)Microsoft\(\backslash\)\(\backslash\)DirectMusic\(\backslash\)\(\backslash\)SoftwareSynths"{}}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{keyword}{interface }IDirectMusicSynth;}
+\DoxyCodeLine{19 \textcolor{keyword}{interface }IDirectMusicSynthSink;}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#ifndef \_\_cplusplus }}
+\DoxyCodeLine{22 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }IDirectMusicSynth IDirectMusicSynth;}
+\DoxyCodeLine{23 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }IDirectMusicSynthSink IDirectMusicSynthSink;}
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#ifndef \_DMUS\_VOICE\_STATE\_DEFINED}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#define \_DMUS\_VOICE\_STATE\_DEFINED}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_m_u_s___v_o_i_c_e___s_t_a_t_e}{\_DMUS\_VOICE\_STATE}}}
+\DoxyCodeLine{30 \{}
+\DoxyCodeLine{31     BOOL                bExists;}
+\DoxyCodeLine{32     SAMPLE\_POSITION     spPosition;}
+\DoxyCodeLine{33 \} \mbox{\hyperlink{struct___d_m_u_s___v_o_i_c_e___s_t_a_t_e}{DMUS\_VOICE\_STATE}}; }
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* \_DMUS\_VOICE\_STATE\_DEFINED */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{comment}{/* IDirectMusicSynth::Refresh}}
+\DoxyCodeLine{38 \textcolor{comment}{ *}}
+\DoxyCodeLine{39 \textcolor{comment}{ * This is the last buffer of the stream. It may be a partial block.}}
+\DoxyCodeLine{40 \textcolor{comment}{ */}}
+\DoxyCodeLine{41 \textcolor{preprocessor}{\#define REFRESH\_F\_LASTBUFFER        0x00000001}}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{preprocessor}{\#undef  INTERFACE}}
+\DoxyCodeLine{44 \textcolor{preprocessor}{\#define INTERFACE  IDirectMusicSynth}}
+\DoxyCodeLine{45 DECLARE\_INTERFACE\_(IDirectMusicSynth, IUnknown)}
+\DoxyCodeLine{46 \{}
+\DoxyCodeLine{47     \textcolor{comment}{/* IUnknown */}}
+\DoxyCodeLine{48     STDMETHOD(QueryInterface)       (THIS\_ REFIID, LPVOID FAR *) PURE;}
+\DoxyCodeLine{49     STDMETHOD\_(ULONG,AddRef)        (THIS) PURE;}
+\DoxyCodeLine{50     STDMETHOD\_(ULONG,Release)       (THIS) PURE;}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52     \textcolor{comment}{/* IDirectMusicSynth */}}
+\DoxyCodeLine{53     STDMETHOD(Open)                 (THIS\_ \mbox{\hyperlink{struct___d_m_u_s___p_o_r_t_p_a_r_a_m_s8}{LPDMUS\_PORTPARAMS}} pPortParams) PURE;}
+\DoxyCodeLine{54     STDMETHOD(Close)                (THIS) PURE;}
+\DoxyCodeLine{55     STDMETHOD(SetNumChannelGroups)  (THIS\_ DWORD dwGroups) PURE;}
+\DoxyCodeLine{56     STDMETHOD(Download)             (THIS\_ LPHANDLE phDownload, }
+\DoxyCodeLine{57                                            LPVOID pvData, }
+\DoxyCodeLine{58                                            LPBOOL pbFree ) PURE;}
+\DoxyCodeLine{59     STDMETHOD(Unload)               (THIS\_ HANDLE hDownload, }
+\DoxyCodeLine{60                                            HRESULT ( CALLBACK *lpFreeHandle)(HANDLE,HANDLE), }
+\DoxyCodeLine{61                                            HANDLE hUserData ) PURE; }
+\DoxyCodeLine{62     STDMETHOD(PlayBuffer)           (THIS\_ REFERENCE\_TIME rt, }
+\DoxyCodeLine{63                                            LPBYTE pbBuffer, }
+\DoxyCodeLine{64                                            DWORD cbBuffer) PURE;}
+\DoxyCodeLine{65     STDMETHOD(GetRunningStats)      (THIS\_ \mbox{\hyperlink{struct___d_m_u_s___s_y_n_t_h_s_t_a_t_s}{LPDMUS\_SYNTHSTATS}} pStats) PURE;}
+\DoxyCodeLine{66     STDMETHOD(GetPortCaps)          (THIS\_ \mbox{\hyperlink{struct___d_m_u_s___p_o_r_t_c_a_p_s}{LPDMUS\_PORTCAPS}} pCaps) PURE;}
+\DoxyCodeLine{67     STDMETHOD(SetMasterClock)       (THIS\_ IReferenceClock *pClock) PURE;}
+\DoxyCodeLine{68     STDMETHOD(GetLatencyClock)      (THIS\_ IReferenceClock **ppClock) PURE;}
+\DoxyCodeLine{69     STDMETHOD(Activate)             (THIS\_ BOOL fEnable) PURE;}
+\DoxyCodeLine{70     STDMETHOD(SetSynthSink)         (THIS\_ IDirectMusicSynthSink *pSynthSink) PURE;}
+\DoxyCodeLine{71     STDMETHOD(Render)               (THIS\_ \textcolor{keywordtype}{short} *pBuffer, }
+\DoxyCodeLine{72                                            DWORD dwLength, }
+\DoxyCodeLine{73                                            LONGLONG llPosition) PURE;}
+\DoxyCodeLine{74     STDMETHOD(SetChannelPriority)   (THIS\_ DWORD dwChannelGroup,}
+\DoxyCodeLine{75                                            DWORD dwChannel,}
+\DoxyCodeLine{76                                            DWORD dwPriority) PURE;}
+\DoxyCodeLine{77     STDMETHOD(GetChannelPriority)   (THIS\_ DWORD dwChannelGroup,}
+\DoxyCodeLine{78                                            DWORD dwChannel,}
+\DoxyCodeLine{79                                            LPDWORD pdwPriority) PURE;}
+\DoxyCodeLine{80     STDMETHOD(GetFormat)            (THIS\_ LPWAVEFORMATEX pWaveFormatEx,}
+\DoxyCodeLine{81                                            LPDWORD pdwWaveFormatExSize) PURE;}
+\DoxyCodeLine{82     STDMETHOD(GetAppend)            (THIS\_ DWORD* pdwAppend) PURE;}
+\DoxyCodeLine{83 \};}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85 \textcolor{preprocessor}{\#undef  INTERFACE}}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87 \textcolor{preprocessor}{\#define INTERFACE  IDirectMusicSynth8}}
+\DoxyCodeLine{88 DECLARE\_INTERFACE\_(IDirectMusicSynth8, IDirectMusicSynth)}
+\DoxyCodeLine{89 \{}
+\DoxyCodeLine{90     \textcolor{comment}{/* IUnknown */}}
+\DoxyCodeLine{91     STDMETHOD(QueryInterface)       (THIS\_ REFIID, LPVOID FAR *) PURE;}
+\DoxyCodeLine{92     STDMETHOD\_(ULONG,AddRef)        (THIS) PURE;}
+\DoxyCodeLine{93     STDMETHOD\_(ULONG,Release)       (THIS) PURE;}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{95     \textcolor{comment}{/* IDirectMusicSynth */}}
+\DoxyCodeLine{96     STDMETHOD(Open)                 (THIS\_ \mbox{\hyperlink{struct___d_m_u_s___p_o_r_t_p_a_r_a_m_s8}{LPDMUS\_PORTPARAMS}} pPortParams) PURE;}
+\DoxyCodeLine{97     STDMETHOD(Close)                (THIS) PURE;}
+\DoxyCodeLine{98     STDMETHOD(SetNumChannelGroups)  (THIS\_ DWORD dwGroups) PURE;}
+\DoxyCodeLine{99     STDMETHOD(Download)             (THIS\_ LPHANDLE phDownload, }
+\DoxyCodeLine{100                                            LPVOID pvData, }
+\DoxyCodeLine{101                                            LPBOOL pbFree ) PURE;}
+\DoxyCodeLine{102     STDMETHOD(Unload)               (THIS\_ HANDLE hDownload, }
+\DoxyCodeLine{103                                            HRESULT ( CALLBACK *lpFreeHandle)(HANDLE,HANDLE), }
+\DoxyCodeLine{104                                            HANDLE hUserData ) PURE; }
+\DoxyCodeLine{105     STDMETHOD(PlayBuffer)           (THIS\_ REFERENCE\_TIME rt, }
+\DoxyCodeLine{106                                            LPBYTE pbBuffer, }
+\DoxyCodeLine{107                                            DWORD cbBuffer) PURE;}
+\DoxyCodeLine{108     STDMETHOD(GetRunningStats)      (THIS\_ \mbox{\hyperlink{struct___d_m_u_s___s_y_n_t_h_s_t_a_t_s}{LPDMUS\_SYNTHSTATS}} pStats) PURE;}
+\DoxyCodeLine{109     STDMETHOD(GetPortCaps)          (THIS\_ \mbox{\hyperlink{struct___d_m_u_s___p_o_r_t_c_a_p_s}{LPDMUS\_PORTCAPS}} pCaps) PURE;}
+\DoxyCodeLine{110     STDMETHOD(SetMasterClock)       (THIS\_ IReferenceClock *pClock) PURE;}
+\DoxyCodeLine{111     STDMETHOD(GetLatencyClock)      (THIS\_ IReferenceClock **ppClock) PURE;}
+\DoxyCodeLine{112     STDMETHOD(Activate)             (THIS\_ BOOL fEnable) PURE;}
+\DoxyCodeLine{113     STDMETHOD(SetSynthSink)         (THIS\_ IDirectMusicSynthSink *pSynthSink) PURE;}
+\DoxyCodeLine{114     STDMETHOD(Render)               (THIS\_ \textcolor{keywordtype}{short} *pBuffer, }
+\DoxyCodeLine{115                                            DWORD dwLength, }
+\DoxyCodeLine{116                                            LONGLONG llPosition) PURE;}
+\DoxyCodeLine{117     STDMETHOD(SetChannelPriority)   (THIS\_ DWORD dwChannelGroup,}
+\DoxyCodeLine{118                                            DWORD dwChannel,}
+\DoxyCodeLine{119                                            DWORD dwPriority) PURE;}
+\DoxyCodeLine{120     STDMETHOD(GetChannelPriority)   (THIS\_ DWORD dwChannelGroup,}
+\DoxyCodeLine{121                                            DWORD dwChannel,}
+\DoxyCodeLine{122                                            LPDWORD pdwPriority) PURE;}
+\DoxyCodeLine{123     STDMETHOD(GetFormat)            (THIS\_ LPWAVEFORMATEX pWaveFormatEx,}
+\DoxyCodeLine{124                                            LPDWORD pdwWaveFormatExSize) PURE;}
+\DoxyCodeLine{125     STDMETHOD(GetAppend)            (THIS\_ DWORD* pdwAppend) PURE;}
+\DoxyCodeLine{126 }
+\DoxyCodeLine{127     \textcolor{comment}{/* IDirectMusicSynth8 */}}
+\DoxyCodeLine{128     STDMETHOD(PlayVoice)            (THIS\_ REFERENCE\_TIME rt, }
+\DoxyCodeLine{129                                            DWORD dwVoiceId, }
+\DoxyCodeLine{130                                            DWORD dwChannelGroup, }
+\DoxyCodeLine{131                                            DWORD dwChannel, }
+\DoxyCodeLine{132                                            DWORD dwDLId, }
+\DoxyCodeLine{133                                            \textcolor{keywordtype}{long}  prPitch,           \textcolor{comment}{/* PREL not defined here */}}
+\DoxyCodeLine{134                                            \textcolor{keywordtype}{long}  vrVolume,          \textcolor{comment}{/* VREL not defined here */}}
+\DoxyCodeLine{135                                            SAMPLE\_TIME stVoiceStart,}
+\DoxyCodeLine{136                                            SAMPLE\_TIME stLoopStart,}
+\DoxyCodeLine{137                                            SAMPLE\_TIME stLoopEnd) PURE;}
+\DoxyCodeLine{138 }
+\DoxyCodeLine{139     STDMETHOD(StopVoice)            (THIS\_ REFERENCE\_TIME rt, }
+\DoxyCodeLine{140                                            DWORD dwVoiceId ) PURE;}
+\DoxyCodeLine{141 }
+\DoxyCodeLine{142     STDMETHOD(GetVoiceState)        (THIS\_ DWORD dwVoice[], }
+\DoxyCodeLine{143                                            DWORD cbVoice,}
+\DoxyCodeLine{144                                            \mbox{\hyperlink{struct___d_m_u_s___v_o_i_c_e___s_t_a_t_e}{DMUS\_VOICE\_STATE}} dwVoiceState[] ) PURE;}
+\DoxyCodeLine{145     STDMETHOD(Refresh)              (THIS\_ DWORD dwDownloadID,}
+\DoxyCodeLine{146                                            DWORD dwFlags) PURE;}
+\DoxyCodeLine{147     STDMETHOD(AssignChannelToBuses) (THIS\_ DWORD dwChannelGroup,}
+\DoxyCodeLine{148                                            DWORD dwChannel,}
+\DoxyCodeLine{149                                            LPDWORD pdwBuses,}
+\DoxyCodeLine{150                                            DWORD cBuses) PURE;                                           }
+\DoxyCodeLine{151 \};}
+\DoxyCodeLine{152 }
+\DoxyCodeLine{153 \textcolor{preprocessor}{\#undef  INTERFACE}}
+\DoxyCodeLine{154 \textcolor{preprocessor}{\#define INTERFACE  IDirectMusicSynthSink}}
+\DoxyCodeLine{155 DECLARE\_INTERFACE\_(IDirectMusicSynthSink, IUnknown)}
+\DoxyCodeLine{156 \{}
+\DoxyCodeLine{157     \textcolor{comment}{/* IUnknown */}}
+\DoxyCodeLine{158     STDMETHOD(QueryInterface)       (THIS\_ REFIID, LPVOID FAR *) PURE;}
+\DoxyCodeLine{159     STDMETHOD\_(ULONG,AddRef)        (THIS) PURE;}
+\DoxyCodeLine{160     STDMETHOD\_(ULONG,Release)       (THIS) PURE;}
+\DoxyCodeLine{161 }
+\DoxyCodeLine{162     \textcolor{comment}{/* IDirectMusicSynthSink */}}
+\DoxyCodeLine{163     STDMETHOD(Init)                 (THIS\_ IDirectMusicSynth *pSynth) PURE;}
+\DoxyCodeLine{164     STDMETHOD(SetMasterClock)       (THIS\_ IReferenceClock *pClock) PURE;}
+\DoxyCodeLine{165     STDMETHOD(GetLatencyClock)      (THIS\_ IReferenceClock **ppClock) PURE;}
+\DoxyCodeLine{166     STDMETHOD(Activate)             (THIS\_ BOOL fEnable) PURE;}
+\DoxyCodeLine{167     STDMETHOD(SampleToRefTime)      (THIS\_ LONGLONG llSampleTime,}
+\DoxyCodeLine{168                                            REFERENCE\_TIME *prfTime) PURE;}
+\DoxyCodeLine{169     STDMETHOD(RefTimeToSample)      (THIS\_ REFERENCE\_TIME rfTime, }
+\DoxyCodeLine{170                                            LONGLONG *pllSampleTime) PURE;}
+\DoxyCodeLine{171     STDMETHOD(SetDirectSound)       (THIS\_ LPDIRECTSOUND pDirectSound,}
+\DoxyCodeLine{172                                            LPDIRECTSOUNDBUFFER pDirectSoundBuffer) PURE;                                           }
+\DoxyCodeLine{173     STDMETHOD(GetDesiredBufferSize) (THIS\_ LPDWORD pdwBufferSizeInSamples) PURE;                                           }
+\DoxyCodeLine{174 \};}
+\DoxyCodeLine{175 }
+\DoxyCodeLine{176 DEFINE\_GUID(IID\_IDirectMusicSynth, 0x9823661,  0x5c85, 0x11d2, 0xaf, 0xa6, 0x0, 0xaa, 0x0, 0x24, 0xd8, 0xb6);}
+\DoxyCodeLine{177 DEFINE\_GUID(IID\_IDirectMusicSynth8,0x53cab625, 0x2711, 0x4c9f, 0x9d, 0xe7, 0x1b, 0x7f, 0x92, 0x5f, 0x6f, 0xc8);}
+\DoxyCodeLine{178 DEFINE\_GUID(IID\_IDirectMusicSynthSink,0x9823663, 0x5c85, 0x11d2, 0xaf, 0xa6, 0x0, 0xaa, 0x0, 0x24, 0xd8, 0xb6);}
+\DoxyCodeLine{179 }
+\DoxyCodeLine{180 \textcolor{comment}{/* Property Set GUID\_DMUS\_PROP\_SetSynthSink}}
+\DoxyCodeLine{181 \textcolor{comment}{ *}}
+\DoxyCodeLine{182 \textcolor{comment}{ * Item 0: An IUnknown on which the port can QueryInterface for a user-\/mode synth sink.}}
+\DoxyCodeLine{183 \textcolor{comment}{ */}}
+\DoxyCodeLine{184 DEFINE\_GUID(GUID\_DMUS\_PROP\_SetSynthSink,0x0a3a5ba5, 0x37b6, 0x11d2, 0xb9, 0xf9, 0x00, 0x00, 0xf8, 0x75, 0xac, 0x12);}
+\DoxyCodeLine{185 }
+\DoxyCodeLine{186 \textcolor{comment}{/* Property Set GUID\_DMUS\_PROP\_SinkUsesDSound}}
+\DoxyCodeLine{187 \textcolor{comment}{ *}}
+\DoxyCodeLine{188 \textcolor{comment}{ * Item 0: A DWORD boolean indicating whether or not the sink requires an IDirectSound interface. The}}
+\DoxyCodeLine{189 \textcolor{comment}{ * default is FALSE if this property item is not implemented by the sink.}}
+\DoxyCodeLine{190 \textcolor{comment}{ */}}
+\DoxyCodeLine{191 DEFINE\_GUID(GUID\_DMUS\_PROP\_SinkUsesDSound, 0xbe208857, 0x8952, 0x11d2, 0xba, 0x1c, 0x00, 0x00, 0xf8, 0x75, 0xac, 0x12); }
+\DoxyCodeLine{192 }
+\DoxyCodeLine{193 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

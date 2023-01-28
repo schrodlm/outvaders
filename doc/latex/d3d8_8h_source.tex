@@ -1,0 +1,1285 @@
+\hypertarget{d3d8_8h_source}{}\doxysection{d3d8.\+h}
+\label{d3d8_8h_source}\index{src/lib/dx/Include/d3d8.h@{src/lib/dx/Include/d3d8.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*==========================================================================;}}
+\DoxyCodeLine{2 \textcolor{comment}{ *}}
+\DoxyCodeLine{3 \textcolor{comment}{ *  Copyright (C) Microsoft Corporation.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{ *}}
+\DoxyCodeLine{5 \textcolor{comment}{ *  File:   d3d8.h}}
+\DoxyCodeLine{6 \textcolor{comment}{ *  Content:    Direct3D include file}}
+\DoxyCodeLine{7 \textcolor{comment}{ *}}
+\DoxyCodeLine{8 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#ifndef \_D3D8\_H\_}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define \_D3D8\_H\_}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#ifndef DIRECT3D\_VERSION}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#define DIRECT3D\_VERSION         0x0800}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{//DIRECT3D\_VERSION}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{comment}{// include this file content only if compiling for DX8 interfaces}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#if(DIRECT3D\_VERSION >= 0x0800)}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 \textcolor{comment}{/* This identifier is passed to Direct3DCreate8 in order to ensure that an}}
+\DoxyCodeLine{22 \textcolor{comment}{ * application was built against the correct header files. This number is}}
+\DoxyCodeLine{23 \textcolor{comment}{ * incremented whenever a header (or other) change would require applications}}
+\DoxyCodeLine{24 \textcolor{comment}{ * to be rebuilt. If the version doesn't match, Direct3DCreate8 will fail.}}
+\DoxyCodeLine{25 \textcolor{comment}{ * (The number itself has no meaning.)*/}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#define D3D\_SDK\_VERSION 220}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#define COM\_NO\_WINDOWS\_H}}
+\DoxyCodeLine{33 \textcolor{preprocessor}{\#include <objbase.h>}}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#include <windows.h>}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#if !defined(HMONITOR\_DECLARED) \&\& (WINVER < 0x0500)}}
+\DoxyCodeLine{38 \textcolor{preprocessor}{    \#define HMONITOR\_DECLARED}}
+\DoxyCodeLine{39     DECLARE\_HANDLE(HMONITOR);}
+\DoxyCodeLine{40 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 \textcolor{preprocessor}{\#define D3DAPI WINAPI}}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44 \textcolor{comment}{/*}}
+\DoxyCodeLine{45 \textcolor{comment}{ * Interface IID's}}
+\DoxyCodeLine{46 \textcolor{comment}{ */}}
+\DoxyCodeLine{47 \textcolor{preprocessor}{\#if defined( \_WIN32 ) \&\& !defined( \_NO\_COM)}}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 \textcolor{comment}{/* IID\_IDirect3D8 */}}
+\DoxyCodeLine{50 \textcolor{comment}{/* \{1DD9E8DA-\/1C77-\/4d40-\/B0CF-\/98FEFDFF9512\} */}}
+\DoxyCodeLine{51 DEFINE\_GUID(IID\_IDirect3D8, 0x1dd9e8da, 0x1c77, 0x4d40, 0xb0, 0xcf, 0x98, 0xfe, 0xfd, 0xff, 0x95, 0x12);}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53 \textcolor{comment}{/* IID\_IDirect3DDevice8 */}}
+\DoxyCodeLine{54 \textcolor{comment}{/* \{7385E5DF-\/8FE8-\/41D5-\/86B6-\/D7B48547B6CF\} */}}
+\DoxyCodeLine{55 DEFINE\_GUID(IID\_IDirect3DDevice8, 0x7385e5df, 0x8fe8, 0x41d5, 0x86, 0xb6, 0xd7, 0xb4, 0x85, 0x47, 0xb6, 0xcf);}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57 \textcolor{comment}{/* IID\_IDirect3DResource8 */}}
+\DoxyCodeLine{58 \textcolor{comment}{/* \{1B36BB7B-\/09B7-\/410a-\/B445-\/7D1430D7B33F\} */}}
+\DoxyCodeLine{59 DEFINE\_GUID(IID\_IDirect3DResource8, 0x1b36bb7b, 0x9b7, 0x410a, 0xb4, 0x45, 0x7d, 0x14, 0x30, 0xd7, 0xb3, 0x3f);}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61 \textcolor{comment}{/* IID\_IDirect3DBaseTexture8 */}}
+\DoxyCodeLine{62 \textcolor{comment}{/* \{B4211CFA-\/51B9-\/4a9f-\/AB78-\/DB99B2BB678E\} */}}
+\DoxyCodeLine{63 DEFINE\_GUID(IID\_IDirect3DBaseTexture8, 0xb4211cfa, 0x51b9, 0x4a9f, 0xab, 0x78, 0xdb, 0x99, 0xb2, 0xbb, 0x67, 0x8e);}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65 \textcolor{comment}{/* IID\_IDirect3DTexture8 */}}
+\DoxyCodeLine{66 \textcolor{comment}{/* \{E4CDD575-\/2866-\/4f01-\/B12E-\/7EECE1EC9358\} */}}
+\DoxyCodeLine{67 DEFINE\_GUID(IID\_IDirect3DTexture8, 0xe4cdd575, 0x2866, 0x4f01, 0xb1, 0x2e, 0x7e, 0xec, 0xe1, 0xec, 0x93, 0x58);}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69 \textcolor{comment}{/* IID\_IDirect3DCubeTexture8 */}}
+\DoxyCodeLine{70 \textcolor{comment}{/* \{3EE5B968-\/2ACA-\/4c34-\/8BB5-\/7E0C3D19B750\} */}}
+\DoxyCodeLine{71 DEFINE\_GUID(IID\_IDirect3DCubeTexture8, 0x3ee5b968, 0x2aca, 0x4c34, 0x8b, 0xb5, 0x7e, 0x0c, 0x3d, 0x19, 0xb7, 0x50);}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{73 \textcolor{comment}{/* IID\_IDirect3DVolumeTexture8 */}}
+\DoxyCodeLine{74 \textcolor{comment}{/* \{4B8AAAFA-\/140F-\/42ba-\/9131-\/597EAFAA2EAD\} */}}
+\DoxyCodeLine{75 DEFINE\_GUID(IID\_IDirect3DVolumeTexture8, 0x4b8aaafa, 0x140f, 0x42ba, 0x91, 0x31, 0x59, 0x7e, 0xaf, 0xaa, 0x2e, 0xad);}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{77 \textcolor{comment}{/* IID\_IDirect3DVertexBuffer8 */}}
+\DoxyCodeLine{78 \textcolor{comment}{/* \{8AEEEAC7-\/05F9-\/44d4-\/B591-\/000B0DF1CB95\} */}}
+\DoxyCodeLine{79 DEFINE\_GUID(IID\_IDirect3DVertexBuffer8, 0x8aeeeac7, 0x05f9, 0x44d4, 0xb5, 0x91, 0x00, 0x0b, 0x0d, 0xf1, 0xcb, 0x95);}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{81 \textcolor{comment}{/* IID\_IDirect3DIndexBuffer8 */}}
+\DoxyCodeLine{82 \textcolor{comment}{/* \{0E689C9A-\/053D-\/44a0-\/9D92-\/DB0E3D750F86\} */}}
+\DoxyCodeLine{83 DEFINE\_GUID(IID\_IDirect3DIndexBuffer8, 0x0e689c9a, 0x053d, 0x44a0, 0x9d, 0x92, 0xdb, 0x0e, 0x3d, 0x75, 0x0f, 0x86);}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85 \textcolor{comment}{/* IID\_IDirect3DSurface8 */}}
+\DoxyCodeLine{86 \textcolor{comment}{/* \{B96EEBCA-\/B326-\/4ea5-\/882F-\/2FF5BAE021DD\} */}}
+\DoxyCodeLine{87 DEFINE\_GUID(IID\_IDirect3DSurface8, 0xb96eebca, 0xb326, 0x4ea5, 0x88, 0x2f, 0x2f, 0xf5, 0xba, 0xe0, 0x21, 0xdd);}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{89 \textcolor{comment}{/* IID\_IDirect3DVolume8 */}}
+\DoxyCodeLine{90 \textcolor{comment}{/* \{BD7349F5-\/14F1-\/42e4-\/9C79-\/972380DB40C0\} */}}
+\DoxyCodeLine{91 DEFINE\_GUID(IID\_IDirect3DVolume8, 0xbd7349f5, 0x14f1, 0x42e4, 0x9c, 0x79, 0x97, 0x23, 0x80, 0xdb, 0x40, 0xc0);}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{93 \textcolor{comment}{/* IID\_IDirect3DSwapChain8 */}}
+\DoxyCodeLine{94 \textcolor{comment}{/* \{928C088B-\/76B9-\/4C6B-\/A536-\/A590853876CD\} */}}
+\DoxyCodeLine{95 DEFINE\_GUID(IID\_IDirect3DSwapChain8, 0x928c088b, 0x76b9, 0x4c6b, 0xa5, 0x36, 0xa5, 0x90, 0x85, 0x38, 0x76, 0xcd);}
+\DoxyCodeLine{96 }
+\DoxyCodeLine{97 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{98 }
+\DoxyCodeLine{99 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101 \textcolor{keyword}{interface }IDirect3D8;}
+\DoxyCodeLine{102 \textcolor{keyword}{interface }IDirect3DDevice8;}
+\DoxyCodeLine{103 }
+\DoxyCodeLine{104 \textcolor{keyword}{interface }IDirect3DResource8;}
+\DoxyCodeLine{105 \textcolor{keyword}{interface }IDirect3DBaseTexture8;}
+\DoxyCodeLine{106 \textcolor{keyword}{interface }IDirect3DTexture8;}
+\DoxyCodeLine{107 \textcolor{keyword}{interface }IDirect3DVolumeTexture8;}
+\DoxyCodeLine{108 \textcolor{keyword}{interface }IDirect3DCubeTexture8;}
+\DoxyCodeLine{109 }
+\DoxyCodeLine{110 \textcolor{keyword}{interface }IDirect3DVertexBuffer8;}
+\DoxyCodeLine{111 \textcolor{keyword}{interface }IDirect3DIndexBuffer8;}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113 \textcolor{keyword}{interface }IDirect3DSurface8;}
+\DoxyCodeLine{114 \textcolor{keyword}{interface }IDirect3DVolume8;}
+\DoxyCodeLine{115 }
+\DoxyCodeLine{116 \textcolor{keyword}{interface }IDirect3DSwapChain8;}
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{119 }
+\DoxyCodeLine{120 }
+\DoxyCodeLine{121 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }IDirect3D8                IDirect3D8;}
+\DoxyCodeLine{122 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }IDirect3DDevice8          IDirect3DDevice8;}
+\DoxyCodeLine{123 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }IDirect3DResource8        IDirect3DResource8;}
+\DoxyCodeLine{124 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }IDirect3DBaseTexture8     IDirect3DBaseTexture8;}
+\DoxyCodeLine{125 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }IDirect3DTexture8         IDirect3DTexture8;}
+\DoxyCodeLine{126 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }IDirect3DVolumeTexture8   IDirect3DVolumeTexture8;}
+\DoxyCodeLine{127 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }IDirect3DCubeTexture8     IDirect3DCubeTexture8;}
+\DoxyCodeLine{128 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }IDirect3DVertexBuffer8    IDirect3DVertexBuffer8;}
+\DoxyCodeLine{129 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }IDirect3DIndexBuffer8     IDirect3DIndexBuffer8;}
+\DoxyCodeLine{130 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }IDirect3DSurface8         IDirect3DSurface8;}
+\DoxyCodeLine{131 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }IDirect3DVolume8          IDirect3DVolume8;}
+\DoxyCodeLine{132 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }IDirect3DSwapChain8       IDirect3DSwapChain8;}
+\DoxyCodeLine{133 }
+\DoxyCodeLine{134 \textcolor{preprocessor}{\#include "{}d3d8types.h"{}}}
+\DoxyCodeLine{135 \textcolor{preprocessor}{\#include "{}d3d8caps.h"{}}}
+\DoxyCodeLine{136 }
+\DoxyCodeLine{137 }
+\DoxyCodeLine{138 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{139 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{140 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{141 }
+\DoxyCodeLine{142 \textcolor{comment}{/*}}
+\DoxyCodeLine{143 \textcolor{comment}{ * DLL Function for creating a Direct3D8 object. This object supports}}
+\DoxyCodeLine{144 \textcolor{comment}{ * enumeration and allows the creation of Direct3DDevice8 objects.}}
+\DoxyCodeLine{145 \textcolor{comment}{ * Pass the value of the constant D3D\_SDK\_VERSION to this function, so}}
+\DoxyCodeLine{146 \textcolor{comment}{ * that the run-\/time can validate that your application was compiled}}
+\DoxyCodeLine{147 \textcolor{comment}{ * against the right headers.}}
+\DoxyCodeLine{148 \textcolor{comment}{ */}}
+\DoxyCodeLine{149 }
+\DoxyCodeLine{150 IDirect3D8 * WINAPI Direct3DCreate8(UINT SDKVersion);}
+\DoxyCodeLine{151 }
+\DoxyCodeLine{152 }
+\DoxyCodeLine{153 \textcolor{comment}{/*}}
+\DoxyCodeLine{154 \textcolor{comment}{ * Direct3D interfaces}}
+\DoxyCodeLine{155 \textcolor{comment}{ */}}
+\DoxyCodeLine{156 }
+\DoxyCodeLine{157 }
+\DoxyCodeLine{158 }
+\DoxyCodeLine{159 }
+\DoxyCodeLine{160 }
+\DoxyCodeLine{161 }
+\DoxyCodeLine{162 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{163 \textcolor{preprocessor}{\#define INTERFACE IDirect3D8}}
+\DoxyCodeLine{164 }
+\DoxyCodeLine{165 DECLARE\_INTERFACE\_(IDirect3D8, IUnknown)}
+\DoxyCodeLine{166 \{}
+\DoxyCodeLine{167 \textcolor{comment}{    /*** IUnknown methods ***/}}
+\DoxyCodeLine{168     STDMETHOD(QueryInterface)(THIS\_ REFIID riid, \textcolor{keywordtype}{void}** ppvObj) PURE;}
+\DoxyCodeLine{169     STDMETHOD\_(ULONG,AddRef)(THIS) PURE;}
+\DoxyCodeLine{170     STDMETHOD\_(ULONG,Release)(THIS) PURE;}
+\DoxyCodeLine{171 }
+\DoxyCodeLine{172 \textcolor{comment}{    /*** IDirect3D8 methods ***/}}
+\DoxyCodeLine{173     STDMETHOD(RegisterSoftwareDevice)(THIS\_ \textcolor{keywordtype}{void}* pInitializeFunction) PURE;}
+\DoxyCodeLine{174     STDMETHOD\_(UINT, GetAdapterCount)(THIS) PURE;}
+\DoxyCodeLine{175     STDMETHOD(GetAdapterIdentifier)(THIS\_ UINT Adapter,DWORD Flags,\mbox{\hyperlink{struct___d3_d_a_d_a_p_t_e_r___i_d_e_n_t_i_f_i_e_r8}{D3DADAPTER\_IDENTIFIER8}}* pIdentifier) PURE;}
+\DoxyCodeLine{176     STDMETHOD\_(UINT, GetAdapterModeCount)(THIS\_ UINT Adapter) PURE;}
+\DoxyCodeLine{177     STDMETHOD(EnumAdapterModes)(THIS\_ UINT Adapter,UINT Mode,\mbox{\hyperlink{struct___d3_d_d_i_s_p_l_a_y_m_o_d_e}{D3DDISPLAYMODE}}* pMode) PURE;}
+\DoxyCodeLine{178     STDMETHOD(GetAdapterDisplayMode)(THIS\_ UINT Adapter,\mbox{\hyperlink{struct___d3_d_d_i_s_p_l_a_y_m_o_d_e}{D3DDISPLAYMODE}}* pMode) PURE;}
+\DoxyCodeLine{179     STDMETHOD(CheckDeviceType)(THIS\_ UINT Adapter,D3DDEVTYPE CheckType,D3DFORMAT DisplayFormat,D3DFORMAT BackBufferFormat,BOOL Windowed) PURE;}
+\DoxyCodeLine{180     STDMETHOD(CheckDeviceFormat)(THIS\_ UINT Adapter,D3DDEVTYPE DeviceType,D3DFORMAT AdapterFormat,DWORD Usage,D3DRESOURCETYPE RType,D3DFORMAT CheckFormat) PURE;}
+\DoxyCodeLine{181     STDMETHOD(CheckDeviceMultiSampleType)(THIS\_ UINT Adapter,D3DDEVTYPE DeviceType,D3DFORMAT SurfaceFormat,BOOL Windowed,D3DMULTISAMPLE\_TYPE MultiSampleType) PURE;}
+\DoxyCodeLine{182     STDMETHOD(CheckDepthStencilMatch)(THIS\_ UINT Adapter,D3DDEVTYPE DeviceType,D3DFORMAT AdapterFormat,D3DFORMAT RenderTargetFormat,D3DFORMAT DepthStencilFormat) PURE;}
+\DoxyCodeLine{183     STDMETHOD(GetDeviceCaps)(THIS\_ UINT Adapter,D3DDEVTYPE DeviceType,\mbox{\hyperlink{struct___d3_d_c_a_p_s8}{D3DCAPS8}}* pCaps) PURE;}
+\DoxyCodeLine{184     STDMETHOD\_(HMONITOR, GetAdapterMonitor)(THIS\_ UINT Adapter) PURE;}
+\DoxyCodeLine{185     STDMETHOD(CreateDevice)(THIS\_ UINT Adapter,D3DDEVTYPE DeviceType,HWND hFocusWindow,DWORD BehaviorFlags,\mbox{\hyperlink{struct___d3_d_p_r_e_s_e_n_t___p_a_r_a_m_e_t_e_r_s__}{D3DPRESENT\_PARAMETERS}}* pPresentationParameters,IDirect3DDevice8** ppReturnedDeviceInterface) PURE;}
+\DoxyCodeLine{186 \};}
+\DoxyCodeLine{187 }
+\DoxyCodeLine{188 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirect3D8 *LPDIRECT3D8, *PDIRECT3D8;}
+\DoxyCodeLine{189 }
+\DoxyCodeLine{190 \textcolor{preprocessor}{\#if !defined(\_\_cplusplus) || defined(CINTERFACE)}}
+\DoxyCodeLine{191 \textcolor{preprocessor}{\#define IDirect3D8\_QueryInterface(p,a,b) (p)-\/>lpVtbl-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{192 \textcolor{preprocessor}{\#define IDirect3D8\_AddRef(p) (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{193 \textcolor{preprocessor}{\#define IDirect3D8\_Release(p) (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{194 \textcolor{preprocessor}{\#define IDirect3D8\_RegisterSoftwareDevice(p,a) (p)-\/>lpVtbl-\/>RegisterSoftwareDevice(p,a)}}
+\DoxyCodeLine{195 \textcolor{preprocessor}{\#define IDirect3D8\_GetAdapterCount(p) (p)-\/>lpVtbl-\/>GetAdapterCount(p)}}
+\DoxyCodeLine{196 \textcolor{preprocessor}{\#define IDirect3D8\_GetAdapterIdentifier(p,a,b,c) (p)-\/>lpVtbl-\/>GetAdapterIdentifier(p,a,b,c)}}
+\DoxyCodeLine{197 \textcolor{preprocessor}{\#define IDirect3D8\_GetAdapterModeCount(p,a) (p)-\/>lpVtbl-\/>GetAdapterModeCount(p,a)}}
+\DoxyCodeLine{198 \textcolor{preprocessor}{\#define IDirect3D8\_EnumAdapterModes(p,a,b,c) (p)-\/>lpVtbl-\/>EnumAdapterModes(p,a,b,c)}}
+\DoxyCodeLine{199 \textcolor{preprocessor}{\#define IDirect3D8\_GetAdapterDisplayMode(p,a,b) (p)-\/>lpVtbl-\/>GetAdapterDisplayMode(p,a,b)}}
+\DoxyCodeLine{200 \textcolor{preprocessor}{\#define IDirect3D8\_CheckDeviceType(p,a,b,c,d,e) (p)-\/>lpVtbl-\/>CheckDeviceType(p,a,b,c,d,e)}}
+\DoxyCodeLine{201 \textcolor{preprocessor}{\#define IDirect3D8\_CheckDeviceFormat(p,a,b,c,d,e,f) (p)-\/>lpVtbl-\/>CheckDeviceFormat(p,a,b,c,d,e,f)}}
+\DoxyCodeLine{202 \textcolor{preprocessor}{\#define IDirect3D8\_CheckDeviceMultiSampleType(p,a,b,c,d,e) (p)-\/>lpVtbl-\/>CheckDeviceMultiSampleType(p,a,b,c,d,e)}}
+\DoxyCodeLine{203 \textcolor{preprocessor}{\#define IDirect3D8\_CheckDepthStencilMatch(p,a,b,c,d,e) (p)-\/>lpVtbl-\/>CheckDepthStencilMatch(p,a,b,c,d,e)}}
+\DoxyCodeLine{204 \textcolor{preprocessor}{\#define IDirect3D8\_GetDeviceCaps(p,a,b,c) (p)-\/>lpVtbl-\/>GetDeviceCaps(p,a,b,c)}}
+\DoxyCodeLine{205 \textcolor{preprocessor}{\#define IDirect3D8\_GetAdapterMonitor(p,a) (p)-\/>lpVtbl-\/>GetAdapterMonitor(p,a)}}
+\DoxyCodeLine{206 \textcolor{preprocessor}{\#define IDirect3D8\_CreateDevice(p,a,b,c,d,e,f) (p)-\/>lpVtbl-\/>CreateDevice(p,a,b,c,d,e,f)}}
+\DoxyCodeLine{207 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{208 \textcolor{preprocessor}{\#define IDirect3D8\_QueryInterface(p,a,b) (p)-\/>QueryInterface(a,b)}}
+\DoxyCodeLine{209 \textcolor{preprocessor}{\#define IDirect3D8\_AddRef(p) (p)-\/>AddRef()}}
+\DoxyCodeLine{210 \textcolor{preprocessor}{\#define IDirect3D8\_Release(p) (p)-\/>Release()}}
+\DoxyCodeLine{211 \textcolor{preprocessor}{\#define IDirect3D8\_RegisterSoftwareDevice(p,a) (p)-\/>RegisterSoftwareDevice(a)}}
+\DoxyCodeLine{212 \textcolor{preprocessor}{\#define IDirect3D8\_GetAdapterCount(p) (p)-\/>GetAdapterCount()}}
+\DoxyCodeLine{213 \textcolor{preprocessor}{\#define IDirect3D8\_GetAdapterIdentifier(p,a,b,c) (p)-\/>GetAdapterIdentifier(a,b,c)}}
+\DoxyCodeLine{214 \textcolor{preprocessor}{\#define IDirect3D8\_GetAdapterModeCount(p,a) (p)-\/>GetAdapterModeCount(a)}}
+\DoxyCodeLine{215 \textcolor{preprocessor}{\#define IDirect3D8\_EnumAdapterModes(p,a,b,c) (p)-\/>EnumAdapterModes(a,b,c)}}
+\DoxyCodeLine{216 \textcolor{preprocessor}{\#define IDirect3D8\_GetAdapterDisplayMode(p,a,b) (p)-\/>GetAdapterDisplayMode(a,b)}}
+\DoxyCodeLine{217 \textcolor{preprocessor}{\#define IDirect3D8\_CheckDeviceType(p,a,b,c,d,e) (p)-\/>CheckDeviceType(a,b,c,d,e)}}
+\DoxyCodeLine{218 \textcolor{preprocessor}{\#define IDirect3D8\_CheckDeviceFormat(p,a,b,c,d,e,f) (p)-\/>CheckDeviceFormat(a,b,c,d,e,f)}}
+\DoxyCodeLine{219 \textcolor{preprocessor}{\#define IDirect3D8\_CheckDeviceMultiSampleType(p,a,b,c,d,e) (p)-\/>CheckDeviceMultiSampleType(a,b,c,d,e)}}
+\DoxyCodeLine{220 \textcolor{preprocessor}{\#define IDirect3D8\_CheckDepthStencilMatch(p,a,b,c,d,e) (p)-\/>CheckDepthStencilMatch(a,b,c,d,e)}}
+\DoxyCodeLine{221 \textcolor{preprocessor}{\#define IDirect3D8\_GetDeviceCaps(p,a,b,c) (p)-\/>GetDeviceCaps(a,b,c)}}
+\DoxyCodeLine{222 \textcolor{preprocessor}{\#define IDirect3D8\_GetAdapterMonitor(p,a) (p)-\/>GetAdapterMonitor(a)}}
+\DoxyCodeLine{223 \textcolor{preprocessor}{\#define IDirect3D8\_CreateDevice(p,a,b,c,d,e,f) (p)-\/>CreateDevice(a,b,c,d,e,f)}}
+\DoxyCodeLine{224 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{225 }
+\DoxyCodeLine{226 }
+\DoxyCodeLine{227 }
+\DoxyCodeLine{228 }
+\DoxyCodeLine{229 }
+\DoxyCodeLine{230 }
+\DoxyCodeLine{231 }
+\DoxyCodeLine{232 }
+\DoxyCodeLine{233 }
+\DoxyCodeLine{234 }
+\DoxyCodeLine{235 }
+\DoxyCodeLine{236 }
+\DoxyCodeLine{237 }
+\DoxyCodeLine{238 }
+\DoxyCodeLine{239 }
+\DoxyCodeLine{240 }
+\DoxyCodeLine{241 }
+\DoxyCodeLine{242 }
+\DoxyCodeLine{243 }
+\DoxyCodeLine{244 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{245 \textcolor{preprocessor}{\#define INTERFACE IDirect3DDevice8}}
+\DoxyCodeLine{246 }
+\DoxyCodeLine{247 DECLARE\_INTERFACE\_(IDirect3DDevice8, IUnknown)}
+\DoxyCodeLine{248 \{}
+\DoxyCodeLine{249 \textcolor{comment}{    /*** IUnknown methods ***/}}
+\DoxyCodeLine{250     STDMETHOD(QueryInterface)(THIS\_ REFIID riid, \textcolor{keywordtype}{void}** ppvObj) PURE;}
+\DoxyCodeLine{251     STDMETHOD\_(ULONG,AddRef)(THIS) PURE;}
+\DoxyCodeLine{252     STDMETHOD\_(ULONG,Release)(THIS) PURE;}
+\DoxyCodeLine{253 }
+\DoxyCodeLine{254 \textcolor{comment}{    /*** IDirect3DDevice8 methods ***/}}
+\DoxyCodeLine{255     STDMETHOD(TestCooperativeLevel)(THIS) PURE;}
+\DoxyCodeLine{256     STDMETHOD\_(UINT, GetAvailableTextureMem)(THIS) PURE;}
+\DoxyCodeLine{257     STDMETHOD(ResourceManagerDiscardBytes)(THIS\_ DWORD Bytes) PURE;}
+\DoxyCodeLine{258     STDMETHOD(GetDirect3D)(THIS\_ IDirect3D8** ppD3D8) PURE;}
+\DoxyCodeLine{259     STDMETHOD(GetDeviceCaps)(THIS\_ \mbox{\hyperlink{struct___d3_d_c_a_p_s8}{D3DCAPS8}}* pCaps) PURE;}
+\DoxyCodeLine{260     STDMETHOD(GetDisplayMode)(THIS\_ \mbox{\hyperlink{struct___d3_d_d_i_s_p_l_a_y_m_o_d_e}{D3DDISPLAYMODE}}* pMode) PURE;}
+\DoxyCodeLine{261     STDMETHOD(GetCreationParameters)(THIS\_ \mbox{\hyperlink{struct___d3_d_d_e_v_i_c_e___c_r_e_a_t_i_o_n___p_a_r_a_m_e_t_e_r_s}{D3DDEVICE\_CREATION\_PARAMETERS}} *pParameters) PURE;}
+\DoxyCodeLine{262     STDMETHOD(SetCursorProperties)(THIS\_ UINT XHotSpot,UINT YHotSpot,IDirect3DSurface8* pCursorBitmap) PURE;}
+\DoxyCodeLine{263     STDMETHOD\_(\textcolor{keywordtype}{void}, SetCursorPosition)(THIS\_ \textcolor{keywordtype}{int} X,\textcolor{keywordtype}{int} Y,DWORD Flags) PURE;}
+\DoxyCodeLine{264     STDMETHOD\_(BOOL, ShowCursor)(THIS\_ BOOL bShow) PURE;}
+\DoxyCodeLine{265     STDMETHOD(CreateAdditionalSwapChain)(THIS\_ \mbox{\hyperlink{struct___d3_d_p_r_e_s_e_n_t___p_a_r_a_m_e_t_e_r_s__}{D3DPRESENT\_PARAMETERS}}* pPresentationParameters,IDirect3DSwapChain8** pSwapChain) PURE;}
+\DoxyCodeLine{266     STDMETHOD(Reset)(THIS\_ \mbox{\hyperlink{struct___d3_d_p_r_e_s_e_n_t___p_a_r_a_m_e_t_e_r_s__}{D3DPRESENT\_PARAMETERS}}* pPresentationParameters) PURE;}
+\DoxyCodeLine{267     STDMETHOD(Present)(THIS\_ CONST RECT* pSourceRect,CONST RECT* pDestRect,HWND hDestWindowOverride,CONST RGNDATA* pDirtyRegion) PURE;}
+\DoxyCodeLine{268     STDMETHOD(GetBackBuffer)(THIS\_ UINT BackBuffer,D3DBACKBUFFER\_TYPE Type,IDirect3DSurface8** ppBackBuffer) PURE;}
+\DoxyCodeLine{269     STDMETHOD(GetRasterStatus)(THIS\_ \mbox{\hyperlink{struct___d3_d_r_a_s_t_e_r___s_t_a_t_u_s}{D3DRASTER\_STATUS}}* pRasterStatus) PURE;}
+\DoxyCodeLine{270     STDMETHOD\_(\textcolor{keywordtype}{void}, SetGammaRamp)(THIS\_ DWORD Flags,CONST \mbox{\hyperlink{struct___d3_d_g_a_m_m_a_r_a_m_p}{D3DGAMMARAMP}}* pRamp) PURE;}
+\DoxyCodeLine{271     STDMETHOD\_(\textcolor{keywordtype}{void}, GetGammaRamp)(THIS\_ \mbox{\hyperlink{struct___d3_d_g_a_m_m_a_r_a_m_p}{D3DGAMMARAMP}}* pRamp) PURE;}
+\DoxyCodeLine{272     STDMETHOD(CreateTexture)(THIS\_ UINT Width,UINT Height,UINT Levels,DWORD Usage,D3DFORMAT Format,D3DPOOL Pool,IDirect3DTexture8** ppTexture) PURE;}
+\DoxyCodeLine{273     STDMETHOD(CreateVolumeTexture)(THIS\_ UINT Width,UINT Height,UINT Depth,UINT Levels,DWORD Usage,D3DFORMAT Format,D3DPOOL Pool,IDirect3DVolumeTexture8** ppVolumeTexture) PURE;}
+\DoxyCodeLine{274     STDMETHOD(CreateCubeTexture)(THIS\_ UINT EdgeLength,UINT Levels,DWORD Usage,D3DFORMAT Format,D3DPOOL Pool,IDirect3DCubeTexture8** ppCubeTexture) PURE;}
+\DoxyCodeLine{275     STDMETHOD(CreateVertexBuffer)(THIS\_ UINT Length,DWORD Usage,DWORD FVF,D3DPOOL Pool,IDirect3DVertexBuffer8** ppVertexBuffer) PURE;}
+\DoxyCodeLine{276     STDMETHOD(CreateIndexBuffer)(THIS\_ UINT Length,DWORD Usage,D3DFORMAT Format,D3DPOOL Pool,IDirect3DIndexBuffer8** ppIndexBuffer) PURE;}
+\DoxyCodeLine{277     STDMETHOD(CreateRenderTarget)(THIS\_ UINT Width,UINT Height,D3DFORMAT Format,D3DMULTISAMPLE\_TYPE MultiSample,BOOL Lockable,IDirect3DSurface8** ppSurface) PURE;}
+\DoxyCodeLine{278     STDMETHOD(CreateDepthStencilSurface)(THIS\_ UINT Width,UINT Height,D3DFORMAT Format,D3DMULTISAMPLE\_TYPE MultiSample,IDirect3DSurface8** ppSurface) PURE;}
+\DoxyCodeLine{279     STDMETHOD(CreateImageSurface)(THIS\_ UINT Width,UINT Height,D3DFORMAT Format,IDirect3DSurface8** ppSurface) PURE;}
+\DoxyCodeLine{280     STDMETHOD(CopyRects)(THIS\_ IDirect3DSurface8* pSourceSurface,CONST RECT* pSourceRectsArray,UINT cRects,IDirect3DSurface8* pDestinationSurface,CONST POINT* pDestPointsArray) PURE;}
+\DoxyCodeLine{281     STDMETHOD(UpdateTexture)(THIS\_ IDirect3DBaseTexture8* pSourceTexture,IDirect3DBaseTexture8* pDestinationTexture) PURE;}
+\DoxyCodeLine{282     STDMETHOD(GetFrontBuffer)(THIS\_ IDirect3DSurface8* pDestSurface) PURE;}
+\DoxyCodeLine{283     STDMETHOD(SetRenderTarget)(THIS\_ IDirect3DSurface8* pRenderTarget,IDirect3DSurface8* pNewZStencil) PURE;}
+\DoxyCodeLine{284     STDMETHOD(GetRenderTarget)(THIS\_ IDirect3DSurface8** ppRenderTarget) PURE;}
+\DoxyCodeLine{285     STDMETHOD(GetDepthStencilSurface)(THIS\_ IDirect3DSurface8** ppZStencilSurface) PURE;}
+\DoxyCodeLine{286     STDMETHOD(BeginScene)(THIS) PURE;}
+\DoxyCodeLine{287     STDMETHOD(EndScene)(THIS) PURE;}
+\DoxyCodeLine{288     STDMETHOD(Clear)(THIS\_ DWORD Count,CONST \mbox{\hyperlink{struct___d3_d_r_e_c_t}{D3DRECT}}* pRects,DWORD Flags,D3DCOLOR Color,\textcolor{keywordtype}{float} Z,DWORD Stencil) PURE;}
+\DoxyCodeLine{289     STDMETHOD(SetTransform)(THIS\_ D3DTRANSFORMSTATETYPE State,CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DMATRIX}}* pMatrix) PURE;}
+\DoxyCodeLine{290     STDMETHOD(GetTransform)(THIS\_ D3DTRANSFORMSTATETYPE State,\mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DMATRIX}}* pMatrix) PURE;}
+\DoxyCodeLine{291     STDMETHOD(MultiplyTransform)(THIS\_ D3DTRANSFORMSTATETYPE,CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DMATRIX}}*) PURE;}
+\DoxyCodeLine{292     STDMETHOD(SetViewport)(THIS\_ CONST \mbox{\hyperlink{struct___d3_d_v_i_e_w_p_o_r_t8}{D3DVIEWPORT8}}* pViewport) PURE;}
+\DoxyCodeLine{293     STDMETHOD(GetViewport)(THIS\_ \mbox{\hyperlink{struct___d3_d_v_i_e_w_p_o_r_t8}{D3DVIEWPORT8}}* pViewport) PURE;}
+\DoxyCodeLine{294     STDMETHOD(SetMaterial)(THIS\_ CONST \mbox{\hyperlink{struct___d3_d_m_a_t_e_r_i_a_l8}{D3DMATERIAL8}}* pMaterial) PURE;}
+\DoxyCodeLine{295     STDMETHOD(GetMaterial)(THIS\_ \mbox{\hyperlink{struct___d3_d_m_a_t_e_r_i_a_l8}{D3DMATERIAL8}}* pMaterial) PURE;}
+\DoxyCodeLine{296     STDMETHOD(SetLight)(THIS\_ DWORD Index,CONST \mbox{\hyperlink{struct___d3_d_l_i_g_h_t8}{D3DLIGHT8}}*) PURE;}
+\DoxyCodeLine{297     STDMETHOD(GetLight)(THIS\_ DWORD Index,\mbox{\hyperlink{struct___d3_d_l_i_g_h_t8}{D3DLIGHT8}}*) PURE;}
+\DoxyCodeLine{298     STDMETHOD(LightEnable)(THIS\_ DWORD Index,BOOL Enable) PURE;}
+\DoxyCodeLine{299     STDMETHOD(GetLightEnable)(THIS\_ DWORD Index,BOOL* pEnable) PURE;}
+\DoxyCodeLine{300     STDMETHOD(SetClipPlane)(THIS\_ DWORD Index,CONST \textcolor{keywordtype}{float}* pPlane) PURE;}
+\DoxyCodeLine{301     STDMETHOD(GetClipPlane)(THIS\_ DWORD Index,\textcolor{keywordtype}{float}* pPlane) PURE;}
+\DoxyCodeLine{302     STDMETHOD(SetRenderState)(THIS\_ D3DRENDERSTATETYPE State,DWORD Value) PURE;}
+\DoxyCodeLine{303     STDMETHOD(GetRenderState)(THIS\_ D3DRENDERSTATETYPE State,DWORD* pValue) PURE;}
+\DoxyCodeLine{304     STDMETHOD(BeginStateBlock)(THIS) PURE;}
+\DoxyCodeLine{305     STDMETHOD(EndStateBlock)(THIS\_ DWORD* pToken) PURE;}
+\DoxyCodeLine{306     STDMETHOD(ApplyStateBlock)(THIS\_ DWORD Token) PURE;}
+\DoxyCodeLine{307     STDMETHOD(CaptureStateBlock)(THIS\_ DWORD Token) PURE;}
+\DoxyCodeLine{308     STDMETHOD(DeleteStateBlock)(THIS\_ DWORD Token) PURE;}
+\DoxyCodeLine{309     STDMETHOD(CreateStateBlock)(THIS\_ D3DSTATEBLOCKTYPE Type,DWORD* pToken) PURE;}
+\DoxyCodeLine{310     STDMETHOD(SetClipStatus)(THIS\_ CONST \mbox{\hyperlink{struct___d3_d_c_l_i_p_s_t_a_t_u_s8}{D3DCLIPSTATUS8}}* pClipStatus) PURE;}
+\DoxyCodeLine{311     STDMETHOD(GetClipStatus)(THIS\_ \mbox{\hyperlink{struct___d3_d_c_l_i_p_s_t_a_t_u_s8}{D3DCLIPSTATUS8}}* pClipStatus) PURE;}
+\DoxyCodeLine{312     STDMETHOD(GetTexture)(THIS\_ DWORD Stage,IDirect3DBaseTexture8** ppTexture) PURE;}
+\DoxyCodeLine{313     STDMETHOD(SetTexture)(THIS\_ DWORD Stage,IDirect3DBaseTexture8* pTexture) PURE;}
+\DoxyCodeLine{314     STDMETHOD(GetTextureStageState)(THIS\_ DWORD Stage,D3DTEXTURESTAGESTATETYPE Type,DWORD* pValue) PURE;}
+\DoxyCodeLine{315     STDMETHOD(SetTextureStageState)(THIS\_ DWORD Stage,D3DTEXTURESTAGESTATETYPE Type,DWORD Value) PURE;}
+\DoxyCodeLine{316     STDMETHOD(ValidateDevice)(THIS\_ DWORD* pNumPasses) PURE;}
+\DoxyCodeLine{317     STDMETHOD(GetInfo)(THIS\_ DWORD DevInfoID,\textcolor{keywordtype}{void}* pDevInfoStruct,DWORD DevInfoStructSize) PURE;}
+\DoxyCodeLine{318     STDMETHOD(SetPaletteEntries)(THIS\_ UINT PaletteNumber,CONST PALETTEENTRY* pEntries) PURE;}
+\DoxyCodeLine{319     STDMETHOD(GetPaletteEntries)(THIS\_ UINT PaletteNumber,PALETTEENTRY* pEntries) PURE;}
+\DoxyCodeLine{320     STDMETHOD(SetCurrentTexturePalette)(THIS\_ UINT PaletteNumber) PURE;}
+\DoxyCodeLine{321     STDMETHOD(GetCurrentTexturePalette)(THIS\_ UINT *PaletteNumber) PURE;}
+\DoxyCodeLine{322     STDMETHOD(DrawPrimitive)(THIS\_ D3DPRIMITIVETYPE PrimitiveType,UINT StartVertex,UINT PrimitiveCount) PURE;}
+\DoxyCodeLine{323     STDMETHOD(DrawIndexedPrimitive)(THIS\_ D3DPRIMITIVETYPE,UINT minIndex,UINT NumVertices,UINT startIndex,UINT primCount) PURE;}
+\DoxyCodeLine{324     STDMETHOD(DrawPrimitiveUP)(THIS\_ D3DPRIMITIVETYPE PrimitiveType,UINT PrimitiveCount,CONST \textcolor{keywordtype}{void}* pVertexStreamZeroData,UINT VertexStreamZeroStride) PURE;}
+\DoxyCodeLine{325     STDMETHOD(DrawIndexedPrimitiveUP)(THIS\_ D3DPRIMITIVETYPE PrimitiveType,UINT MinVertexIndex,UINT NumVertexIndices,UINT PrimitiveCount,CONST \textcolor{keywordtype}{void}* pIndexData,D3DFORMAT IndexDataFormat,CONST \textcolor{keywordtype}{void}* pVertexStreamZeroData,UINT VertexStreamZeroStride) PURE;}
+\DoxyCodeLine{326     STDMETHOD(ProcessVertices)(THIS\_ UINT SrcStartIndex,UINT DestIndex,UINT VertexCount,IDirect3DVertexBuffer8* pDestBuffer,DWORD Flags) PURE;}
+\DoxyCodeLine{327     STDMETHOD(CreateVertexShader)(THIS\_ CONST DWORD* pDeclaration,CONST DWORD* pFunction,DWORD* pHandle,DWORD Usage) PURE;}
+\DoxyCodeLine{328     STDMETHOD(SetVertexShader)(THIS\_ DWORD Handle) PURE;}
+\DoxyCodeLine{329     STDMETHOD(GetVertexShader)(THIS\_ DWORD* pHandle) PURE;}
+\DoxyCodeLine{330     STDMETHOD(DeleteVertexShader)(THIS\_ DWORD Handle) PURE;}
+\DoxyCodeLine{331     STDMETHOD(SetVertexShaderConstant)(THIS\_ DWORD Register,CONST \textcolor{keywordtype}{void}* pConstantData,DWORD ConstantCount) PURE;}
+\DoxyCodeLine{332     STDMETHOD(GetVertexShaderConstant)(THIS\_ DWORD Register,\textcolor{keywordtype}{void}* pConstantData,DWORD ConstantCount) PURE;}
+\DoxyCodeLine{333     STDMETHOD(GetVertexShaderDeclaration)(THIS\_ DWORD Handle,\textcolor{keywordtype}{void}* pData,DWORD* pSizeOfData) PURE;}
+\DoxyCodeLine{334     STDMETHOD(GetVertexShaderFunction)(THIS\_ DWORD Handle,\textcolor{keywordtype}{void}* pData,DWORD* pSizeOfData) PURE;}
+\DoxyCodeLine{335     STDMETHOD(SetStreamSource)(THIS\_ UINT StreamNumber,IDirect3DVertexBuffer8* pStreamData,UINT Stride) PURE;}
+\DoxyCodeLine{336     STDMETHOD(GetStreamSource)(THIS\_ UINT StreamNumber,IDirect3DVertexBuffer8** ppStreamData,UINT* pStride) PURE;}
+\DoxyCodeLine{337     STDMETHOD(SetIndices)(THIS\_ IDirect3DIndexBuffer8* pIndexData,UINT BaseVertexIndex) PURE;}
+\DoxyCodeLine{338     STDMETHOD(GetIndices)(THIS\_ IDirect3DIndexBuffer8** ppIndexData,UINT* pBaseVertexIndex) PURE;}
+\DoxyCodeLine{339     STDMETHOD(CreatePixelShader)(THIS\_ CONST DWORD* pFunction,DWORD* pHandle) PURE;}
+\DoxyCodeLine{340     STDMETHOD(SetPixelShader)(THIS\_ DWORD Handle) PURE;}
+\DoxyCodeLine{341     STDMETHOD(GetPixelShader)(THIS\_ DWORD* pHandle) PURE;}
+\DoxyCodeLine{342     STDMETHOD(DeletePixelShader)(THIS\_ DWORD Handle) PURE;}
+\DoxyCodeLine{343     STDMETHOD(SetPixelShaderConstant)(THIS\_ DWORD Register,CONST \textcolor{keywordtype}{void}* pConstantData,DWORD ConstantCount) PURE;}
+\DoxyCodeLine{344     STDMETHOD(GetPixelShaderConstant)(THIS\_ DWORD Register,\textcolor{keywordtype}{void}* pConstantData,DWORD ConstantCount) PURE;}
+\DoxyCodeLine{345     STDMETHOD(GetPixelShaderFunction)(THIS\_ DWORD Handle,\textcolor{keywordtype}{void}* pData,DWORD* pSizeOfData) PURE;}
+\DoxyCodeLine{346     STDMETHOD(DrawRectPatch)(THIS\_ UINT Handle,CONST \textcolor{keywordtype}{float}* pNumSegs,CONST \mbox{\hyperlink{struct___d3_d_r_e_c_t_p_a_t_c_h___i_n_f_o}{D3DRECTPATCH\_INFO}}* pRectPatchInfo) PURE;}
+\DoxyCodeLine{347     STDMETHOD(DrawTriPatch)(THIS\_ UINT Handle,CONST \textcolor{keywordtype}{float}* pNumSegs,CONST \mbox{\hyperlink{struct___d3_d_t_r_i_p_a_t_c_h___i_n_f_o}{D3DTRIPATCH\_INFO}}* pTriPatchInfo) PURE;}
+\DoxyCodeLine{348     STDMETHOD(DeletePatch)(THIS\_ UINT Handle) PURE;}
+\DoxyCodeLine{349 \};}
+\DoxyCodeLine{350 }
+\DoxyCodeLine{351 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirect3DDevice8 *LPDIRECT3DDEVICE8, *PDIRECT3DDEVICE8;}
+\DoxyCodeLine{352 }
+\DoxyCodeLine{353 \textcolor{preprocessor}{\#if !defined(\_\_cplusplus) || defined(CINTERFACE)}}
+\DoxyCodeLine{354 \textcolor{preprocessor}{\#define IDirect3DDevice8\_QueryInterface(p,a,b) (p)-\/>lpVtbl-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{355 \textcolor{preprocessor}{\#define IDirect3DDevice8\_AddRef(p) (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{356 \textcolor{preprocessor}{\#define IDirect3DDevice8\_Release(p) (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{357 \textcolor{preprocessor}{\#define IDirect3DDevice8\_TestCooperativeLevel(p) (p)-\/>lpVtbl-\/>TestCooperativeLevel(p)}}
+\DoxyCodeLine{358 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetAvailableTextureMem(p) (p)-\/>lpVtbl-\/>GetAvailableTextureMem(p)}}
+\DoxyCodeLine{359 \textcolor{preprocessor}{\#define IDirect3DDevice8\_ResourceManagerDiscardBytes(p,a) (p)-\/>lpVtbl-\/>ResourceManagerDiscardBytes(p,a)}}
+\DoxyCodeLine{360 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetDirect3D(p,a) (p)-\/>lpVtbl-\/>GetDirect3D(p,a)}}
+\DoxyCodeLine{361 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetDeviceCaps(p,a) (p)-\/>lpVtbl-\/>GetDeviceCaps(p,a)}}
+\DoxyCodeLine{362 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetDisplayMode(p,a) (p)-\/>lpVtbl-\/>GetDisplayMode(p,a)}}
+\DoxyCodeLine{363 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetCreationParameters(p,a) (p)-\/>lpVtbl-\/>GetCreationParameters(p,a)}}
+\DoxyCodeLine{364 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetCursorProperties(p,a,b,c) (p)-\/>lpVtbl-\/>SetCursorProperties(p,a,b,c)}}
+\DoxyCodeLine{365 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetCursorPosition(p,a,b,c) (p)-\/>lpVtbl-\/>SetCursorPosition(p,a,b,c)}}
+\DoxyCodeLine{366 \textcolor{preprocessor}{\#define IDirect3DDevice8\_ShowCursor(p,a) (p)-\/>lpVtbl-\/>ShowCursor(p,a)}}
+\DoxyCodeLine{367 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateAdditionalSwapChain(p,a,b) (p)-\/>lpVtbl-\/>CreateAdditionalSwapChain(p,a,b)}}
+\DoxyCodeLine{368 \textcolor{preprocessor}{\#define IDirect3DDevice8\_Reset(p,a) (p)-\/>lpVtbl-\/>Reset(p,a)}}
+\DoxyCodeLine{369 \textcolor{preprocessor}{\#define IDirect3DDevice8\_Present(p,a,b,c,d) (p)-\/>lpVtbl-\/>Present(p,a,b,c,d)}}
+\DoxyCodeLine{370 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetBackBuffer(p,a,b,c) (p)-\/>lpVtbl-\/>GetBackBuffer(p,a,b,c)}}
+\DoxyCodeLine{371 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetRasterStatus(p,a) (p)-\/>lpVtbl-\/>GetRasterStatus(p,a)}}
+\DoxyCodeLine{372 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetGammaRamp(p,a,b) (p)-\/>lpVtbl-\/>SetGammaRamp(p,a,b)}}
+\DoxyCodeLine{373 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetGammaRamp(p,a) (p)-\/>lpVtbl-\/>GetGammaRamp(p,a)}}
+\DoxyCodeLine{374 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateTexture(p,a,b,c,d,e,f,g) (p)-\/>lpVtbl-\/>CreateTexture(p,a,b,c,d,e,f,g)}}
+\DoxyCodeLine{375 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateVolumeTexture(p,a,b,c,d,e,f,g,h) (p)-\/>lpVtbl-\/>CreateVolumeTexture(p,a,b,c,d,e,f,g,h)}}
+\DoxyCodeLine{376 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateCubeTexture(p,a,b,c,d,e,f) (p)-\/>lpVtbl-\/>CreateCubeTexture(p,a,b,c,d,e,f)}}
+\DoxyCodeLine{377 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateVertexBuffer(p,a,b,c,d,e) (p)-\/>lpVtbl-\/>CreateVertexBuffer(p,a,b,c,d,e)}}
+\DoxyCodeLine{378 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateIndexBuffer(p,a,b,c,d,e) (p)-\/>lpVtbl-\/>CreateIndexBuffer(p,a,b,c,d,e)}}
+\DoxyCodeLine{379 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateRenderTarget(p,a,b,c,d,e,f) (p)-\/>lpVtbl-\/>CreateRenderTarget(p,a,b,c,d,e,f)}}
+\DoxyCodeLine{380 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateDepthStencilSurface(p,a,b,c,d,e) (p)-\/>lpVtbl-\/>CreateDepthStencilSurface(p,a,b,c,d,e)}}
+\DoxyCodeLine{381 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateImageSurface(p,a,b,c,d) (p)-\/>lpVtbl-\/>CreateImageSurface(p,a,b,c,d)}}
+\DoxyCodeLine{382 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CopyRects(p,a,b,c,d,e) (p)-\/>lpVtbl-\/>CopyRects(p,a,b,c,d,e)}}
+\DoxyCodeLine{383 \textcolor{preprocessor}{\#define IDirect3DDevice8\_UpdateTexture(p,a,b) (p)-\/>lpVtbl-\/>UpdateTexture(p,a,b)}}
+\DoxyCodeLine{384 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetFrontBuffer(p,a) (p)-\/>lpVtbl-\/>GetFrontBuffer(p,a)}}
+\DoxyCodeLine{385 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetRenderTarget(p,a,b) (p)-\/>lpVtbl-\/>SetRenderTarget(p,a,b)}}
+\DoxyCodeLine{386 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetRenderTarget(p,a) (p)-\/>lpVtbl-\/>GetRenderTarget(p,a)}}
+\DoxyCodeLine{387 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetDepthStencilSurface(p,a) (p)-\/>lpVtbl-\/>GetDepthStencilSurface(p,a)}}
+\DoxyCodeLine{388 \textcolor{preprocessor}{\#define IDirect3DDevice8\_BeginScene(p) (p)-\/>lpVtbl-\/>BeginScene(p)}}
+\DoxyCodeLine{389 \textcolor{preprocessor}{\#define IDirect3DDevice8\_EndScene(p) (p)-\/>lpVtbl-\/>EndScene(p)}}
+\DoxyCodeLine{390 \textcolor{preprocessor}{\#define IDirect3DDevice8\_Clear(p,a,b,c,d,e,f) (p)-\/>lpVtbl-\/>Clear(p,a,b,c,d,e,f)}}
+\DoxyCodeLine{391 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetTransform(p,a,b) (p)-\/>lpVtbl-\/>SetTransform(p,a,b)}}
+\DoxyCodeLine{392 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetTransform(p,a,b) (p)-\/>lpVtbl-\/>GetTransform(p,a,b)}}
+\DoxyCodeLine{393 \textcolor{preprocessor}{\#define IDirect3DDevice8\_MultiplyTransform(p,a,b) (p)-\/>lpVtbl-\/>MultiplyTransform(p,a,b)}}
+\DoxyCodeLine{394 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetViewport(p,a) (p)-\/>lpVtbl-\/>SetViewport(p,a)}}
+\DoxyCodeLine{395 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetViewport(p,a) (p)-\/>lpVtbl-\/>GetViewport(p,a)}}
+\DoxyCodeLine{396 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetMaterial(p,a) (p)-\/>lpVtbl-\/>SetMaterial(p,a)}}
+\DoxyCodeLine{397 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetMaterial(p,a) (p)-\/>lpVtbl-\/>GetMaterial(p,a)}}
+\DoxyCodeLine{398 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetLight(p,a,b) (p)-\/>lpVtbl-\/>SetLight(p,a,b)}}
+\DoxyCodeLine{399 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetLight(p,a,b) (p)-\/>lpVtbl-\/>GetLight(p,a,b)}}
+\DoxyCodeLine{400 \textcolor{preprocessor}{\#define IDirect3DDevice8\_LightEnable(p,a,b) (p)-\/>lpVtbl-\/>LightEnable(p,a,b)}}
+\DoxyCodeLine{401 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetLightEnable(p,a,b) (p)-\/>lpVtbl-\/>GetLightEnable(p,a,b)}}
+\DoxyCodeLine{402 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetClipPlane(p,a,b) (p)-\/>lpVtbl-\/>SetClipPlane(p,a,b)}}
+\DoxyCodeLine{403 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetClipPlane(p,a,b) (p)-\/>lpVtbl-\/>GetClipPlane(p,a,b)}}
+\DoxyCodeLine{404 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetRenderState(p,a,b) (p)-\/>lpVtbl-\/>SetRenderState(p,a,b)}}
+\DoxyCodeLine{405 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetRenderState(p,a,b) (p)-\/>lpVtbl-\/>GetRenderState(p,a,b)}}
+\DoxyCodeLine{406 \textcolor{preprocessor}{\#define IDirect3DDevice8\_BeginStateBlock(p) (p)-\/>lpVtbl-\/>BeginStateBlock(p)}}
+\DoxyCodeLine{407 \textcolor{preprocessor}{\#define IDirect3DDevice8\_EndStateBlock(p,a) (p)-\/>lpVtbl-\/>EndStateBlock(p,a)}}
+\DoxyCodeLine{408 \textcolor{preprocessor}{\#define IDirect3DDevice8\_ApplyStateBlock(p,a) (p)-\/>lpVtbl-\/>ApplyStateBlock(p,a)}}
+\DoxyCodeLine{409 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CaptureStateBlock(p,a) (p)-\/>lpVtbl-\/>CaptureStateBlock(p,a)}}
+\DoxyCodeLine{410 \textcolor{preprocessor}{\#define IDirect3DDevice8\_DeleteStateBlock(p,a) (p)-\/>lpVtbl-\/>DeleteStateBlock(p,a)}}
+\DoxyCodeLine{411 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateStateBlock(p,a,b) (p)-\/>lpVtbl-\/>CreateStateBlock(p,a,b)}}
+\DoxyCodeLine{412 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetClipStatus(p,a) (p)-\/>lpVtbl-\/>SetClipStatus(p,a)}}
+\DoxyCodeLine{413 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetClipStatus(p,a) (p)-\/>lpVtbl-\/>GetClipStatus(p,a)}}
+\DoxyCodeLine{414 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetTexture(p,a,b) (p)-\/>lpVtbl-\/>GetTexture(p,a,b)}}
+\DoxyCodeLine{415 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetTexture(p,a,b) (p)-\/>lpVtbl-\/>SetTexture(p,a,b)}}
+\DoxyCodeLine{416 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetTextureStageState(p,a,b,c) (p)-\/>lpVtbl-\/>GetTextureStageState(p,a,b,c)}}
+\DoxyCodeLine{417 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetTextureStageState(p,a,b,c) (p)-\/>lpVtbl-\/>SetTextureStageState(p,a,b,c)}}
+\DoxyCodeLine{418 \textcolor{preprocessor}{\#define IDirect3DDevice8\_ValidateDevice(p,a) (p)-\/>lpVtbl-\/>ValidateDevice(p,a)}}
+\DoxyCodeLine{419 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetInfo(p,a,b,c) (p)-\/>lpVtbl-\/>GetInfo(p,a,b,c)}}
+\DoxyCodeLine{420 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetPaletteEntries(p,a,b) (p)-\/>lpVtbl-\/>SetPaletteEntries(p,a,b)}}
+\DoxyCodeLine{421 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetPaletteEntries(p,a,b) (p)-\/>lpVtbl-\/>GetPaletteEntries(p,a,b)}}
+\DoxyCodeLine{422 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetCurrentTexturePalette(p,a) (p)-\/>lpVtbl-\/>SetCurrentTexturePalette(p,a)}}
+\DoxyCodeLine{423 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetCurrentTexturePalette(p,a) (p)-\/>lpVtbl-\/>GetCurrentTexturePalette(p,a)}}
+\DoxyCodeLine{424 \textcolor{preprocessor}{\#define IDirect3DDevice8\_DrawPrimitive(p,a,b,c) (p)-\/>lpVtbl-\/>DrawPrimitive(p,a,b,c)}}
+\DoxyCodeLine{425 \textcolor{preprocessor}{\#define IDirect3DDevice8\_DrawIndexedPrimitive(p,a,b,c,d,e) (p)-\/>lpVtbl-\/>DrawIndexedPrimitive(p,a,b,c,d,e)}}
+\DoxyCodeLine{426 \textcolor{preprocessor}{\#define IDirect3DDevice8\_DrawPrimitiveUP(p,a,b,c,d) (p)-\/>lpVtbl-\/>DrawPrimitiveUP(p,a,b,c,d)}}
+\DoxyCodeLine{427 \textcolor{preprocessor}{\#define IDirect3DDevice8\_DrawIndexedPrimitiveUP(p,a,b,c,d,e,f,g,h) (p)-\/>lpVtbl-\/>DrawIndexedPrimitiveUP(p,a,b,c,d,e,f,g,h)}}
+\DoxyCodeLine{428 \textcolor{preprocessor}{\#define IDirect3DDevice8\_ProcessVertices(p,a,b,c,d,e) (p)-\/>lpVtbl-\/>ProcessVertices(p,a,b,c,d,e)}}
+\DoxyCodeLine{429 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateVertexShader(p,a,b,c,d) (p)-\/>lpVtbl-\/>CreateVertexShader(p,a,b,c,d)}}
+\DoxyCodeLine{430 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetVertexShader(p,a) (p)-\/>lpVtbl-\/>SetVertexShader(p,a)}}
+\DoxyCodeLine{431 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetVertexShader(p,a) (p)-\/>lpVtbl-\/>GetVertexShader(p,a)}}
+\DoxyCodeLine{432 \textcolor{preprocessor}{\#define IDirect3DDevice8\_DeleteVertexShader(p,a) (p)-\/>lpVtbl-\/>DeleteVertexShader(p,a)}}
+\DoxyCodeLine{433 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetVertexShaderConstant(p,a,b,c) (p)-\/>lpVtbl-\/>SetVertexShaderConstant(p,a,b,c)}}
+\DoxyCodeLine{434 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetVertexShaderConstant(p,a,b,c) (p)-\/>lpVtbl-\/>GetVertexShaderConstant(p,a,b,c)}}
+\DoxyCodeLine{435 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetVertexShaderDeclaration(p,a,b,c) (p)-\/>lpVtbl-\/>GetVertexShaderDeclaration(p,a,b,c)}}
+\DoxyCodeLine{436 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetVertexShaderFunction(p,a,b,c) (p)-\/>lpVtbl-\/>GetVertexShaderFunction(p,a,b,c)}}
+\DoxyCodeLine{437 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetStreamSource(p,a,b,c) (p)-\/>lpVtbl-\/>SetStreamSource(p,a,b,c)}}
+\DoxyCodeLine{438 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetStreamSource(p,a,b,c) (p)-\/>lpVtbl-\/>GetStreamSource(p,a,b,c)}}
+\DoxyCodeLine{439 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetIndices(p,a,b) (p)-\/>lpVtbl-\/>SetIndices(p,a,b)}}
+\DoxyCodeLine{440 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetIndices(p,a,b) (p)-\/>lpVtbl-\/>GetIndices(p,a,b)}}
+\DoxyCodeLine{441 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreatePixelShader(p,a,b) (p)-\/>lpVtbl-\/>CreatePixelShader(p,a,b)}}
+\DoxyCodeLine{442 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetPixelShader(p,a) (p)-\/>lpVtbl-\/>SetPixelShader(p,a)}}
+\DoxyCodeLine{443 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetPixelShader(p,a) (p)-\/>lpVtbl-\/>GetPixelShader(p,a)}}
+\DoxyCodeLine{444 \textcolor{preprocessor}{\#define IDirect3DDevice8\_DeletePixelShader(p,a) (p)-\/>lpVtbl-\/>DeletePixelShader(p,a)}}
+\DoxyCodeLine{445 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetPixelShaderConstant(p,a,b,c) (p)-\/>lpVtbl-\/>SetPixelShaderConstant(p,a,b,c)}}
+\DoxyCodeLine{446 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetPixelShaderConstant(p,a,b,c) (p)-\/>lpVtbl-\/>GetPixelShaderConstant(p,a,b,c)}}
+\DoxyCodeLine{447 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetPixelShaderFunction(p,a,b,c) (p)-\/>lpVtbl-\/>GetPixelShaderFunction(p,a,b,c)}}
+\DoxyCodeLine{448 \textcolor{preprocessor}{\#define IDirect3DDevice8\_DrawRectPatch(p,a,b,c) (p)-\/>lpVtbl-\/>DrawRectPatch(p,a,b,c)}}
+\DoxyCodeLine{449 \textcolor{preprocessor}{\#define IDirect3DDevice8\_DrawTriPatch(p,a,b,c) (p)-\/>lpVtbl-\/>DrawTriPatch(p,a,b,c)}}
+\DoxyCodeLine{450 \textcolor{preprocessor}{\#define IDirect3DDevice8\_DeletePatch(p,a) (p)-\/>lpVtbl-\/>DeletePatch(p,a)}}
+\DoxyCodeLine{451 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{452 \textcolor{preprocessor}{\#define IDirect3DDevice8\_QueryInterface(p,a,b) (p)-\/>QueryInterface(a,b)}}
+\DoxyCodeLine{453 \textcolor{preprocessor}{\#define IDirect3DDevice8\_AddRef(p) (p)-\/>AddRef()}}
+\DoxyCodeLine{454 \textcolor{preprocessor}{\#define IDirect3DDevice8\_Release(p) (p)-\/>Release()}}
+\DoxyCodeLine{455 \textcolor{preprocessor}{\#define IDirect3DDevice8\_TestCooperativeLevel(p) (p)-\/>TestCooperativeLevel()}}
+\DoxyCodeLine{456 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetAvailableTextureMem(p) (p)-\/>GetAvailableTextureMem()}}
+\DoxyCodeLine{457 \textcolor{preprocessor}{\#define IDirect3DDevice8\_ResourceManagerDiscardBytes(p,a) (p)-\/>ResourceManagerDiscardBytes(a)}}
+\DoxyCodeLine{458 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetDirect3D(p,a) (p)-\/>GetDirect3D(a)}}
+\DoxyCodeLine{459 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetDeviceCaps(p,a) (p)-\/>GetDeviceCaps(a)}}
+\DoxyCodeLine{460 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetDisplayMode(p,a) (p)-\/>GetDisplayMode(a)}}
+\DoxyCodeLine{461 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetCreationParameters(p,a) (p)-\/>GetCreationParameters(a)}}
+\DoxyCodeLine{462 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetCursorProperties(p,a,b,c) (p)-\/>SetCursorProperties(a,b,c)}}
+\DoxyCodeLine{463 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetCursorPosition(p,a,b,c) (p)-\/>SetCursorPosition(a,b,c)}}
+\DoxyCodeLine{464 \textcolor{preprocessor}{\#define IDirect3DDevice8\_ShowCursor(p,a) (p)-\/>ShowCursor(a)}}
+\DoxyCodeLine{465 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateAdditionalSwapChain(p,a,b) (p)-\/>CreateAdditionalSwapChain(a,b)}}
+\DoxyCodeLine{466 \textcolor{preprocessor}{\#define IDirect3DDevice8\_Reset(p,a) (p)-\/>Reset(a)}}
+\DoxyCodeLine{467 \textcolor{preprocessor}{\#define IDirect3DDevice8\_Present(p,a,b,c,d) (p)-\/>Present(a,b,c,d)}}
+\DoxyCodeLine{468 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetBackBuffer(p,a,b,c) (p)-\/>GetBackBuffer(a,b,c)}}
+\DoxyCodeLine{469 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetRasterStatus(p,a) (p)-\/>GetRasterStatus(a)}}
+\DoxyCodeLine{470 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetGammaRamp(p,a,b) (p)-\/>SetGammaRamp(a,b)}}
+\DoxyCodeLine{471 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetGammaRamp(p,a) (p)-\/>GetGammaRamp(a)}}
+\DoxyCodeLine{472 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateTexture(p,a,b,c,d,e,f,g) (p)-\/>CreateTexture(a,b,c,d,e,f,g)}}
+\DoxyCodeLine{473 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateVolumeTexture(p,a,b,c,d,e,f,g,h) (p)-\/>CreateVolumeTexture(a,b,c,d,e,f,g,h)}}
+\DoxyCodeLine{474 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateCubeTexture(p,a,b,c,d,e,f) (p)-\/>CreateCubeTexture(a,b,c,d,e,f)}}
+\DoxyCodeLine{475 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateVertexBuffer(p,a,b,c,d,e) (p)-\/>CreateVertexBuffer(a,b,c,d,e)}}
+\DoxyCodeLine{476 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateIndexBuffer(p,a,b,c,d,e) (p)-\/>CreateIndexBuffer(a,b,c,d,e)}}
+\DoxyCodeLine{477 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateRenderTarget(p,a,b,c,d,e,f) (p)-\/>CreateRenderTarget(a,b,c,d,e,f)}}
+\DoxyCodeLine{478 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateDepthStencilSurface(p,a,b,c,d,e) (p)-\/>CreateDepthStencilSurface(a,b,c,d,e)}}
+\DoxyCodeLine{479 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateImageSurface(p,a,b,c,d) (p)-\/>CreateImageSurface(a,b,c,d)}}
+\DoxyCodeLine{480 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CopyRects(p,a,b,c,d,e) (p)-\/>CopyRects(a,b,c,d,e)}}
+\DoxyCodeLine{481 \textcolor{preprocessor}{\#define IDirect3DDevice8\_UpdateTexture(p,a,b) (p)-\/>UpdateTexture(a,b)}}
+\DoxyCodeLine{482 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetFrontBuffer(p,a) (p)-\/>GetFrontBuffer(a)}}
+\DoxyCodeLine{483 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetRenderTarget(p,a,b) (p)-\/>SetRenderTarget(a,b)}}
+\DoxyCodeLine{484 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetRenderTarget(p,a) (p)-\/>GetRenderTarget(a)}}
+\DoxyCodeLine{485 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetDepthStencilSurface(p,a) (p)-\/>GetDepthStencilSurface(a)}}
+\DoxyCodeLine{486 \textcolor{preprocessor}{\#define IDirect3DDevice8\_BeginScene(p) (p)-\/>BeginScene()}}
+\DoxyCodeLine{487 \textcolor{preprocessor}{\#define IDirect3DDevice8\_EndScene(p) (p)-\/>EndScene()}}
+\DoxyCodeLine{488 \textcolor{preprocessor}{\#define IDirect3DDevice8\_Clear(p,a,b,c,d,e,f) (p)-\/>Clear(a,b,c,d,e,f)}}
+\DoxyCodeLine{489 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetTransform(p,a,b) (p)-\/>SetTransform(a,b)}}
+\DoxyCodeLine{490 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetTransform(p,a,b) (p)-\/>GetTransform(a,b)}}
+\DoxyCodeLine{491 \textcolor{preprocessor}{\#define IDirect3DDevice8\_MultiplyTransform(p,a,b) (p)-\/>MultiplyTransform(a,b)}}
+\DoxyCodeLine{492 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetViewport(p,a) (p)-\/>SetViewport(a)}}
+\DoxyCodeLine{493 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetViewport(p,a) (p)-\/>GetViewport(a)}}
+\DoxyCodeLine{494 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetMaterial(p,a) (p)-\/>SetMaterial(a)}}
+\DoxyCodeLine{495 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetMaterial(p,a) (p)-\/>GetMaterial(a)}}
+\DoxyCodeLine{496 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetLight(p,a,b) (p)-\/>SetLight(a,b)}}
+\DoxyCodeLine{497 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetLight(p,a,b) (p)-\/>GetLight(a,b)}}
+\DoxyCodeLine{498 \textcolor{preprocessor}{\#define IDirect3DDevice8\_LightEnable(p,a,b) (p)-\/>LightEnable(a,b)}}
+\DoxyCodeLine{499 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetLightEnable(p,a,b) (p)-\/>GetLightEnable(a,b)}}
+\DoxyCodeLine{500 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetClipPlane(p,a,b) (p)-\/>SetClipPlane(a,b)}}
+\DoxyCodeLine{501 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetClipPlane(p,a,b) (p)-\/>GetClipPlane(a,b)}}
+\DoxyCodeLine{502 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetRenderState(p,a,b) (p)-\/>SetRenderState(a,b)}}
+\DoxyCodeLine{503 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetRenderState(p,a,b) (p)-\/>GetRenderState(a,b)}}
+\DoxyCodeLine{504 \textcolor{preprocessor}{\#define IDirect3DDevice8\_BeginStateBlock(p) (p)-\/>BeginStateBlock()}}
+\DoxyCodeLine{505 \textcolor{preprocessor}{\#define IDirect3DDevice8\_EndStateBlock(p,a) (p)-\/>EndStateBlock(a)}}
+\DoxyCodeLine{506 \textcolor{preprocessor}{\#define IDirect3DDevice8\_ApplyStateBlock(p,a) (p)-\/>ApplyStateBlock(a)}}
+\DoxyCodeLine{507 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CaptureStateBlock(p,a) (p)-\/>CaptureStateBlock(a)}}
+\DoxyCodeLine{508 \textcolor{preprocessor}{\#define IDirect3DDevice8\_DeleteStateBlock(p,a) (p)-\/>DeleteStateBlock(a)}}
+\DoxyCodeLine{509 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateStateBlock(p,a,b) (p)-\/>CreateStateBlock(a,b)}}
+\DoxyCodeLine{510 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetClipStatus(p,a) (p)-\/>SetClipStatus(a)}}
+\DoxyCodeLine{511 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetClipStatus(p,a) (p)-\/>GetClipStatus(a)}}
+\DoxyCodeLine{512 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetTexture(p,a,b) (p)-\/>GetTexture(a,b)}}
+\DoxyCodeLine{513 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetTexture(p,a,b) (p)-\/>SetTexture(a,b)}}
+\DoxyCodeLine{514 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetTextureStageState(p,a,b,c) (p)-\/>GetTextureStageState(a,b,c)}}
+\DoxyCodeLine{515 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetTextureStageState(p,a,b,c) (p)-\/>SetTextureStageState(a,b,c)}}
+\DoxyCodeLine{516 \textcolor{preprocessor}{\#define IDirect3DDevice8\_ValidateDevice(p,a) (p)-\/>ValidateDevice(a)}}
+\DoxyCodeLine{517 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetInfo(p,a,b,c) (p)-\/>GetInfo(a,b,c)}}
+\DoxyCodeLine{518 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetPaletteEntries(p,a,b) (p)-\/>SetPaletteEntries(a,b)}}
+\DoxyCodeLine{519 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetPaletteEntries(p,a,b) (p)-\/>GetPaletteEntries(a,b)}}
+\DoxyCodeLine{520 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetCurrentTexturePalette(p,a) (p)-\/>SetCurrentTexturePalette(a)}}
+\DoxyCodeLine{521 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetCurrentTexturePalette(p,a) (p)-\/>GetCurrentTexturePalette(a)}}
+\DoxyCodeLine{522 \textcolor{preprocessor}{\#define IDirect3DDevice8\_DrawPrimitive(p,a,b,c) (p)-\/>DrawPrimitive(a,b,c)}}
+\DoxyCodeLine{523 \textcolor{preprocessor}{\#define IDirect3DDevice8\_DrawIndexedPrimitive(p,a,b,c,d,e) (p)-\/>DrawIndexedPrimitive(a,b,c,d,e)}}
+\DoxyCodeLine{524 \textcolor{preprocessor}{\#define IDirect3DDevice8\_DrawPrimitiveUP(p,a,b,c,d) (p)-\/>DrawPrimitiveUP(a,b,c,d)}}
+\DoxyCodeLine{525 \textcolor{preprocessor}{\#define IDirect3DDevice8\_DrawIndexedPrimitiveUP(p,a,b,c,d,e,f,g,h) (p)-\/>DrawIndexedPrimitiveUP(a,b,c,d,e,f,g,h)}}
+\DoxyCodeLine{526 \textcolor{preprocessor}{\#define IDirect3DDevice8\_ProcessVertices(p,a,b,c,d,e) (p)-\/>ProcessVertices(a,b,c,d,e)}}
+\DoxyCodeLine{527 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreateVertexShader(p,a,b,c,d) (p)-\/>CreateVertexShader(a,b,c,d)}}
+\DoxyCodeLine{528 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetVertexShader(p,a) (p)-\/>SetVertexShader(a)}}
+\DoxyCodeLine{529 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetVertexShader(p,a) (p)-\/>GetVertexShader(a)}}
+\DoxyCodeLine{530 \textcolor{preprocessor}{\#define IDirect3DDevice8\_DeleteVertexShader(p,a) (p)-\/>DeleteVertexShader(a)}}
+\DoxyCodeLine{531 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetVertexShaderConstant(p,a,b,c) (p)-\/>SetVertexShaderConstant(a,b,c)}}
+\DoxyCodeLine{532 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetVertexShaderConstant(p,a,b,c) (p)-\/>GetVertexShaderConstant(a,b,c)}}
+\DoxyCodeLine{533 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetVertexShaderDeclaration(p,a,b,c) (p)-\/>GetVertexShaderDeclaration(a,b,c)}}
+\DoxyCodeLine{534 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetVertexShaderFunction(p,a,b,c) (p)-\/>GetVertexShaderFunction(a,b,c)}}
+\DoxyCodeLine{535 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetStreamSource(p,a,b,c) (p)-\/>SetStreamSource(a,b,c)}}
+\DoxyCodeLine{536 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetStreamSource(p,a,b,c) (p)-\/>GetStreamSource(a,b,c)}}
+\DoxyCodeLine{537 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetIndices(p,a,b) (p)-\/>SetIndices(a,b)}}
+\DoxyCodeLine{538 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetIndices(p,a,b) (p)-\/>GetIndices(a,b)}}
+\DoxyCodeLine{539 \textcolor{preprocessor}{\#define IDirect3DDevice8\_CreatePixelShader(p,a,b) (p)-\/>CreatePixelShader(a,b)}}
+\DoxyCodeLine{540 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetPixelShader(p,a) (p)-\/>SetPixelShader(a)}}
+\DoxyCodeLine{541 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetPixelShader(p,a) (p)-\/>GetPixelShader(a)}}
+\DoxyCodeLine{542 \textcolor{preprocessor}{\#define IDirect3DDevice8\_DeletePixelShader(p,a) (p)-\/>DeletePixelShader(a)}}
+\DoxyCodeLine{543 \textcolor{preprocessor}{\#define IDirect3DDevice8\_SetPixelShaderConstant(p,a,b,c) (p)-\/>SetPixelShaderConstant(a,b,c)}}
+\DoxyCodeLine{544 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetPixelShaderConstant(p,a,b,c) (p)-\/>GetPixelShaderConstant(a,b,c)}}
+\DoxyCodeLine{545 \textcolor{preprocessor}{\#define IDirect3DDevice8\_GetPixelShaderFunction(p,a,b,c) (p)-\/>GetPixelShaderFunction(a,b,c)}}
+\DoxyCodeLine{546 \textcolor{preprocessor}{\#define IDirect3DDevice8\_DrawRectPatch(p,a,b,c) (p)-\/>DrawRectPatch(a,b,c)}}
+\DoxyCodeLine{547 \textcolor{preprocessor}{\#define IDirect3DDevice8\_DrawTriPatch(p,a,b,c) (p)-\/>DrawTriPatch(a,b,c)}}
+\DoxyCodeLine{548 \textcolor{preprocessor}{\#define IDirect3DDevice8\_DeletePatch(p,a) (p)-\/>DeletePatch(a)}}
+\DoxyCodeLine{549 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{550 }
+\DoxyCodeLine{551 }
+\DoxyCodeLine{552 }
+\DoxyCodeLine{553 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{554 \textcolor{preprocessor}{\#define INTERFACE IDirect3DSwapChain8}}
+\DoxyCodeLine{555 }
+\DoxyCodeLine{556 DECLARE\_INTERFACE\_(IDirect3DSwapChain8, IUnknown)}
+\DoxyCodeLine{557 \{}
+\DoxyCodeLine{558 \textcolor{comment}{    /*** IUnknown methods ***/}}
+\DoxyCodeLine{559     STDMETHOD(QueryInterface)(THIS\_ REFIID riid, \textcolor{keywordtype}{void}** ppvObj) PURE;}
+\DoxyCodeLine{560     STDMETHOD\_(ULONG,AddRef)(THIS) PURE;}
+\DoxyCodeLine{561     STDMETHOD\_(ULONG,Release)(THIS) PURE;}
+\DoxyCodeLine{562 }
+\DoxyCodeLine{563 \textcolor{comment}{    /*** IDirect3DSwapChain8 methods ***/}}
+\DoxyCodeLine{564     STDMETHOD(Present)(THIS\_ CONST RECT* pSourceRect,CONST RECT* pDestRect,HWND hDestWindowOverride,CONST RGNDATA* pDirtyRegion) PURE;}
+\DoxyCodeLine{565     STDMETHOD(GetBackBuffer)(THIS\_ UINT BackBuffer,D3DBACKBUFFER\_TYPE Type,IDirect3DSurface8** ppBackBuffer) PURE;}
+\DoxyCodeLine{566 \};}
+\DoxyCodeLine{567 }
+\DoxyCodeLine{568 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirect3DSwapChain8 *LPDIRECT3DSWAPCHAIN8, *PDIRECT3DSWAPCHAIN8;}
+\DoxyCodeLine{569 }
+\DoxyCodeLine{570 \textcolor{preprocessor}{\#if !defined(\_\_cplusplus) || defined(CINTERFACE)}}
+\DoxyCodeLine{571 \textcolor{preprocessor}{\#define IDirect3DSwapChain8\_QueryInterface(p,a,b) (p)-\/>lpVtbl-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{572 \textcolor{preprocessor}{\#define IDirect3DSwapChain8\_AddRef(p) (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{573 \textcolor{preprocessor}{\#define IDirect3DSwapChain8\_Release(p) (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{574 \textcolor{preprocessor}{\#define IDirect3DSwapChain8\_Present(p,a,b,c,d) (p)-\/>lpVtbl-\/>Present(p,a,b,c,d)}}
+\DoxyCodeLine{575 \textcolor{preprocessor}{\#define IDirect3DSwapChain8\_GetBackBuffer(p,a,b,c) (p)-\/>lpVtbl-\/>GetBackBuffer(p,a,b,c)}}
+\DoxyCodeLine{576 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{577 \textcolor{preprocessor}{\#define IDirect3DSwapChain8\_QueryInterface(p,a,b) (p)-\/>QueryInterface(a,b)}}
+\DoxyCodeLine{578 \textcolor{preprocessor}{\#define IDirect3DSwapChain8\_AddRef(p) (p)-\/>AddRef()}}
+\DoxyCodeLine{579 \textcolor{preprocessor}{\#define IDirect3DSwapChain8\_Release(p) (p)-\/>Release()}}
+\DoxyCodeLine{580 \textcolor{preprocessor}{\#define IDirect3DSwapChain8\_Present(p,a,b,c,d) (p)-\/>Present(a,b,c,d)}}
+\DoxyCodeLine{581 \textcolor{preprocessor}{\#define IDirect3DSwapChain8\_GetBackBuffer(p,a,b,c) (p)-\/>GetBackBuffer(a,b,c)}}
+\DoxyCodeLine{582 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{583 }
+\DoxyCodeLine{584 }
+\DoxyCodeLine{585 }
+\DoxyCodeLine{586 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{587 \textcolor{preprocessor}{\#define INTERFACE IDirect3DResource8}}
+\DoxyCodeLine{588 }
+\DoxyCodeLine{589 DECLARE\_INTERFACE\_(IDirect3DResource8, IUnknown)}
+\DoxyCodeLine{590 \{}
+\DoxyCodeLine{591 \textcolor{comment}{    /*** IUnknown methods ***/}}
+\DoxyCodeLine{592     STDMETHOD(QueryInterface)(THIS\_ REFIID riid, \textcolor{keywordtype}{void}** ppvObj) PURE;}
+\DoxyCodeLine{593     STDMETHOD\_(ULONG,AddRef)(THIS) PURE;}
+\DoxyCodeLine{594     STDMETHOD\_(ULONG,Release)(THIS) PURE;}
+\DoxyCodeLine{595 }
+\DoxyCodeLine{596 \textcolor{comment}{    /*** IDirect3DResource8 methods ***/}}
+\DoxyCodeLine{597     STDMETHOD(GetDevice)(THIS\_ IDirect3DDevice8** ppDevice) PURE;}
+\DoxyCodeLine{598     STDMETHOD(SetPrivateData)(THIS\_ REFGUID refguid,CONST \textcolor{keywordtype}{void}* pData,DWORD SizeOfData,DWORD Flags) PURE;}
+\DoxyCodeLine{599     STDMETHOD(GetPrivateData)(THIS\_ REFGUID refguid,\textcolor{keywordtype}{void}* pData,DWORD* pSizeOfData) PURE;}
+\DoxyCodeLine{600     STDMETHOD(FreePrivateData)(THIS\_ REFGUID refguid) PURE;}
+\DoxyCodeLine{601     STDMETHOD\_(DWORD, SetPriority)(THIS\_ DWORD PriorityNew) PURE;}
+\DoxyCodeLine{602     STDMETHOD\_(DWORD, GetPriority)(THIS) PURE;}
+\DoxyCodeLine{603     STDMETHOD\_(\textcolor{keywordtype}{void}, PreLoad)(THIS) PURE;}
+\DoxyCodeLine{604     STDMETHOD\_(D3DRESOURCETYPE, GetType)(THIS) PURE;}
+\DoxyCodeLine{605 \};}
+\DoxyCodeLine{606 }
+\DoxyCodeLine{607 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirect3DResource8 *LPDIRECT3DRESOURCE8, *PDIRECT3DRESOURCE8;}
+\DoxyCodeLine{608 }
+\DoxyCodeLine{609 \textcolor{preprocessor}{\#if !defined(\_\_cplusplus) || defined(CINTERFACE)}}
+\DoxyCodeLine{610 \textcolor{preprocessor}{\#define IDirect3DResource8\_QueryInterface(p,a,b) (p)-\/>lpVtbl-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{611 \textcolor{preprocessor}{\#define IDirect3DResource8\_AddRef(p) (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{612 \textcolor{preprocessor}{\#define IDirect3DResource8\_Release(p) (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{613 \textcolor{preprocessor}{\#define IDirect3DResource8\_GetDevice(p,a) (p)-\/>lpVtbl-\/>GetDevice(p,a)}}
+\DoxyCodeLine{614 \textcolor{preprocessor}{\#define IDirect3DResource8\_SetPrivateData(p,a,b,c,d) (p)-\/>lpVtbl-\/>SetPrivateData(p,a,b,c,d)}}
+\DoxyCodeLine{615 \textcolor{preprocessor}{\#define IDirect3DResource8\_GetPrivateData(p,a,b,c) (p)-\/>lpVtbl-\/>GetPrivateData(p,a,b,c)}}
+\DoxyCodeLine{616 \textcolor{preprocessor}{\#define IDirect3DResource8\_FreePrivateData(p,a) (p)-\/>lpVtbl-\/>FreePrivateData(p,a)}}
+\DoxyCodeLine{617 \textcolor{preprocessor}{\#define IDirect3DResource8\_SetPriority(p,a) (p)-\/>lpVtbl-\/>SetPriority(p,a)}}
+\DoxyCodeLine{618 \textcolor{preprocessor}{\#define IDirect3DResource8\_GetPriority(p) (p)-\/>lpVtbl-\/>GetPriority(p)}}
+\DoxyCodeLine{619 \textcolor{preprocessor}{\#define IDirect3DResource8\_PreLoad(p) (p)-\/>lpVtbl-\/>PreLoad(p)}}
+\DoxyCodeLine{620 \textcolor{preprocessor}{\#define IDirect3DResource8\_GetType(p) (p)-\/>lpVtbl-\/>GetType(p)}}
+\DoxyCodeLine{621 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{622 \textcolor{preprocessor}{\#define IDirect3DResource8\_QueryInterface(p,a,b) (p)-\/>QueryInterface(a,b)}}
+\DoxyCodeLine{623 \textcolor{preprocessor}{\#define IDirect3DResource8\_AddRef(p) (p)-\/>AddRef()}}
+\DoxyCodeLine{624 \textcolor{preprocessor}{\#define IDirect3DResource8\_Release(p) (p)-\/>Release()}}
+\DoxyCodeLine{625 \textcolor{preprocessor}{\#define IDirect3DResource8\_GetDevice(p,a) (p)-\/>GetDevice(a)}}
+\DoxyCodeLine{626 \textcolor{preprocessor}{\#define IDirect3DResource8\_SetPrivateData(p,a,b,c,d) (p)-\/>SetPrivateData(a,b,c,d)}}
+\DoxyCodeLine{627 \textcolor{preprocessor}{\#define IDirect3DResource8\_GetPrivateData(p,a,b,c) (p)-\/>GetPrivateData(a,b,c)}}
+\DoxyCodeLine{628 \textcolor{preprocessor}{\#define IDirect3DResource8\_FreePrivateData(p,a) (p)-\/>FreePrivateData(a)}}
+\DoxyCodeLine{629 \textcolor{preprocessor}{\#define IDirect3DResource8\_SetPriority(p,a) (p)-\/>SetPriority(a)}}
+\DoxyCodeLine{630 \textcolor{preprocessor}{\#define IDirect3DResource8\_GetPriority(p) (p)-\/>GetPriority()}}
+\DoxyCodeLine{631 \textcolor{preprocessor}{\#define IDirect3DResource8\_PreLoad(p) (p)-\/>PreLoad()}}
+\DoxyCodeLine{632 \textcolor{preprocessor}{\#define IDirect3DResource8\_GetType(p) (p)-\/>GetType()}}
+\DoxyCodeLine{633 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{634 }
+\DoxyCodeLine{635 }
+\DoxyCodeLine{636 }
+\DoxyCodeLine{637 }
+\DoxyCodeLine{638 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{639 \textcolor{preprocessor}{\#define INTERFACE IDirect3DBaseTexture8}}
+\DoxyCodeLine{640 }
+\DoxyCodeLine{641 DECLARE\_INTERFACE\_(IDirect3DBaseTexture8, IDirect3DResource8)}
+\DoxyCodeLine{642 \{}
+\DoxyCodeLine{643 \textcolor{comment}{    /*** IUnknown methods ***/}}
+\DoxyCodeLine{644     STDMETHOD(QueryInterface)(THIS\_ REFIID riid, \textcolor{keywordtype}{void}** ppvObj) PURE;}
+\DoxyCodeLine{645     STDMETHOD\_(ULONG,AddRef)(THIS) PURE;}
+\DoxyCodeLine{646     STDMETHOD\_(ULONG,Release)(THIS) PURE;}
+\DoxyCodeLine{647 }
+\DoxyCodeLine{648 \textcolor{comment}{    /*** IDirect3DResource8 methods ***/}}
+\DoxyCodeLine{649     STDMETHOD(GetDevice)(THIS\_ IDirect3DDevice8** ppDevice) PURE;}
+\DoxyCodeLine{650     STDMETHOD(SetPrivateData)(THIS\_ REFGUID refguid,CONST \textcolor{keywordtype}{void}* pData,DWORD SizeOfData,DWORD Flags) PURE;}
+\DoxyCodeLine{651     STDMETHOD(GetPrivateData)(THIS\_ REFGUID refguid,\textcolor{keywordtype}{void}* pData,DWORD* pSizeOfData) PURE;}
+\DoxyCodeLine{652     STDMETHOD(FreePrivateData)(THIS\_ REFGUID refguid) PURE;}
+\DoxyCodeLine{653     STDMETHOD\_(DWORD, SetPriority)(THIS\_ DWORD PriorityNew) PURE;}
+\DoxyCodeLine{654     STDMETHOD\_(DWORD, GetPriority)(THIS) PURE;}
+\DoxyCodeLine{655     STDMETHOD\_(\textcolor{keywordtype}{void}, PreLoad)(THIS) PURE;}
+\DoxyCodeLine{656     STDMETHOD\_(D3DRESOURCETYPE, GetType)(THIS) PURE;}
+\DoxyCodeLine{657     STDMETHOD\_(DWORD, SetLOD)(THIS\_ DWORD LODNew) PURE;}
+\DoxyCodeLine{658     STDMETHOD\_(DWORD, GetLOD)(THIS) PURE;}
+\DoxyCodeLine{659     STDMETHOD\_(DWORD, GetLevelCount)(THIS) PURE;}
+\DoxyCodeLine{660 \};}
+\DoxyCodeLine{661 }
+\DoxyCodeLine{662 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirect3DBaseTexture8 *LPDIRECT3DBASETEXTURE8, *PDIRECT3DBASETEXTURE8;}
+\DoxyCodeLine{663 }
+\DoxyCodeLine{664 \textcolor{preprocessor}{\#if !defined(\_\_cplusplus) || defined(CINTERFACE)}}
+\DoxyCodeLine{665 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_QueryInterface(p,a,b) (p)-\/>lpVtbl-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{666 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_AddRef(p) (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{667 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_Release(p) (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{668 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_GetDevice(p,a) (p)-\/>lpVtbl-\/>GetDevice(p,a)}}
+\DoxyCodeLine{669 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_SetPrivateData(p,a,b,c,d) (p)-\/>lpVtbl-\/>SetPrivateData(p,a,b,c,d)}}
+\DoxyCodeLine{670 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_GetPrivateData(p,a,b,c) (p)-\/>lpVtbl-\/>GetPrivateData(p,a,b,c)}}
+\DoxyCodeLine{671 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_FreePrivateData(p,a) (p)-\/>lpVtbl-\/>FreePrivateData(p,a)}}
+\DoxyCodeLine{672 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_SetPriority(p,a) (p)-\/>lpVtbl-\/>SetPriority(p,a)}}
+\DoxyCodeLine{673 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_GetPriority(p) (p)-\/>lpVtbl-\/>GetPriority(p)}}
+\DoxyCodeLine{674 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_PreLoad(p) (p)-\/>lpVtbl-\/>PreLoad(p)}}
+\DoxyCodeLine{675 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_GetType(p) (p)-\/>lpVtbl-\/>GetType(p)}}
+\DoxyCodeLine{676 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_SetLOD(p,a) (p)-\/>lpVtbl-\/>SetLOD(p,a)}}
+\DoxyCodeLine{677 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_GetLOD(p) (p)-\/>lpVtbl-\/>GetLOD(p)}}
+\DoxyCodeLine{678 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_GetLevelCount(p) (p)-\/>lpVtbl-\/>GetLevelCount(p)}}
+\DoxyCodeLine{679 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{680 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_QueryInterface(p,a,b) (p)-\/>QueryInterface(a,b)}}
+\DoxyCodeLine{681 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_AddRef(p) (p)-\/>AddRef()}}
+\DoxyCodeLine{682 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_Release(p) (p)-\/>Release()}}
+\DoxyCodeLine{683 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_GetDevice(p,a) (p)-\/>GetDevice(a)}}
+\DoxyCodeLine{684 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_SetPrivateData(p,a,b,c,d) (p)-\/>SetPrivateData(a,b,c,d)}}
+\DoxyCodeLine{685 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_GetPrivateData(p,a,b,c) (p)-\/>GetPrivateData(a,b,c)}}
+\DoxyCodeLine{686 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_FreePrivateData(p,a) (p)-\/>FreePrivateData(a)}}
+\DoxyCodeLine{687 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_SetPriority(p,a) (p)-\/>SetPriority(a)}}
+\DoxyCodeLine{688 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_GetPriority(p) (p)-\/>GetPriority()}}
+\DoxyCodeLine{689 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_PreLoad(p) (p)-\/>PreLoad()}}
+\DoxyCodeLine{690 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_GetType(p) (p)-\/>GetType()}}
+\DoxyCodeLine{691 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_SetLOD(p,a) (p)-\/>SetLOD(a)}}
+\DoxyCodeLine{692 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_GetLOD(p) (p)-\/>GetLOD()}}
+\DoxyCodeLine{693 \textcolor{preprocessor}{\#define IDirect3DBaseTexture8\_GetLevelCount(p) (p)-\/>GetLevelCount()}}
+\DoxyCodeLine{694 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{695 }
+\DoxyCodeLine{696 }
+\DoxyCodeLine{697 }
+\DoxyCodeLine{698 }
+\DoxyCodeLine{699 }
+\DoxyCodeLine{700 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{701 \textcolor{preprocessor}{\#define INTERFACE IDirect3DTexture8}}
+\DoxyCodeLine{702 }
+\DoxyCodeLine{703 DECLARE\_INTERFACE\_(IDirect3DTexture8, IDirect3DBaseTexture8)}
+\DoxyCodeLine{704 \{}
+\DoxyCodeLine{705 \textcolor{comment}{    /*** IUnknown methods ***/}}
+\DoxyCodeLine{706     STDMETHOD(QueryInterface)(THIS\_ REFIID riid, \textcolor{keywordtype}{void}** ppvObj) PURE;}
+\DoxyCodeLine{707     STDMETHOD\_(ULONG,AddRef)(THIS) PURE;}
+\DoxyCodeLine{708     STDMETHOD\_(ULONG,Release)(THIS) PURE;}
+\DoxyCodeLine{709 }
+\DoxyCodeLine{710 \textcolor{comment}{    /*** IDirect3DBaseTexture8 methods ***/}}
+\DoxyCodeLine{711     STDMETHOD(GetDevice)(THIS\_ IDirect3DDevice8** ppDevice) PURE;}
+\DoxyCodeLine{712     STDMETHOD(SetPrivateData)(THIS\_ REFGUID refguid,CONST \textcolor{keywordtype}{void}* pData,DWORD SizeOfData,DWORD Flags) PURE;}
+\DoxyCodeLine{713     STDMETHOD(GetPrivateData)(THIS\_ REFGUID refguid,\textcolor{keywordtype}{void}* pData,DWORD* pSizeOfData) PURE;}
+\DoxyCodeLine{714     STDMETHOD(FreePrivateData)(THIS\_ REFGUID refguid) PURE;}
+\DoxyCodeLine{715     STDMETHOD\_(DWORD, SetPriority)(THIS\_ DWORD PriorityNew) PURE;}
+\DoxyCodeLine{716     STDMETHOD\_(DWORD, GetPriority)(THIS) PURE;}
+\DoxyCodeLine{717     STDMETHOD\_(\textcolor{keywordtype}{void}, PreLoad)(THIS) PURE;}
+\DoxyCodeLine{718     STDMETHOD\_(D3DRESOURCETYPE, GetType)(THIS) PURE;}
+\DoxyCodeLine{719     STDMETHOD\_(DWORD, SetLOD)(THIS\_ DWORD LODNew) PURE;}
+\DoxyCodeLine{720     STDMETHOD\_(DWORD, GetLOD)(THIS) PURE;}
+\DoxyCodeLine{721     STDMETHOD\_(DWORD, GetLevelCount)(THIS) PURE;}
+\DoxyCodeLine{722     STDMETHOD(GetLevelDesc)(THIS\_ UINT Level,\mbox{\hyperlink{struct___d3_d_s_u_r_f_a_c_e___d_e_s_c}{D3DSURFACE\_DESC}} *pDesc) PURE;}
+\DoxyCodeLine{723     STDMETHOD(GetSurfaceLevel)(THIS\_ UINT Level,IDirect3DSurface8** ppSurfaceLevel) PURE;}
+\DoxyCodeLine{724     STDMETHOD(LockRect)(THIS\_ UINT Level,\mbox{\hyperlink{struct___d3_d_l_o_c_k_e_d___r_e_c_t}{D3DLOCKED\_RECT}}* pLockedRect,CONST RECT* pRect,DWORD Flags) PURE;}
+\DoxyCodeLine{725     STDMETHOD(UnlockRect)(THIS\_ UINT Level) PURE;}
+\DoxyCodeLine{726     STDMETHOD(AddDirtyRect)(THIS\_ CONST RECT* pDirtyRect) PURE;}
+\DoxyCodeLine{727 \};}
+\DoxyCodeLine{728 }
+\DoxyCodeLine{729 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirect3DTexture8 *LPDIRECT3DTEXTURE8, *PDIRECT3DTEXTURE8;}
+\DoxyCodeLine{730 }
+\DoxyCodeLine{731 \textcolor{preprocessor}{\#if !defined(\_\_cplusplus) || defined(CINTERFACE)}}
+\DoxyCodeLine{732 \textcolor{preprocessor}{\#define IDirect3DTexture8\_QueryInterface(p,a,b) (p)-\/>lpVtbl-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{733 \textcolor{preprocessor}{\#define IDirect3DTexture8\_AddRef(p) (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{734 \textcolor{preprocessor}{\#define IDirect3DTexture8\_Release(p) (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{735 \textcolor{preprocessor}{\#define IDirect3DTexture8\_GetDevice(p,a) (p)-\/>lpVtbl-\/>GetDevice(p,a)}}
+\DoxyCodeLine{736 \textcolor{preprocessor}{\#define IDirect3DTexture8\_SetPrivateData(p,a,b,c,d) (p)-\/>lpVtbl-\/>SetPrivateData(p,a,b,c,d)}}
+\DoxyCodeLine{737 \textcolor{preprocessor}{\#define IDirect3DTexture8\_GetPrivateData(p,a,b,c) (p)-\/>lpVtbl-\/>GetPrivateData(p,a,b,c)}}
+\DoxyCodeLine{738 \textcolor{preprocessor}{\#define IDirect3DTexture8\_FreePrivateData(p,a) (p)-\/>lpVtbl-\/>FreePrivateData(p,a)}}
+\DoxyCodeLine{739 \textcolor{preprocessor}{\#define IDirect3DTexture8\_SetPriority(p,a) (p)-\/>lpVtbl-\/>SetPriority(p,a)}}
+\DoxyCodeLine{740 \textcolor{preprocessor}{\#define IDirect3DTexture8\_GetPriority(p) (p)-\/>lpVtbl-\/>GetPriority(p)}}
+\DoxyCodeLine{741 \textcolor{preprocessor}{\#define IDirect3DTexture8\_PreLoad(p) (p)-\/>lpVtbl-\/>PreLoad(p)}}
+\DoxyCodeLine{742 \textcolor{preprocessor}{\#define IDirect3DTexture8\_GetType(p) (p)-\/>lpVtbl-\/>GetType(p)}}
+\DoxyCodeLine{743 \textcolor{preprocessor}{\#define IDirect3DTexture8\_SetLOD(p,a) (p)-\/>lpVtbl-\/>SetLOD(p,a)}}
+\DoxyCodeLine{744 \textcolor{preprocessor}{\#define IDirect3DTexture8\_GetLOD(p) (p)-\/>lpVtbl-\/>GetLOD(p)}}
+\DoxyCodeLine{745 \textcolor{preprocessor}{\#define IDirect3DTexture8\_GetLevelCount(p) (p)-\/>lpVtbl-\/>GetLevelCount(p)}}
+\DoxyCodeLine{746 \textcolor{preprocessor}{\#define IDirect3DTexture8\_GetLevelDesc(p,a,b) (p)-\/>lpVtbl-\/>GetLevelDesc(p,a,b)}}
+\DoxyCodeLine{747 \textcolor{preprocessor}{\#define IDirect3DTexture8\_GetSurfaceLevel(p,a,b) (p)-\/>lpVtbl-\/>GetSurfaceLevel(p,a,b)}}
+\DoxyCodeLine{748 \textcolor{preprocessor}{\#define IDirect3DTexture8\_LockRect(p,a,b,c,d) (p)-\/>lpVtbl-\/>LockRect(p,a,b,c,d)}}
+\DoxyCodeLine{749 \textcolor{preprocessor}{\#define IDirect3DTexture8\_UnlockRect(p,a) (p)-\/>lpVtbl-\/>UnlockRect(p,a)}}
+\DoxyCodeLine{750 \textcolor{preprocessor}{\#define IDirect3DTexture8\_AddDirtyRect(p,a) (p)-\/>lpVtbl-\/>AddDirtyRect(p,a)}}
+\DoxyCodeLine{751 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{752 \textcolor{preprocessor}{\#define IDirect3DTexture8\_QueryInterface(p,a,b) (p)-\/>QueryInterface(a,b)}}
+\DoxyCodeLine{753 \textcolor{preprocessor}{\#define IDirect3DTexture8\_AddRef(p) (p)-\/>AddRef()}}
+\DoxyCodeLine{754 \textcolor{preprocessor}{\#define IDirect3DTexture8\_Release(p) (p)-\/>Release()}}
+\DoxyCodeLine{755 \textcolor{preprocessor}{\#define IDirect3DTexture8\_GetDevice(p,a) (p)-\/>GetDevice(a)}}
+\DoxyCodeLine{756 \textcolor{preprocessor}{\#define IDirect3DTexture8\_SetPrivateData(p,a,b,c,d) (p)-\/>SetPrivateData(a,b,c,d)}}
+\DoxyCodeLine{757 \textcolor{preprocessor}{\#define IDirect3DTexture8\_GetPrivateData(p,a,b,c) (p)-\/>GetPrivateData(a,b,c)}}
+\DoxyCodeLine{758 \textcolor{preprocessor}{\#define IDirect3DTexture8\_FreePrivateData(p,a) (p)-\/>FreePrivateData(a)}}
+\DoxyCodeLine{759 \textcolor{preprocessor}{\#define IDirect3DTexture8\_SetPriority(p,a) (p)-\/>SetPriority(a)}}
+\DoxyCodeLine{760 \textcolor{preprocessor}{\#define IDirect3DTexture8\_GetPriority(p) (p)-\/>GetPriority()}}
+\DoxyCodeLine{761 \textcolor{preprocessor}{\#define IDirect3DTexture8\_PreLoad(p) (p)-\/>PreLoad()}}
+\DoxyCodeLine{762 \textcolor{preprocessor}{\#define IDirect3DTexture8\_GetType(p) (p)-\/>GetType()}}
+\DoxyCodeLine{763 \textcolor{preprocessor}{\#define IDirect3DTexture8\_SetLOD(p,a) (p)-\/>SetLOD(a)}}
+\DoxyCodeLine{764 \textcolor{preprocessor}{\#define IDirect3DTexture8\_GetLOD(p) (p)-\/>GetLOD()}}
+\DoxyCodeLine{765 \textcolor{preprocessor}{\#define IDirect3DTexture8\_GetLevelCount(p) (p)-\/>GetLevelCount()}}
+\DoxyCodeLine{766 \textcolor{preprocessor}{\#define IDirect3DTexture8\_GetLevelDesc(p,a,b) (p)-\/>GetLevelDesc(a,b)}}
+\DoxyCodeLine{767 \textcolor{preprocessor}{\#define IDirect3DTexture8\_GetSurfaceLevel(p,a,b) (p)-\/>GetSurfaceLevel(a,b)}}
+\DoxyCodeLine{768 \textcolor{preprocessor}{\#define IDirect3DTexture8\_LockRect(p,a,b,c,d) (p)-\/>LockRect(a,b,c,d)}}
+\DoxyCodeLine{769 \textcolor{preprocessor}{\#define IDirect3DTexture8\_UnlockRect(p,a) (p)-\/>UnlockRect(a)}}
+\DoxyCodeLine{770 \textcolor{preprocessor}{\#define IDirect3DTexture8\_AddDirtyRect(p,a) (p)-\/>AddDirtyRect(a)}}
+\DoxyCodeLine{771 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{772 }
+\DoxyCodeLine{773 }
+\DoxyCodeLine{774 }
+\DoxyCodeLine{775 }
+\DoxyCodeLine{776 }
+\DoxyCodeLine{777 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{778 \textcolor{preprocessor}{\#define INTERFACE IDirect3DVolumeTexture8}}
+\DoxyCodeLine{779 }
+\DoxyCodeLine{780 DECLARE\_INTERFACE\_(IDirect3DVolumeTexture8, IDirect3DBaseTexture8)}
+\DoxyCodeLine{781 \{}
+\DoxyCodeLine{782 \textcolor{comment}{    /*** IUnknown methods ***/}}
+\DoxyCodeLine{783     STDMETHOD(QueryInterface)(THIS\_ REFIID riid, \textcolor{keywordtype}{void}** ppvObj) PURE;}
+\DoxyCodeLine{784     STDMETHOD\_(ULONG,AddRef)(THIS) PURE;}
+\DoxyCodeLine{785     STDMETHOD\_(ULONG,Release)(THIS) PURE;}
+\DoxyCodeLine{786 }
+\DoxyCodeLine{787 \textcolor{comment}{    /*** IDirect3DBaseTexture8 methods ***/}}
+\DoxyCodeLine{788     STDMETHOD(GetDevice)(THIS\_ IDirect3DDevice8** ppDevice) PURE;}
+\DoxyCodeLine{789     STDMETHOD(SetPrivateData)(THIS\_ REFGUID refguid,CONST \textcolor{keywordtype}{void}* pData,DWORD SizeOfData,DWORD Flags) PURE;}
+\DoxyCodeLine{790     STDMETHOD(GetPrivateData)(THIS\_ REFGUID refguid,\textcolor{keywordtype}{void}* pData,DWORD* pSizeOfData) PURE;}
+\DoxyCodeLine{791     STDMETHOD(FreePrivateData)(THIS\_ REFGUID refguid) PURE;}
+\DoxyCodeLine{792     STDMETHOD\_(DWORD, SetPriority)(THIS\_ DWORD PriorityNew) PURE;}
+\DoxyCodeLine{793     STDMETHOD\_(DWORD, GetPriority)(THIS) PURE;}
+\DoxyCodeLine{794     STDMETHOD\_(\textcolor{keywordtype}{void}, PreLoad)(THIS) PURE;}
+\DoxyCodeLine{795     STDMETHOD\_(D3DRESOURCETYPE, GetType)(THIS) PURE;}
+\DoxyCodeLine{796     STDMETHOD\_(DWORD, SetLOD)(THIS\_ DWORD LODNew) PURE;}
+\DoxyCodeLine{797     STDMETHOD\_(DWORD, GetLOD)(THIS) PURE;}
+\DoxyCodeLine{798     STDMETHOD\_(DWORD, GetLevelCount)(THIS) PURE;}
+\DoxyCodeLine{799     STDMETHOD(GetLevelDesc)(THIS\_ UINT Level,\mbox{\hyperlink{struct___d3_d_v_o_l_u_m_e___d_e_s_c}{D3DVOLUME\_DESC}} *pDesc) PURE;}
+\DoxyCodeLine{800     STDMETHOD(GetVolumeLevel)(THIS\_ UINT Level,IDirect3DVolume8** ppVolumeLevel) PURE;}
+\DoxyCodeLine{801     STDMETHOD(LockBox)(THIS\_ UINT Level,\mbox{\hyperlink{struct___d3_d_l_o_c_k_e_d___b_o_x}{D3DLOCKED\_BOX}}* pLockedVolume,CONST \mbox{\hyperlink{struct___d3_d_b_o_x}{D3DBOX}}* pBox,DWORD Flags) PURE;}
+\DoxyCodeLine{802     STDMETHOD(UnlockBox)(THIS\_ UINT Level) PURE;}
+\DoxyCodeLine{803     STDMETHOD(AddDirtyBox)(THIS\_ CONST \mbox{\hyperlink{struct___d3_d_b_o_x}{D3DBOX}}* pDirtyBox) PURE;}
+\DoxyCodeLine{804 \};}
+\DoxyCodeLine{805 }
+\DoxyCodeLine{806 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirect3DVolumeTexture8 *LPDIRECT3DVOLUMETEXTURE8, *PDIRECT3DVOLUMETEXTURE8;}
+\DoxyCodeLine{807 }
+\DoxyCodeLine{808 \textcolor{preprocessor}{\#if !defined(\_\_cplusplus) || defined(CINTERFACE)}}
+\DoxyCodeLine{809 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_QueryInterface(p,a,b) (p)-\/>lpVtbl-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{810 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_AddRef(p) (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{811 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_Release(p) (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{812 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_GetDevice(p,a) (p)-\/>lpVtbl-\/>GetDevice(p,a)}}
+\DoxyCodeLine{813 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_SetPrivateData(p,a,b,c,d) (p)-\/>lpVtbl-\/>SetPrivateData(p,a,b,c,d)}}
+\DoxyCodeLine{814 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_GetPrivateData(p,a,b,c) (p)-\/>lpVtbl-\/>GetPrivateData(p,a,b,c)}}
+\DoxyCodeLine{815 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_FreePrivateData(p,a) (p)-\/>lpVtbl-\/>FreePrivateData(p,a)}}
+\DoxyCodeLine{816 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_SetPriority(p,a) (p)-\/>lpVtbl-\/>SetPriority(p,a)}}
+\DoxyCodeLine{817 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_GetPriority(p) (p)-\/>lpVtbl-\/>GetPriority(p)}}
+\DoxyCodeLine{818 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_PreLoad(p) (p)-\/>lpVtbl-\/>PreLoad(p)}}
+\DoxyCodeLine{819 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_GetType(p) (p)-\/>lpVtbl-\/>GetType(p)}}
+\DoxyCodeLine{820 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_SetLOD(p,a) (p)-\/>lpVtbl-\/>SetLOD(p,a)}}
+\DoxyCodeLine{821 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_GetLOD(p) (p)-\/>lpVtbl-\/>GetLOD(p)}}
+\DoxyCodeLine{822 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_GetLevelCount(p) (p)-\/>lpVtbl-\/>GetLevelCount(p)}}
+\DoxyCodeLine{823 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_GetLevelDesc(p,a,b) (p)-\/>lpVtbl-\/>GetLevelDesc(p,a,b)}}
+\DoxyCodeLine{824 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_GetVolumeLevel(p,a,b) (p)-\/>lpVtbl-\/>GetVolumeLevel(p,a,b)}}
+\DoxyCodeLine{825 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_LockBox(p,a,b,c,d) (p)-\/>lpVtbl-\/>LockBox(p,a,b,c,d)}}
+\DoxyCodeLine{826 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_UnlockBox(p,a) (p)-\/>lpVtbl-\/>UnlockBox(p,a)}}
+\DoxyCodeLine{827 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_AddDirtyBox(p,a) (p)-\/>lpVtbl-\/>AddDirtyBox(p,a)}}
+\DoxyCodeLine{828 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{829 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_QueryInterface(p,a,b) (p)-\/>QueryInterface(a,b)}}
+\DoxyCodeLine{830 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_AddRef(p) (p)-\/>AddRef()}}
+\DoxyCodeLine{831 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_Release(p) (p)-\/>Release()}}
+\DoxyCodeLine{832 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_GetDevice(p,a) (p)-\/>GetDevice(a)}}
+\DoxyCodeLine{833 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_SetPrivateData(p,a,b,c,d) (p)-\/>SetPrivateData(a,b,c,d)}}
+\DoxyCodeLine{834 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_GetPrivateData(p,a,b,c) (p)-\/>GetPrivateData(a,b,c)}}
+\DoxyCodeLine{835 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_FreePrivateData(p,a) (p)-\/>FreePrivateData(a)}}
+\DoxyCodeLine{836 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_SetPriority(p,a) (p)-\/>SetPriority(a)}}
+\DoxyCodeLine{837 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_GetPriority(p) (p)-\/>GetPriority()}}
+\DoxyCodeLine{838 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_PreLoad(p) (p)-\/>PreLoad()}}
+\DoxyCodeLine{839 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_GetType(p) (p)-\/>GetType()}}
+\DoxyCodeLine{840 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_SetLOD(p,a) (p)-\/>SetLOD(a)}}
+\DoxyCodeLine{841 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_GetLOD(p) (p)-\/>GetLOD()}}
+\DoxyCodeLine{842 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_GetLevelCount(p) (p)-\/>GetLevelCount()}}
+\DoxyCodeLine{843 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_GetLevelDesc(p,a,b) (p)-\/>GetLevelDesc(a,b)}}
+\DoxyCodeLine{844 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_GetVolumeLevel(p,a,b) (p)-\/>GetVolumeLevel(a,b)}}
+\DoxyCodeLine{845 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_LockBox(p,a,b,c,d) (p)-\/>LockBox(a,b,c,d)}}
+\DoxyCodeLine{846 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_UnlockBox(p,a) (p)-\/>UnlockBox(a)}}
+\DoxyCodeLine{847 \textcolor{preprocessor}{\#define IDirect3DVolumeTexture8\_AddDirtyBox(p,a) (p)-\/>AddDirtyBox(a)}}
+\DoxyCodeLine{848 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{849 }
+\DoxyCodeLine{850 }
+\DoxyCodeLine{851 }
+\DoxyCodeLine{852 }
+\DoxyCodeLine{853 }
+\DoxyCodeLine{854 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{855 \textcolor{preprocessor}{\#define INTERFACE IDirect3DCubeTexture8}}
+\DoxyCodeLine{856 }
+\DoxyCodeLine{857 DECLARE\_INTERFACE\_(IDirect3DCubeTexture8, IDirect3DBaseTexture8)}
+\DoxyCodeLine{858 \{}
+\DoxyCodeLine{859 \textcolor{comment}{    /*** IUnknown methods ***/}}
+\DoxyCodeLine{860     STDMETHOD(QueryInterface)(THIS\_ REFIID riid, \textcolor{keywordtype}{void}** ppvObj) PURE;}
+\DoxyCodeLine{861     STDMETHOD\_(ULONG,AddRef)(THIS) PURE;}
+\DoxyCodeLine{862     STDMETHOD\_(ULONG,Release)(THIS) PURE;}
+\DoxyCodeLine{863 }
+\DoxyCodeLine{864 \textcolor{comment}{    /*** IDirect3DBaseTexture8 methods ***/}}
+\DoxyCodeLine{865     STDMETHOD(GetDevice)(THIS\_ IDirect3DDevice8** ppDevice) PURE;}
+\DoxyCodeLine{866     STDMETHOD(SetPrivateData)(THIS\_ REFGUID refguid,CONST \textcolor{keywordtype}{void}* pData,DWORD SizeOfData,DWORD Flags) PURE;}
+\DoxyCodeLine{867     STDMETHOD(GetPrivateData)(THIS\_ REFGUID refguid,\textcolor{keywordtype}{void}* pData,DWORD* pSizeOfData) PURE;}
+\DoxyCodeLine{868     STDMETHOD(FreePrivateData)(THIS\_ REFGUID refguid) PURE;}
+\DoxyCodeLine{869     STDMETHOD\_(DWORD, SetPriority)(THIS\_ DWORD PriorityNew) PURE;}
+\DoxyCodeLine{870     STDMETHOD\_(DWORD, GetPriority)(THIS) PURE;}
+\DoxyCodeLine{871     STDMETHOD\_(\textcolor{keywordtype}{void}, PreLoad)(THIS) PURE;}
+\DoxyCodeLine{872     STDMETHOD\_(D3DRESOURCETYPE, GetType)(THIS) PURE;}
+\DoxyCodeLine{873     STDMETHOD\_(DWORD, SetLOD)(THIS\_ DWORD LODNew) PURE;}
+\DoxyCodeLine{874     STDMETHOD\_(DWORD, GetLOD)(THIS) PURE;}
+\DoxyCodeLine{875     STDMETHOD\_(DWORD, GetLevelCount)(THIS) PURE;}
+\DoxyCodeLine{876     STDMETHOD(GetLevelDesc)(THIS\_ UINT Level,\mbox{\hyperlink{struct___d3_d_s_u_r_f_a_c_e___d_e_s_c}{D3DSURFACE\_DESC}} *pDesc) PURE;}
+\DoxyCodeLine{877     STDMETHOD(GetCubeMapSurface)(THIS\_ D3DCUBEMAP\_FACES FaceType,UINT Level,IDirect3DSurface8** ppCubeMapSurface) PURE;}
+\DoxyCodeLine{878     STDMETHOD(LockRect)(THIS\_ D3DCUBEMAP\_FACES FaceType,UINT Level,\mbox{\hyperlink{struct___d3_d_l_o_c_k_e_d___r_e_c_t}{D3DLOCKED\_RECT}}* pLockedRect,CONST RECT* pRect,DWORD Flags) PURE;}
+\DoxyCodeLine{879     STDMETHOD(UnlockRect)(THIS\_ D3DCUBEMAP\_FACES FaceType,UINT Level) PURE;}
+\DoxyCodeLine{880     STDMETHOD(AddDirtyRect)(THIS\_ D3DCUBEMAP\_FACES FaceType,CONST RECT* pDirtyRect) PURE;}
+\DoxyCodeLine{881 \};}
+\DoxyCodeLine{882 }
+\DoxyCodeLine{883 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirect3DCubeTexture8 *LPDIRECT3DCUBETEXTURE8, *PDIRECT3DCUBETEXTURE8;}
+\DoxyCodeLine{884 }
+\DoxyCodeLine{885 \textcolor{preprocessor}{\#if !defined(\_\_cplusplus) || defined(CINTERFACE)}}
+\DoxyCodeLine{886 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_QueryInterface(p,a,b) (p)-\/>lpVtbl-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{887 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_AddRef(p) (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{888 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_Release(p) (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{889 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_GetDevice(p,a) (p)-\/>lpVtbl-\/>GetDevice(p,a)}}
+\DoxyCodeLine{890 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_SetPrivateData(p,a,b,c,d) (p)-\/>lpVtbl-\/>SetPrivateData(p,a,b,c,d)}}
+\DoxyCodeLine{891 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_GetPrivateData(p,a,b,c) (p)-\/>lpVtbl-\/>GetPrivateData(p,a,b,c)}}
+\DoxyCodeLine{892 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_FreePrivateData(p,a) (p)-\/>lpVtbl-\/>FreePrivateData(p,a)}}
+\DoxyCodeLine{893 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_SetPriority(p,a) (p)-\/>lpVtbl-\/>SetPriority(p,a)}}
+\DoxyCodeLine{894 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_GetPriority(p) (p)-\/>lpVtbl-\/>GetPriority(p)}}
+\DoxyCodeLine{895 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_PreLoad(p) (p)-\/>lpVtbl-\/>PreLoad(p)}}
+\DoxyCodeLine{896 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_GetType(p) (p)-\/>lpVtbl-\/>GetType(p)}}
+\DoxyCodeLine{897 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_SetLOD(p,a) (p)-\/>lpVtbl-\/>SetLOD(p,a)}}
+\DoxyCodeLine{898 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_GetLOD(p) (p)-\/>lpVtbl-\/>GetLOD(p)}}
+\DoxyCodeLine{899 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_GetLevelCount(p) (p)-\/>lpVtbl-\/>GetLevelCount(p)}}
+\DoxyCodeLine{900 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_GetLevelDesc(p,a,b) (p)-\/>lpVtbl-\/>GetLevelDesc(p,a,b)}}
+\DoxyCodeLine{901 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_GetCubeMapSurface(p,a,b,c) (p)-\/>lpVtbl-\/>GetCubeMapSurface(p,a,b,c)}}
+\DoxyCodeLine{902 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_LockRect(p,a,b,c,d,e) (p)-\/>lpVtbl-\/>LockRect(p,a,b,c,d,e)}}
+\DoxyCodeLine{903 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_UnlockRect(p,a,b) (p)-\/>lpVtbl-\/>UnlockRect(p,a,b)}}
+\DoxyCodeLine{904 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_AddDirtyRect(p,a,b) (p)-\/>lpVtbl-\/>AddDirtyRect(p,a,b)}}
+\DoxyCodeLine{905 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{906 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_QueryInterface(p,a,b) (p)-\/>QueryInterface(a,b)}}
+\DoxyCodeLine{907 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_AddRef(p) (p)-\/>AddRef()}}
+\DoxyCodeLine{908 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_Release(p) (p)-\/>Release()}}
+\DoxyCodeLine{909 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_GetDevice(p,a) (p)-\/>GetDevice(a)}}
+\DoxyCodeLine{910 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_SetPrivateData(p,a,b,c,d) (p)-\/>SetPrivateData(a,b,c,d)}}
+\DoxyCodeLine{911 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_GetPrivateData(p,a,b,c) (p)-\/>GetPrivateData(a,b,c)}}
+\DoxyCodeLine{912 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_FreePrivateData(p,a) (p)-\/>FreePrivateData(a)}}
+\DoxyCodeLine{913 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_SetPriority(p,a) (p)-\/>SetPriority(a)}}
+\DoxyCodeLine{914 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_GetPriority(p) (p)-\/>GetPriority()}}
+\DoxyCodeLine{915 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_PreLoad(p) (p)-\/>PreLoad()}}
+\DoxyCodeLine{916 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_GetType(p) (p)-\/>GetType()}}
+\DoxyCodeLine{917 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_SetLOD(p,a) (p)-\/>SetLOD(a)}}
+\DoxyCodeLine{918 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_GetLOD(p) (p)-\/>GetLOD()}}
+\DoxyCodeLine{919 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_GetLevelCount(p) (p)-\/>GetLevelCount()}}
+\DoxyCodeLine{920 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_GetLevelDesc(p,a,b) (p)-\/>GetLevelDesc(a,b)}}
+\DoxyCodeLine{921 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_GetCubeMapSurface(p,a,b,c) (p)-\/>GetCubeMapSurface(a,b,c)}}
+\DoxyCodeLine{922 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_LockRect(p,a,b,c,d,e) (p)-\/>LockRect(a,b,c,d,e)}}
+\DoxyCodeLine{923 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_UnlockRect(p,a,b) (p)-\/>UnlockRect(a,b)}}
+\DoxyCodeLine{924 \textcolor{preprocessor}{\#define IDirect3DCubeTexture8\_AddDirtyRect(p,a,b) (p)-\/>AddDirtyRect(a,b)}}
+\DoxyCodeLine{925 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{926 }
+\DoxyCodeLine{927 }
+\DoxyCodeLine{928 }
+\DoxyCodeLine{929 }
+\DoxyCodeLine{930 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{931 \textcolor{preprocessor}{\#define INTERFACE IDirect3DVertexBuffer8}}
+\DoxyCodeLine{932 }
+\DoxyCodeLine{933 DECLARE\_INTERFACE\_(IDirect3DVertexBuffer8, IDirect3DResource8)}
+\DoxyCodeLine{934 \{}
+\DoxyCodeLine{935 \textcolor{comment}{    /*** IUnknown methods ***/}}
+\DoxyCodeLine{936     STDMETHOD(QueryInterface)(THIS\_ REFIID riid, \textcolor{keywordtype}{void}** ppvObj) PURE;}
+\DoxyCodeLine{937     STDMETHOD\_(ULONG,AddRef)(THIS) PURE;}
+\DoxyCodeLine{938     STDMETHOD\_(ULONG,Release)(THIS) PURE;}
+\DoxyCodeLine{939 }
+\DoxyCodeLine{940 \textcolor{comment}{    /*** IDirect3DResource8 methods ***/}}
+\DoxyCodeLine{941     STDMETHOD(GetDevice)(THIS\_ IDirect3DDevice8** ppDevice) PURE;}
+\DoxyCodeLine{942     STDMETHOD(SetPrivateData)(THIS\_ REFGUID refguid,CONST \textcolor{keywordtype}{void}* pData,DWORD SizeOfData,DWORD Flags) PURE;}
+\DoxyCodeLine{943     STDMETHOD(GetPrivateData)(THIS\_ REFGUID refguid,\textcolor{keywordtype}{void}* pData,DWORD* pSizeOfData) PURE;}
+\DoxyCodeLine{944     STDMETHOD(FreePrivateData)(THIS\_ REFGUID refguid) PURE;}
+\DoxyCodeLine{945     STDMETHOD\_(DWORD, SetPriority)(THIS\_ DWORD PriorityNew) PURE;}
+\DoxyCodeLine{946     STDMETHOD\_(DWORD, GetPriority)(THIS) PURE;}
+\DoxyCodeLine{947     STDMETHOD\_(\textcolor{keywordtype}{void}, PreLoad)(THIS) PURE;}
+\DoxyCodeLine{948     STDMETHOD\_(D3DRESOURCETYPE, GetType)(THIS) PURE;}
+\DoxyCodeLine{949     STDMETHOD(Lock)(THIS\_ UINT OffsetToLock,UINT SizeToLock,BYTE** ppbData,DWORD Flags) PURE;}
+\DoxyCodeLine{950     STDMETHOD(Unlock)(THIS) PURE;}
+\DoxyCodeLine{951     STDMETHOD(GetDesc)(THIS\_ \mbox{\hyperlink{struct___d3_d_v_e_r_t_e_x_b_u_f_f_e_r___d_e_s_c}{D3DVERTEXBUFFER\_DESC}} *pDesc) PURE;}
+\DoxyCodeLine{952 \};}
+\DoxyCodeLine{953 }
+\DoxyCodeLine{954 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirect3DVertexBuffer8 *LPDIRECT3DVERTEXBUFFER8, *PDIRECT3DVERTEXBUFFER8;}
+\DoxyCodeLine{955 }
+\DoxyCodeLine{956 \textcolor{preprocessor}{\#if !defined(\_\_cplusplus) || defined(CINTERFACE)}}
+\DoxyCodeLine{957 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_QueryInterface(p,a,b) (p)-\/>lpVtbl-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{958 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_AddRef(p) (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{959 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_Release(p) (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{960 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_GetDevice(p,a) (p)-\/>lpVtbl-\/>GetDevice(p,a)}}
+\DoxyCodeLine{961 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_SetPrivateData(p,a,b,c,d) (p)-\/>lpVtbl-\/>SetPrivateData(p,a,b,c,d)}}
+\DoxyCodeLine{962 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_GetPrivateData(p,a,b,c) (p)-\/>lpVtbl-\/>GetPrivateData(p,a,b,c)}}
+\DoxyCodeLine{963 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_FreePrivateData(p,a) (p)-\/>lpVtbl-\/>FreePrivateData(p,a)}}
+\DoxyCodeLine{964 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_SetPriority(p,a) (p)-\/>lpVtbl-\/>SetPriority(p,a)}}
+\DoxyCodeLine{965 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_GetPriority(p) (p)-\/>lpVtbl-\/>GetPriority(p)}}
+\DoxyCodeLine{966 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_PreLoad(p) (p)-\/>lpVtbl-\/>PreLoad(p)}}
+\DoxyCodeLine{967 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_GetType(p) (p)-\/>lpVtbl-\/>GetType(p)}}
+\DoxyCodeLine{968 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_Lock(p,a,b,c,d) (p)-\/>lpVtbl-\/>Lock(p,a,b,c,d)}}
+\DoxyCodeLine{969 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_Unlock(p) (p)-\/>lpVtbl-\/>Unlock(p)}}
+\DoxyCodeLine{970 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_GetDesc(p,a) (p)-\/>lpVtbl-\/>GetDesc(p,a)}}
+\DoxyCodeLine{971 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{972 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_QueryInterface(p,a,b) (p)-\/>QueryInterface(a,b)}}
+\DoxyCodeLine{973 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_AddRef(p) (p)-\/>AddRef()}}
+\DoxyCodeLine{974 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_Release(p) (p)-\/>Release()}}
+\DoxyCodeLine{975 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_GetDevice(p,a) (p)-\/>GetDevice(a)}}
+\DoxyCodeLine{976 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_SetPrivateData(p,a,b,c,d) (p)-\/>SetPrivateData(a,b,c,d)}}
+\DoxyCodeLine{977 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_GetPrivateData(p,a,b,c) (p)-\/>GetPrivateData(a,b,c)}}
+\DoxyCodeLine{978 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_FreePrivateData(p,a) (p)-\/>FreePrivateData(a)}}
+\DoxyCodeLine{979 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_SetPriority(p,a) (p)-\/>SetPriority(a)}}
+\DoxyCodeLine{980 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_GetPriority(p) (p)-\/>GetPriority()}}
+\DoxyCodeLine{981 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_PreLoad(p) (p)-\/>PreLoad()}}
+\DoxyCodeLine{982 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_GetType(p) (p)-\/>GetType()}}
+\DoxyCodeLine{983 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_Lock(p,a,b,c,d) (p)-\/>Lock(a,b,c,d)}}
+\DoxyCodeLine{984 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_Unlock(p) (p)-\/>Unlock()}}
+\DoxyCodeLine{985 \textcolor{preprocessor}{\#define IDirect3DVertexBuffer8\_GetDesc(p,a) (p)-\/>GetDesc(a)}}
+\DoxyCodeLine{986 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{987 }
+\DoxyCodeLine{988 }
+\DoxyCodeLine{989 }
+\DoxyCodeLine{990 }
+\DoxyCodeLine{991 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{992 \textcolor{preprocessor}{\#define INTERFACE IDirect3DIndexBuffer8}}
+\DoxyCodeLine{993 }
+\DoxyCodeLine{994 DECLARE\_INTERFACE\_(IDirect3DIndexBuffer8, IDirect3DResource8)}
+\DoxyCodeLine{995 \{}
+\DoxyCodeLine{996 \textcolor{comment}{    /*** IUnknown methods ***/}}
+\DoxyCodeLine{997     STDMETHOD(QueryInterface)(THIS\_ REFIID riid, \textcolor{keywordtype}{void}** ppvObj) PURE;}
+\DoxyCodeLine{998     STDMETHOD\_(ULONG,AddRef)(THIS) PURE;}
+\DoxyCodeLine{999     STDMETHOD\_(ULONG,Release)(THIS) PURE;}
+\DoxyCodeLine{1000 }
+\DoxyCodeLine{1001 \textcolor{comment}{    /*** IDirect3DResource8 methods ***/}}
+\DoxyCodeLine{1002     STDMETHOD(GetDevice)(THIS\_ IDirect3DDevice8** ppDevice) PURE;}
+\DoxyCodeLine{1003     STDMETHOD(SetPrivateData)(THIS\_ REFGUID refguid,CONST \textcolor{keywordtype}{void}* pData,DWORD SizeOfData,DWORD Flags) PURE;}
+\DoxyCodeLine{1004     STDMETHOD(GetPrivateData)(THIS\_ REFGUID refguid,\textcolor{keywordtype}{void}* pData,DWORD* pSizeOfData) PURE;}
+\DoxyCodeLine{1005     STDMETHOD(FreePrivateData)(THIS\_ REFGUID refguid) PURE;}
+\DoxyCodeLine{1006     STDMETHOD\_(DWORD, SetPriority)(THIS\_ DWORD PriorityNew) PURE;}
+\DoxyCodeLine{1007     STDMETHOD\_(DWORD, GetPriority)(THIS) PURE;}
+\DoxyCodeLine{1008     STDMETHOD\_(\textcolor{keywordtype}{void}, PreLoad)(THIS) PURE;}
+\DoxyCodeLine{1009     STDMETHOD\_(D3DRESOURCETYPE, GetType)(THIS) PURE;}
+\DoxyCodeLine{1010     STDMETHOD(Lock)(THIS\_ UINT OffsetToLock,UINT SizeToLock,BYTE** ppbData,DWORD Flags) PURE;}
+\DoxyCodeLine{1011     STDMETHOD(Unlock)(THIS) PURE;}
+\DoxyCodeLine{1012     STDMETHOD(GetDesc)(THIS\_ \mbox{\hyperlink{struct___d3_d_i_n_d_e_x_b_u_f_f_e_r___d_e_s_c}{D3DINDEXBUFFER\_DESC}} *pDesc) PURE;}
+\DoxyCodeLine{1013 \};}
+\DoxyCodeLine{1014 }
+\DoxyCodeLine{1015 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirect3DIndexBuffer8 *LPDIRECT3DINDEXBUFFER8, *PDIRECT3DINDEXBUFFER8;}
+\DoxyCodeLine{1016 }
+\DoxyCodeLine{1017 \textcolor{preprocessor}{\#if !defined(\_\_cplusplus) || defined(CINTERFACE)}}
+\DoxyCodeLine{1018 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_QueryInterface(p,a,b) (p)-\/>lpVtbl-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{1019 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_AddRef(p) (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{1020 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_Release(p) (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{1021 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_GetDevice(p,a) (p)-\/>lpVtbl-\/>GetDevice(p,a)}}
+\DoxyCodeLine{1022 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_SetPrivateData(p,a,b,c,d) (p)-\/>lpVtbl-\/>SetPrivateData(p,a,b,c,d)}}
+\DoxyCodeLine{1023 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_GetPrivateData(p,a,b,c) (p)-\/>lpVtbl-\/>GetPrivateData(p,a,b,c)}}
+\DoxyCodeLine{1024 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_FreePrivateData(p,a) (p)-\/>lpVtbl-\/>FreePrivateData(p,a)}}
+\DoxyCodeLine{1025 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_SetPriority(p,a) (p)-\/>lpVtbl-\/>SetPriority(p,a)}}
+\DoxyCodeLine{1026 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_GetPriority(p) (p)-\/>lpVtbl-\/>GetPriority(p)}}
+\DoxyCodeLine{1027 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_PreLoad(p) (p)-\/>lpVtbl-\/>PreLoad(p)}}
+\DoxyCodeLine{1028 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_GetType(p) (p)-\/>lpVtbl-\/>GetType(p)}}
+\DoxyCodeLine{1029 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_Lock(p,a,b,c,d) (p)-\/>lpVtbl-\/>Lock(p,a,b,c,d)}}
+\DoxyCodeLine{1030 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_Unlock(p) (p)-\/>lpVtbl-\/>Unlock(p)}}
+\DoxyCodeLine{1031 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_GetDesc(p,a) (p)-\/>lpVtbl-\/>GetDesc(p,a)}}
+\DoxyCodeLine{1032 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1033 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_QueryInterface(p,a,b) (p)-\/>QueryInterface(a,b)}}
+\DoxyCodeLine{1034 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_AddRef(p) (p)-\/>AddRef()}}
+\DoxyCodeLine{1035 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_Release(p) (p)-\/>Release()}}
+\DoxyCodeLine{1036 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_GetDevice(p,a) (p)-\/>GetDevice(a)}}
+\DoxyCodeLine{1037 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_SetPrivateData(p,a,b,c,d) (p)-\/>SetPrivateData(a,b,c,d)}}
+\DoxyCodeLine{1038 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_GetPrivateData(p,a,b,c) (p)-\/>GetPrivateData(a,b,c)}}
+\DoxyCodeLine{1039 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_FreePrivateData(p,a) (p)-\/>FreePrivateData(a)}}
+\DoxyCodeLine{1040 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_SetPriority(p,a) (p)-\/>SetPriority(a)}}
+\DoxyCodeLine{1041 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_GetPriority(p) (p)-\/>GetPriority()}}
+\DoxyCodeLine{1042 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_PreLoad(p) (p)-\/>PreLoad()}}
+\DoxyCodeLine{1043 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_GetType(p) (p)-\/>GetType()}}
+\DoxyCodeLine{1044 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_Lock(p,a,b,c,d) (p)-\/>Lock(a,b,c,d)}}
+\DoxyCodeLine{1045 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_Unlock(p) (p)-\/>Unlock()}}
+\DoxyCodeLine{1046 \textcolor{preprocessor}{\#define IDirect3DIndexBuffer8\_GetDesc(p,a) (p)-\/>GetDesc(a)}}
+\DoxyCodeLine{1047 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1048 }
+\DoxyCodeLine{1049 }
+\DoxyCodeLine{1050 }
+\DoxyCodeLine{1051 }
+\DoxyCodeLine{1052 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{1053 \textcolor{preprocessor}{\#define INTERFACE IDirect3DSurface8}}
+\DoxyCodeLine{1054 }
+\DoxyCodeLine{1055 DECLARE\_INTERFACE\_(IDirect3DSurface8, IUnknown)}
+\DoxyCodeLine{1056 \{}
+\DoxyCodeLine{1057 \textcolor{comment}{    /*** IUnknown methods ***/}}
+\DoxyCodeLine{1058     STDMETHOD(QueryInterface)(THIS\_ REFIID riid, \textcolor{keywordtype}{void}** ppvObj) PURE;}
+\DoxyCodeLine{1059     STDMETHOD\_(ULONG,AddRef)(THIS) PURE;}
+\DoxyCodeLine{1060     STDMETHOD\_(ULONG,Release)(THIS) PURE;}
+\DoxyCodeLine{1061 }
+\DoxyCodeLine{1062 \textcolor{comment}{    /*** IDirect3DSurface8 methods ***/}}
+\DoxyCodeLine{1063     STDMETHOD(GetDevice)(THIS\_ IDirect3DDevice8** ppDevice) PURE;}
+\DoxyCodeLine{1064     STDMETHOD(SetPrivateData)(THIS\_ REFGUID refguid,CONST \textcolor{keywordtype}{void}* pData,DWORD SizeOfData,DWORD Flags) PURE;}
+\DoxyCodeLine{1065     STDMETHOD(GetPrivateData)(THIS\_ REFGUID refguid,\textcolor{keywordtype}{void}* pData,DWORD* pSizeOfData) PURE;}
+\DoxyCodeLine{1066     STDMETHOD(FreePrivateData)(THIS\_ REFGUID refguid) PURE;}
+\DoxyCodeLine{1067     STDMETHOD(GetContainer)(THIS\_ REFIID riid,\textcolor{keywordtype}{void}** ppContainer) PURE;}
+\DoxyCodeLine{1068     STDMETHOD(GetDesc)(THIS\_ \mbox{\hyperlink{struct___d3_d_s_u_r_f_a_c_e___d_e_s_c}{D3DSURFACE\_DESC}} *pDesc) PURE;}
+\DoxyCodeLine{1069     STDMETHOD(LockRect)(THIS\_ \mbox{\hyperlink{struct___d3_d_l_o_c_k_e_d___r_e_c_t}{D3DLOCKED\_RECT}}* pLockedRect,CONST RECT* pRect,DWORD Flags) PURE;}
+\DoxyCodeLine{1070     STDMETHOD(UnlockRect)(THIS) PURE;}
+\DoxyCodeLine{1071 \};}
+\DoxyCodeLine{1072 }
+\DoxyCodeLine{1073 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirect3DSurface8 *LPDIRECT3DSURFACE8, *PDIRECT3DSURFACE8;}
+\DoxyCodeLine{1074 }
+\DoxyCodeLine{1075 \textcolor{preprocessor}{\#if !defined(\_\_cplusplus) || defined(CINTERFACE)}}
+\DoxyCodeLine{1076 \textcolor{preprocessor}{\#define IDirect3DSurface8\_QueryInterface(p,a,b) (p)-\/>lpVtbl-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{1077 \textcolor{preprocessor}{\#define IDirect3DSurface8\_AddRef(p) (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{1078 \textcolor{preprocessor}{\#define IDirect3DSurface8\_Release(p) (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{1079 \textcolor{preprocessor}{\#define IDirect3DSurface8\_GetDevice(p,a) (p)-\/>lpVtbl-\/>GetDevice(p,a)}}
+\DoxyCodeLine{1080 \textcolor{preprocessor}{\#define IDirect3DSurface8\_SetPrivateData(p,a,b,c,d) (p)-\/>lpVtbl-\/>SetPrivateData(p,a,b,c,d)}}
+\DoxyCodeLine{1081 \textcolor{preprocessor}{\#define IDirect3DSurface8\_GetPrivateData(p,a,b,c) (p)-\/>lpVtbl-\/>GetPrivateData(p,a,b,c)}}
+\DoxyCodeLine{1082 \textcolor{preprocessor}{\#define IDirect3DSurface8\_FreePrivateData(p,a) (p)-\/>lpVtbl-\/>FreePrivateData(p,a)}}
+\DoxyCodeLine{1083 \textcolor{preprocessor}{\#define IDirect3DSurface8\_GetContainer(p,a,b) (p)-\/>lpVtbl-\/>GetContainer(p,a,b)}}
+\DoxyCodeLine{1084 \textcolor{preprocessor}{\#define IDirect3DSurface8\_GetDesc(p,a) (p)-\/>lpVtbl-\/>GetDesc(p,a)}}
+\DoxyCodeLine{1085 \textcolor{preprocessor}{\#define IDirect3DSurface8\_LockRect(p,a,b,c) (p)-\/>lpVtbl-\/>LockRect(p,a,b,c)}}
+\DoxyCodeLine{1086 \textcolor{preprocessor}{\#define IDirect3DSurface8\_UnlockRect(p) (p)-\/>lpVtbl-\/>UnlockRect(p)}}
+\DoxyCodeLine{1087 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1088 \textcolor{preprocessor}{\#define IDirect3DSurface8\_QueryInterface(p,a,b) (p)-\/>QueryInterface(a,b)}}
+\DoxyCodeLine{1089 \textcolor{preprocessor}{\#define IDirect3DSurface8\_AddRef(p) (p)-\/>AddRef()}}
+\DoxyCodeLine{1090 \textcolor{preprocessor}{\#define IDirect3DSurface8\_Release(p) (p)-\/>Release()}}
+\DoxyCodeLine{1091 \textcolor{preprocessor}{\#define IDirect3DSurface8\_GetDevice(p,a) (p)-\/>GetDevice(a)}}
+\DoxyCodeLine{1092 \textcolor{preprocessor}{\#define IDirect3DSurface8\_SetPrivateData(p,a,b,c,d) (p)-\/>SetPrivateData(a,b,c,d)}}
+\DoxyCodeLine{1093 \textcolor{preprocessor}{\#define IDirect3DSurface8\_GetPrivateData(p,a,b,c) (p)-\/>GetPrivateData(a,b,c)}}
+\DoxyCodeLine{1094 \textcolor{preprocessor}{\#define IDirect3DSurface8\_FreePrivateData(p,a) (p)-\/>FreePrivateData(a)}}
+\DoxyCodeLine{1095 \textcolor{preprocessor}{\#define IDirect3DSurface8\_GetContainer(p,a,b) (p)-\/>GetContainer(a,b)}}
+\DoxyCodeLine{1096 \textcolor{preprocessor}{\#define IDirect3DSurface8\_GetDesc(p,a) (p)-\/>GetDesc(a)}}
+\DoxyCodeLine{1097 \textcolor{preprocessor}{\#define IDirect3DSurface8\_LockRect(p,a,b,c) (p)-\/>LockRect(a,b,c)}}
+\DoxyCodeLine{1098 \textcolor{preprocessor}{\#define IDirect3DSurface8\_UnlockRect(p) (p)-\/>UnlockRect()}}
+\DoxyCodeLine{1099 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1100 }
+\DoxyCodeLine{1101 }
+\DoxyCodeLine{1102 }
+\DoxyCodeLine{1103 }
+\DoxyCodeLine{1104 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{1105 \textcolor{preprocessor}{\#define INTERFACE IDirect3DVolume8}}
+\DoxyCodeLine{1106 }
+\DoxyCodeLine{1107 DECLARE\_INTERFACE\_(IDirect3DVolume8, IUnknown)}
+\DoxyCodeLine{1108 \{}
+\DoxyCodeLine{1109 \textcolor{comment}{    /*** IUnknown methods ***/}}
+\DoxyCodeLine{1110     STDMETHOD(QueryInterface)(THIS\_ REFIID riid, \textcolor{keywordtype}{void}** ppvObj) PURE;}
+\DoxyCodeLine{1111     STDMETHOD\_(ULONG,AddRef)(THIS) PURE;}
+\DoxyCodeLine{1112     STDMETHOD\_(ULONG,Release)(THIS) PURE;}
+\DoxyCodeLine{1113 }
+\DoxyCodeLine{1114 \textcolor{comment}{    /*** IDirect3DVolume8 methods ***/}}
+\DoxyCodeLine{1115     STDMETHOD(GetDevice)(THIS\_ IDirect3DDevice8** ppDevice) PURE;}
+\DoxyCodeLine{1116     STDMETHOD(SetPrivateData)(THIS\_ REFGUID refguid,CONST \textcolor{keywordtype}{void}* pData,DWORD SizeOfData,DWORD Flags) PURE;}
+\DoxyCodeLine{1117     STDMETHOD(GetPrivateData)(THIS\_ REFGUID refguid,\textcolor{keywordtype}{void}* pData,DWORD* pSizeOfData) PURE;}
+\DoxyCodeLine{1118     STDMETHOD(FreePrivateData)(THIS\_ REFGUID refguid) PURE;}
+\DoxyCodeLine{1119     STDMETHOD(GetContainer)(THIS\_ REFIID riid,\textcolor{keywordtype}{void}** ppContainer) PURE;}
+\DoxyCodeLine{1120     STDMETHOD(GetDesc)(THIS\_ \mbox{\hyperlink{struct___d3_d_v_o_l_u_m_e___d_e_s_c}{D3DVOLUME\_DESC}} *pDesc) PURE;}
+\DoxyCodeLine{1121     STDMETHOD(LockBox)(THIS\_ \mbox{\hyperlink{struct___d3_d_l_o_c_k_e_d___b_o_x}{D3DLOCKED\_BOX}} * pLockedVolume,CONST \mbox{\hyperlink{struct___d3_d_b_o_x}{D3DBOX}}* pBox,DWORD Flags) PURE;}
+\DoxyCodeLine{1122     STDMETHOD(UnlockBox)(THIS) PURE;}
+\DoxyCodeLine{1123 \};}
+\DoxyCodeLine{1124 }
+\DoxyCodeLine{1125 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirect3DVolume8 *LPDIRECT3DVOLUME8, *PDIRECT3DVOLUME8;}
+\DoxyCodeLine{1126 }
+\DoxyCodeLine{1127 \textcolor{preprocessor}{\#if !defined(\_\_cplusplus) || defined(CINTERFACE)}}
+\DoxyCodeLine{1128 \textcolor{preprocessor}{\#define IDirect3DVolume8\_QueryInterface(p,a,b) (p)-\/>lpVtbl-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{1129 \textcolor{preprocessor}{\#define IDirect3DVolume8\_AddRef(p) (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{1130 \textcolor{preprocessor}{\#define IDirect3DVolume8\_Release(p) (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{1131 \textcolor{preprocessor}{\#define IDirect3DVolume8\_GetDevice(p,a) (p)-\/>lpVtbl-\/>GetDevice(p,a)}}
+\DoxyCodeLine{1132 \textcolor{preprocessor}{\#define IDirect3DVolume8\_SetPrivateData(p,a,b,c,d) (p)-\/>lpVtbl-\/>SetPrivateData(p,a,b,c,d)}}
+\DoxyCodeLine{1133 \textcolor{preprocessor}{\#define IDirect3DVolume8\_GetPrivateData(p,a,b,c) (p)-\/>lpVtbl-\/>GetPrivateData(p,a,b,c)}}
+\DoxyCodeLine{1134 \textcolor{preprocessor}{\#define IDirect3DVolume8\_FreePrivateData(p,a) (p)-\/>lpVtbl-\/>FreePrivateData(p,a)}}
+\DoxyCodeLine{1135 \textcolor{preprocessor}{\#define IDirect3DVolume8\_GetContainer(p,a,b) (p)-\/>lpVtbl-\/>GetContainer(p,a,b)}}
+\DoxyCodeLine{1136 \textcolor{preprocessor}{\#define IDirect3DVolume8\_GetDesc(p,a) (p)-\/>lpVtbl-\/>GetDesc(p,a)}}
+\DoxyCodeLine{1137 \textcolor{preprocessor}{\#define IDirect3DVolume8\_LockBox(p,a,b,c) (p)-\/>lpVtbl-\/>LockBox(p,a,b,c)}}
+\DoxyCodeLine{1138 \textcolor{preprocessor}{\#define IDirect3DVolume8\_UnlockBox(p) (p)-\/>lpVtbl-\/>UnlockBox(p)}}
+\DoxyCodeLine{1139 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1140 \textcolor{preprocessor}{\#define IDirect3DVolume8\_QueryInterface(p,a,b) (p)-\/>QueryInterface(a,b)}}
+\DoxyCodeLine{1141 \textcolor{preprocessor}{\#define IDirect3DVolume8\_AddRef(p) (p)-\/>AddRef()}}
+\DoxyCodeLine{1142 \textcolor{preprocessor}{\#define IDirect3DVolume8\_Release(p) (p)-\/>Release()}}
+\DoxyCodeLine{1143 \textcolor{preprocessor}{\#define IDirect3DVolume8\_GetDevice(p,a) (p)-\/>GetDevice(a)}}
+\DoxyCodeLine{1144 \textcolor{preprocessor}{\#define IDirect3DVolume8\_SetPrivateData(p,a,b,c,d) (p)-\/>SetPrivateData(a,b,c,d)}}
+\DoxyCodeLine{1145 \textcolor{preprocessor}{\#define IDirect3DVolume8\_GetPrivateData(p,a,b,c) (p)-\/>GetPrivateData(a,b,c)}}
+\DoxyCodeLine{1146 \textcolor{preprocessor}{\#define IDirect3DVolume8\_FreePrivateData(p,a) (p)-\/>FreePrivateData(a)}}
+\DoxyCodeLine{1147 \textcolor{preprocessor}{\#define IDirect3DVolume8\_GetContainer(p,a,b) (p)-\/>GetContainer(a,b)}}
+\DoxyCodeLine{1148 \textcolor{preprocessor}{\#define IDirect3DVolume8\_GetDesc(p,a) (p)-\/>GetDesc(a)}}
+\DoxyCodeLine{1149 \textcolor{preprocessor}{\#define IDirect3DVolume8\_LockBox(p,a,b,c) (p)-\/>LockBox(a,b,c)}}
+\DoxyCodeLine{1150 \textcolor{preprocessor}{\#define IDirect3DVolume8\_UnlockBox(p) (p)-\/>UnlockBox()}}
+\DoxyCodeLine{1151 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1152 }
+\DoxyCodeLine{1153 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{1154 \textcolor{comment}{ * Flags for SetPrivateData method on all D3D8 interfaces}}
+\DoxyCodeLine{1155 \textcolor{comment}{ *}}
+\DoxyCodeLine{1156 \textcolor{comment}{ * The passed pointer is an IUnknown ptr. The SizeOfData argument to SetPrivateData}}
+\DoxyCodeLine{1157 \textcolor{comment}{ * must be set to sizeof(IUnknown*). Direct3D will call AddRef through this}}
+\DoxyCodeLine{1158 \textcolor{comment}{ * pointer and Release when the private data is destroyed. The data will be}}
+\DoxyCodeLine{1159 \textcolor{comment}{ * destroyed when another SetPrivateData with the same GUID is set, when}}
+\DoxyCodeLine{1160 \textcolor{comment}{ * FreePrivateData is called, or when the D3D8 object is freed.}}
+\DoxyCodeLine{1161 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{1162 \textcolor{preprocessor}{\#define D3DSPD\_IUNKNOWN                         0x00000001L}}
+\DoxyCodeLine{1163 }
+\DoxyCodeLine{1164 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{1165 \textcolor{comment}{ *}}
+\DoxyCodeLine{1166 \textcolor{comment}{ * Parameter for IDirect3D8 Enum and GetCaps8 functions to get the info for}}
+\DoxyCodeLine{1167 \textcolor{comment}{ * the current mode only.}}
+\DoxyCodeLine{1168 \textcolor{comment}{ *}}
+\DoxyCodeLine{1169 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{1170 }
+\DoxyCodeLine{1171 \textcolor{preprocessor}{\#define D3DCURRENT\_DISPLAY\_MODE                 0x00EFFFFFL}}
+\DoxyCodeLine{1172 }
+\DoxyCodeLine{1173 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{1174 \textcolor{comment}{ *}}
+\DoxyCodeLine{1175 \textcolor{comment}{ * Flags for IDirect3D8::CreateDevice's BehaviorFlags}}
+\DoxyCodeLine{1176 \textcolor{comment}{ *}}
+\DoxyCodeLine{1177 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{1178 }
+\DoxyCodeLine{1179 \textcolor{preprocessor}{\#define D3DCREATE\_FPU\_PRESERVE                  0x00000002L}}
+\DoxyCodeLine{1180 \textcolor{preprocessor}{\#define D3DCREATE\_MULTITHREADED                 0x00000004L}}
+\DoxyCodeLine{1181 }
+\DoxyCodeLine{1182 \textcolor{preprocessor}{\#define D3DCREATE\_PUREDEVICE                    0x00000010L}}
+\DoxyCodeLine{1183 \textcolor{preprocessor}{\#define D3DCREATE\_SOFTWARE\_VERTEXPROCESSING     0x00000020L}}
+\DoxyCodeLine{1184 \textcolor{preprocessor}{\#define D3DCREATE\_HARDWARE\_VERTEXPROCESSING     0x00000040L}}
+\DoxyCodeLine{1185 \textcolor{preprocessor}{\#define D3DCREATE\_MIXED\_VERTEXPROCESSING        0x00000080L}}
+\DoxyCodeLine{1186 }
+\DoxyCodeLine{1187 \textcolor{preprocessor}{\#define D3DCREATE\_DISABLE\_DRIVER\_MANAGEMENT     0x00000100L}}
+\DoxyCodeLine{1188 }
+\DoxyCodeLine{1189 }
+\DoxyCodeLine{1190 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{1191 \textcolor{comment}{ *}}
+\DoxyCodeLine{1192 \textcolor{comment}{ * Parameter for IDirect3D8::CreateDevice's iAdapter}}
+\DoxyCodeLine{1193 \textcolor{comment}{ *}}
+\DoxyCodeLine{1194 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{1195 }
+\DoxyCodeLine{1196 \textcolor{preprocessor}{\#define D3DADAPTER\_DEFAULT                     0}}
+\DoxyCodeLine{1197 }
+\DoxyCodeLine{1198 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{1199 \textcolor{comment}{ *}}
+\DoxyCodeLine{1200 \textcolor{comment}{ * Flags for IDirect3D8::EnumAdapters}}
+\DoxyCodeLine{1201 \textcolor{comment}{ *}}
+\DoxyCodeLine{1202 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{1203 }
+\DoxyCodeLine{1204 \textcolor{preprocessor}{\#define D3DENUM\_NO\_WHQL\_LEVEL                   0x00000002L}}
+\DoxyCodeLine{1205 }
+\DoxyCodeLine{1206 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{1207 \textcolor{comment}{ *}}
+\DoxyCodeLine{1208 \textcolor{comment}{ * Maximum number of back-\/buffers supported in DX8}}
+\DoxyCodeLine{1209 \textcolor{comment}{ *}}
+\DoxyCodeLine{1210 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{1211 }
+\DoxyCodeLine{1212 \textcolor{preprocessor}{\#define D3DPRESENT\_BACK\_BUFFERS\_MAX             3L}}
+\DoxyCodeLine{1213 }
+\DoxyCodeLine{1214 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{1215 \textcolor{comment}{ *}}
+\DoxyCodeLine{1216 \textcolor{comment}{ * Flags for IDirect3DDevice8::SetGammaRamp}}
+\DoxyCodeLine{1217 \textcolor{comment}{ *}}
+\DoxyCodeLine{1218 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{1219 }
+\DoxyCodeLine{1220 \textcolor{preprocessor}{\#define D3DSGR\_NO\_CALIBRATION                  0x00000000L}}
+\DoxyCodeLine{1221 \textcolor{preprocessor}{\#define D3DSGR\_CALIBRATE                       0x00000001L}}
+\DoxyCodeLine{1222 }
+\DoxyCodeLine{1223 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{1224 \textcolor{comment}{ *}}
+\DoxyCodeLine{1225 \textcolor{comment}{ * Flags for IDirect3DDevice8::SetCursorPosition}}
+\DoxyCodeLine{1226 \textcolor{comment}{ *}}
+\DoxyCodeLine{1227 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{1228 }
+\DoxyCodeLine{1229 \textcolor{preprocessor}{\#define D3DCURSOR\_IMMEDIATE\_UPDATE             0x00000001L}}
+\DoxyCodeLine{1230 }
+\DoxyCodeLine{1231 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{1232 \textcolor{comment}{ *}}
+\DoxyCodeLine{1233 \textcolor{comment}{ * Flags for DrawPrimitive/DrawIndexedPrimitive}}
+\DoxyCodeLine{1234 \textcolor{comment}{ *   Also valid for Begin/BeginIndexed}}
+\DoxyCodeLine{1235 \textcolor{comment}{ *   Also valid for VertexBuffer::CreateVertexBuffer}}
+\DoxyCodeLine{1236 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{1237 }
+\DoxyCodeLine{1238 }
+\DoxyCodeLine{1239 \textcolor{comment}{/*}}
+\DoxyCodeLine{1240 \textcolor{comment}{ *  DirectDraw error codes}}
+\DoxyCodeLine{1241 \textcolor{comment}{ */}}
+\DoxyCodeLine{1242 \textcolor{preprocessor}{\#define \_FACD3D  0x876}}
+\DoxyCodeLine{1243 \textcolor{preprocessor}{\#define MAKE\_D3DHRESULT( code )  MAKE\_HRESULT( 1, \_FACD3D, code )}}
+\DoxyCodeLine{1244 }
+\DoxyCodeLine{1245 \textcolor{comment}{/*}}
+\DoxyCodeLine{1246 \textcolor{comment}{ * Direct3D Errors}}
+\DoxyCodeLine{1247 \textcolor{comment}{ */}}
+\DoxyCodeLine{1248 \textcolor{preprocessor}{\#define D3D\_OK                              S\_OK}}
+\DoxyCodeLine{1249 }
+\DoxyCodeLine{1250 \textcolor{preprocessor}{\#define D3DERR\_WRONGTEXTUREFORMAT               MAKE\_D3DHRESULT(2072)}}
+\DoxyCodeLine{1251 \textcolor{preprocessor}{\#define D3DERR\_UNSUPPORTEDCOLOROPERATION        MAKE\_D3DHRESULT(2073)}}
+\DoxyCodeLine{1252 \textcolor{preprocessor}{\#define D3DERR\_UNSUPPORTEDCOLORARG              MAKE\_D3DHRESULT(2074)}}
+\DoxyCodeLine{1253 \textcolor{preprocessor}{\#define D3DERR\_UNSUPPORTEDALPHAOPERATION        MAKE\_D3DHRESULT(2075)}}
+\DoxyCodeLine{1254 \textcolor{preprocessor}{\#define D3DERR\_UNSUPPORTEDALPHAARG              MAKE\_D3DHRESULT(2076)}}
+\DoxyCodeLine{1255 \textcolor{preprocessor}{\#define D3DERR\_TOOMANYOPERATIONS                MAKE\_D3DHRESULT(2077)}}
+\DoxyCodeLine{1256 \textcolor{preprocessor}{\#define D3DERR\_CONFLICTINGTEXTUREFILTER         MAKE\_D3DHRESULT(2078)}}
+\DoxyCodeLine{1257 \textcolor{preprocessor}{\#define D3DERR\_UNSUPPORTEDFACTORVALUE           MAKE\_D3DHRESULT(2079)}}
+\DoxyCodeLine{1258 \textcolor{preprocessor}{\#define D3DERR\_CONFLICTINGRENDERSTATE           MAKE\_D3DHRESULT(2081)}}
+\DoxyCodeLine{1259 \textcolor{preprocessor}{\#define D3DERR\_UNSUPPORTEDTEXTUREFILTER         MAKE\_D3DHRESULT(2082)}}
+\DoxyCodeLine{1260 \textcolor{preprocessor}{\#define D3DERR\_CONFLICTINGTEXTUREPALETTE        MAKE\_D3DHRESULT(2086)}}
+\DoxyCodeLine{1261 \textcolor{preprocessor}{\#define D3DERR\_DRIVERINTERNALERROR              MAKE\_D3DHRESULT(2087)}}
+\DoxyCodeLine{1262 }
+\DoxyCodeLine{1263 \textcolor{preprocessor}{\#define D3DERR\_NOTFOUND                         MAKE\_D3DHRESULT(2150)}}
+\DoxyCodeLine{1264 \textcolor{preprocessor}{\#define D3DERR\_MOREDATA                         MAKE\_D3DHRESULT(2151)}}
+\DoxyCodeLine{1265 \textcolor{preprocessor}{\#define D3DERR\_DEVICELOST                       MAKE\_D3DHRESULT(2152)}}
+\DoxyCodeLine{1266 \textcolor{preprocessor}{\#define D3DERR\_DEVICENOTRESET                   MAKE\_D3DHRESULT(2153)}}
+\DoxyCodeLine{1267 \textcolor{preprocessor}{\#define D3DERR\_NOTAVAILABLE                     MAKE\_D3DHRESULT(2154)}}
+\DoxyCodeLine{1268 \textcolor{preprocessor}{\#define D3DERR\_OUTOFVIDEOMEMORY                 MAKE\_D3DHRESULT(380)}}
+\DoxyCodeLine{1269 \textcolor{preprocessor}{\#define D3DERR\_INVALIDDEVICE                    MAKE\_D3DHRESULT(2155)}}
+\DoxyCodeLine{1270 \textcolor{preprocessor}{\#define D3DERR\_INVALIDCALL                      MAKE\_D3DHRESULT(2156)}}
+\DoxyCodeLine{1271 \textcolor{preprocessor}{\#define D3DERR\_DRIVERINVALIDCALL                MAKE\_D3DHRESULT(2157)}}
+\DoxyCodeLine{1272 }
+\DoxyCodeLine{1273 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{1274 \};}
+\DoxyCodeLine{1275 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1276 }
+\DoxyCodeLine{1277 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* (DIRECT3D\_VERSION >= 0x0800) */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1278 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* \_D3D\_H\_ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1279 }
+
+\end{DoxyCode}

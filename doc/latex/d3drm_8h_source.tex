@@ -1,0 +1,348 @@
+\hypertarget{d3drm_8h_source}{}\doxysection{d3drm.\+h}
+\label{d3drm_8h_source}\index{src/lib/dx/Include/d3drm.h@{src/lib/dx/Include/d3drm.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*==========================================================================;}}
+\DoxyCodeLine{2 \textcolor{comment}{ *}}
+\DoxyCodeLine{3 \textcolor{comment}{ *  Copyright (c) Microsoft Corporation.  All rights reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{ *}}
+\DoxyCodeLine{5 \textcolor{comment}{ *  File:       d3drm.h}}
+\DoxyCodeLine{6 \textcolor{comment}{ *  Content:    Direct3DRM include file}}
+\DoxyCodeLine{7 \textcolor{comment}{ *}}
+\DoxyCodeLine{8 \textcolor{comment}{ ***************************************************************************/}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#ifndef \_\_D3DRM\_H\_\_}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define \_\_D3DRM\_H\_\_}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include "{}ddraw.h"{}}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{16 \textcolor{keyword}{struct }IDirect3DRM;}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirect3DRM *LPDIRECT3DRM;}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include "{}d3drmobj.h"{}}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{24 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28 DEFINE\_GUID(IID\_IDirect3DRM,    0x2bc49361, 0x8327, 0x11cf, 0xac, 0x4a, 0x0, 0x0, 0xc0, 0x38, 0x25, 0xa1);}
+\DoxyCodeLine{29 DEFINE\_GUID(IID\_IDirect3DRM2,   0x4516ecc8, 0x8f20, 0x11d0, 0x9b, 0x6d, 0x00, 0x00, 0xc0, 0x78, 0x1b, 0xc3);}
+\DoxyCodeLine{30 DEFINE\_GUID(IID\_IDirect3DRM3,   0x4516ec83, 0x8f20, 0x11d0, 0x9b, 0x6d, 0x00, 0x00, 0xc0, 0x78, 0x1b, 0xc3);}
+\DoxyCodeLine{31 WIN\_TYPES(IDirect3DRM, DIRECT3DRM);}
+\DoxyCodeLine{32 WIN\_TYPES(IDirect3DRM2, DIRECT3DRM2);}
+\DoxyCodeLine{33 WIN\_TYPES(IDirect3DRM3, DIRECT3DRM3);}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \textcolor{comment}{/*}}
+\DoxyCodeLine{36 \textcolor{comment}{ * Direct3DRM Object Class (for CoCreateInstance())}}
+\DoxyCodeLine{37 \textcolor{comment}{ */}}
+\DoxyCodeLine{38 DEFINE\_GUID(CLSID\_CDirect3DRM,  0x4516ec41, 0x8f20, 0x11d0, 0x9b, 0x6d, 0x00, 0x00, 0xc0, 0x78, 0x1b, 0xc3);}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41 \textcolor{comment}{/* Create a Direct3DRM API */}}
+\DoxyCodeLine{42 STDAPI Direct3DRMCreate(LPDIRECT3DRM FAR *lplpDirect3DRM);}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{45 \textcolor{preprocessor}{\#define INTERFACE IDirect3DRM}}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 DECLARE\_INTERFACE\_(IDirect3DRM, IUnknown)}
+\DoxyCodeLine{48 \{}
+\DoxyCodeLine{49     IUNKNOWN\_METHODS(PURE);}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51     STDMETHOD(CreateObject)}
+\DoxyCodeLine{52         (THIS\_ REFCLSID rclsid, LPUNKNOWN pUnkOuter, REFIID riid, LPVOID FAR* ppv) PURE;}
+\DoxyCodeLine{53     STDMETHOD(CreateFrame)      (THIS\_ LPDIRECT3DRMFRAME, LPDIRECT3DRMFRAME *) PURE;}
+\DoxyCodeLine{54     STDMETHOD(CreateMesh)       (THIS\_ LPDIRECT3DRMMESH *) PURE;}
+\DoxyCodeLine{55     STDMETHOD(CreateMeshBuilder)(THIS\_ LPDIRECT3DRMMESHBUILDER *) PURE;}
+\DoxyCodeLine{56     STDMETHOD(CreateFace)       (THIS\_ LPDIRECT3DRMFACE *) PURE;}
+\DoxyCodeLine{57     STDMETHOD(CreateAnimation)  (THIS\_ LPDIRECT3DRMANIMATION *) PURE;}
+\DoxyCodeLine{58     STDMETHOD(CreateAnimationSet)(THIS\_ LPDIRECT3DRMANIMATIONSET *) PURE;}
+\DoxyCodeLine{59     STDMETHOD(CreateTexture)    (THIS\_ \mbox{\hyperlink{struct___d3_d_r_m_i_m_a_g_e}{LPD3DRMIMAGE}}, LPDIRECT3DRMTEXTURE *) PURE;}
+\DoxyCodeLine{60     STDMETHOD(CreateLight)      (THIS\_ D3DRMLIGHTTYPE, D3DCOLOR, LPDIRECT3DRMLIGHT *) PURE;}
+\DoxyCodeLine{61     STDMETHOD(CreateLightRGB)}
+\DoxyCodeLine{62         (THIS\_ D3DRMLIGHTTYPE, D3DVALUE, D3DVALUE, D3DVALUE, LPDIRECT3DRMLIGHT *) PURE;}
+\DoxyCodeLine{63     STDMETHOD(CreateMaterial)   (THIS\_ D3DVALUE, LPDIRECT3DRMMATERIAL *) PURE;}
+\DoxyCodeLine{64     STDMETHOD(CreateDevice)     (THIS\_ DWORD, DWORD, LPDIRECT3DRMDEVICE *) PURE;}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66     \textcolor{comment}{/* Create a Windows Device using DirectDraw surfaces */}}
+\DoxyCodeLine{67     STDMETHOD(CreateDeviceFromSurface)}
+\DoxyCodeLine{68     (   THIS\_ LPGUID lpGUID, LPDIRECTDRAW lpDD,}
+\DoxyCodeLine{69         LPDIRECTDRAWSURFACE lpDDSBack, LPDIRECT3DRMDEVICE *}
+\DoxyCodeLine{70     ) PURE;}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72     \textcolor{comment}{/* Create a Windows Device using D3D objects */}}
+\DoxyCodeLine{73     STDMETHOD(CreateDeviceFromD3D)}
+\DoxyCodeLine{74     (   THIS\_ LPDIRECT3D lpD3D, LPDIRECT3DDEVICE lpD3DDev,}
+\DoxyCodeLine{75         LPDIRECT3DRMDEVICE *}
+\DoxyCodeLine{76     ) PURE;}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78     STDMETHOD(CreateDeviceFromClipper)}
+\DoxyCodeLine{79     (   THIS\_ LPDIRECTDRAWCLIPPER lpDDClipper, LPGUID lpGUID,}
+\DoxyCodeLine{80         \textcolor{keywordtype}{int} width, \textcolor{keywordtype}{int} height, LPDIRECT3DRMDEVICE *) PURE;}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{82     STDMETHOD(CreateTextureFromSurface)(THIS\_ LPDIRECTDRAWSURFACE lpDDS, LPDIRECT3DRMTEXTURE *) PURE;}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84     STDMETHOD(CreateShadow)}
+\DoxyCodeLine{85     (   THIS\_ LPDIRECT3DRMVISUAL, LPDIRECT3DRMLIGHT,}
+\DoxyCodeLine{86         D3DVALUE px, D3DVALUE py, D3DVALUE pz,}
+\DoxyCodeLine{87         D3DVALUE nx, D3DVALUE ny, D3DVALUE nz,}
+\DoxyCodeLine{88         LPDIRECT3DRMVISUAL *}
+\DoxyCodeLine{89     ) PURE;}
+\DoxyCodeLine{90     STDMETHOD(CreateViewport)}
+\DoxyCodeLine{91     (   THIS\_ LPDIRECT3DRMDEVICE, LPDIRECT3DRMFRAME, DWORD, DWORD,}
+\DoxyCodeLine{92         DWORD, DWORD, LPDIRECT3DRMVIEWPORT *}
+\DoxyCodeLine{93     ) PURE;}
+\DoxyCodeLine{94     STDMETHOD(CreateWrap)}
+\DoxyCodeLine{95     (   THIS\_ D3DRMWRAPTYPE, LPDIRECT3DRMFRAME,}
+\DoxyCodeLine{96         D3DVALUE ox, D3DVALUE oy, D3DVALUE oz,}
+\DoxyCodeLine{97         D3DVALUE dx, D3DVALUE dy, D3DVALUE dz,}
+\DoxyCodeLine{98         D3DVALUE ux, D3DVALUE uy, D3DVALUE uz,}
+\DoxyCodeLine{99         D3DVALUE ou, D3DVALUE ov,}
+\DoxyCodeLine{100         D3DVALUE su, D3DVALUE sv,}
+\DoxyCodeLine{101         LPDIRECT3DRMWRAP *}
+\DoxyCodeLine{102     ) PURE;}
+\DoxyCodeLine{103     STDMETHOD(CreateUserVisual) (THIS\_ D3DRMUSERVISUALCALLBACK, LPVOID lPArg, LPDIRECT3DRMUSERVISUAL *) PURE;}
+\DoxyCodeLine{104     STDMETHOD(LoadTexture)      (THIS\_ \textcolor{keyword}{const} \textcolor{keywordtype}{char} *, LPDIRECT3DRMTEXTURE *) PURE;}
+\DoxyCodeLine{105     STDMETHOD(LoadTextureFromResource)  (THIS\_ HRSRC rs, LPDIRECT3DRMTEXTURE *) PURE;}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107     STDMETHOD(SetSearchPath)    (THIS\_ LPCSTR) PURE;}
+\DoxyCodeLine{108     STDMETHOD(AddSearchPath)    (THIS\_ LPCSTR) PURE;}
+\DoxyCodeLine{109     STDMETHOD(GetSearchPath)    (THIS\_ DWORD *size\_return, LPSTR path\_return) PURE;}
+\DoxyCodeLine{110     STDMETHOD(SetDefaultTextureColors)(THIS\_ DWORD) PURE;}
+\DoxyCodeLine{111     STDMETHOD(SetDefaultTextureShades)(THIS\_ DWORD) PURE;}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113     STDMETHOD(GetDevices)       (THIS\_ LPDIRECT3DRMDEVICEARRAY *) PURE;}
+\DoxyCodeLine{114     STDMETHOD(GetNamedObject)   (THIS\_ \textcolor{keyword}{const} \textcolor{keywordtype}{char} *, LPDIRECT3DRMOBJECT *) PURE;}
+\DoxyCodeLine{115 }
+\DoxyCodeLine{116     STDMETHOD(EnumerateObjects) (THIS\_ D3DRMOBJECTCALLBACK, LPVOID) PURE;}
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118     STDMETHOD(Load)}
+\DoxyCodeLine{119     (   THIS\_ LPVOID, LPVOID, LPIID *, DWORD, D3DRMLOADOPTIONS,}
+\DoxyCodeLine{120         D3DRMLOADCALLBACK, LPVOID, D3DRMLOADTEXTURECALLBACK, LPVOID,}
+\DoxyCodeLine{121         LPDIRECT3DRMFRAME}
+\DoxyCodeLine{122     ) PURE;}
+\DoxyCodeLine{123     STDMETHOD(Tick)             (THIS\_ D3DVALUE) PURE;}
+\DoxyCodeLine{124 \};}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{126 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{127 \textcolor{preprocessor}{\#define INTERFACE IDirect3DRM2}}
+\DoxyCodeLine{128 }
+\DoxyCodeLine{129 DECLARE\_INTERFACE\_(IDirect3DRM2, IUnknown)}
+\DoxyCodeLine{130 \{}
+\DoxyCodeLine{131     IUNKNOWN\_METHODS(PURE);}
+\DoxyCodeLine{132 }
+\DoxyCodeLine{133     STDMETHOD(CreateObject)}
+\DoxyCodeLine{134         (THIS\_ REFCLSID rclsid, LPUNKNOWN pUnkOuter, REFIID riid, LPVOID FAR* ppv) PURE;}
+\DoxyCodeLine{135     STDMETHOD(CreateFrame)      (THIS\_ LPDIRECT3DRMFRAME, LPDIRECT3DRMFRAME2 *) PURE;}
+\DoxyCodeLine{136     STDMETHOD(CreateMesh)       (THIS\_ LPDIRECT3DRMMESH *) PURE;}
+\DoxyCodeLine{137     STDMETHOD(CreateMeshBuilder)(THIS\_ LPDIRECT3DRMMESHBUILDER2 *) PURE;}
+\DoxyCodeLine{138     STDMETHOD(CreateFace)       (THIS\_ LPDIRECT3DRMFACE *) PURE;}
+\DoxyCodeLine{139     STDMETHOD(CreateAnimation)  (THIS\_ LPDIRECT3DRMANIMATION *) PURE;}
+\DoxyCodeLine{140     STDMETHOD(CreateAnimationSet)(THIS\_ LPDIRECT3DRMANIMATIONSET *) PURE;}
+\DoxyCodeLine{141     STDMETHOD(CreateTexture)    (THIS\_ \mbox{\hyperlink{struct___d3_d_r_m_i_m_a_g_e}{LPD3DRMIMAGE}}, LPDIRECT3DRMTEXTURE2 *) PURE;}
+\DoxyCodeLine{142     STDMETHOD(CreateLight)      (THIS\_ D3DRMLIGHTTYPE, D3DCOLOR, LPDIRECT3DRMLIGHT *) PURE;}
+\DoxyCodeLine{143     STDMETHOD(CreateLightRGB)}
+\DoxyCodeLine{144         (THIS\_ D3DRMLIGHTTYPE, D3DVALUE, D3DVALUE, D3DVALUE, LPDIRECT3DRMLIGHT *) PURE;}
+\DoxyCodeLine{145     STDMETHOD(CreateMaterial)   (THIS\_ D3DVALUE, LPDIRECT3DRMMATERIAL *) PURE;}
+\DoxyCodeLine{146     STDMETHOD(CreateDevice)     (THIS\_ DWORD, DWORD, LPDIRECT3DRMDEVICE2 *) PURE;}
+\DoxyCodeLine{147 }
+\DoxyCodeLine{148     \textcolor{comment}{/* Create a Windows Device using DirectDraw surfaces */}}
+\DoxyCodeLine{149     STDMETHOD(CreateDeviceFromSurface)}
+\DoxyCodeLine{150     (   THIS\_ LPGUID lpGUID, LPDIRECTDRAW lpDD,}
+\DoxyCodeLine{151         LPDIRECTDRAWSURFACE lpDDSBack, LPDIRECT3DRMDEVICE2 *}
+\DoxyCodeLine{152     ) PURE;}
+\DoxyCodeLine{153 }
+\DoxyCodeLine{154     \textcolor{comment}{/* Create a Windows Device using D3D objects */}}
+\DoxyCodeLine{155     STDMETHOD(CreateDeviceFromD3D)}
+\DoxyCodeLine{156     (   THIS\_ LPDIRECT3D2 lpD3D, LPDIRECT3DDEVICE2 lpD3DDev,}
+\DoxyCodeLine{157         LPDIRECT3DRMDEVICE2 *}
+\DoxyCodeLine{158     ) PURE;}
+\DoxyCodeLine{159 }
+\DoxyCodeLine{160     STDMETHOD(CreateDeviceFromClipper)}
+\DoxyCodeLine{161     (   THIS\_ LPDIRECTDRAWCLIPPER lpDDClipper, LPGUID lpGUID,}
+\DoxyCodeLine{162         \textcolor{keywordtype}{int} width, \textcolor{keywordtype}{int} height, LPDIRECT3DRMDEVICE2 *) PURE;}
+\DoxyCodeLine{163 }
+\DoxyCodeLine{164     STDMETHOD(CreateTextureFromSurface)(THIS\_ LPDIRECTDRAWSURFACE lpDDS, LPDIRECT3DRMTEXTURE2 *) PURE;}
+\DoxyCodeLine{165 }
+\DoxyCodeLine{166     STDMETHOD(CreateShadow)}
+\DoxyCodeLine{167     (   THIS\_ LPDIRECT3DRMVISUAL, LPDIRECT3DRMLIGHT,}
+\DoxyCodeLine{168         D3DVALUE px, D3DVALUE py, D3DVALUE pz,}
+\DoxyCodeLine{169         D3DVALUE nx, D3DVALUE ny, D3DVALUE nz,}
+\DoxyCodeLine{170         LPDIRECT3DRMVISUAL *}
+\DoxyCodeLine{171     ) PURE;}
+\DoxyCodeLine{172     STDMETHOD(CreateViewport)}
+\DoxyCodeLine{173     (   THIS\_ LPDIRECT3DRMDEVICE, LPDIRECT3DRMFRAME, DWORD, DWORD,}
+\DoxyCodeLine{174         DWORD, DWORD, LPDIRECT3DRMVIEWPORT *}
+\DoxyCodeLine{175     ) PURE;}
+\DoxyCodeLine{176     STDMETHOD(CreateWrap)}
+\DoxyCodeLine{177     (   THIS\_ D3DRMWRAPTYPE, LPDIRECT3DRMFRAME,}
+\DoxyCodeLine{178         D3DVALUE ox, D3DVALUE oy, D3DVALUE oz,}
+\DoxyCodeLine{179         D3DVALUE dx, D3DVALUE dy, D3DVALUE dz,}
+\DoxyCodeLine{180         D3DVALUE ux, D3DVALUE uy, D3DVALUE uz,}
+\DoxyCodeLine{181         D3DVALUE ou, D3DVALUE ov,}
+\DoxyCodeLine{182         D3DVALUE su, D3DVALUE sv,}
+\DoxyCodeLine{183         LPDIRECT3DRMWRAP *}
+\DoxyCodeLine{184     ) PURE;}
+\DoxyCodeLine{185     STDMETHOD(CreateUserVisual) (THIS\_ D3DRMUSERVISUALCALLBACK, LPVOID lPArg, LPDIRECT3DRMUSERVISUAL *) PURE;}
+\DoxyCodeLine{186     STDMETHOD(LoadTexture)      (THIS\_ \textcolor{keyword}{const} \textcolor{keywordtype}{char} *, LPDIRECT3DRMTEXTURE2 *) PURE;}
+\DoxyCodeLine{187     STDMETHOD(LoadTextureFromResource)  (THIS\_ HMODULE hModule, LPCTSTR strName, LPCTSTR strType, LPDIRECT3DRMTEXTURE2 *) PURE;}
+\DoxyCodeLine{188 }
+\DoxyCodeLine{189     STDMETHOD(SetSearchPath)    (THIS\_ LPCSTR) PURE;}
+\DoxyCodeLine{190     STDMETHOD(AddSearchPath)    (THIS\_ LPCSTR) PURE;}
+\DoxyCodeLine{191     STDMETHOD(GetSearchPath)    (THIS\_ DWORD *size\_return, LPSTR path\_return) PURE;}
+\DoxyCodeLine{192     STDMETHOD(SetDefaultTextureColors)(THIS\_ DWORD) PURE;}
+\DoxyCodeLine{193     STDMETHOD(SetDefaultTextureShades)(THIS\_ DWORD) PURE;}
+\DoxyCodeLine{194 }
+\DoxyCodeLine{195     STDMETHOD(GetDevices)       (THIS\_ LPDIRECT3DRMDEVICEARRAY *) PURE;}
+\DoxyCodeLine{196     STDMETHOD(GetNamedObject)   (THIS\_ \textcolor{keyword}{const} \textcolor{keywordtype}{char} *, LPDIRECT3DRMOBJECT *) PURE;}
+\DoxyCodeLine{197 }
+\DoxyCodeLine{198     STDMETHOD(EnumerateObjects) (THIS\_ D3DRMOBJECTCALLBACK, LPVOID) PURE;}
+\DoxyCodeLine{199 }
+\DoxyCodeLine{200     STDMETHOD(Load)}
+\DoxyCodeLine{201     (   THIS\_ LPVOID, LPVOID, LPIID *, DWORD, D3DRMLOADOPTIONS,}
+\DoxyCodeLine{202         D3DRMLOADCALLBACK, LPVOID, D3DRMLOADTEXTURECALLBACK, LPVOID,}
+\DoxyCodeLine{203         LPDIRECT3DRMFRAME}
+\DoxyCodeLine{204     ) PURE;}
+\DoxyCodeLine{205     STDMETHOD(Tick)             (THIS\_ D3DVALUE) PURE;}
+\DoxyCodeLine{206 }
+\DoxyCodeLine{207     STDMETHOD(CreateProgressiveMesh)(THIS\_ LPDIRECT3DRMPROGRESSIVEMESH *) PURE;}
+\DoxyCodeLine{208 \};}
+\DoxyCodeLine{209 }
+\DoxyCodeLine{210 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{211 \textcolor{preprocessor}{\#define INTERFACE IDirect3DRM3}}
+\DoxyCodeLine{212 }
+\DoxyCodeLine{213 DECLARE\_INTERFACE\_(IDirect3DRM3, IUnknown)}
+\DoxyCodeLine{214 \{}
+\DoxyCodeLine{215     IUNKNOWN\_METHODS(PURE);}
+\DoxyCodeLine{216 }
+\DoxyCodeLine{217     STDMETHOD(CreateObject)}
+\DoxyCodeLine{218         (THIS\_ REFCLSID rclsid, LPUNKNOWN pUnkOuter, REFIID riid, LPVOID FAR* ppv) PURE;}
+\DoxyCodeLine{219     STDMETHOD(CreateFrame)      (THIS\_ LPDIRECT3DRMFRAME3, LPDIRECT3DRMFRAME3 *) PURE;}
+\DoxyCodeLine{220     STDMETHOD(CreateMesh)       (THIS\_ LPDIRECT3DRMMESH *) PURE;}
+\DoxyCodeLine{221     STDMETHOD(CreateMeshBuilder)(THIS\_ LPDIRECT3DRMMESHBUILDER3 *) PURE;}
+\DoxyCodeLine{222     STDMETHOD(CreateFace)       (THIS\_ LPDIRECT3DRMFACE2 *) PURE;}
+\DoxyCodeLine{223     STDMETHOD(CreateAnimation)  (THIS\_ LPDIRECT3DRMANIMATION2 *) PURE;}
+\DoxyCodeLine{224     STDMETHOD(CreateAnimationSet)(THIS\_ LPDIRECT3DRMANIMATIONSET2 *) PURE;}
+\DoxyCodeLine{225     STDMETHOD(CreateTexture)    (THIS\_ \mbox{\hyperlink{struct___d3_d_r_m_i_m_a_g_e}{LPD3DRMIMAGE}}, LPDIRECT3DRMTEXTURE3 *) PURE;}
+\DoxyCodeLine{226     STDMETHOD(CreateLight)      (THIS\_ D3DRMLIGHTTYPE, D3DCOLOR, LPDIRECT3DRMLIGHT *) PURE;}
+\DoxyCodeLine{227     STDMETHOD(CreateLightRGB)}
+\DoxyCodeLine{228         (THIS\_ D3DRMLIGHTTYPE, D3DVALUE, D3DVALUE, D3DVALUE, LPDIRECT3DRMLIGHT *) PURE;}
+\DoxyCodeLine{229     STDMETHOD(CreateMaterial)   (THIS\_ D3DVALUE, LPDIRECT3DRMMATERIAL2 *) PURE;}
+\DoxyCodeLine{230     STDMETHOD(CreateDevice)     (THIS\_ DWORD, DWORD, LPDIRECT3DRMDEVICE3 *) PURE;}
+\DoxyCodeLine{231 }
+\DoxyCodeLine{232     \textcolor{comment}{/* Create a Windows Device using DirectDraw surfaces */}}
+\DoxyCodeLine{233     STDMETHOD(CreateDeviceFromSurface)}
+\DoxyCodeLine{234     (   THIS\_ LPGUID lpGUID, LPDIRECTDRAW lpDD,}
+\DoxyCodeLine{235         LPDIRECTDRAWSURFACE lpDDSBack, DWORD dwFlags, LPDIRECT3DRMDEVICE3 *}
+\DoxyCodeLine{236     ) PURE;}
+\DoxyCodeLine{237 }
+\DoxyCodeLine{238     \textcolor{comment}{/* Create a Windows Device using D3D objects */}}
+\DoxyCodeLine{239     STDMETHOD(CreateDeviceFromD3D)}
+\DoxyCodeLine{240     (   THIS\_ LPDIRECT3D2 lpD3D, LPDIRECT3DDEVICE2 lpD3DDev,}
+\DoxyCodeLine{241         LPDIRECT3DRMDEVICE3 *}
+\DoxyCodeLine{242     ) PURE;}
+\DoxyCodeLine{243 }
+\DoxyCodeLine{244     STDMETHOD(CreateDeviceFromClipper)}
+\DoxyCodeLine{245     (   THIS\_ LPDIRECTDRAWCLIPPER lpDDClipper, LPGUID lpGUID,}
+\DoxyCodeLine{246         \textcolor{keywordtype}{int} width, \textcolor{keywordtype}{int} height, LPDIRECT3DRMDEVICE3 *) PURE;}
+\DoxyCodeLine{247 }
+\DoxyCodeLine{248     STDMETHOD(CreateTextureFromSurface)(THIS\_ LPDIRECTDRAWSURFACE lpDDS, LPDIRECT3DRMTEXTURE3 *) PURE;}
+\DoxyCodeLine{249 }
+\DoxyCodeLine{250     STDMETHOD(CreateShadow)}
+\DoxyCodeLine{251     (   THIS\_ LPUNKNOWN, LPDIRECT3DRMLIGHT,}
+\DoxyCodeLine{252         D3DVALUE px, D3DVALUE py, D3DVALUE pz,}
+\DoxyCodeLine{253         D3DVALUE nx, D3DVALUE ny, D3DVALUE nz,}
+\DoxyCodeLine{254         LPDIRECT3DRMSHADOW2 *}
+\DoxyCodeLine{255     ) PURE;}
+\DoxyCodeLine{256     STDMETHOD(CreateViewport)}
+\DoxyCodeLine{257     (   THIS\_ LPDIRECT3DRMDEVICE3, LPDIRECT3DRMFRAME3, DWORD, DWORD,}
+\DoxyCodeLine{258         DWORD, DWORD, LPDIRECT3DRMVIEWPORT2 *}
+\DoxyCodeLine{259     ) PURE;}
+\DoxyCodeLine{260     STDMETHOD(CreateWrap)}
+\DoxyCodeLine{261     (   THIS\_ D3DRMWRAPTYPE, LPDIRECT3DRMFRAME3,}
+\DoxyCodeLine{262         D3DVALUE ox, D3DVALUE oy, D3DVALUE oz,}
+\DoxyCodeLine{263         D3DVALUE dx, D3DVALUE dy, D3DVALUE dz,}
+\DoxyCodeLine{264         D3DVALUE ux, D3DVALUE uy, D3DVALUE uz,}
+\DoxyCodeLine{265         D3DVALUE ou, D3DVALUE ov,}
+\DoxyCodeLine{266         D3DVALUE su, D3DVALUE sv,}
+\DoxyCodeLine{267         LPDIRECT3DRMWRAP *}
+\DoxyCodeLine{268     ) PURE;}
+\DoxyCodeLine{269     STDMETHOD(CreateUserVisual) (THIS\_ D3DRMUSERVISUALCALLBACK, LPVOID lPArg, LPDIRECT3DRMUSERVISUAL *) PURE;}
+\DoxyCodeLine{270     STDMETHOD(LoadTexture)      (THIS\_ \textcolor{keyword}{const} \textcolor{keywordtype}{char} *, LPDIRECT3DRMTEXTURE3 *) PURE;}
+\DoxyCodeLine{271     STDMETHOD(LoadTextureFromResource)  (THIS\_ HMODULE hModule, LPCTSTR strName, LPCTSTR strType, LPDIRECT3DRMTEXTURE3 *) PURE;}
+\DoxyCodeLine{272 }
+\DoxyCodeLine{273     STDMETHOD(SetSearchPath)    (THIS\_ LPCSTR) PURE;}
+\DoxyCodeLine{274     STDMETHOD(AddSearchPath)    (THIS\_ LPCSTR) PURE;}
+\DoxyCodeLine{275     STDMETHOD(GetSearchPath)    (THIS\_ DWORD *size\_return, LPSTR path\_return) PURE;}
+\DoxyCodeLine{276     STDMETHOD(SetDefaultTextureColors)(THIS\_ DWORD) PURE;}
+\DoxyCodeLine{277     STDMETHOD(SetDefaultTextureShades)(THIS\_ DWORD) PURE;}
+\DoxyCodeLine{278 }
+\DoxyCodeLine{279     STDMETHOD(GetDevices)       (THIS\_ LPDIRECT3DRMDEVICEARRAY *) PURE;}
+\DoxyCodeLine{280     STDMETHOD(GetNamedObject)   (THIS\_ \textcolor{keyword}{const} \textcolor{keywordtype}{char} *, LPDIRECT3DRMOBJECT *) PURE;}
+\DoxyCodeLine{281 }
+\DoxyCodeLine{282     STDMETHOD(EnumerateObjects) (THIS\_ D3DRMOBJECTCALLBACK, LPVOID) PURE;}
+\DoxyCodeLine{283 }
+\DoxyCodeLine{284     STDMETHOD(Load)}
+\DoxyCodeLine{285     (   THIS\_ LPVOID, LPVOID, LPIID *, DWORD, D3DRMLOADOPTIONS,}
+\DoxyCodeLine{286         D3DRMLOADCALLBACK, LPVOID, D3DRMLOADTEXTURE3CALLBACK, LPVOID,}
+\DoxyCodeLine{287         LPDIRECT3DRMFRAME3}
+\DoxyCodeLine{288     ) PURE;}
+\DoxyCodeLine{289     STDMETHOD(Tick)             (THIS\_ D3DVALUE) PURE;}
+\DoxyCodeLine{290 }
+\DoxyCodeLine{291     STDMETHOD(CreateProgressiveMesh)(THIS\_ LPDIRECT3DRMPROGRESSIVEMESH *) PURE;}
+\DoxyCodeLine{292 }
+\DoxyCodeLine{293     \textcolor{comment}{/* Used with IDirect3DRMObject2 */}}
+\DoxyCodeLine{294     STDMETHOD(RegisterClient)   (THIS\_ REFGUID rguid, LPDWORD lpdwID) PURE;}
+\DoxyCodeLine{295     STDMETHOD(UnregisterClient) (THIS\_ REFGUID rguid) PURE;}
+\DoxyCodeLine{296 }
+\DoxyCodeLine{297     STDMETHOD(CreateClippedVisual) (THIS\_ LPDIRECT3DRMVISUAL, LPDIRECT3DRMCLIPPEDVISUAL *) PURE;}
+\DoxyCodeLine{298     STDMETHOD(SetOptions) (THIS\_ DWORD);}
+\DoxyCodeLine{299     STDMETHOD(GetOptions) (THIS\_ LPDWORD);}
+\DoxyCodeLine{300 \};}
+\DoxyCodeLine{301 }
+\DoxyCodeLine{302 \textcolor{preprocessor}{\#define D3DRM\_OK                        DD\_OK}}
+\DoxyCodeLine{303 \textcolor{preprocessor}{\#define D3DRMERR\_BADOBJECT              MAKE\_DDHRESULT(781)}}
+\DoxyCodeLine{304 \textcolor{preprocessor}{\#define D3DRMERR\_BADTYPE                MAKE\_DDHRESULT(782)}}
+\DoxyCodeLine{305 \textcolor{preprocessor}{\#define D3DRMERR\_BADALLOC               MAKE\_DDHRESULT(783)}}
+\DoxyCodeLine{306 \textcolor{preprocessor}{\#define D3DRMERR\_FACEUSED               MAKE\_DDHRESULT(784)}}
+\DoxyCodeLine{307 \textcolor{preprocessor}{\#define D3DRMERR\_NOTFOUND               MAKE\_DDHRESULT(785)}}
+\DoxyCodeLine{308 \textcolor{preprocessor}{\#define D3DRMERR\_NOTDONEYET             MAKE\_DDHRESULT(786)}}
+\DoxyCodeLine{309 \textcolor{preprocessor}{\#define D3DRMERR\_FILENOTFOUND           MAKE\_DDHRESULT(787)}}
+\DoxyCodeLine{310 \textcolor{preprocessor}{\#define D3DRMERR\_BADFILE                MAKE\_DDHRESULT(788)}}
+\DoxyCodeLine{311 \textcolor{preprocessor}{\#define D3DRMERR\_BADDEVICE              MAKE\_DDHRESULT(789)}}
+\DoxyCodeLine{312 \textcolor{preprocessor}{\#define D3DRMERR\_BADVALUE               MAKE\_DDHRESULT(790)}}
+\DoxyCodeLine{313 \textcolor{preprocessor}{\#define D3DRMERR\_BADMAJORVERSION        MAKE\_DDHRESULT(791)}}
+\DoxyCodeLine{314 \textcolor{preprocessor}{\#define D3DRMERR\_BADMINORVERSION        MAKE\_DDHRESULT(792)}}
+\DoxyCodeLine{315 \textcolor{preprocessor}{\#define D3DRMERR\_UNABLETOEXECUTE        MAKE\_DDHRESULT(793)}}
+\DoxyCodeLine{316 \textcolor{preprocessor}{\#define D3DRMERR\_LIBRARYNOTFOUND        MAKE\_DDHRESULT(794)}}
+\DoxyCodeLine{317 \textcolor{preprocessor}{\#define D3DRMERR\_INVALIDLIBRARY         MAKE\_DDHRESULT(795)}}
+\DoxyCodeLine{318 \textcolor{preprocessor}{\#define D3DRMERR\_PENDING                MAKE\_DDHRESULT(796)}}
+\DoxyCodeLine{319 \textcolor{preprocessor}{\#define D3DRMERR\_NOTENOUGHDATA          MAKE\_DDHRESULT(797)}}
+\DoxyCodeLine{320 \textcolor{preprocessor}{\#define D3DRMERR\_REQUESTTOOLARGE        MAKE\_DDHRESULT(798)}}
+\DoxyCodeLine{321 \textcolor{preprocessor}{\#define D3DRMERR\_REQUESTTOOSMALL        MAKE\_DDHRESULT(799)}}
+\DoxyCodeLine{322 \textcolor{preprocessor}{\#define D3DRMERR\_CONNECTIONLOST         MAKE\_DDHRESULT(800)}}
+\DoxyCodeLine{323 \textcolor{preprocessor}{\#define D3DRMERR\_LOADABORTED            MAKE\_DDHRESULT(801)}}
+\DoxyCodeLine{324 \textcolor{preprocessor}{\#define D3DRMERR\_NOINTERNET             MAKE\_DDHRESULT(802)}}
+\DoxyCodeLine{325 \textcolor{preprocessor}{\#define D3DRMERR\_BADCACHEFILE           MAKE\_DDHRESULT(803)}}
+\DoxyCodeLine{326 \textcolor{preprocessor}{\#define D3DRMERR\_BOXNOTSET              MAKE\_DDHRESULT(804)}}
+\DoxyCodeLine{327 \textcolor{preprocessor}{\#define D3DRMERR\_BADPMDATA              MAKE\_DDHRESULT(805)}}
+\DoxyCodeLine{328 \textcolor{preprocessor}{\#define D3DRMERR\_CLIENTNOTREGISTERED    MAKE\_DDHRESULT(806)}}
+\DoxyCodeLine{329 \textcolor{preprocessor}{\#define D3DRMERR\_NOTCREATEDFROMDDS      MAKE\_DDHRESULT(807)}}
+\DoxyCodeLine{330 \textcolor{preprocessor}{\#define D3DRMERR\_NOSUCHKEY              MAKE\_DDHRESULT(808)}}
+\DoxyCodeLine{331 \textcolor{preprocessor}{\#define D3DRMERR\_INCOMPATABLEKEY        MAKE\_DDHRESULT(809)}}
+\DoxyCodeLine{332 \textcolor{preprocessor}{\#define D3DRMERR\_ELEMENTINUSE           MAKE\_DDHRESULT(810)}}
+\DoxyCodeLine{333 \textcolor{preprocessor}{\#define D3DRMERR\_TEXTUREFORMATNOTFOUND  MAKE\_DDHRESULT(811)}}
+\DoxyCodeLine{334 \textcolor{preprocessor}{\#define D3DRMERR\_NOTAGGREGATED          MAKE\_DDHRESULT(812)}}
+\DoxyCodeLine{335 }
+\DoxyCodeLine{336 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{337 \};}
+\DoxyCodeLine{338 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{339 }
+\DoxyCodeLine{340 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* \_D3DRMAPI\_H\_ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{341 }
+\DoxyCodeLine{342 }
+
+\end{DoxyCode}

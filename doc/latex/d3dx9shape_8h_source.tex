@@ -1,0 +1,224 @@
+\hypertarget{d3dx9shape_8h_source}{}\doxysection{d3dx9shape.\+h}
+\label{d3dx9shape_8h_source}\index{src/lib/dx/Include/d3dx9shape.h@{src/lib/dx/Include/d3dx9shape.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{2 \textcolor{comment}{//}}
+\DoxyCodeLine{3 \textcolor{comment}{//  Copyright (C) Microsoft Corporation.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{//}}
+\DoxyCodeLine{5 \textcolor{comment}{//  File:       d3dx9shapes.h}}
+\DoxyCodeLine{6 \textcolor{comment}{//  Content:    D3DX simple shapes}}
+\DoxyCodeLine{7 \textcolor{comment}{//}}
+\DoxyCodeLine{9 \textcolor{comment}{}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}d3dx9.h"{}}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#ifndef \_\_D3DX9SHAPES\_H\_\_}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#define \_\_D3DX9SHAPES\_H\_\_}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{16 \textcolor{comment}{// Functions:}}
+\DoxyCodeLine{18 \textcolor{comment}{}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{20 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{25 \textcolor{comment}{// D3DXCreatePolygon: }}
+\DoxyCodeLine{26 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{27 \textcolor{comment}{// Creates a mesh containing an n-\/sided polygon.  The polygon is centered}}
+\DoxyCodeLine{28 \textcolor{comment}{// at the origin.}}
+\DoxyCodeLine{29 \textcolor{comment}{//}}
+\DoxyCodeLine{30 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{31 \textcolor{comment}{//}}
+\DoxyCodeLine{32 \textcolor{comment}{//  pDevice     The D3D device with which the mesh is going to be used.}}
+\DoxyCodeLine{33 \textcolor{comment}{//  Length      Length of each side.}}
+\DoxyCodeLine{34 \textcolor{comment}{//  Sides       Number of sides the polygon has.  (Must be >= 3)}}
+\DoxyCodeLine{35 \textcolor{comment}{//  ppMesh      The mesh object which will be created}}
+\DoxyCodeLine{36 \textcolor{comment}{//  ppAdjacency Returns a buffer containing adjacency info.  Can be NULL.}}
+\DoxyCodeLine{37 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{38 HRESULT WINAPI }
+\DoxyCodeLine{39     D3DXCreatePolygon(}
+\DoxyCodeLine{40         LPDIRECT3DDEVICE9   pDevice,}
+\DoxyCodeLine{41         FLOAT               Length, }
+\DoxyCodeLine{42         UINT                Sides, }
+\DoxyCodeLine{43         LPD3DXMESH*         ppMesh,}
+\DoxyCodeLine{44         LPD3DXBUFFER*       ppAdjacency);}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{48 \textcolor{comment}{// D3DXCreateBox: }}
+\DoxyCodeLine{49 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{50 \textcolor{comment}{// Creates a mesh containing an axis-\/aligned box.  The box is centered at}}
+\DoxyCodeLine{51 \textcolor{comment}{// the origin.}}
+\DoxyCodeLine{52 \textcolor{comment}{//}}
+\DoxyCodeLine{53 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{54 \textcolor{comment}{//}}
+\DoxyCodeLine{55 \textcolor{comment}{//  pDevice     The D3D device with which the mesh is going to be used.}}
+\DoxyCodeLine{56 \textcolor{comment}{//  Width       Width of box (along X-\/axis)}}
+\DoxyCodeLine{57 \textcolor{comment}{//  Height      Height of box (along Y-\/axis)}}
+\DoxyCodeLine{58 \textcolor{comment}{//  Depth       Depth of box (along Z-\/axis)}}
+\DoxyCodeLine{59 \textcolor{comment}{//  ppMesh      The mesh object which will be created}}
+\DoxyCodeLine{60 \textcolor{comment}{//  ppAdjacency Returns a buffer containing adjacency info.  Can be NULL.}}
+\DoxyCodeLine{61 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{62 HRESULT WINAPI }
+\DoxyCodeLine{63     D3DXCreateBox(}
+\DoxyCodeLine{64         LPDIRECT3DDEVICE9   pDevice, }
+\DoxyCodeLine{65         FLOAT               Width,}
+\DoxyCodeLine{66         FLOAT               Height,}
+\DoxyCodeLine{67         FLOAT               Depth,}
+\DoxyCodeLine{68         LPD3DXMESH*         ppMesh,}
+\DoxyCodeLine{69         LPD3DXBUFFER*       ppAdjacency);}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{73 \textcolor{comment}{// D3DXCreateCylinder:}}
+\DoxyCodeLine{74 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{75 \textcolor{comment}{// Creates a mesh containing a cylinder.  The generated cylinder is}}
+\DoxyCodeLine{76 \textcolor{comment}{// centered at the origin, and its axis is aligned with the Z-\/axis.}}
+\DoxyCodeLine{77 \textcolor{comment}{//}}
+\DoxyCodeLine{78 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{79 \textcolor{comment}{//}}
+\DoxyCodeLine{80 \textcolor{comment}{//  pDevice     The D3D device with which the mesh is going to be used.}}
+\DoxyCodeLine{81 \textcolor{comment}{//  Radius1     Radius at -\/Z end (should be >= 0.0f)}}
+\DoxyCodeLine{82 \textcolor{comment}{//  Radius2     Radius at +Z end (should be >= 0.0f)}}
+\DoxyCodeLine{83 \textcolor{comment}{//  Length      Length of cylinder (along Z-\/axis)}}
+\DoxyCodeLine{84 \textcolor{comment}{//  Slices      Number of slices about the main axis}}
+\DoxyCodeLine{85 \textcolor{comment}{//  Stacks      Number of stacks along the main axis}}
+\DoxyCodeLine{86 \textcolor{comment}{//  ppMesh      The mesh object which will be created}}
+\DoxyCodeLine{87 \textcolor{comment}{//  ppAdjacency Returns a buffer containing adjacency info.  Can be NULL.}}
+\DoxyCodeLine{88 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{89 HRESULT WINAPI }
+\DoxyCodeLine{90     D3DXCreateCylinder(}
+\DoxyCodeLine{91         LPDIRECT3DDEVICE9   pDevice,}
+\DoxyCodeLine{92         FLOAT               Radius1, }
+\DoxyCodeLine{93         FLOAT               Radius2, }
+\DoxyCodeLine{94         FLOAT               Length, }
+\DoxyCodeLine{95         UINT                Slices, }
+\DoxyCodeLine{96         UINT                Stacks,   }
+\DoxyCodeLine{97         LPD3DXMESH*         ppMesh,}
+\DoxyCodeLine{98         LPD3DXBUFFER*       ppAdjacency);}
+\DoxyCodeLine{99 }
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{102 \textcolor{comment}{// D3DXCreateSphere:}}
+\DoxyCodeLine{103 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{104 \textcolor{comment}{// Creates a mesh containing a sphere.  The sphere is centered at the}}
+\DoxyCodeLine{105 \textcolor{comment}{// origin.}}
+\DoxyCodeLine{106 \textcolor{comment}{//}}
+\DoxyCodeLine{107 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{108 \textcolor{comment}{//}}
+\DoxyCodeLine{109 \textcolor{comment}{//  pDevice     The D3D device with which the mesh is going to be used.}}
+\DoxyCodeLine{110 \textcolor{comment}{//  Radius      Radius of the sphere (should be >= 0.0f)}}
+\DoxyCodeLine{111 \textcolor{comment}{//  Slices      Number of slices about the main axis}}
+\DoxyCodeLine{112 \textcolor{comment}{//  Stacks      Number of stacks along the main axis}}
+\DoxyCodeLine{113 \textcolor{comment}{//  ppMesh      The mesh object which will be created}}
+\DoxyCodeLine{114 \textcolor{comment}{//  ppAdjacency Returns a buffer containing adjacency info.  Can be NULL.}}
+\DoxyCodeLine{115 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{116 HRESULT WINAPI}
+\DoxyCodeLine{117     D3DXCreateSphere(}
+\DoxyCodeLine{118         LPDIRECT3DDEVICE9  pDevice, }
+\DoxyCodeLine{119         FLOAT              Radius, }
+\DoxyCodeLine{120         UINT               Slices, }
+\DoxyCodeLine{121         UINT               Stacks,}
+\DoxyCodeLine{122         LPD3DXMESH*        ppMesh,}
+\DoxyCodeLine{123         LPD3DXBUFFER*      ppAdjacency);}
+\DoxyCodeLine{124 }
+\DoxyCodeLine{125 }
+\DoxyCodeLine{126 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{127 \textcolor{comment}{// D3DXCreateTorus:}}
+\DoxyCodeLine{128 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{129 \textcolor{comment}{// Creates a mesh containing a torus.  The generated torus is centered at}}
+\DoxyCodeLine{130 \textcolor{comment}{// the origin, and its axis is aligned with the Z-\/axis.}}
+\DoxyCodeLine{131 \textcolor{comment}{//}}
+\DoxyCodeLine{132 \textcolor{comment}{// Parameters: }}
+\DoxyCodeLine{133 \textcolor{comment}{//}}
+\DoxyCodeLine{134 \textcolor{comment}{//  pDevice     The D3D device with which the mesh is going to be used.}}
+\DoxyCodeLine{135 \textcolor{comment}{//  InnerRadius Inner radius of the torus (should be >= 0.0f)}}
+\DoxyCodeLine{136 \textcolor{comment}{//  OuterRadius Outer radius of the torue (should be >= 0.0f)}}
+\DoxyCodeLine{137 \textcolor{comment}{//  Sides       Number of sides in a cross-\/section (must be >= 3)}}
+\DoxyCodeLine{138 \textcolor{comment}{//  Rings       Number of rings making up the torus (must be >= 3)}}
+\DoxyCodeLine{139 \textcolor{comment}{//  ppMesh      The mesh object which will be created}}
+\DoxyCodeLine{140 \textcolor{comment}{//  ppAdjacency Returns a buffer containing adjacency info.  Can be NULL.}}
+\DoxyCodeLine{141 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{142 HRESULT WINAPI}
+\DoxyCodeLine{143     D3DXCreateTorus(}
+\DoxyCodeLine{144         LPDIRECT3DDEVICE9   pDevice,}
+\DoxyCodeLine{145         FLOAT               InnerRadius,}
+\DoxyCodeLine{146         FLOAT               OuterRadius, }
+\DoxyCodeLine{147         UINT                Sides,}
+\DoxyCodeLine{148         UINT                Rings, }
+\DoxyCodeLine{149         LPD3DXMESH*         ppMesh,}
+\DoxyCodeLine{150         LPD3DXBUFFER*       ppAdjacency);}
+\DoxyCodeLine{151 }
+\DoxyCodeLine{152 }
+\DoxyCodeLine{153 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{154 \textcolor{comment}{// D3DXCreateTeapot: }}
+\DoxyCodeLine{155 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{156 \textcolor{comment}{// Creates a mesh containing a teapot.}}
+\DoxyCodeLine{157 \textcolor{comment}{//}}
+\DoxyCodeLine{158 \textcolor{comment}{// Parameters: }}
+\DoxyCodeLine{159 \textcolor{comment}{//}}
+\DoxyCodeLine{160 \textcolor{comment}{//  pDevice     The D3D device with which the mesh is going to be used.}}
+\DoxyCodeLine{161 \textcolor{comment}{//  ppMesh      The mesh object which will be created}}
+\DoxyCodeLine{162 \textcolor{comment}{//  ppAdjacency Returns a buffer containing adjacency info.  Can be NULL.}}
+\DoxyCodeLine{163 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{164 HRESULT WINAPI}
+\DoxyCodeLine{165     D3DXCreateTeapot(}
+\DoxyCodeLine{166         LPDIRECT3DDEVICE9   pDevice,}
+\DoxyCodeLine{167         LPD3DXMESH*         ppMesh,}
+\DoxyCodeLine{168         LPD3DXBUFFER*       ppAdjacency);}
+\DoxyCodeLine{169 }
+\DoxyCodeLine{170 }
+\DoxyCodeLine{171 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{172 \textcolor{comment}{// D3DXCreateText: }}
+\DoxyCodeLine{173 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ }}
+\DoxyCodeLine{174 \textcolor{comment}{// Creates a mesh containing the specified text using the font associated}}
+\DoxyCodeLine{175 \textcolor{comment}{// with the device context.}}
+\DoxyCodeLine{176 \textcolor{comment}{//}}
+\DoxyCodeLine{177 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{178 \textcolor{comment}{//}}
+\DoxyCodeLine{179 \textcolor{comment}{//  pDevice       The D3D device with which the mesh is going to be used.}}
+\DoxyCodeLine{180 \textcolor{comment}{//  hDC           Device context, with desired font selected}}
+\DoxyCodeLine{181 \textcolor{comment}{//  pText         Text to generate}}
+\DoxyCodeLine{182 \textcolor{comment}{//  Deviation     Maximum chordal deviation from true font outlines}}
+\DoxyCodeLine{183 \textcolor{comment}{//  Extrusion     Amount to extrude text in -\/Z direction}}
+\DoxyCodeLine{184 \textcolor{comment}{//  ppMesh        The mesh object which will be created}}
+\DoxyCodeLine{185 \textcolor{comment}{//  pGlyphMetrics Address of buffer to receive glyph metric data (or NULL)}}
+\DoxyCodeLine{186 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{187 HRESULT WINAPI}
+\DoxyCodeLine{188     D3DXCreateTextA(}
+\DoxyCodeLine{189         LPDIRECT3DDEVICE9   pDevice,}
+\DoxyCodeLine{190         HDC                 hDC,}
+\DoxyCodeLine{191         LPCSTR              pText,}
+\DoxyCodeLine{192         FLOAT               Deviation,}
+\DoxyCodeLine{193         FLOAT               Extrusion,}
+\DoxyCodeLine{194         LPD3DXMESH*         ppMesh,}
+\DoxyCodeLine{195         LPD3DXBUFFER*       ppAdjacency,}
+\DoxyCodeLine{196         LPGLYPHMETRICSFLOAT pGlyphMetrics);}
+\DoxyCodeLine{197 }
+\DoxyCodeLine{198 HRESULT WINAPI}
+\DoxyCodeLine{199     D3DXCreateTextW(}
+\DoxyCodeLine{200         LPDIRECT3DDEVICE9   pDevice,}
+\DoxyCodeLine{201         HDC                 hDC,}
+\DoxyCodeLine{202         LPCWSTR             pText,}
+\DoxyCodeLine{203         FLOAT               Deviation,}
+\DoxyCodeLine{204         FLOAT               Extrusion,}
+\DoxyCodeLine{205         LPD3DXMESH*         ppMesh,}
+\DoxyCodeLine{206         LPD3DXBUFFER*       ppAdjacency,}
+\DoxyCodeLine{207         LPGLYPHMETRICSFLOAT pGlyphMetrics);}
+\DoxyCodeLine{208 }
+\DoxyCodeLine{209 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{210 \textcolor{preprocessor}{\#define D3DXCreateText D3DXCreateTextW}}
+\DoxyCodeLine{211 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{212 \textcolor{preprocessor}{\#define D3DXCreateText D3DXCreateTextA}}
+\DoxyCodeLine{213 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{214 }
+\DoxyCodeLine{215 }
+\DoxyCodeLine{216 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{217 \}}
+\DoxyCodeLine{218 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus    }}
+\DoxyCodeLine{219 }
+\DoxyCodeLine{220 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_D3DX9SHAPES\_H\_\_}}
+\DoxyCodeLine{221 }
+
+\end{DoxyCode}

@@ -1,0 +1,246 @@
+\hypertarget{dxfile_8h_source}{}\doxysection{dxfile.\+h}
+\label{dxfile_8h_source}\index{src/lib/dx/Include/dxfile.h@{src/lib/dx/Include/dxfile.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/***************************************************************************}}
+\DoxyCodeLine{2 \textcolor{comment}{ *}}
+\DoxyCodeLine{3 \textcolor{comment}{ *  Copyright (C) 1998-\/1999 Microsoft Corporation.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{ *}}
+\DoxyCodeLine{5 \textcolor{comment}{ *  File:       dxfile.h}}
+\DoxyCodeLine{6 \textcolor{comment}{ *}}
+\DoxyCodeLine{7 \textcolor{comment}{ *  Content:    DirectX File public header file}}
+\DoxyCodeLine{8 \textcolor{comment}{ *}}
+\DoxyCodeLine{9 \textcolor{comment}{ ***************************************************************************/}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#ifndef \_\_DXFILE\_H\_\_}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#define \_\_DXFILE\_H\_\_}}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{15 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{keyword}{typedef} DWORD DXFILEFORMAT;}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#define DXFILEFORMAT\_BINARY     0}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#define DXFILEFORMAT\_TEXT       1}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#define DXFILEFORMAT\_COMPRESSED 2}}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 \textcolor{keyword}{typedef} DWORD DXFILELOADOPTIONS;}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#define DXFILELOAD\_FROMFILE  0x00L}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#define DXFILELOAD\_FROMRESOURCE 0x01L}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#define DXFILELOAD\_FROMMEMORY 0x02L}}
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#define DXFILELOAD\_FROMSTREAM 0x04L}}
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#define DXFILELOAD\_FROMURL 0x08L}}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_x_f_i_l_e_l_o_a_d_r_e_s_o_u_r_c_e}{\_DXFILELOADRESOURCE}} \{}
+\DoxyCodeLine{33     HMODULE hModule;}
+\DoxyCodeLine{34     LPCTSTR lpName;}
+\DoxyCodeLine{35     LPCTSTR lpType;}
+\DoxyCodeLine{36 \}\mbox{\hyperlink{struct___d_x_f_i_l_e_l_o_a_d_r_e_s_o_u_r_c_e}{DXFILELOADRESOURCE}}, *\mbox{\hyperlink{struct___d_x_f_i_l_e_l_o_a_d_r_e_s_o_u_r_c_e}{LPDXFILELOADRESOURCE}};}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_x_f_i_l_e_l_o_a_d_m_e_m_o_r_y}{\_DXFILELOADMEMORY}} \{}
+\DoxyCodeLine{39     LPVOID lpMemory;}
+\DoxyCodeLine{40     DWORD dSize;}
+\DoxyCodeLine{41 \}\mbox{\hyperlink{struct___d_x_f_i_l_e_l_o_a_d_m_e_m_o_r_y}{DXFILELOADMEMORY}}, *\mbox{\hyperlink{struct___d_x_f_i_l_e_l_o_a_d_m_e_m_o_r_y}{LPDXFILELOADMEMORY}};}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{comment}{/*}}
+\DoxyCodeLine{44 \textcolor{comment}{ * DirectX File object types.}}
+\DoxyCodeLine{45 \textcolor{comment}{ */}}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 \textcolor{preprocessor}{\#ifndef WIN\_TYPES}}
+\DoxyCodeLine{48 \textcolor{preprocessor}{\#define WIN\_TYPES(itype, ptype) typedef interface itype *LP\#\#ptype, **LPLP\#\#ptype}}
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 WIN\_TYPES(IDirectXFile,                 DIRECTXFILE);}
+\DoxyCodeLine{52 WIN\_TYPES(IDirectXFileEnumObject,       DIRECTXFILEENUMOBJECT);}
+\DoxyCodeLine{53 WIN\_TYPES(IDirectXFileSaveObject,       DIRECTXFILESAVEOBJECT);}
+\DoxyCodeLine{54 WIN\_TYPES(IDirectXFileObject,           DIRECTXFILEOBJECT);}
+\DoxyCodeLine{55 WIN\_TYPES(IDirectXFileData,             DIRECTXFILEDATA);}
+\DoxyCodeLine{56 WIN\_TYPES(IDirectXFileDataReference,    DIRECTXFILEDATAREFERENCE);}
+\DoxyCodeLine{57 WIN\_TYPES(IDirectXFileBinary,           DIRECTXFILEBINARY);}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59 \textcolor{comment}{/*}}
+\DoxyCodeLine{60 \textcolor{comment}{ * API for creating IDirectXFile interface.}}
+\DoxyCodeLine{61 \textcolor{comment}{ */}}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63 STDAPI DirectXFileCreate(LPDIRECTXFILE *lplpDirectXFile);}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65 \textcolor{comment}{/*}}
+\DoxyCodeLine{66 \textcolor{comment}{ * The methods for IUnknown}}
+\DoxyCodeLine{67 \textcolor{comment}{ */}}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69 \textcolor{preprocessor}{\#define IUNKNOWN\_METHODS(kind) \(\backslash\)}}
+\DoxyCodeLine{70 \textcolor{preprocessor}{    STDMETHOD(QueryInterface)       (THIS\_ REFIID riid, LPVOID *ppvObj) kind; \(\backslash\)}}
+\DoxyCodeLine{71 \textcolor{preprocessor}{    STDMETHOD\_(ULONG, AddRef)       (THIS) kind; \(\backslash\)}}
+\DoxyCodeLine{72 \textcolor{preprocessor}{    STDMETHOD\_(ULONG, Release)      (THIS) kind}}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74 \textcolor{comment}{/*}}
+\DoxyCodeLine{75 \textcolor{comment}{ * The methods for IDirectXFileObject}}
+\DoxyCodeLine{76 \textcolor{comment}{ */}}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78 \textcolor{preprocessor}{\#define IDIRECTXFILEOBJECT\_METHODS(kind) \(\backslash\)}}
+\DoxyCodeLine{79 \textcolor{preprocessor}{    STDMETHOD(GetName) (THIS\_ LPSTR, LPDWORD) kind; \(\backslash\)}}
+\DoxyCodeLine{80 \textcolor{preprocessor}{    STDMETHOD(GetId) (THIS\_ LPGUID) kind}}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{82 \textcolor{comment}{/*}}
+\DoxyCodeLine{83 \textcolor{comment}{ * DirectX File interfaces.}}
+\DoxyCodeLine{84 \textcolor{comment}{ */}}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{87 \textcolor{preprocessor}{\#define INTERFACE IDirectXFile}}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{89 DECLARE\_INTERFACE\_(IDirectXFile, IUnknown)}
+\DoxyCodeLine{90 \{}
+\DoxyCodeLine{91     IUNKNOWN\_METHODS(PURE);}
+\DoxyCodeLine{92     STDMETHOD(CreateEnumObject) (THIS\_ LPVOID, DXFILELOADOPTIONS,}
+\DoxyCodeLine{93                                  LPDIRECTXFILEENUMOBJECT *) PURE;}
+\DoxyCodeLine{94     STDMETHOD(CreateSaveObject) (THIS\_ LPCSTR, DXFILEFORMAT,}
+\DoxyCodeLine{95                                  LPDIRECTXFILESAVEOBJECT *) PURE;}
+\DoxyCodeLine{96     STDMETHOD(RegisterTemplates) (THIS\_ LPVOID, DWORD) PURE;}
+\DoxyCodeLine{97 \};}
+\DoxyCodeLine{98 }
+\DoxyCodeLine{99 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{100 \textcolor{preprocessor}{\#define INTERFACE IDirectXFileEnumObject}}
+\DoxyCodeLine{101 }
+\DoxyCodeLine{102 DECLARE\_INTERFACE\_(IDirectXFileEnumObject, IUnknown)}
+\DoxyCodeLine{103 \{}
+\DoxyCodeLine{104     IUNKNOWN\_METHODS(PURE);}
+\DoxyCodeLine{105     STDMETHOD(GetNextDataObject)    (THIS\_ LPDIRECTXFILEDATA *) PURE;}
+\DoxyCodeLine{106     STDMETHOD(GetDataObjectById)    (THIS\_ REFGUID, LPDIRECTXFILEDATA *) PURE;}
+\DoxyCodeLine{107     STDMETHOD(GetDataObjectByName)  (THIS\_ LPCSTR, LPDIRECTXFILEDATA *) PURE;}
+\DoxyCodeLine{108 \};}
+\DoxyCodeLine{109 }
+\DoxyCodeLine{110 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{111 \textcolor{preprocessor}{\#define INTERFACE IDirectXFileSaveObject}}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113 DECLARE\_INTERFACE\_(IDirectXFileSaveObject, IUnknown)}
+\DoxyCodeLine{114 \{}
+\DoxyCodeLine{115     IUNKNOWN\_METHODS(PURE);}
+\DoxyCodeLine{116     STDMETHOD(SaveTemplates) (THIS\_ DWORD, \textcolor{keyword}{const} GUID **) PURE;}
+\DoxyCodeLine{117     STDMETHOD(CreateDataObject) (THIS\_ REFGUID, LPCSTR, \textcolor{keyword}{const} GUID *,}
+\DoxyCodeLine{118                                  DWORD, LPVOID, LPDIRECTXFILEDATA *) PURE;}
+\DoxyCodeLine{119     STDMETHOD(SaveData) (THIS\_ LPDIRECTXFILEDATA) PURE;}
+\DoxyCodeLine{120 \};}
+\DoxyCodeLine{121 }
+\DoxyCodeLine{122 }
+\DoxyCodeLine{123 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{124 \textcolor{preprocessor}{\#define INTERFACE IDirectXFileObject}}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{126 DECLARE\_INTERFACE\_(IDirectXFileObject, IUnknown)}
+\DoxyCodeLine{127 \{}
+\DoxyCodeLine{128     IUNKNOWN\_METHODS(PURE);}
+\DoxyCodeLine{129     IDIRECTXFILEOBJECT\_METHODS(PURE);}
+\DoxyCodeLine{130 \};}
+\DoxyCodeLine{131 }
+\DoxyCodeLine{132 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{133 \textcolor{preprocessor}{\#define INTERFACE IDirectXFileData}}
+\DoxyCodeLine{134 }
+\DoxyCodeLine{135 DECLARE\_INTERFACE\_(IDirectXFileData, IDirectXFileObject)}
+\DoxyCodeLine{136 \{}
+\DoxyCodeLine{137     IUNKNOWN\_METHODS(PURE);}
+\DoxyCodeLine{138     IDIRECTXFILEOBJECT\_METHODS(PURE);}
+\DoxyCodeLine{139 }
+\DoxyCodeLine{140     STDMETHOD(GetData)          (THIS\_ LPCSTR, DWORD *, \textcolor{keywordtype}{void} **) PURE;}
+\DoxyCodeLine{141     STDMETHOD(GetType)          (THIS\_ \textcolor{keyword}{const} GUID **) PURE;}
+\DoxyCodeLine{142     STDMETHOD(GetNextObject)    (THIS\_ LPDIRECTXFILEOBJECT *) PURE;}
+\DoxyCodeLine{143     STDMETHOD(AddDataObject)    (THIS\_ LPDIRECTXFILEDATA) PURE;}
+\DoxyCodeLine{144     STDMETHOD(AddDataReference) (THIS\_ LPCSTR, \textcolor{keyword}{const} GUID *) PURE;}
+\DoxyCodeLine{145     STDMETHOD(AddBinaryObject)  (THIS\_ LPCSTR, \textcolor{keyword}{const} GUID *, LPCSTR, LPVOID, DWORD) PURE;}
+\DoxyCodeLine{146 \};}
+\DoxyCodeLine{147 }
+\DoxyCodeLine{148 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{149 \textcolor{preprocessor}{\#define INTERFACE IDirectXFileDataReference}}
+\DoxyCodeLine{150 }
+\DoxyCodeLine{151 DECLARE\_INTERFACE\_(IDirectXFileDataReference, IDirectXFileObject)}
+\DoxyCodeLine{152 \{}
+\DoxyCodeLine{153     IUNKNOWN\_METHODS(PURE);}
+\DoxyCodeLine{154     IDIRECTXFILEOBJECT\_METHODS(PURE);}
+\DoxyCodeLine{155 }
+\DoxyCodeLine{156     STDMETHOD(Resolve) (THIS\_ LPDIRECTXFILEDATA *) PURE;}
+\DoxyCodeLine{157 \};}
+\DoxyCodeLine{158 }
+\DoxyCodeLine{159 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{160 \textcolor{preprocessor}{\#define INTERFACE IDirectXFileBinary}}
+\DoxyCodeLine{161 }
+\DoxyCodeLine{162 DECLARE\_INTERFACE\_(IDirectXFileBinary, IDirectXFileObject)}
+\DoxyCodeLine{163 \{}
+\DoxyCodeLine{164     IUNKNOWN\_METHODS(PURE);}
+\DoxyCodeLine{165     IDIRECTXFILEOBJECT\_METHODS(PURE);}
+\DoxyCodeLine{166 }
+\DoxyCodeLine{167     STDMETHOD(GetSize)      (THIS\_ DWORD *) PURE;}
+\DoxyCodeLine{168     STDMETHOD(GetMimeType)  (THIS\_ LPCSTR *) PURE;}
+\DoxyCodeLine{169     STDMETHOD(Read)         (THIS\_ LPVOID, DWORD, LPDWORD) PURE;}
+\DoxyCodeLine{170 \};}
+\DoxyCodeLine{171 }
+\DoxyCodeLine{172 \textcolor{comment}{/*}}
+\DoxyCodeLine{173 \textcolor{comment}{ * DirectXFile Object Class Id (for CoCreateInstance())}}
+\DoxyCodeLine{174 \textcolor{comment}{ */}}
+\DoxyCodeLine{175 }
+\DoxyCodeLine{176 DEFINE\_GUID(CLSID\_CDirectXFile, 0x4516ec43, 0x8f20, 0x11d0, 0x9b, 0x6d, 0x00, 0x00, 0xc0, 0x78, 0x1b, 0xc3);}
+\DoxyCodeLine{177 }
+\DoxyCodeLine{178 \textcolor{comment}{/*}}
+\DoxyCodeLine{179 \textcolor{comment}{ * DirectX File Interface GUIDs.}}
+\DoxyCodeLine{180 \textcolor{comment}{ */}}
+\DoxyCodeLine{181 }
+\DoxyCodeLine{182 DEFINE\_GUID(IID\_IDirectXFile,               0x3d82ab40, 0x62da, 0x11cf, 0xab, 0x39, 0x0, 0x20, 0xaf, 0x71, 0xe4, 0x33);}
+\DoxyCodeLine{183 DEFINE\_GUID(IID\_IDirectXFileEnumObject,     0x3d82ab41, 0x62da, 0x11cf, 0xab, 0x39, 0x0, 0x20, 0xaf, 0x71, 0xe4, 0x33);}
+\DoxyCodeLine{184 DEFINE\_GUID(IID\_IDirectXFileSaveObject,     0x3d82ab42, 0x62da, 0x11cf, 0xab, 0x39, 0x0, 0x20, 0xaf, 0x71, 0xe4, 0x33);}
+\DoxyCodeLine{185 DEFINE\_GUID(IID\_IDirectXFileObject,         0x3d82ab43, 0x62da, 0x11cf, 0xab, 0x39, 0x0, 0x20, 0xaf, 0x71, 0xe4, 0x33);}
+\DoxyCodeLine{186 DEFINE\_GUID(IID\_IDirectXFileData,           0x3d82ab44, 0x62da, 0x11cf, 0xab, 0x39, 0x0, 0x20, 0xaf, 0x71, 0xe4, 0x33);}
+\DoxyCodeLine{187 DEFINE\_GUID(IID\_IDirectXFileDataReference,  0x3d82ab45, 0x62da, 0x11cf, 0xab, 0x39, 0x0, 0x20, 0xaf, 0x71, 0xe4, 0x33);}
+\DoxyCodeLine{188 DEFINE\_GUID(IID\_IDirectXFileBinary,         0x3d82ab46, 0x62da, 0x11cf, 0xab, 0x39, 0x0, 0x20, 0xaf, 0x71, 0xe4, 0x33);}
+\DoxyCodeLine{189 }
+\DoxyCodeLine{190 \textcolor{comment}{/*}}
+\DoxyCodeLine{191 \textcolor{comment}{ * DirectX File Header template's GUID.}}
+\DoxyCodeLine{192 \textcolor{comment}{ */}}
+\DoxyCodeLine{193 }
+\DoxyCodeLine{194 DEFINE\_GUID(TID\_DXFILEHeader,   0x3d82ab43, 0x62da, 0x11cf, 0xab, 0x39, 0x0, 0x20, 0xaf, 0x71, 0xe4, 0x33);}
+\DoxyCodeLine{195 }
+\DoxyCodeLine{196 }
+\DoxyCodeLine{197 \textcolor{comment}{/*}}
+\DoxyCodeLine{198 \textcolor{comment}{ * DirectX File errors.}}
+\DoxyCodeLine{199 \textcolor{comment}{ */}}
+\DoxyCodeLine{200 }
+\DoxyCodeLine{201 \textcolor{preprocessor}{\#define \_FACDD  0x876}}
+\DoxyCodeLine{202 \textcolor{preprocessor}{\#define MAKE\_DDHRESULT( code )  MAKE\_HRESULT( 1, \_FACDD, code )}}
+\DoxyCodeLine{203 }
+\DoxyCodeLine{204 \textcolor{preprocessor}{\#define DXFILE\_OK   0}}
+\DoxyCodeLine{205 }
+\DoxyCodeLine{206 \textcolor{preprocessor}{\#define DXFILEERR\_BADOBJECT                 MAKE\_DDHRESULT(850)}}
+\DoxyCodeLine{207 \textcolor{preprocessor}{\#define DXFILEERR\_BADVALUE                  MAKE\_DDHRESULT(851)}}
+\DoxyCodeLine{208 \textcolor{preprocessor}{\#define DXFILEERR\_BADTYPE                   MAKE\_DDHRESULT(852)}}
+\DoxyCodeLine{209 \textcolor{preprocessor}{\#define DXFILEERR\_BADSTREAMHANDLE           MAKE\_DDHRESULT(853)}}
+\DoxyCodeLine{210 \textcolor{preprocessor}{\#define DXFILEERR\_BADALLOC                  MAKE\_DDHRESULT(854)}}
+\DoxyCodeLine{211 \textcolor{preprocessor}{\#define DXFILEERR\_NOTFOUND                  MAKE\_DDHRESULT(855)}}
+\DoxyCodeLine{212 \textcolor{preprocessor}{\#define DXFILEERR\_NOTDONEYET                MAKE\_DDHRESULT(856)}}
+\DoxyCodeLine{213 \textcolor{preprocessor}{\#define DXFILEERR\_FILENOTFOUND              MAKE\_DDHRESULT(857)}}
+\DoxyCodeLine{214 \textcolor{preprocessor}{\#define DXFILEERR\_RESOURCENOTFOUND          MAKE\_DDHRESULT(858)}}
+\DoxyCodeLine{215 \textcolor{preprocessor}{\#define DXFILEERR\_URLNOTFOUND               MAKE\_DDHRESULT(859)}}
+\DoxyCodeLine{216 \textcolor{preprocessor}{\#define DXFILEERR\_BADRESOURCE               MAKE\_DDHRESULT(860)}}
+\DoxyCodeLine{217 \textcolor{preprocessor}{\#define DXFILEERR\_BADFILETYPE               MAKE\_DDHRESULT(861)}}
+\DoxyCodeLine{218 \textcolor{preprocessor}{\#define DXFILEERR\_BADFILEVERSION            MAKE\_DDHRESULT(862)}}
+\DoxyCodeLine{219 \textcolor{preprocessor}{\#define DXFILEERR\_BADFILEFLOATSIZE          MAKE\_DDHRESULT(863)}}
+\DoxyCodeLine{220 \textcolor{preprocessor}{\#define DXFILEERR\_BADFILECOMPRESSIONTYPE    MAKE\_DDHRESULT(864)}}
+\DoxyCodeLine{221 \textcolor{preprocessor}{\#define DXFILEERR\_BADFILE                   MAKE\_DDHRESULT(865)}}
+\DoxyCodeLine{222 \textcolor{preprocessor}{\#define DXFILEERR\_PARSEERROR                MAKE\_DDHRESULT(866)}}
+\DoxyCodeLine{223 \textcolor{preprocessor}{\#define DXFILEERR\_NOTEMPLATE                MAKE\_DDHRESULT(867)}}
+\DoxyCodeLine{224 \textcolor{preprocessor}{\#define DXFILEERR\_BADARRAYSIZE              MAKE\_DDHRESULT(868)}}
+\DoxyCodeLine{225 \textcolor{preprocessor}{\#define DXFILEERR\_BADDATAREFERENCE          MAKE\_DDHRESULT(869)}}
+\DoxyCodeLine{226 \textcolor{preprocessor}{\#define DXFILEERR\_INTERNALERROR             MAKE\_DDHRESULT(870)}}
+\DoxyCodeLine{227 \textcolor{preprocessor}{\#define DXFILEERR\_NOMOREOBJECTS             MAKE\_DDHRESULT(871)}}
+\DoxyCodeLine{228 \textcolor{preprocessor}{\#define DXFILEERR\_BADINTRINSICS             MAKE\_DDHRESULT(872)}}
+\DoxyCodeLine{229 \textcolor{preprocessor}{\#define DXFILEERR\_NOMORESTREAMHANDLES       MAKE\_DDHRESULT(873)}}
+\DoxyCodeLine{230 \textcolor{preprocessor}{\#define DXFILEERR\_NOMOREDATA                MAKE\_DDHRESULT(874)}}
+\DoxyCodeLine{231 \textcolor{preprocessor}{\#define DXFILEERR\_BADCACHEFILE              MAKE\_DDHRESULT(875)}}
+\DoxyCodeLine{232 \textcolor{preprocessor}{\#define DXFILEERR\_NOINTERNET                MAKE\_DDHRESULT(876)}}
+\DoxyCodeLine{233 }
+\DoxyCodeLine{234 }
+\DoxyCodeLine{235 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{236 \};}
+\DoxyCodeLine{237 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{238 }
+\DoxyCodeLine{239 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* \_DXFILE\_H\_ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{240  }
+
+\end{DoxyCode}

@@ -1,0 +1,1770 @@
+\hypertarget{d3dx9math_8h_source}{}\doxysection{d3dx9math.\+h}
+\label{d3dx9math_8h_source}\index{src/lib/dx/Include/d3dx9math.h@{src/lib/dx/Include/d3dx9math.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{2 \textcolor{comment}{//}}
+\DoxyCodeLine{3 \textcolor{comment}{//  Copyright (C) Microsoft Corporation.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{//}}
+\DoxyCodeLine{5 \textcolor{comment}{//  File:       d3dx9math.h}}
+\DoxyCodeLine{6 \textcolor{comment}{//  Content:    D3DX math types and functions}}
+\DoxyCodeLine{7 \textcolor{comment}{//}}
+\DoxyCodeLine{9 \textcolor{comment}{}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}d3dx9.h"{}}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#ifndef \_\_D3DX9MATH\_H\_\_}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#define \_\_D3DX9MATH\_H\_\_}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <math.h>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#if \_MSC\_VER >= 1200}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#pragma warning(push)}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#pragma warning(disable:4201) }\textcolor{comment}{// anonymous unions warning}}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{comment}{//===========================================================================}}
+\DoxyCodeLine{24 \textcolor{comment}{//}}
+\DoxyCodeLine{25 \textcolor{comment}{// General purpose utilities}}
+\DoxyCodeLine{26 \textcolor{comment}{//}}
+\DoxyCodeLine{27 \textcolor{comment}{//===========================================================================}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#define D3DX\_PI    ((FLOAT)  3.141592654f)}}
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#define D3DX\_1BYPI ((FLOAT)  0.318309886f)}}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#define D3DXToRadian( degree ) ((degree) * (D3DX\_PI / 180.0f))}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#define D3DXToDegree( radian ) ((radian) * (180.0f / D3DX\_PI))}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36 \textcolor{comment}{//===========================================================================}}
+\DoxyCodeLine{37 \textcolor{comment}{//}}
+\DoxyCodeLine{38 \textcolor{comment}{// 16 bit floating point numbers}}
+\DoxyCodeLine{39 \textcolor{comment}{//}}
+\DoxyCodeLine{40 \textcolor{comment}{//===========================================================================}}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 \textcolor{preprocessor}{\#define D3DX\_16F\_DIG          3                }\textcolor{comment}{// \# of decimal digits of precision}}
+\DoxyCodeLine{43 \textcolor{preprocessor}{\#define D3DX\_16F\_EPSILON      4.8875809e-\/4f    }\textcolor{comment}{// smallest such that 1.0 + epsilon != 1.0}}
+\DoxyCodeLine{44 \textcolor{preprocessor}{\#define D3DX\_16F\_MANT\_DIG     11               }\textcolor{comment}{// \# of bits in mantissa}}
+\DoxyCodeLine{45 \textcolor{preprocessor}{\#define D3DX\_16F\_MAX          6.550400e+004    }\textcolor{comment}{// max value}}
+\DoxyCodeLine{46 \textcolor{preprocessor}{\#define D3DX\_16F\_MAX\_10\_EXP   4                }\textcolor{comment}{// max decimal exponent}}
+\DoxyCodeLine{47 \textcolor{preprocessor}{\#define D3DX\_16F\_MAX\_EXP      15               }\textcolor{comment}{// max binary exponent}}
+\DoxyCodeLine{48 \textcolor{preprocessor}{\#define D3DX\_16F\_MIN          6.1035156e-\/5f    }\textcolor{comment}{// min positive value}}
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#define D3DX\_16F\_MIN\_10\_EXP   (-\/4)             }\textcolor{comment}{// min decimal exponent}}
+\DoxyCodeLine{50 \textcolor{preprocessor}{\#define D3DX\_16F\_MIN\_EXP      (-\/14)            }\textcolor{comment}{// min binary exponent}}
+\DoxyCodeLine{51 \textcolor{preprocessor}{\#define D3DX\_16F\_RADIX        2                }\textcolor{comment}{// exponent radix}}
+\DoxyCodeLine{52 \textcolor{preprocessor}{\#define D3DX\_16F\_ROUNDS       1                }\textcolor{comment}{// addition rounding: near}}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}}
+\DoxyCodeLine{56 \{}
+\DoxyCodeLine{57 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{58 \textcolor{keyword}{public}:}
+\DoxyCodeLine{59     \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}() \{\};}
+\DoxyCodeLine{60     \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}( FLOAT );}
+\DoxyCodeLine{61     \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}( CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}\& );}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63     \textcolor{comment}{// casting}}
+\DoxyCodeLine{64     \textcolor{keyword}{operator} FLOAT ();}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66     \textcolor{comment}{// binary operators}}
+\DoxyCodeLine{67     BOOL operator == ( CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{68     BOOL operator != ( CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{71 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{72     WORD value;}
+\DoxyCodeLine{73 \} \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}, *\mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{LPD3DXFLOAT16}};}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75 }
+\DoxyCodeLine{76 }
+\DoxyCodeLine{77 \textcolor{comment}{//===========================================================================}}
+\DoxyCodeLine{78 \textcolor{comment}{//}}
+\DoxyCodeLine{79 \textcolor{comment}{// Vectors}}
+\DoxyCodeLine{80 \textcolor{comment}{//}}
+\DoxyCodeLine{81 \textcolor{comment}{//===========================================================================}}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{85 \textcolor{comment}{// 2D Vector}}
+\DoxyCodeLine{86 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{87 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}}
+\DoxyCodeLine{88 \{}
+\DoxyCodeLine{89 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{90 \textcolor{keyword}{public}:}
+\DoxyCodeLine{91     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}() \{\};}
+\DoxyCodeLine{92     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}( CONST FLOAT * );}
+\DoxyCodeLine{93     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}( CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}} * );}
+\DoxyCodeLine{94     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}( FLOAT x, FLOAT y );}
+\DoxyCodeLine{95 }
+\DoxyCodeLine{96     \textcolor{comment}{// casting}}
+\DoxyCodeLine{97     \textcolor{keyword}{operator} FLOAT* ();}
+\DoxyCodeLine{98     \textcolor{keyword}{operator} CONST FLOAT* () \textcolor{keyword}{const};}
+\DoxyCodeLine{99 }
+\DoxyCodeLine{100     \textcolor{comment}{// assignment operators}}
+\DoxyCodeLine{101     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}\& operator += ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}\& );}
+\DoxyCodeLine{102     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}\& operator -\/= ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}\& );}
+\DoxyCodeLine{103     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}\& operator *= ( FLOAT );}
+\DoxyCodeLine{104     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}\& operator /= ( FLOAT );}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106     \textcolor{comment}{// unary operators}}
+\DoxyCodeLine{107     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} operator + () \textcolor{keyword}{const};}
+\DoxyCodeLine{108     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} operator -\/ () \textcolor{keyword}{const};}
+\DoxyCodeLine{109 }
+\DoxyCodeLine{110     \textcolor{comment}{// binary operators}}
+\DoxyCodeLine{111     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} operator + ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{112     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} operator -\/ ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{113     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} operator * ( FLOAT ) \textcolor{keyword}{const};}
+\DoxyCodeLine{114     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} operator / ( FLOAT ) \textcolor{keyword}{const};}
+\DoxyCodeLine{115 }
+\DoxyCodeLine{116     \textcolor{keyword}{friend} \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} operator * ( FLOAT, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}\& );}
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118     BOOL operator == ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{119     BOOL operator != ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{120 }
+\DoxyCodeLine{121 }
+\DoxyCodeLine{122 \textcolor{keyword}{public}:}
+\DoxyCodeLine{123 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{124     FLOAT x, y;}
+\DoxyCodeLine{125 \} \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}, *\mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{LPD3DXVECTOR2}};}
+\DoxyCodeLine{126 }
+\DoxyCodeLine{127 }
+\DoxyCodeLine{128 }
+\DoxyCodeLine{129 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{130 \textcolor{comment}{// 2D Vector (16 bit)}}
+\DoxyCodeLine{131 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{132 }
+\DoxyCodeLine{133 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2__16_f}{D3DXVECTOR2\_16F}}}
+\DoxyCodeLine{134 \{}
+\DoxyCodeLine{135 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{136 \textcolor{keyword}{public}:}
+\DoxyCodeLine{137     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2__16_f}{D3DXVECTOR2\_16F}}() \{\};}
+\DoxyCodeLine{138     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2__16_f}{D3DXVECTOR2\_16F}}( CONST FLOAT * );}
+\DoxyCodeLine{139     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2__16_f}{D3DXVECTOR2\_16F}}( CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}} * );}
+\DoxyCodeLine{140     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2__16_f}{D3DXVECTOR2\_16F}}( CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}} \&x, CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}} \&y );}
+\DoxyCodeLine{141 }
+\DoxyCodeLine{142     \textcolor{comment}{// casting}}
+\DoxyCodeLine{143     \textcolor{keyword}{operator} \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}* ();}
+\DoxyCodeLine{144     \textcolor{keyword}{operator} CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}* () \textcolor{keyword}{const};}
+\DoxyCodeLine{145 }
+\DoxyCodeLine{146     \textcolor{comment}{// binary operators}}
+\DoxyCodeLine{147     BOOL operator == ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2__16_f}{D3DXVECTOR2\_16F}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{148     BOOL operator != ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2__16_f}{D3DXVECTOR2\_16F}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{149 }
+\DoxyCodeLine{150 \textcolor{keyword}{public}:}
+\DoxyCodeLine{151 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{152     \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}} x, y;}
+\DoxyCodeLine{153 }
+\DoxyCodeLine{154 \} \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2__16_f}{D3DXVECTOR2\_16F}}, *\mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2__16_f}{LPD3DXVECTOR2\_16F}};}
+\DoxyCodeLine{155 }
+\DoxyCodeLine{156 }
+\DoxyCodeLine{157 }
+\DoxyCodeLine{158 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{159 \textcolor{comment}{// 3D Vector}}
+\DoxyCodeLine{160 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{161 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{162 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} : \textcolor{keyword}{public} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DVECTOR}}}
+\DoxyCodeLine{163 \{}
+\DoxyCodeLine{164 \textcolor{keyword}{public}:}
+\DoxyCodeLine{165     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}() \{\};}
+\DoxyCodeLine{166     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}( CONST FLOAT * );}
+\DoxyCodeLine{167     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}( CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DVECTOR}}\& );}
+\DoxyCodeLine{168     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}( CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}} * );}
+\DoxyCodeLine{169     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}( FLOAT x, FLOAT y, FLOAT z );}
+\DoxyCodeLine{170 }
+\DoxyCodeLine{171     \textcolor{comment}{// casting}}
+\DoxyCodeLine{172     \textcolor{keyword}{operator} FLOAT* ();}
+\DoxyCodeLine{173     \textcolor{keyword}{operator} CONST FLOAT* () \textcolor{keyword}{const};}
+\DoxyCodeLine{174 }
+\DoxyCodeLine{175     \textcolor{comment}{// assignment operators}}
+\DoxyCodeLine{176     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}\& operator += ( CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}\& );}
+\DoxyCodeLine{177     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}\& operator -\/= ( CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}\& );}
+\DoxyCodeLine{178     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}\& operator *= ( FLOAT );}
+\DoxyCodeLine{179     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}\& operator /= ( FLOAT );}
+\DoxyCodeLine{180 }
+\DoxyCodeLine{181     \textcolor{comment}{// unary operators}}
+\DoxyCodeLine{182     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} operator + () \textcolor{keyword}{const};}
+\DoxyCodeLine{183     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} operator -\/ () \textcolor{keyword}{const};}
+\DoxyCodeLine{184 }
+\DoxyCodeLine{185     \textcolor{comment}{// binary operators}}
+\DoxyCodeLine{186     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} operator + ( CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{187     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} operator -\/ ( CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{188     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} operator * ( FLOAT ) \textcolor{keyword}{const};}
+\DoxyCodeLine{189     \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} operator / ( FLOAT ) \textcolor{keyword}{const};}
+\DoxyCodeLine{190 }
+\DoxyCodeLine{191     \textcolor{keyword}{friend} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} operator * ( FLOAT, CONST \textcolor{keyword}{struct} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}\& );}
+\DoxyCodeLine{192 }
+\DoxyCodeLine{193     BOOL operator == ( CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{194     BOOL operator != ( CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{195 }
+\DoxyCodeLine{196 \} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}, *\mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{LPD3DXVECTOR3}};}
+\DoxyCodeLine{197 }
+\DoxyCodeLine{198 \textcolor{preprocessor}{\#else }}
+\DoxyCodeLine{199 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{\_D3DVECTOR}} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}, *\mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{LPD3DXVECTOR3}};}
+\DoxyCodeLine{200 \textcolor{preprocessor}{\#endif }}
+\DoxyCodeLine{201 }
+\DoxyCodeLine{202 }
+\DoxyCodeLine{203 }
+\DoxyCodeLine{204 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{205 \textcolor{comment}{// 3D Vector (16 bit)}}
+\DoxyCodeLine{206 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{207 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r3__16_f}{D3DXVECTOR3\_16F}}}
+\DoxyCodeLine{208 \{}
+\DoxyCodeLine{209 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{210 \textcolor{keyword}{public}:}
+\DoxyCodeLine{211     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r3__16_f}{D3DXVECTOR3\_16F}}() \{\};}
+\DoxyCodeLine{212     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r3__16_f}{D3DXVECTOR3\_16F}}( CONST FLOAT * );}
+\DoxyCodeLine{213     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r3__16_f}{D3DXVECTOR3\_16F}}( CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DVECTOR}}\& );}
+\DoxyCodeLine{214     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r3__16_f}{D3DXVECTOR3\_16F}}( CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}} * );}
+\DoxyCodeLine{215     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r3__16_f}{D3DXVECTOR3\_16F}}( CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}} \&x, CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}} \&y, CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}} \&z );}
+\DoxyCodeLine{216 }
+\DoxyCodeLine{217     \textcolor{comment}{// casting}}
+\DoxyCodeLine{218     \textcolor{keyword}{operator} \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}* ();}
+\DoxyCodeLine{219     \textcolor{keyword}{operator} CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}* () \textcolor{keyword}{const};}
+\DoxyCodeLine{220 }
+\DoxyCodeLine{221     \textcolor{comment}{// binary operators}}
+\DoxyCodeLine{222     BOOL operator == ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r3__16_f}{D3DXVECTOR3\_16F}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{223     BOOL operator != ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r3__16_f}{D3DXVECTOR3\_16F}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{224 }
+\DoxyCodeLine{225 \textcolor{keyword}{public}:}
+\DoxyCodeLine{226 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{227     \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}} x, y, z;}
+\DoxyCodeLine{228 }
+\DoxyCodeLine{229 \} \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r3__16_f}{D3DXVECTOR3\_16F}}, *\mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r3__16_f}{LPD3DXVECTOR3\_16F}};}
+\DoxyCodeLine{230 }
+\DoxyCodeLine{231 }
+\DoxyCodeLine{232 }
+\DoxyCodeLine{233 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{234 \textcolor{comment}{// 4D Vector}}
+\DoxyCodeLine{235 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{236 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}}
+\DoxyCodeLine{237 \{}
+\DoxyCodeLine{238 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{239 \textcolor{keyword}{public}:}
+\DoxyCodeLine{240     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}() \{\};}
+\DoxyCodeLine{241     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}( CONST FLOAT* );}
+\DoxyCodeLine{242     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}( CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}* );}
+\DoxyCodeLine{243     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}( CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DVECTOR}}\& xyz, FLOAT w );}
+\DoxyCodeLine{244     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}( FLOAT x, FLOAT y, FLOAT z, FLOAT w );}
+\DoxyCodeLine{245 }
+\DoxyCodeLine{246     \textcolor{comment}{// casting}}
+\DoxyCodeLine{247     \textcolor{keyword}{operator} FLOAT* ();}
+\DoxyCodeLine{248     \textcolor{keyword}{operator} CONST FLOAT* () \textcolor{keyword}{const};}
+\DoxyCodeLine{249 }
+\DoxyCodeLine{250     \textcolor{comment}{// assignment operators}}
+\DoxyCodeLine{251     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}\& operator += ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}\& );}
+\DoxyCodeLine{252     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}\& operator -\/= ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}\& );}
+\DoxyCodeLine{253     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}\& operator *= ( FLOAT );}
+\DoxyCodeLine{254     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}\& operator /= ( FLOAT );}
+\DoxyCodeLine{255 }
+\DoxyCodeLine{256     \textcolor{comment}{// unary operators}}
+\DoxyCodeLine{257     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} operator + () \textcolor{keyword}{const};}
+\DoxyCodeLine{258     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} operator -\/ () \textcolor{keyword}{const};}
+\DoxyCodeLine{259 }
+\DoxyCodeLine{260     \textcolor{comment}{// binary operators}}
+\DoxyCodeLine{261     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} operator + ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{262     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} operator -\/ ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{263     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} operator * ( FLOAT ) \textcolor{keyword}{const};}
+\DoxyCodeLine{264     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} operator / ( FLOAT ) \textcolor{keyword}{const};}
+\DoxyCodeLine{265 }
+\DoxyCodeLine{266     \textcolor{keyword}{friend} \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} operator * ( FLOAT, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}\& );}
+\DoxyCodeLine{267 }
+\DoxyCodeLine{268     BOOL operator == ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{269     BOOL operator != ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{270 }
+\DoxyCodeLine{271 \textcolor{keyword}{public}:}
+\DoxyCodeLine{272 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{273     FLOAT x, y, z, w;}
+\DoxyCodeLine{274 \} \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}, *\mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{LPD3DXVECTOR4}};}
+\DoxyCodeLine{275 }
+\DoxyCodeLine{276 }
+\DoxyCodeLine{277 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{278 \textcolor{comment}{// 4D Vector (16 bit)}}
+\DoxyCodeLine{279 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{280 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4__16_f}{D3DXVECTOR4\_16F}}}
+\DoxyCodeLine{281 \{}
+\DoxyCodeLine{282 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{283 \textcolor{keyword}{public}:}
+\DoxyCodeLine{284     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4__16_f}{D3DXVECTOR4\_16F}}() \{\};}
+\DoxyCodeLine{285     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4__16_f}{D3DXVECTOR4\_16F}}( CONST FLOAT * );}
+\DoxyCodeLine{286     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4__16_f}{D3DXVECTOR4\_16F}}( CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}* );}
+\DoxyCodeLine{287     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4__16_f}{D3DXVECTOR4\_16F}}( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r3__16_f}{D3DXVECTOR3\_16F}}\& xyz, CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}\& w );}
+\DoxyCodeLine{288     \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4__16_f}{D3DXVECTOR4\_16F}}( CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}\& x, CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}\& y, CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}\& z, CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}\& w );}
+\DoxyCodeLine{289 }
+\DoxyCodeLine{290     \textcolor{comment}{// casting}}
+\DoxyCodeLine{291     \textcolor{keyword}{operator} \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}* ();}
+\DoxyCodeLine{292     \textcolor{keyword}{operator} CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}* () \textcolor{keyword}{const};}
+\DoxyCodeLine{293 }
+\DoxyCodeLine{294     \textcolor{comment}{// binary operators}}
+\DoxyCodeLine{295     BOOL operator == ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4__16_f}{D3DXVECTOR4\_16F}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{296     BOOL operator != ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4__16_f}{D3DXVECTOR4\_16F}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{297 }
+\DoxyCodeLine{298 \textcolor{keyword}{public}:}
+\DoxyCodeLine{299 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{300     \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}} x, y, z, w;}
+\DoxyCodeLine{301 }
+\DoxyCodeLine{302 \} \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4__16_f}{D3DXVECTOR4\_16F}}, *\mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4__16_f}{LPD3DXVECTOR4\_16F}};}
+\DoxyCodeLine{303 }
+\DoxyCodeLine{304 }
+\DoxyCodeLine{305 }
+\DoxyCodeLine{306 \textcolor{comment}{//===========================================================================}}
+\DoxyCodeLine{307 \textcolor{comment}{//}}
+\DoxyCodeLine{308 \textcolor{comment}{// Matrices}}
+\DoxyCodeLine{309 \textcolor{comment}{//}}
+\DoxyCodeLine{310 \textcolor{comment}{//===========================================================================}}
+\DoxyCodeLine{311 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{312 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} : \textcolor{keyword}{public} \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DMATRIX}}}
+\DoxyCodeLine{313 \{}
+\DoxyCodeLine{314 \textcolor{keyword}{public}:}
+\DoxyCodeLine{315     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}() \{\};}
+\DoxyCodeLine{316     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}( CONST FLOAT * );}
+\DoxyCodeLine{317     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}( CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DMATRIX}}\& );}
+\DoxyCodeLine{318     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}( CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}} * );}
+\DoxyCodeLine{319     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}( FLOAT \_11, FLOAT \_12, FLOAT \_13, FLOAT \_14,}
+\DoxyCodeLine{320                 FLOAT \_21, FLOAT \_22, FLOAT \_23, FLOAT \_24,}
+\DoxyCodeLine{321                 FLOAT \_31, FLOAT \_32, FLOAT \_33, FLOAT \_34,}
+\DoxyCodeLine{322                 FLOAT \_41, FLOAT \_42, FLOAT \_43, FLOAT \_44 );}
+\DoxyCodeLine{323 }
+\DoxyCodeLine{324 }
+\DoxyCodeLine{325     \textcolor{comment}{// access grants}}
+\DoxyCodeLine{326     FLOAT\& operator () ( UINT Row, UINT Col );}
+\DoxyCodeLine{327     FLOAT  operator () ( UINT Row, UINT Col ) \textcolor{keyword}{const};}
+\DoxyCodeLine{328 }
+\DoxyCodeLine{329     \textcolor{comment}{// casting operators}}
+\DoxyCodeLine{330     \textcolor{keyword}{operator} FLOAT* ();}
+\DoxyCodeLine{331     \textcolor{keyword}{operator} CONST FLOAT* () \textcolor{keyword}{const};}
+\DoxyCodeLine{332 }
+\DoxyCodeLine{333     \textcolor{comment}{// assignment operators}}
+\DoxyCodeLine{334     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}\& operator *= ( CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}\& );}
+\DoxyCodeLine{335     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}\& operator += ( CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}\& );}
+\DoxyCodeLine{336     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}\& operator -\/= ( CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}\& );}
+\DoxyCodeLine{337     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}\& operator *= ( FLOAT );}
+\DoxyCodeLine{338     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}\& operator /= ( FLOAT );}
+\DoxyCodeLine{339 }
+\DoxyCodeLine{340     \textcolor{comment}{// unary operators}}
+\DoxyCodeLine{341     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} operator + () \textcolor{keyword}{const};}
+\DoxyCodeLine{342     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} operator -\/ () \textcolor{keyword}{const};}
+\DoxyCodeLine{343 }
+\DoxyCodeLine{344     \textcolor{comment}{// binary operators}}
+\DoxyCodeLine{345     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} operator * ( CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{346     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} operator + ( CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{347     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} operator -\/ ( CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{348     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} operator * ( FLOAT ) \textcolor{keyword}{const};}
+\DoxyCodeLine{349     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} operator / ( FLOAT ) \textcolor{keyword}{const};}
+\DoxyCodeLine{350 }
+\DoxyCodeLine{351     \textcolor{keyword}{friend} \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} operator * ( FLOAT, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}\& );}
+\DoxyCodeLine{352 }
+\DoxyCodeLine{353     BOOL operator == ( CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{354     BOOL operator != ( CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{355 }
+\DoxyCodeLine{356 \} \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}, *\mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{LPD3DXMATRIX}};}
+\DoxyCodeLine{357 }
+\DoxyCodeLine{358 \textcolor{preprocessor}{\#else }}
+\DoxyCodeLine{359 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{\_D3DMATRIX}} \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}, *\mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{LPD3DXMATRIX}};}
+\DoxyCodeLine{360 \textcolor{preprocessor}{\#endif }}
+\DoxyCodeLine{361 }
+\DoxyCodeLine{362 }
+\DoxyCodeLine{363 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{364 \textcolor{comment}{// Aligned Matrices}}
+\DoxyCodeLine{365 \textcolor{comment}{//}}
+\DoxyCodeLine{366 \textcolor{comment}{// This class helps keep matrices 16-\/byte aligned as preferred by P4 cpus.}}
+\DoxyCodeLine{367 \textcolor{comment}{// It aligns matrices on the stack and on the heap or in global scope.}}
+\DoxyCodeLine{368 \textcolor{comment}{// It does this using \_\_declspec(align(16)) which works on VC7 and on VC 6}}
+\DoxyCodeLine{369 \textcolor{comment}{// with the processor pack. Unfortunately there is no way to detect the }}
+\DoxyCodeLine{370 \textcolor{comment}{// latter so this is turned on only on VC7. On other compilers this is the}}
+\DoxyCodeLine{371 \textcolor{comment}{// the same as D3DXMATRIX.}}
+\DoxyCodeLine{372 \textcolor{comment}{//}}
+\DoxyCodeLine{373 \textcolor{comment}{// Using this class on a compiler that does not actually do the alignment}}
+\DoxyCodeLine{374 \textcolor{comment}{// can be dangerous since it will not expose bugs that ignore alignment.}}
+\DoxyCodeLine{375 \textcolor{comment}{// E.g if an object of this class in inside a struct or class, and some code}}
+\DoxyCodeLine{376 \textcolor{comment}{// memcopys data in it assuming tight packing. This could break on a compiler}}
+\DoxyCodeLine{377 \textcolor{comment}{// that eventually start aligning the matrix.}}
+\DoxyCodeLine{378 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{379 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{380 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{\_D3DXMATRIXA16}} : \textcolor{keyword}{public} \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}}
+\DoxyCodeLine{381 \{}
+\DoxyCodeLine{382     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{\_D3DXMATRIXA16}}() \{\}}
+\DoxyCodeLine{383     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{\_D3DXMATRIXA16}}( CONST FLOAT * );}
+\DoxyCodeLine{384     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{\_D3DXMATRIXA16}}( CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DMATRIX}}\& );}
+\DoxyCodeLine{385     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{\_D3DXMATRIXA16}}( CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}} * );}
+\DoxyCodeLine{386     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{\_D3DXMATRIXA16}}( FLOAT \_11, FLOAT \_12, FLOAT \_13, FLOAT \_14,}
+\DoxyCodeLine{387                     FLOAT \_21, FLOAT \_22, FLOAT \_23, FLOAT \_24,}
+\DoxyCodeLine{388                     FLOAT \_31, FLOAT \_32, FLOAT \_33, FLOAT \_34,}
+\DoxyCodeLine{389                     FLOAT \_41, FLOAT \_42, FLOAT \_43, FLOAT \_44 );}
+\DoxyCodeLine{390 }
+\DoxyCodeLine{391     \textcolor{comment}{// new operators}}
+\DoxyCodeLine{392     \textcolor{keywordtype}{void}* \textcolor{keyword}{operator} \textcolor{keyword}{new}   ( size\_t );}
+\DoxyCodeLine{393     \textcolor{keywordtype}{void}* \textcolor{keyword}{operator} \textcolor{keyword}{new}[] ( size\_t );}
+\DoxyCodeLine{394 }
+\DoxyCodeLine{395     \textcolor{comment}{// delete operators}}
+\DoxyCodeLine{396     \textcolor{keywordtype}{void} \textcolor{keyword}{operator} \textcolor{keyword}{delete}   ( \textcolor{keywordtype}{void}* );   \textcolor{comment}{// These are NOT virtual; Do not }}
+\DoxyCodeLine{397     \textcolor{keywordtype}{void} \textcolor{keyword}{operator} \textcolor{keyword}{delete}[] ( \textcolor{keywordtype}{void}* );   \textcolor{comment}{// cast to D3DXMATRIX and delete.}}
+\DoxyCodeLine{398     }
+\DoxyCodeLine{399     \textcolor{comment}{// assignment operators}}
+\DoxyCodeLine{400     \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{\_D3DXMATRIXA16}}\& operator = ( CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}\& );}
+\DoxyCodeLine{401 }
+\DoxyCodeLine{402 \} \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{\_D3DXMATRIXA16}};}
+\DoxyCodeLine{403 }
+\DoxyCodeLine{404 \textcolor{preprocessor}{\#else }}
+\DoxyCodeLine{405 \textcolor{keyword}{typedef} \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}  \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{\_D3DXMATRIXA16}};}
+\DoxyCodeLine{406 \textcolor{preprocessor}{\#endif }}
+\DoxyCodeLine{407 }
+\DoxyCodeLine{408 }
+\DoxyCodeLine{409 }
+\DoxyCodeLine{410 \textcolor{preprocessor}{\#if \_MSC\_VER >= 1300  }\textcolor{comment}{// VC7}}
+\DoxyCodeLine{411 \textcolor{preprocessor}{\#define D3DX\_ALIGN16 \_\_declspec(align(16))}}
+\DoxyCodeLine{412 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{413 \textcolor{preprocessor}{\#define D3DX\_ALIGN16  }\textcolor{comment}{// Earlier compiler may not understand this, do nothing.}}
+\DoxyCodeLine{414 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{415 }
+\DoxyCodeLine{416 \textcolor{keyword}{typedef} D3DX\_ALIGN16 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{\_D3DXMATRIXA16}} D3DXMATRIXA16, *LPD3DXMATRIXA16;}
+\DoxyCodeLine{417 }
+\DoxyCodeLine{418 }
+\DoxyCodeLine{419 }
+\DoxyCodeLine{420 \textcolor{comment}{//===========================================================================}}
+\DoxyCodeLine{421 \textcolor{comment}{//}}
+\DoxyCodeLine{422 \textcolor{comment}{//    Quaternions}}
+\DoxyCodeLine{423 \textcolor{comment}{//}}
+\DoxyCodeLine{424 \textcolor{comment}{//===========================================================================}}
+\DoxyCodeLine{425 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}}
+\DoxyCodeLine{426 \{}
+\DoxyCodeLine{427 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{428 \textcolor{keyword}{public}:}
+\DoxyCodeLine{429     \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}() \{\}}
+\DoxyCodeLine{430     \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}( CONST FLOAT * );}
+\DoxyCodeLine{431     \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}( CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}} * );}
+\DoxyCodeLine{432     \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}( FLOAT x, FLOAT y, FLOAT z, FLOAT w );}
+\DoxyCodeLine{433 }
+\DoxyCodeLine{434     \textcolor{comment}{// casting}}
+\DoxyCodeLine{435     \textcolor{keyword}{operator} FLOAT* ();}
+\DoxyCodeLine{436     \textcolor{keyword}{operator} CONST FLOAT* () \textcolor{keyword}{const};}
+\DoxyCodeLine{437 }
+\DoxyCodeLine{438     \textcolor{comment}{// assignment operators}}
+\DoxyCodeLine{439     \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}\& operator += ( CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}\& );}
+\DoxyCodeLine{440     \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}\& operator -\/= ( CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}\& );}
+\DoxyCodeLine{441     \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}\& operator *= ( CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}\& );}
+\DoxyCodeLine{442     \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}\& operator *= ( FLOAT );}
+\DoxyCodeLine{443     \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}\& operator /= ( FLOAT );}
+\DoxyCodeLine{444 }
+\DoxyCodeLine{445     \textcolor{comment}{// unary operators}}
+\DoxyCodeLine{446     \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}  operator + () \textcolor{keyword}{const};}
+\DoxyCodeLine{447     \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}  operator -\/ () \textcolor{keyword}{const};}
+\DoxyCodeLine{448 }
+\DoxyCodeLine{449     \textcolor{comment}{// binary operators}}
+\DoxyCodeLine{450     \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} operator + ( CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{451     \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} operator -\/ ( CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{452     \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} operator * ( CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{453     \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} operator * ( FLOAT ) \textcolor{keyword}{const};}
+\DoxyCodeLine{454     \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} operator / ( FLOAT ) \textcolor{keyword}{const};}
+\DoxyCodeLine{455 }
+\DoxyCodeLine{456     \textcolor{keyword}{friend} \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} operator * (FLOAT, CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}\& );}
+\DoxyCodeLine{457 }
+\DoxyCodeLine{458     BOOL operator == ( CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{459     BOOL operator != ( CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{460 }
+\DoxyCodeLine{461 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{462     FLOAT x, y, z, w;}
+\DoxyCodeLine{463 \} \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}, *\mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{LPD3DXQUATERNION}};}
+\DoxyCodeLine{464 }
+\DoxyCodeLine{465 }
+\DoxyCodeLine{466 \textcolor{comment}{//===========================================================================}}
+\DoxyCodeLine{467 \textcolor{comment}{//}}
+\DoxyCodeLine{468 \textcolor{comment}{// Planes}}
+\DoxyCodeLine{469 \textcolor{comment}{//}}
+\DoxyCodeLine{470 \textcolor{comment}{//===========================================================================}}
+\DoxyCodeLine{471 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}}}
+\DoxyCodeLine{472 \{}
+\DoxyCodeLine{473 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{474 \textcolor{keyword}{public}:}
+\DoxyCodeLine{475     \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}}() \{\}}
+\DoxyCodeLine{476     \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}}( CONST FLOAT* );}
+\DoxyCodeLine{477     \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}}( CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}* );}
+\DoxyCodeLine{478     \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}}( FLOAT a, FLOAT b, FLOAT c, FLOAT d );}
+\DoxyCodeLine{479 }
+\DoxyCodeLine{480     \textcolor{comment}{// casting}}
+\DoxyCodeLine{481     \textcolor{keyword}{operator} FLOAT* ();}
+\DoxyCodeLine{482     \textcolor{keyword}{operator} CONST FLOAT* () \textcolor{keyword}{const};}
+\DoxyCodeLine{483 }
+\DoxyCodeLine{484     \textcolor{comment}{// assignment operators}}
+\DoxyCodeLine{485     \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}}\& operator *= ( FLOAT );}
+\DoxyCodeLine{486     \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}}\& operator /= ( FLOAT );}
+\DoxyCodeLine{487 }
+\DoxyCodeLine{488     \textcolor{comment}{// unary operators}}
+\DoxyCodeLine{489     \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} operator + () \textcolor{keyword}{const};}
+\DoxyCodeLine{490     \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} operator -\/ () \textcolor{keyword}{const};}
+\DoxyCodeLine{491 }
+\DoxyCodeLine{492     \textcolor{comment}{// binary operators}}
+\DoxyCodeLine{493     \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} operator * ( FLOAT ) \textcolor{keyword}{const};}
+\DoxyCodeLine{494     \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} operator / ( FLOAT ) \textcolor{keyword}{const};}
+\DoxyCodeLine{495 }
+\DoxyCodeLine{496     \textcolor{keyword}{friend} \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} operator * ( FLOAT, CONST \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}}\& );}
+\DoxyCodeLine{497 }
+\DoxyCodeLine{498     BOOL operator == ( CONST \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{499     BOOL operator != ( CONST \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{500 }
+\DoxyCodeLine{501 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{502     FLOAT a, b, c, d;}
+\DoxyCodeLine{503 \} \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}}, *\mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{LPD3DXPLANE}};}
+\DoxyCodeLine{504 }
+\DoxyCodeLine{505 }
+\DoxyCodeLine{506 \textcolor{comment}{//===========================================================================}}
+\DoxyCodeLine{507 \textcolor{comment}{//}}
+\DoxyCodeLine{508 \textcolor{comment}{// Colors}}
+\DoxyCodeLine{509 \textcolor{comment}{//}}
+\DoxyCodeLine{510 \textcolor{comment}{//===========================================================================}}
+\DoxyCodeLine{511 }
+\DoxyCodeLine{512 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}}
+\DoxyCodeLine{513 \{}
+\DoxyCodeLine{514 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{515 \textcolor{keyword}{public}:}
+\DoxyCodeLine{516     \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}() \{\}}
+\DoxyCodeLine{517     \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}( DWORD argb );}
+\DoxyCodeLine{518     \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}( CONST FLOAT * );}
+\DoxyCodeLine{519     \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}( CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}} * );}
+\DoxyCodeLine{520     \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}( CONST \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}\& );}
+\DoxyCodeLine{521     \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}( FLOAT r, FLOAT g, FLOAT b, FLOAT a );}
+\DoxyCodeLine{522 }
+\DoxyCodeLine{523     \textcolor{comment}{// casting}}
+\DoxyCodeLine{524     \textcolor{keyword}{operator} DWORD () \textcolor{keyword}{const};}
+\DoxyCodeLine{525 }
+\DoxyCodeLine{526     \textcolor{keyword}{operator} FLOAT* ();}
+\DoxyCodeLine{527     \textcolor{keyword}{operator} CONST FLOAT* () \textcolor{keyword}{const};}
+\DoxyCodeLine{528 }
+\DoxyCodeLine{529     \textcolor{keyword}{operator} \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}* ();}
+\DoxyCodeLine{530     \textcolor{keyword}{operator} CONST \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}* () \textcolor{keyword}{const};}
+\DoxyCodeLine{531 }
+\DoxyCodeLine{532     \textcolor{keyword}{operator} \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}\& ();}
+\DoxyCodeLine{533     \textcolor{keyword}{operator} CONST \mbox{\hyperlink{struct___d3_d_c_o_l_o_r_v_a_l_u_e}{D3DCOLORVALUE}}\& () \textcolor{keyword}{const};}
+\DoxyCodeLine{534 }
+\DoxyCodeLine{535     \textcolor{comment}{// assignment operators}}
+\DoxyCodeLine{536     \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}\& operator += ( CONST \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}\& );}
+\DoxyCodeLine{537     \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}\& operator -\/= ( CONST \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}\& );}
+\DoxyCodeLine{538     \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}\& operator *= ( FLOAT );}
+\DoxyCodeLine{539     \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}\& operator /= ( FLOAT );}
+\DoxyCodeLine{540 }
+\DoxyCodeLine{541     \textcolor{comment}{// unary operators}}
+\DoxyCodeLine{542     \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} operator + () \textcolor{keyword}{const};}
+\DoxyCodeLine{543     \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} operator -\/ () \textcolor{keyword}{const};}
+\DoxyCodeLine{544 }
+\DoxyCodeLine{545     \textcolor{comment}{// binary operators}}
+\DoxyCodeLine{546     \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} operator + ( CONST \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{547     \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} operator -\/ ( CONST \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{548     \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} operator * ( FLOAT ) \textcolor{keyword}{const};}
+\DoxyCodeLine{549     \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} operator / ( FLOAT ) \textcolor{keyword}{const};}
+\DoxyCodeLine{550 }
+\DoxyCodeLine{551     \textcolor{keyword}{friend} \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} operator * ( FLOAT, CONST \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}\& );}
+\DoxyCodeLine{552 }
+\DoxyCodeLine{553     BOOL operator == ( CONST \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{554     BOOL operator != ( CONST \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}\& ) \textcolor{keyword}{const};}
+\DoxyCodeLine{555 }
+\DoxyCodeLine{556 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{557     FLOAT r, g, b, a;}
+\DoxyCodeLine{558 \} \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}, *\mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{LPD3DXCOLOR}};}
+\DoxyCodeLine{559 }
+\DoxyCodeLine{560 }
+\DoxyCodeLine{561 }
+\DoxyCodeLine{562 \textcolor{comment}{//===========================================================================}}
+\DoxyCodeLine{563 \textcolor{comment}{//}}
+\DoxyCodeLine{564 \textcolor{comment}{// D3DX math functions:}}
+\DoxyCodeLine{565 \textcolor{comment}{//}}
+\DoxyCodeLine{566 \textcolor{comment}{// NOTE:}}
+\DoxyCodeLine{567 \textcolor{comment}{//  * All these functions can take the same object as in and out parameters.}}
+\DoxyCodeLine{568 \textcolor{comment}{//}}
+\DoxyCodeLine{569 \textcolor{comment}{//  * Out parameters are typically also returned as return values, so that}}
+\DoxyCodeLine{570 \textcolor{comment}{//    the output of one function may be used as a parameter to another.}}
+\DoxyCodeLine{571 \textcolor{comment}{//}}
+\DoxyCodeLine{572 \textcolor{comment}{//===========================================================================}}
+\DoxyCodeLine{573 }
+\DoxyCodeLine{574 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{575 \textcolor{comment}{// Float16}}
+\DoxyCodeLine{576 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{577 }
+\DoxyCodeLine{578 \textcolor{comment}{// non-\/inline}}
+\DoxyCodeLine{579 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{580 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{581 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{582 }
+\DoxyCodeLine{583 \textcolor{comment}{// Converts an array 32-\/bit floats to 16-\/bit floats}}
+\DoxyCodeLine{584 \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}}* WINAPI D3DXFloat32To16Array}
+\DoxyCodeLine{585     ( \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}} *pOut, CONST FLOAT *pIn, UINT n );}
+\DoxyCodeLine{586 }
+\DoxyCodeLine{587 \textcolor{comment}{// Converts an array 16-\/bit floats to 32-\/bit floats}}
+\DoxyCodeLine{588 FLOAT* WINAPI D3DXFloat16To32Array}
+\DoxyCodeLine{589     ( FLOAT *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_f_l_o_a_t16}{D3DXFLOAT16}} *pIn, UINT n );}
+\DoxyCodeLine{590 }
+\DoxyCodeLine{591 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{592 \}}
+\DoxyCodeLine{593 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{594 }
+\DoxyCodeLine{595 }
+\DoxyCodeLine{596 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{597 \textcolor{comment}{// 2D Vector}}
+\DoxyCodeLine{598 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{599 }
+\DoxyCodeLine{600 \textcolor{comment}{// inline}}
+\DoxyCodeLine{601 }
+\DoxyCodeLine{602 FLOAT D3DXVec2Length}
+\DoxyCodeLine{603     ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV );}
+\DoxyCodeLine{604 }
+\DoxyCodeLine{605 FLOAT D3DXVec2LengthSq}
+\DoxyCodeLine{606     ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV );}
+\DoxyCodeLine{607 }
+\DoxyCodeLine{608 FLOAT D3DXVec2Dot}
+\DoxyCodeLine{609     ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV1, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV2 );}
+\DoxyCodeLine{610 }
+\DoxyCodeLine{611 \textcolor{comment}{// Z component of ((x1,y1,0) cross (x2,y2,0))}}
+\DoxyCodeLine{612 FLOAT D3DXVec2CCW}
+\DoxyCodeLine{613     ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV1, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV2 );}
+\DoxyCodeLine{614 }
+\DoxyCodeLine{615 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}* D3DXVec2Add}
+\DoxyCodeLine{616     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV1, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV2 );}
+\DoxyCodeLine{617 }
+\DoxyCodeLine{618 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}* D3DXVec2Subtract}
+\DoxyCodeLine{619     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV1, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV2 );}
+\DoxyCodeLine{620 }
+\DoxyCodeLine{621 \textcolor{comment}{// Minimize each component.  x = min(x1, x2), y = min(y1, y2)}}
+\DoxyCodeLine{622 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}* D3DXVec2Minimize}
+\DoxyCodeLine{623     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV1, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV2 );}
+\DoxyCodeLine{624 }
+\DoxyCodeLine{625 \textcolor{comment}{// Maximize each component.  x = max(x1, x2), y = max(y1, y2)}}
+\DoxyCodeLine{626 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}* D3DXVec2Maximize}
+\DoxyCodeLine{627     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV1, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV2 );}
+\DoxyCodeLine{628 }
+\DoxyCodeLine{629 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}* D3DXVec2Scale}
+\DoxyCodeLine{630     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV, FLOAT s );}
+\DoxyCodeLine{631 }
+\DoxyCodeLine{632 \textcolor{comment}{// Linear interpolation. V1 + s(V2-\/V1)}}
+\DoxyCodeLine{633 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}* D3DXVec2Lerp}
+\DoxyCodeLine{634     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV1, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV2,}
+\DoxyCodeLine{635       FLOAT s );}
+\DoxyCodeLine{636 }
+\DoxyCodeLine{637 \textcolor{comment}{// non-\/inline}}
+\DoxyCodeLine{638 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{639 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{640 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{641 }
+\DoxyCodeLine{642 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}* WINAPI D3DXVec2Normalize}
+\DoxyCodeLine{643     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV );}
+\DoxyCodeLine{644 }
+\DoxyCodeLine{645 \textcolor{comment}{// Hermite interpolation between position V1, tangent T1 (when s == 0)}}
+\DoxyCodeLine{646 \textcolor{comment}{// and position V2, tangent T2 (when s == 1).}}
+\DoxyCodeLine{647 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}* WINAPI D3DXVec2Hermite}
+\DoxyCodeLine{648     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV1, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pT1,}
+\DoxyCodeLine{649       CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV2, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pT2, FLOAT s );}
+\DoxyCodeLine{650 }
+\DoxyCodeLine{651 \textcolor{comment}{// CatmullRom interpolation between V1 (when s == 0) and V2 (when s == 1)}}
+\DoxyCodeLine{652 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}* WINAPI D3DXVec2CatmullRom}
+\DoxyCodeLine{653     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV0, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV1,}
+\DoxyCodeLine{654       CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV2, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV3, FLOAT s );}
+\DoxyCodeLine{655 }
+\DoxyCodeLine{656 \textcolor{comment}{// Barycentric coordinates.  V1 + f(V2-\/V1) + g(V3-\/V1)}}
+\DoxyCodeLine{657 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}* WINAPI D3DXVec2BaryCentric}
+\DoxyCodeLine{658     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV1, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV2,}
+\DoxyCodeLine{659       CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV3, FLOAT f, FLOAT g);}
+\DoxyCodeLine{660 }
+\DoxyCodeLine{661 \textcolor{comment}{// Transform (x, y, 0, 1) by matrix.}}
+\DoxyCodeLine{662 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}* WINAPI D3DXVec2Transform}
+\DoxyCodeLine{663     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM );}
+\DoxyCodeLine{664 }
+\DoxyCodeLine{665 \textcolor{comment}{// Transform (x, y, 0, 1) by matrix, project result back into w=1.}}
+\DoxyCodeLine{666 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}* WINAPI D3DXVec2TransformCoord}
+\DoxyCodeLine{667     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM );}
+\DoxyCodeLine{668 }
+\DoxyCodeLine{669 \textcolor{comment}{// Transform (x, y, 0, 0) by matrix.}}
+\DoxyCodeLine{670 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}* WINAPI D3DXVec2TransformNormal}
+\DoxyCodeLine{671     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM );}
+\DoxyCodeLine{672      }
+\DoxyCodeLine{673 \textcolor{comment}{// Transform Array (x, y, 0, 1) by matrix.}}
+\DoxyCodeLine{674 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}* WINAPI D3DXVec2TransformArray}
+\DoxyCodeLine{675     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pOut, UINT OutStride, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV, UINT VStride, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM, UINT n);}
+\DoxyCodeLine{676 }
+\DoxyCodeLine{677 \textcolor{comment}{// Transform Array (x, y, 0, 1) by matrix, project result back into w=1.}}
+\DoxyCodeLine{678 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}* WINAPI D3DXVec2TransformCoordArray}
+\DoxyCodeLine{679     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pOut, UINT OutStride, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV, UINT VStride, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM, UINT n );}
+\DoxyCodeLine{680 }
+\DoxyCodeLine{681 \textcolor{comment}{// Transform Array (x, y, 0, 0) by matrix.}}
+\DoxyCodeLine{682 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}* WINAPI D3DXVec2TransformNormalArray}
+\DoxyCodeLine{683     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pOut, UINT OutStride, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pV, UINT VStride, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM, UINT n );}
+\DoxyCodeLine{684     }
+\DoxyCodeLine{685     }
+\DoxyCodeLine{686 }
+\DoxyCodeLine{687 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{688 \}}
+\DoxyCodeLine{689 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{690 }
+\DoxyCodeLine{691 }
+\DoxyCodeLine{692 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{693 \textcolor{comment}{// 3D Vector}}
+\DoxyCodeLine{694 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{695 }
+\DoxyCodeLine{696 \textcolor{comment}{// inline}}
+\DoxyCodeLine{697 }
+\DoxyCodeLine{698 FLOAT D3DXVec3Length}
+\DoxyCodeLine{699     ( CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV );}
+\DoxyCodeLine{700 }
+\DoxyCodeLine{701 FLOAT D3DXVec3LengthSq}
+\DoxyCodeLine{702     ( CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV );}
+\DoxyCodeLine{703 }
+\DoxyCodeLine{704 FLOAT D3DXVec3Dot}
+\DoxyCodeLine{705     ( CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV1, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV2 );}
+\DoxyCodeLine{706 }
+\DoxyCodeLine{707 \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* D3DXVec3Cross}
+\DoxyCodeLine{708     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV1, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV2 );}
+\DoxyCodeLine{709 }
+\DoxyCodeLine{710 \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* D3DXVec3Add}
+\DoxyCodeLine{711     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV1, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV2 );}
+\DoxyCodeLine{712 }
+\DoxyCodeLine{713 \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* D3DXVec3Subtract}
+\DoxyCodeLine{714     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV1, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV2 );}
+\DoxyCodeLine{715 }
+\DoxyCodeLine{716 \textcolor{comment}{// Minimize each component.  x = min(x1, x2), y = min(y1, y2), ...}}
+\DoxyCodeLine{717 \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* D3DXVec3Minimize}
+\DoxyCodeLine{718     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV1, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV2 );}
+\DoxyCodeLine{719 }
+\DoxyCodeLine{720 \textcolor{comment}{// Maximize each component.  x = max(x1, x2), y = max(y1, y2), ...}}
+\DoxyCodeLine{721 \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* D3DXVec3Maximize}
+\DoxyCodeLine{722     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV1, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV2 );}
+\DoxyCodeLine{723 }
+\DoxyCodeLine{724 \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* D3DXVec3Scale}
+\DoxyCodeLine{725     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV, FLOAT s);}
+\DoxyCodeLine{726 }
+\DoxyCodeLine{727 \textcolor{comment}{// Linear interpolation. V1 + s(V2-\/V1)}}
+\DoxyCodeLine{728 \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* D3DXVec3Lerp}
+\DoxyCodeLine{729     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV1, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV2,}
+\DoxyCodeLine{730       FLOAT s );}
+\DoxyCodeLine{731 }
+\DoxyCodeLine{732 \textcolor{comment}{// non-\/inline}}
+\DoxyCodeLine{733 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{734 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{735 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{736 }
+\DoxyCodeLine{737 \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* WINAPI D3DXVec3Normalize}
+\DoxyCodeLine{738     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV );}
+\DoxyCodeLine{739 }
+\DoxyCodeLine{740 \textcolor{comment}{// Hermite interpolation between position V1, tangent T1 (when s == 0)}}
+\DoxyCodeLine{741 \textcolor{comment}{// and position V2, tangent T2 (when s == 1).}}
+\DoxyCodeLine{742 \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* WINAPI D3DXVec3Hermite}
+\DoxyCodeLine{743     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV1, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pT1,}
+\DoxyCodeLine{744       CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV2, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pT2, FLOAT s );}
+\DoxyCodeLine{745 }
+\DoxyCodeLine{746 \textcolor{comment}{// CatmullRom interpolation between V1 (when s == 0) and V2 (when s == 1)}}
+\DoxyCodeLine{747 \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* WINAPI D3DXVec3CatmullRom}
+\DoxyCodeLine{748     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV0, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV1,}
+\DoxyCodeLine{749       CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV2, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV3, FLOAT s );}
+\DoxyCodeLine{750 }
+\DoxyCodeLine{751 \textcolor{comment}{// Barycentric coordinates.  V1 + f(V2-\/V1) + g(V3-\/V1)}}
+\DoxyCodeLine{752 \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* WINAPI D3DXVec3BaryCentric}
+\DoxyCodeLine{753     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV1, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV2,}
+\DoxyCodeLine{754       CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV3, FLOAT f, FLOAT g);}
+\DoxyCodeLine{755 }
+\DoxyCodeLine{756 \textcolor{comment}{// Transform (x, y, z, 1) by matrix.}}
+\DoxyCodeLine{757 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}* WINAPI D3DXVec3Transform}
+\DoxyCodeLine{758     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM );}
+\DoxyCodeLine{759 }
+\DoxyCodeLine{760 \textcolor{comment}{// Transform (x, y, z, 1) by matrix, project result back into w=1.}}
+\DoxyCodeLine{761 \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* WINAPI D3DXVec3TransformCoord}
+\DoxyCodeLine{762     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM );}
+\DoxyCodeLine{763 }
+\DoxyCodeLine{764 \textcolor{comment}{// Transform (x, y, z, 0) by matrix.  If you transforming a normal by a }}
+\DoxyCodeLine{765 \textcolor{comment}{// non-\/affine matrix, the matrix you pass to this function should be the }}
+\DoxyCodeLine{766 \textcolor{comment}{// transpose of the inverse of the matrix you would use to transform a coord.}}
+\DoxyCodeLine{767 \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* WINAPI D3DXVec3TransformNormal}
+\DoxyCodeLine{768     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM );}
+\DoxyCodeLine{769     }
+\DoxyCodeLine{770     }
+\DoxyCodeLine{771 \textcolor{comment}{// Transform Array (x, y, z, 1) by matrix. }}
+\DoxyCodeLine{772 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}* WINAPI D3DXVec3TransformArray}
+\DoxyCodeLine{773     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pOut, UINT OutStride, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV, UINT VStride, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM, UINT n );}
+\DoxyCodeLine{774 }
+\DoxyCodeLine{775 \textcolor{comment}{// Transform Array (x, y, z, 1) by matrix, project result back into w=1.}}
+\DoxyCodeLine{776 \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* WINAPI D3DXVec3TransformCoordArray}
+\DoxyCodeLine{777     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOut, UINT OutStride, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV, UINT VStride, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM, UINT n );}
+\DoxyCodeLine{778 }
+\DoxyCodeLine{779 \textcolor{comment}{// Transform (x, y, z, 0) by matrix.  If you transforming a normal by a }}
+\DoxyCodeLine{780 \textcolor{comment}{// non-\/affine matrix, the matrix you pass to this function should be the }}
+\DoxyCodeLine{781 \textcolor{comment}{// transpose of the inverse of the matrix you would use to transform a coord.}}
+\DoxyCodeLine{782 \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* WINAPI D3DXVec3TransformNormalArray}
+\DoxyCodeLine{783     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOut, UINT OutStride, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV, UINT VStride, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM, UINT n );}
+\DoxyCodeLine{784 }
+\DoxyCodeLine{785 \textcolor{comment}{// Project vector from object space into screen space}}
+\DoxyCodeLine{786 \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* WINAPI D3DXVec3Project}
+\DoxyCodeLine{787     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV, CONST \mbox{\hyperlink{struct___d3_d_v_i_e_w_p_o_r_t9}{D3DVIEWPORT9}} *pViewport,}
+\DoxyCodeLine{788       CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pProjection, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pView, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pWorld);}
+\DoxyCodeLine{789 }
+\DoxyCodeLine{790 \textcolor{comment}{// Project vector from screen space into object space}}
+\DoxyCodeLine{791 \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* WINAPI D3DXVec3Unproject}
+\DoxyCodeLine{792     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV, CONST \mbox{\hyperlink{struct___d3_d_v_i_e_w_p_o_r_t9}{D3DVIEWPORT9}} *pViewport,}
+\DoxyCodeLine{793       CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pProjection, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pView, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pWorld);}
+\DoxyCodeLine{794       }
+\DoxyCodeLine{795 \textcolor{comment}{// Project vector Array from object space into screen space}}
+\DoxyCodeLine{796 \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* WINAPI D3DXVec3ProjectArray}
+\DoxyCodeLine{797     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOut, UINT OutStride,CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV, UINT VStride,CONST \mbox{\hyperlink{struct___d3_d_v_i_e_w_p_o_r_t9}{D3DVIEWPORT9}} *pViewport,}
+\DoxyCodeLine{798       CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pProjection, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pView, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pWorld, UINT n);}
+\DoxyCodeLine{799 }
+\DoxyCodeLine{800 \textcolor{comment}{// Project vector Array from screen space into object space}}
+\DoxyCodeLine{801 \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* WINAPI D3DXVec3UnprojectArray}
+\DoxyCodeLine{802     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOut, UINT OutStride, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV, UINT VStride, CONST \mbox{\hyperlink{struct___d3_d_v_i_e_w_p_o_r_t9}{D3DVIEWPORT9}} *pViewport,}
+\DoxyCodeLine{803       CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pProjection, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pView, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pWorld, UINT n);}
+\DoxyCodeLine{804 }
+\DoxyCodeLine{805 }
+\DoxyCodeLine{806 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{807 \}}
+\DoxyCodeLine{808 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{809 }
+\DoxyCodeLine{810 }
+\DoxyCodeLine{811 }
+\DoxyCodeLine{812 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{813 \textcolor{comment}{// 4D Vector}}
+\DoxyCodeLine{814 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{815 }
+\DoxyCodeLine{816 \textcolor{comment}{// inline}}
+\DoxyCodeLine{817 }
+\DoxyCodeLine{818 FLOAT D3DXVec4Length}
+\DoxyCodeLine{819     ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV );}
+\DoxyCodeLine{820 }
+\DoxyCodeLine{821 FLOAT D3DXVec4LengthSq}
+\DoxyCodeLine{822     ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV );}
+\DoxyCodeLine{823 }
+\DoxyCodeLine{824 FLOAT D3DXVec4Dot}
+\DoxyCodeLine{825     ( CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV1, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV2 );}
+\DoxyCodeLine{826 }
+\DoxyCodeLine{827 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}* D3DXVec4Add}
+\DoxyCodeLine{828     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV1, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV2);}
+\DoxyCodeLine{829 }
+\DoxyCodeLine{830 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}* D3DXVec4Subtract}
+\DoxyCodeLine{831     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV1, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV2);}
+\DoxyCodeLine{832 }
+\DoxyCodeLine{833 \textcolor{comment}{// Minimize each component.  x = min(x1, x2), y = min(y1, y2), ...}}
+\DoxyCodeLine{834 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}* D3DXVec4Minimize}
+\DoxyCodeLine{835     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV1, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV2);}
+\DoxyCodeLine{836 }
+\DoxyCodeLine{837 \textcolor{comment}{// Maximize each component.  x = max(x1, x2), y = max(y1, y2), ...}}
+\DoxyCodeLine{838 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}* D3DXVec4Maximize}
+\DoxyCodeLine{839     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV1, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV2);}
+\DoxyCodeLine{840 }
+\DoxyCodeLine{841 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}* D3DXVec4Scale}
+\DoxyCodeLine{842     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV, FLOAT s);}
+\DoxyCodeLine{843 }
+\DoxyCodeLine{844 \textcolor{comment}{// Linear interpolation. V1 + s(V2-\/V1)}}
+\DoxyCodeLine{845 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}* D3DXVec4Lerp}
+\DoxyCodeLine{846     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV1, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV2,}
+\DoxyCodeLine{847       FLOAT s );}
+\DoxyCodeLine{848 }
+\DoxyCodeLine{849 \textcolor{comment}{// non-\/inline}}
+\DoxyCodeLine{850 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{851 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{852 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{853 }
+\DoxyCodeLine{854 \textcolor{comment}{// Cross-\/product in 4 dimensions.}}
+\DoxyCodeLine{855 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}* WINAPI D3DXVec4Cross}
+\DoxyCodeLine{856     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV1, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV2,}
+\DoxyCodeLine{857       CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV3);}
+\DoxyCodeLine{858 }
+\DoxyCodeLine{859 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}* WINAPI D3DXVec4Normalize}
+\DoxyCodeLine{860     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV );}
+\DoxyCodeLine{861 }
+\DoxyCodeLine{862 \textcolor{comment}{// Hermite interpolation between position V1, tangent T1 (when s == 0)}}
+\DoxyCodeLine{863 \textcolor{comment}{// and position V2, tangent T2 (when s == 1).}}
+\DoxyCodeLine{864 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}* WINAPI D3DXVec4Hermite}
+\DoxyCodeLine{865     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV1, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pT1,}
+\DoxyCodeLine{866       CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV2, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pT2, FLOAT s );}
+\DoxyCodeLine{867 }
+\DoxyCodeLine{868 \textcolor{comment}{// CatmullRom interpolation between V1 (when s == 0) and V2 (when s == 1)}}
+\DoxyCodeLine{869 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}* WINAPI D3DXVec4CatmullRom}
+\DoxyCodeLine{870     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV0, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV1,}
+\DoxyCodeLine{871       CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV2, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV3, FLOAT s );}
+\DoxyCodeLine{872 }
+\DoxyCodeLine{873 \textcolor{comment}{// Barycentric coordinates.  V1 + f(V2-\/V1) + g(V3-\/V1)}}
+\DoxyCodeLine{874 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}* WINAPI D3DXVec4BaryCentric}
+\DoxyCodeLine{875     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV1, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV2,}
+\DoxyCodeLine{876       CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV3, FLOAT f, FLOAT g);}
+\DoxyCodeLine{877 }
+\DoxyCodeLine{878 \textcolor{comment}{// Transform vector by matrix.}}
+\DoxyCodeLine{879 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}* WINAPI D3DXVec4Transform}
+\DoxyCodeLine{880     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM );}
+\DoxyCodeLine{881     }
+\DoxyCodeLine{882 \textcolor{comment}{// Transform vector array by matrix.}}
+\DoxyCodeLine{883 \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}}* WINAPI D3DXVec4TransformArray}
+\DoxyCodeLine{884     ( \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pOut, UINT OutStride, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV, UINT VStride, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM, UINT n );}
+\DoxyCodeLine{885 }
+\DoxyCodeLine{886 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{887 \}}
+\DoxyCodeLine{888 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{889 }
+\DoxyCodeLine{890 }
+\DoxyCodeLine{891 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{892 \textcolor{comment}{// 4D Matrix}}
+\DoxyCodeLine{893 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{894 }
+\DoxyCodeLine{895 \textcolor{comment}{// inline}}
+\DoxyCodeLine{896 }
+\DoxyCodeLine{897 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* D3DXMatrixIdentity}
+\DoxyCodeLine{898     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut );}
+\DoxyCodeLine{899 }
+\DoxyCodeLine{900 BOOL D3DXMatrixIsIdentity}
+\DoxyCodeLine{901     ( CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM );}
+\DoxyCodeLine{902 }
+\DoxyCodeLine{903 }
+\DoxyCodeLine{904 \textcolor{comment}{// non-\/inline}}
+\DoxyCodeLine{905 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{906 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{907 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{908 }
+\DoxyCodeLine{909 FLOAT WINAPI D3DXMatrixDeterminant}
+\DoxyCodeLine{910     ( CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM );}
+\DoxyCodeLine{911 }
+\DoxyCodeLine{912 HRESULT WINAPI D3DXMatrixDecompose}
+\DoxyCodeLine{913     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOutScale, \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pOutRotation, }
+\DoxyCodeLine{914       \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOutTranslation, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM );}
+\DoxyCodeLine{915 }
+\DoxyCodeLine{916 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixTranspose}
+\DoxyCodeLine{917     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM );}
+\DoxyCodeLine{918 }
+\DoxyCodeLine{919 \textcolor{comment}{// Matrix multiplication.  The result represents the transformation M2}}
+\DoxyCodeLine{920 \textcolor{comment}{// followed by the transformation M1.  (Out = M1 * M2)}}
+\DoxyCodeLine{921 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixMultiply}
+\DoxyCodeLine{922     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM1, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM2 );}
+\DoxyCodeLine{923 }
+\DoxyCodeLine{924 \textcolor{comment}{// Matrix multiplication, followed by a transpose. (Out = T(M1 * M2))}}
+\DoxyCodeLine{925 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixMultiplyTranspose}
+\DoxyCodeLine{926     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM1, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM2 );}
+\DoxyCodeLine{927 }
+\DoxyCodeLine{928 \textcolor{comment}{// Calculate inverse of matrix.  Inversion my fail, in which case NULL will}}
+\DoxyCodeLine{929 \textcolor{comment}{// be returned.  The determinant of pM is also returned it pfDeterminant}}
+\DoxyCodeLine{930 \textcolor{comment}{// is non-\/NULL.}}
+\DoxyCodeLine{931 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixInverse}
+\DoxyCodeLine{932     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, FLOAT *pDeterminant, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM );}
+\DoxyCodeLine{933 }
+\DoxyCodeLine{934 \textcolor{comment}{// Build a matrix which scales by (sx, sy, sz)}}
+\DoxyCodeLine{935 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixScaling}
+\DoxyCodeLine{936     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, FLOAT sx, FLOAT sy, FLOAT sz );}
+\DoxyCodeLine{937 }
+\DoxyCodeLine{938 \textcolor{comment}{// Build a matrix which translates by (x, y, z)}}
+\DoxyCodeLine{939 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixTranslation}
+\DoxyCodeLine{940     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, FLOAT x, FLOAT y, FLOAT z );}
+\DoxyCodeLine{941 }
+\DoxyCodeLine{942 \textcolor{comment}{// Build a matrix which rotates around the X axis}}
+\DoxyCodeLine{943 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixRotationX}
+\DoxyCodeLine{944     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, FLOAT Angle );}
+\DoxyCodeLine{945 }
+\DoxyCodeLine{946 \textcolor{comment}{// Build a matrix which rotates around the Y axis}}
+\DoxyCodeLine{947 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixRotationY}
+\DoxyCodeLine{948     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, FLOAT Angle );}
+\DoxyCodeLine{949 }
+\DoxyCodeLine{950 \textcolor{comment}{// Build a matrix which rotates around the Z axis}}
+\DoxyCodeLine{951 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixRotationZ}
+\DoxyCodeLine{952     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, FLOAT Angle );}
+\DoxyCodeLine{953 }
+\DoxyCodeLine{954 \textcolor{comment}{// Build a matrix which rotates around an arbitrary axis}}
+\DoxyCodeLine{955 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixRotationAxis}
+\DoxyCodeLine{956     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV, FLOAT Angle );}
+\DoxyCodeLine{957 }
+\DoxyCodeLine{958 \textcolor{comment}{// Build a matrix from a quaternion}}
+\DoxyCodeLine{959 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixRotationQuaternion}
+\DoxyCodeLine{960     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ);}
+\DoxyCodeLine{961 }
+\DoxyCodeLine{962 \textcolor{comment}{// Yaw around the Y axis, a pitch around the X axis,}}
+\DoxyCodeLine{963 \textcolor{comment}{// and a roll around the Z axis.}}
+\DoxyCodeLine{964 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixRotationYawPitchRoll}
+\DoxyCodeLine{965     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, FLOAT Yaw, FLOAT Pitch, FLOAT Roll );}
+\DoxyCodeLine{966 }
+\DoxyCodeLine{967 \textcolor{comment}{// Build transformation matrix.  NULL arguments are treated as identity.}}
+\DoxyCodeLine{968 \textcolor{comment}{// Mout = Msc-\/1 * Msr-\/1 * Ms * Msr * Msc * Mrc-\/1 * Mr * Mrc * Mt}}
+\DoxyCodeLine{969 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixTransformation}
+\DoxyCodeLine{970     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pScalingCenter,}
+\DoxyCodeLine{971       CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pScalingRotation, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pScaling,}
+\DoxyCodeLine{972       CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pRotationCenter, CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pRotation,}
+\DoxyCodeLine{973       CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pTranslation);}
+\DoxyCodeLine{974 }
+\DoxyCodeLine{975 \textcolor{comment}{// Build 2D transformation matrix in XY plane.  NULL arguments are treated as identity.}}
+\DoxyCodeLine{976 \textcolor{comment}{// Mout = Msc-\/1 * Msr-\/1 * Ms * Msr * Msc * Mrc-\/1 * Mr * Mrc * Mt}}
+\DoxyCodeLine{977 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixTransformation2D}
+\DoxyCodeLine{978     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}* pScalingCenter, }
+\DoxyCodeLine{979       FLOAT ScalingRotation, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}* pScaling, }
+\DoxyCodeLine{980       CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}* pRotationCenter, FLOAT Rotation, }
+\DoxyCodeLine{981       CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}* pTranslation);}
+\DoxyCodeLine{982 }
+\DoxyCodeLine{983 \textcolor{comment}{// Build affine transformation matrix.  NULL arguments are treated as identity.}}
+\DoxyCodeLine{984 \textcolor{comment}{// Mout = Ms * Mrc-\/1 * Mr * Mrc * Mt}}
+\DoxyCodeLine{985 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixAffineTransformation}
+\DoxyCodeLine{986     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, FLOAT Scaling, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pRotationCenter,}
+\DoxyCodeLine{987       CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pRotation, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pTranslation);}
+\DoxyCodeLine{988 }
+\DoxyCodeLine{989 \textcolor{comment}{// Build 2D affine transformation matrix in XY plane.  NULL arguments are treated as identity.}}
+\DoxyCodeLine{990 \textcolor{comment}{// Mout = Ms * Mrc-\/1 * Mr * Mrc * Mt}}
+\DoxyCodeLine{991 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixAffineTransformation2D}
+\DoxyCodeLine{992     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, FLOAT Scaling, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}* pRotationCenter, }
+\DoxyCodeLine{993       FLOAT Rotation, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}}* pTranslation);}
+\DoxyCodeLine{994 }
+\DoxyCodeLine{995 \textcolor{comment}{// Build a lookat matrix. (right-\/handed)}}
+\DoxyCodeLine{996 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixLookAtRH}
+\DoxyCodeLine{997     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pEye, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pAt,}
+\DoxyCodeLine{998       CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pUp );}
+\DoxyCodeLine{999 }
+\DoxyCodeLine{1000 \textcolor{comment}{// Build a lookat matrix. (left-\/handed)}}
+\DoxyCodeLine{1001 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixLookAtLH}
+\DoxyCodeLine{1002     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pEye, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pAt,}
+\DoxyCodeLine{1003       CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pUp );}
+\DoxyCodeLine{1004 }
+\DoxyCodeLine{1005 \textcolor{comment}{// Build a perspective projection matrix. (right-\/handed)}}
+\DoxyCodeLine{1006 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixPerspectiveRH}
+\DoxyCodeLine{1007     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, FLOAT w, FLOAT h, FLOAT zn, FLOAT zf );}
+\DoxyCodeLine{1008 }
+\DoxyCodeLine{1009 \textcolor{comment}{// Build a perspective projection matrix. (left-\/handed)}}
+\DoxyCodeLine{1010 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixPerspectiveLH}
+\DoxyCodeLine{1011     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, FLOAT w, FLOAT h, FLOAT zn, FLOAT zf );}
+\DoxyCodeLine{1012 }
+\DoxyCodeLine{1013 \textcolor{comment}{// Build a perspective projection matrix. (right-\/handed)}}
+\DoxyCodeLine{1014 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixPerspectiveFovRH}
+\DoxyCodeLine{1015     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, FLOAT fovy, FLOAT Aspect, FLOAT zn, FLOAT zf );}
+\DoxyCodeLine{1016 }
+\DoxyCodeLine{1017 \textcolor{comment}{// Build a perspective projection matrix. (left-\/handed)}}
+\DoxyCodeLine{1018 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixPerspectiveFovLH}
+\DoxyCodeLine{1019     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, FLOAT fovy, FLOAT Aspect, FLOAT zn, FLOAT zf );}
+\DoxyCodeLine{1020 }
+\DoxyCodeLine{1021 \textcolor{comment}{// Build a perspective projection matrix. (right-\/handed)}}
+\DoxyCodeLine{1022 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixPerspectiveOffCenterRH}
+\DoxyCodeLine{1023     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, FLOAT l, FLOAT r, FLOAT b, FLOAT t, FLOAT zn,}
+\DoxyCodeLine{1024       FLOAT zf );}
+\DoxyCodeLine{1025 }
+\DoxyCodeLine{1026 \textcolor{comment}{// Build a perspective projection matrix. (left-\/handed)}}
+\DoxyCodeLine{1027 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixPerspectiveOffCenterLH}
+\DoxyCodeLine{1028     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, FLOAT l, FLOAT r, FLOAT b, FLOAT t, FLOAT zn,}
+\DoxyCodeLine{1029       FLOAT zf );}
+\DoxyCodeLine{1030 }
+\DoxyCodeLine{1031 \textcolor{comment}{// Build an ortho projection matrix. (right-\/handed)}}
+\DoxyCodeLine{1032 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixOrthoRH}
+\DoxyCodeLine{1033     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, FLOAT w, FLOAT h, FLOAT zn, FLOAT zf );}
+\DoxyCodeLine{1034 }
+\DoxyCodeLine{1035 \textcolor{comment}{// Build an ortho projection matrix. (left-\/handed)}}
+\DoxyCodeLine{1036 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixOrthoLH}
+\DoxyCodeLine{1037     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, FLOAT w, FLOAT h, FLOAT zn, FLOAT zf );}
+\DoxyCodeLine{1038 }
+\DoxyCodeLine{1039 \textcolor{comment}{// Build an ortho projection matrix. (right-\/handed)}}
+\DoxyCodeLine{1040 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixOrthoOffCenterRH}
+\DoxyCodeLine{1041     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, FLOAT l, FLOAT r, FLOAT b, FLOAT t, FLOAT zn,}
+\DoxyCodeLine{1042       FLOAT zf );}
+\DoxyCodeLine{1043 }
+\DoxyCodeLine{1044 \textcolor{comment}{// Build an ortho projection matrix. (left-\/handed)}}
+\DoxyCodeLine{1045 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixOrthoOffCenterLH}
+\DoxyCodeLine{1046     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, FLOAT l, FLOAT r, FLOAT b, FLOAT t, FLOAT zn,}
+\DoxyCodeLine{1047       FLOAT zf );}
+\DoxyCodeLine{1048 }
+\DoxyCodeLine{1049 \textcolor{comment}{// Build a matrix which flattens geometry into a plane, as if casting}}
+\DoxyCodeLine{1050 \textcolor{comment}{// a shadow from a light.}}
+\DoxyCodeLine{1051 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixShadow}
+\DoxyCodeLine{1052     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pLight,}
+\DoxyCodeLine{1053       CONST \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} *pPlane );}
+\DoxyCodeLine{1054 }
+\DoxyCodeLine{1055 \textcolor{comment}{// Build a matrix which reflects the coordinate system about a plane}}
+\DoxyCodeLine{1056 \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* WINAPI D3DXMatrixReflect}
+\DoxyCodeLine{1057     ( \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} *pPlane );}
+\DoxyCodeLine{1058 }
+\DoxyCodeLine{1059 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{1060 \}}
+\DoxyCodeLine{1061 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1062 }
+\DoxyCodeLine{1063 }
+\DoxyCodeLine{1064 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1065 \textcolor{comment}{// Quaternion}}
+\DoxyCodeLine{1066 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1067 }
+\DoxyCodeLine{1068 \textcolor{comment}{// inline}}
+\DoxyCodeLine{1069 }
+\DoxyCodeLine{1070 FLOAT D3DXQuaternionLength}
+\DoxyCodeLine{1071     ( CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ );}
+\DoxyCodeLine{1072 }
+\DoxyCodeLine{1073 \textcolor{comment}{// Length squared, or "{}norm"{}}}
+\DoxyCodeLine{1074 FLOAT D3DXQuaternionLengthSq}
+\DoxyCodeLine{1075     ( CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ );}
+\DoxyCodeLine{1076 }
+\DoxyCodeLine{1077 FLOAT D3DXQuaternionDot}
+\DoxyCodeLine{1078     ( CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ1, CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ2 );}
+\DoxyCodeLine{1079 }
+\DoxyCodeLine{1080 \textcolor{comment}{// (0, 0, 0, 1)}}
+\DoxyCodeLine{1081 \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}* D3DXQuaternionIdentity}
+\DoxyCodeLine{1082     ( \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pOut );}
+\DoxyCodeLine{1083 }
+\DoxyCodeLine{1084 BOOL D3DXQuaternionIsIdentity}
+\DoxyCodeLine{1085     ( CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ );}
+\DoxyCodeLine{1086 }
+\DoxyCodeLine{1087 \textcolor{comment}{// (-\/x, -\/y, -\/z, w)}}
+\DoxyCodeLine{1088 \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}* D3DXQuaternionConjugate}
+\DoxyCodeLine{1089     ( \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ );}
+\DoxyCodeLine{1090 }
+\DoxyCodeLine{1091 }
+\DoxyCodeLine{1092 \textcolor{comment}{// non-\/inline}}
+\DoxyCodeLine{1093 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{1094 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{1095 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1096 }
+\DoxyCodeLine{1097 \textcolor{comment}{// Compute a quaternin's axis and angle of rotation. Expects unit quaternions.}}
+\DoxyCodeLine{1098 \textcolor{keywordtype}{void} WINAPI D3DXQuaternionToAxisAngle}
+\DoxyCodeLine{1099     ( CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ, \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pAxis, FLOAT *pAngle );}
+\DoxyCodeLine{1100 }
+\DoxyCodeLine{1101 \textcolor{comment}{// Build a quaternion from a rotation matrix.}}
+\DoxyCodeLine{1102 \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}* WINAPI D3DXQuaternionRotationMatrix}
+\DoxyCodeLine{1103     ( \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM);}
+\DoxyCodeLine{1104 }
+\DoxyCodeLine{1105 \textcolor{comment}{// Rotation about arbitrary axis.}}
+\DoxyCodeLine{1106 \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}* WINAPI D3DXQuaternionRotationAxis}
+\DoxyCodeLine{1107     ( \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV, FLOAT Angle );}
+\DoxyCodeLine{1108 }
+\DoxyCodeLine{1109 \textcolor{comment}{// Yaw around the Y axis, a pitch around the X axis,}}
+\DoxyCodeLine{1110 \textcolor{comment}{// and a roll around the Z axis.}}
+\DoxyCodeLine{1111 \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}* WINAPI D3DXQuaternionRotationYawPitchRoll}
+\DoxyCodeLine{1112     ( \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pOut, FLOAT Yaw, FLOAT Pitch, FLOAT Roll );}
+\DoxyCodeLine{1113 }
+\DoxyCodeLine{1114 \textcolor{comment}{// Quaternion multiplication.  The result represents the rotation Q2}}
+\DoxyCodeLine{1115 \textcolor{comment}{// followed by the rotation Q1.  (Out = Q2 * Q1)}}
+\DoxyCodeLine{1116 \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}* WINAPI D3DXQuaternionMultiply}
+\DoxyCodeLine{1117     ( \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ1,}
+\DoxyCodeLine{1118       CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ2 );}
+\DoxyCodeLine{1119 }
+\DoxyCodeLine{1120 \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}* WINAPI D3DXQuaternionNormalize}
+\DoxyCodeLine{1121     ( \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ );}
+\DoxyCodeLine{1122 }
+\DoxyCodeLine{1123 \textcolor{comment}{// Conjugate and re-\/norm}}
+\DoxyCodeLine{1124 \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}* WINAPI D3DXQuaternionInverse}
+\DoxyCodeLine{1125     ( \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ );}
+\DoxyCodeLine{1126 }
+\DoxyCodeLine{1127 \textcolor{comment}{// Expects unit quaternions.}}
+\DoxyCodeLine{1128 \textcolor{comment}{// if q = (cos(theta), sin(theta) * v); ln(q) = (0, theta * v)}}
+\DoxyCodeLine{1129 \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}* WINAPI D3DXQuaternionLn}
+\DoxyCodeLine{1130     ( \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ );}
+\DoxyCodeLine{1131 }
+\DoxyCodeLine{1132 \textcolor{comment}{// Expects pure quaternions. (w == 0)  w is ignored in calculation.}}
+\DoxyCodeLine{1133 \textcolor{comment}{// if q = (0, theta * v); exp(q) = (cos(theta), sin(theta) * v)}}
+\DoxyCodeLine{1134 \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}* WINAPI D3DXQuaternionExp}
+\DoxyCodeLine{1135     ( \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ );}
+\DoxyCodeLine{1136       }
+\DoxyCodeLine{1137 \textcolor{comment}{// Spherical linear interpolation between Q1 (t == 0) and Q2 (t == 1).}}
+\DoxyCodeLine{1138 \textcolor{comment}{// Expects unit quaternions.}}
+\DoxyCodeLine{1139 \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}* WINAPI D3DXQuaternionSlerp}
+\DoxyCodeLine{1140     ( \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ1,}
+\DoxyCodeLine{1141       CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ2, FLOAT t );}
+\DoxyCodeLine{1142 }
+\DoxyCodeLine{1143 \textcolor{comment}{// Spherical quadrangle interpolation.}}
+\DoxyCodeLine{1144 \textcolor{comment}{// Slerp(Slerp(Q1, C, t), Slerp(A, B, t), 2t(1-\/t))}}
+\DoxyCodeLine{1145 \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}* WINAPI D3DXQuaternionSquad}
+\DoxyCodeLine{1146     ( \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ1,}
+\DoxyCodeLine{1147       CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pA, CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pB,}
+\DoxyCodeLine{1148       CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pC, FLOAT t );}
+\DoxyCodeLine{1149 }
+\DoxyCodeLine{1150 \textcolor{comment}{// Setup control points for spherical quadrangle interpolation}}
+\DoxyCodeLine{1151 \textcolor{comment}{// from Q1 to Q2.  The control points are chosen in such a way }}
+\DoxyCodeLine{1152 \textcolor{comment}{// to ensure the continuity of tangents with adjacent segments.}}
+\DoxyCodeLine{1153 \textcolor{keywordtype}{void} WINAPI D3DXQuaternionSquadSetup}
+\DoxyCodeLine{1154     ( \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pAOut, \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pBOut, \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pCOut,}
+\DoxyCodeLine{1155       CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ0, CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ1, }
+\DoxyCodeLine{1156       CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ2, CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ3 );}
+\DoxyCodeLine{1157 }
+\DoxyCodeLine{1158 \textcolor{comment}{// Barycentric interpolation.}}
+\DoxyCodeLine{1159 \textcolor{comment}{// Slerp(Slerp(Q1, Q2, f+g), Slerp(Q1, Q3, f+g), g/(f+g))}}
+\DoxyCodeLine{1160 \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}}* WINAPI D3DXQuaternionBaryCentric}
+\DoxyCodeLine{1161     ( \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ1,}
+\DoxyCodeLine{1162       CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ2, CONST \mbox{\hyperlink{struct_d3_d_x_q_u_a_t_e_r_n_i_o_n}{D3DXQUATERNION}} *pQ3,}
+\DoxyCodeLine{1163       FLOAT f, FLOAT g );}
+\DoxyCodeLine{1164 }
+\DoxyCodeLine{1165 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{1166 \}}
+\DoxyCodeLine{1167 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1168 }
+\DoxyCodeLine{1169 }
+\DoxyCodeLine{1170 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1171 \textcolor{comment}{// Plane}}
+\DoxyCodeLine{1172 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1173 }
+\DoxyCodeLine{1174 \textcolor{comment}{// inline}}
+\DoxyCodeLine{1175 }
+\DoxyCodeLine{1176 \textcolor{comment}{// ax + by + cz + dw}}
+\DoxyCodeLine{1177 FLOAT D3DXPlaneDot}
+\DoxyCodeLine{1178     ( CONST \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} *pP, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pV);}
+\DoxyCodeLine{1179 }
+\DoxyCodeLine{1180 \textcolor{comment}{// ax + by + cz + d}}
+\DoxyCodeLine{1181 FLOAT D3DXPlaneDotCoord}
+\DoxyCodeLine{1182     ( CONST \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} *pP, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV);}
+\DoxyCodeLine{1183 }
+\DoxyCodeLine{1184 \textcolor{comment}{// ax + by + cz}}
+\DoxyCodeLine{1185 FLOAT D3DXPlaneDotNormal}
+\DoxyCodeLine{1186     ( CONST \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} *pP, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV);}
+\DoxyCodeLine{1187 }
+\DoxyCodeLine{1188 \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}}* D3DXPlaneScale}
+\DoxyCodeLine{1189     (\mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} *pP, FLOAT s);}
+\DoxyCodeLine{1190 }
+\DoxyCodeLine{1191 \textcolor{comment}{// non-\/inline}}
+\DoxyCodeLine{1192 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{1193 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{1194 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1195 }
+\DoxyCodeLine{1196 \textcolor{comment}{// Normalize plane (so that |a,b,c| == 1)}}
+\DoxyCodeLine{1197 \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}}* WINAPI D3DXPlaneNormalize}
+\DoxyCodeLine{1198     ( \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} *pP);}
+\DoxyCodeLine{1199 }
+\DoxyCodeLine{1200 \textcolor{comment}{// Find the intersection between a plane and a line.  If the line is}}
+\DoxyCodeLine{1201 \textcolor{comment}{// parallel to the plane, NULL is returned.}}
+\DoxyCodeLine{1202 \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* WINAPI D3DXPlaneIntersectLine}
+\DoxyCodeLine{1203     ( \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} *pP, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV1,}
+\DoxyCodeLine{1204       CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV2);}
+\DoxyCodeLine{1205 }
+\DoxyCodeLine{1206 \textcolor{comment}{// Construct a plane from a point and a normal}}
+\DoxyCodeLine{1207 \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}}* WINAPI D3DXPlaneFromPointNormal}
+\DoxyCodeLine{1208     ( \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pPoint, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pNormal);}
+\DoxyCodeLine{1209 }
+\DoxyCodeLine{1210 \textcolor{comment}{// Construct a plane from 3 points}}
+\DoxyCodeLine{1211 \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}}* WINAPI D3DXPlaneFromPoints}
+\DoxyCodeLine{1212     ( \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} *pOut, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV1, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV2,}
+\DoxyCodeLine{1213       CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pV3);}
+\DoxyCodeLine{1214 }
+\DoxyCodeLine{1215 \textcolor{comment}{// Transform a plane by a matrix.  The vector (a,b,c) must be normal.}}
+\DoxyCodeLine{1216 \textcolor{comment}{// M should be the inverse transpose of the transformation desired.}}
+\DoxyCodeLine{1217 \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}}* WINAPI D3DXPlaneTransform}
+\DoxyCodeLine{1218     ( \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} *pP, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM );}
+\DoxyCodeLine{1219     }
+\DoxyCodeLine{1220 \textcolor{comment}{// Transform an array of planes by a matrix.  The vectors (a,b,c) must be normal.}}
+\DoxyCodeLine{1221 \textcolor{comment}{// M should be the inverse transpose of the transformation desired.}}
+\DoxyCodeLine{1222 \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}}* WINAPI D3DXPlaneTransformArray}
+\DoxyCodeLine{1223     ( \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} *pOut, UINT OutStride, CONST \mbox{\hyperlink{struct_d3_d_x_p_l_a_n_e}{D3DXPLANE}} *pP, UINT PStride, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pM, UINT n );}
+\DoxyCodeLine{1224 }
+\DoxyCodeLine{1225 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{1226 \}}
+\DoxyCodeLine{1227 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1228 }
+\DoxyCodeLine{1229 }
+\DoxyCodeLine{1230 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1231 \textcolor{comment}{// Color}}
+\DoxyCodeLine{1232 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1233 }
+\DoxyCodeLine{1234 \textcolor{comment}{// inline}}
+\DoxyCodeLine{1235 }
+\DoxyCodeLine{1236 \textcolor{comment}{// (1-\/r, 1-\/g, 1-\/b, a)}}
+\DoxyCodeLine{1237 \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}* D3DXColorNegative}
+\DoxyCodeLine{1238     (\mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} *pC);}
+\DoxyCodeLine{1239 }
+\DoxyCodeLine{1240 \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}* D3DXColorAdd}
+\DoxyCodeLine{1241     (\mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} *pC1, CONST \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} *pC2);}
+\DoxyCodeLine{1242 }
+\DoxyCodeLine{1243 \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}* D3DXColorSubtract}
+\DoxyCodeLine{1244     (\mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} *pC1, CONST \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} *pC2);}
+\DoxyCodeLine{1245 }
+\DoxyCodeLine{1246 \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}* D3DXColorScale}
+\DoxyCodeLine{1247     (\mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} *pC, FLOAT s);}
+\DoxyCodeLine{1248 }
+\DoxyCodeLine{1249 \textcolor{comment}{// (r1*r2, g1*g2, b1*b2, a1*a2)}}
+\DoxyCodeLine{1250 \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}* D3DXColorModulate}
+\DoxyCodeLine{1251     (\mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} *pC1, CONST \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} *pC2);}
+\DoxyCodeLine{1252 }
+\DoxyCodeLine{1253 \textcolor{comment}{// Linear interpolation of r,g,b, and a. C1 + s(C2-\/C1)}}
+\DoxyCodeLine{1254 \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}* D3DXColorLerp}
+\DoxyCodeLine{1255     (\mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} *pC1, CONST \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} *pC2, FLOAT s);}
+\DoxyCodeLine{1256 }
+\DoxyCodeLine{1257 \textcolor{comment}{// non-\/inline}}
+\DoxyCodeLine{1258 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{1259 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{1260 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1261 }
+\DoxyCodeLine{1262 \textcolor{comment}{// Interpolate r,g,b between desaturated color and color.}}
+\DoxyCodeLine{1263 \textcolor{comment}{// DesaturatedColor + s(Color -\/ DesaturatedColor)}}
+\DoxyCodeLine{1264 \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}* WINAPI D3DXColorAdjustSaturation}
+\DoxyCodeLine{1265     (\mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} *pC, FLOAT s);}
+\DoxyCodeLine{1266 }
+\DoxyCodeLine{1267 \textcolor{comment}{// Interpolate r,g,b between 50\% grey and color.  Grey + s(Color -\/ Grey)}}
+\DoxyCodeLine{1268 \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}}* WINAPI D3DXColorAdjustContrast}
+\DoxyCodeLine{1269     (\mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} *pOut, CONST \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} *pC, FLOAT c);}
+\DoxyCodeLine{1270 }
+\DoxyCodeLine{1271 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{1272 \}}
+\DoxyCodeLine{1273 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1274 }
+\DoxyCodeLine{1275 }
+\DoxyCodeLine{1276 }
+\DoxyCodeLine{1277 }
+\DoxyCodeLine{1278 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1279 \textcolor{comment}{// Misc}}
+\DoxyCodeLine{1280 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1281 }
+\DoxyCodeLine{1282 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{1283 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{1284 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1285 }
+\DoxyCodeLine{1286 \textcolor{comment}{// Calculate Fresnel term given the cosine of theta (likely obtained by}}
+\DoxyCodeLine{1287 \textcolor{comment}{// taking the dot of two normals), and the refraction index of the material.}}
+\DoxyCodeLine{1288 FLOAT WINAPI D3DXFresnelTerm}
+\DoxyCodeLine{1289     (FLOAT CosTheta, FLOAT RefractionIndex);     }
+\DoxyCodeLine{1290 }
+\DoxyCodeLine{1291 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{1292 \}}
+\DoxyCodeLine{1293 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1294 }
+\DoxyCodeLine{1295 }
+\DoxyCodeLine{1296 }
+\DoxyCodeLine{1297 \textcolor{comment}{//===========================================================================}}
+\DoxyCodeLine{1298 \textcolor{comment}{//}}
+\DoxyCodeLine{1299 \textcolor{comment}{//    Matrix Stack}}
+\DoxyCodeLine{1300 \textcolor{comment}{//}}
+\DoxyCodeLine{1301 \textcolor{comment}{//===========================================================================}}
+\DoxyCodeLine{1302 }
+\DoxyCodeLine{1303 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXMatrixStack ID3DXMatrixStack;}
+\DoxyCodeLine{1304 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DXMatrixStack *LPD3DXMATRIXSTACK;}
+\DoxyCodeLine{1305 }
+\DoxyCodeLine{1306 \textcolor{comment}{// \{C7885BA7-\/F990-\/4fe7-\/922D-\/8515E477DD85\}}}
+\DoxyCodeLine{1307 DEFINE\_GUID(IID\_ID3DXMatrixStack, }
+\DoxyCodeLine{1308 0xc7885ba7, 0xf990, 0x4fe7, 0x92, 0x2d, 0x85, 0x15, 0xe4, 0x77, 0xdd, 0x85);}
+\DoxyCodeLine{1309 }
+\DoxyCodeLine{1310 }
+\DoxyCodeLine{1311 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{1312 \textcolor{preprocessor}{\#define INTERFACE ID3DXMatrixStack}}
+\DoxyCodeLine{1313 }
+\DoxyCodeLine{1314 DECLARE\_INTERFACE\_(ID3DXMatrixStack, IUnknown)}
+\DoxyCodeLine{1315 \{}
+\DoxyCodeLine{1316     \textcolor{comment}{//}}
+\DoxyCodeLine{1317     \textcolor{comment}{// IUnknown methods}}
+\DoxyCodeLine{1318     \textcolor{comment}{//}}
+\DoxyCodeLine{1319     STDMETHOD(QueryInterface)(THIS\_ REFIID riid, LPVOID * ppvObj) PURE;}
+\DoxyCodeLine{1320     STDMETHOD\_(ULONG,AddRef)(THIS) PURE;}
+\DoxyCodeLine{1321     STDMETHOD\_(ULONG,Release)(THIS) PURE;}
+\DoxyCodeLine{1322 }
+\DoxyCodeLine{1323     \textcolor{comment}{//}}
+\DoxyCodeLine{1324     \textcolor{comment}{// ID3DXMatrixStack methods}}
+\DoxyCodeLine{1325     \textcolor{comment}{//}}
+\DoxyCodeLine{1326 }
+\DoxyCodeLine{1327     \textcolor{comment}{// Pops the top of the stack, returns the current top}}
+\DoxyCodeLine{1328     \textcolor{comment}{// *after* popping the top.}}
+\DoxyCodeLine{1329     STDMETHOD(Pop)(THIS) PURE;}
+\DoxyCodeLine{1330 }
+\DoxyCodeLine{1331     \textcolor{comment}{// Pushes the stack by one, duplicating the current matrix.}}
+\DoxyCodeLine{1332     STDMETHOD(Push)(THIS) PURE;}
+\DoxyCodeLine{1333 }
+\DoxyCodeLine{1334     \textcolor{comment}{// Loads identity in the current matrix.}}
+\DoxyCodeLine{1335     STDMETHOD(LoadIdentity)(THIS) PURE;}
+\DoxyCodeLine{1336 }
+\DoxyCodeLine{1337     \textcolor{comment}{// Loads the given matrix into the current matrix}}
+\DoxyCodeLine{1338     STDMETHOD(LoadMatrix)(THIS\_ CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* pM ) PURE;}
+\DoxyCodeLine{1339 }
+\DoxyCodeLine{1340     \textcolor{comment}{// Right-\/Multiplies the given matrix to the current matrix.}}
+\DoxyCodeLine{1341     \textcolor{comment}{// (transformation is about the current world origin)}}
+\DoxyCodeLine{1342     STDMETHOD(MultMatrix)(THIS\_ CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* pM ) PURE;}
+\DoxyCodeLine{1343 }
+\DoxyCodeLine{1344     \textcolor{comment}{// Left-\/Multiplies the given matrix to the current matrix}}
+\DoxyCodeLine{1345     \textcolor{comment}{// (transformation is about the local origin of the object)}}
+\DoxyCodeLine{1346     STDMETHOD(MultMatrixLocal)(THIS\_ CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}* pM ) PURE;}
+\DoxyCodeLine{1347 }
+\DoxyCodeLine{1348     \textcolor{comment}{// Right multiply the current matrix with the computed rotation}}
+\DoxyCodeLine{1349     \textcolor{comment}{// matrix, counterclockwise about the given axis with the given angle.}}
+\DoxyCodeLine{1350     \textcolor{comment}{// (rotation is about the current world origin)}}
+\DoxyCodeLine{1351     STDMETHOD(RotateAxis)}
+\DoxyCodeLine{1352         (THIS\_ CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* pV, FLOAT Angle) PURE;}
+\DoxyCodeLine{1353 }
+\DoxyCodeLine{1354     \textcolor{comment}{// Left multiply the current matrix with the computed rotation}}
+\DoxyCodeLine{1355     \textcolor{comment}{// matrix, counterclockwise about the given axis with the given angle.}}
+\DoxyCodeLine{1356     \textcolor{comment}{// (rotation is about the local origin of the object)}}
+\DoxyCodeLine{1357     STDMETHOD(RotateAxisLocal)}
+\DoxyCodeLine{1358         (THIS\_ CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}}* pV, FLOAT Angle) PURE;}
+\DoxyCodeLine{1359 }
+\DoxyCodeLine{1360     \textcolor{comment}{// Right multiply the current matrix with the computed rotation}}
+\DoxyCodeLine{1361     \textcolor{comment}{// matrix. All angles are counterclockwise. (rotation is about the}}
+\DoxyCodeLine{1362     \textcolor{comment}{// current world origin)}}
+\DoxyCodeLine{1363 }
+\DoxyCodeLine{1364     \textcolor{comment}{// The rotation is composed of a yaw around the Y axis, a pitch around}}
+\DoxyCodeLine{1365     \textcolor{comment}{// the X axis, and a roll around the Z axis.}}
+\DoxyCodeLine{1366     STDMETHOD(RotateYawPitchRoll)}
+\DoxyCodeLine{1367         (THIS\_ FLOAT Yaw, FLOAT Pitch, FLOAT Roll) PURE;}
+\DoxyCodeLine{1368 }
+\DoxyCodeLine{1369     \textcolor{comment}{// Left multiply the current matrix with the computed rotation}}
+\DoxyCodeLine{1370     \textcolor{comment}{// matrix. All angles are counterclockwise. (rotation is about the}}
+\DoxyCodeLine{1371     \textcolor{comment}{// local origin of the object)}}
+\DoxyCodeLine{1372 }
+\DoxyCodeLine{1373     \textcolor{comment}{// The rotation is composed of a yaw around the Y axis, a pitch around}}
+\DoxyCodeLine{1374     \textcolor{comment}{// the X axis, and a roll around the Z axis.}}
+\DoxyCodeLine{1375     STDMETHOD(RotateYawPitchRollLocal)}
+\DoxyCodeLine{1376         (THIS\_ FLOAT Yaw, FLOAT Pitch, FLOAT Roll) PURE;}
+\DoxyCodeLine{1377 }
+\DoxyCodeLine{1378     \textcolor{comment}{// Right multiply the current matrix with the computed scale}}
+\DoxyCodeLine{1379     \textcolor{comment}{// matrix. (transformation is about the current world origin)}}
+\DoxyCodeLine{1380     STDMETHOD(Scale)(THIS\_ FLOAT x, FLOAT y, FLOAT z) PURE;}
+\DoxyCodeLine{1381 }
+\DoxyCodeLine{1382     \textcolor{comment}{// Left multiply the current matrix with the computed scale}}
+\DoxyCodeLine{1383     \textcolor{comment}{// matrix. (transformation is about the local origin of the object)}}
+\DoxyCodeLine{1384     STDMETHOD(ScaleLocal)(THIS\_ FLOAT x, FLOAT y, FLOAT z) PURE;}
+\DoxyCodeLine{1385 }
+\DoxyCodeLine{1386     \textcolor{comment}{// Right multiply the current matrix with the computed translation}}
+\DoxyCodeLine{1387     \textcolor{comment}{// matrix. (transformation is about the current world origin)}}
+\DoxyCodeLine{1388     STDMETHOD(Translate)(THIS\_ FLOAT x, FLOAT y, FLOAT z ) PURE;}
+\DoxyCodeLine{1389 }
+\DoxyCodeLine{1390     \textcolor{comment}{// Left multiply the current matrix with the computed translation}}
+\DoxyCodeLine{1391     \textcolor{comment}{// matrix. (transformation is about the local origin of the object)}}
+\DoxyCodeLine{1392     STDMETHOD(TranslateLocal)(THIS\_ FLOAT x, FLOAT y, FLOAT z) PURE;}
+\DoxyCodeLine{1393 }
+\DoxyCodeLine{1394     \textcolor{comment}{// Obtain the current matrix at the top of the stack}}
+\DoxyCodeLine{1395     STDMETHOD\_(\mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}}*, GetTop)(THIS) PURE;}
+\DoxyCodeLine{1396 \};}
+\DoxyCodeLine{1397 }
+\DoxyCodeLine{1398 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{1399 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{1400 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1401 }
+\DoxyCodeLine{1402 HRESULT WINAPI }
+\DoxyCodeLine{1403     D3DXCreateMatrixStack( }
+\DoxyCodeLine{1404         DWORD               Flags, }
+\DoxyCodeLine{1405         LPD3DXMATRIXSTACK*  ppStack);}
+\DoxyCodeLine{1406 }
+\DoxyCodeLine{1407 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{1408 \}}
+\DoxyCodeLine{1409 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1410 }
+\DoxyCodeLine{1411 \textcolor{comment}{//===========================================================================}}
+\DoxyCodeLine{1412 \textcolor{comment}{//}}
+\DoxyCodeLine{1413 \textcolor{comment}{//  Spherical Harmonic Runtime Routines}}
+\DoxyCodeLine{1414 \textcolor{comment}{//}}
+\DoxyCodeLine{1415 \textcolor{comment}{// NOTE:}}
+\DoxyCodeLine{1416 \textcolor{comment}{//  * Most of these functions can take the same object as in and out parameters.}}
+\DoxyCodeLine{1417 \textcolor{comment}{//    The exceptions are the rotation functions.  }}
+\DoxyCodeLine{1418 \textcolor{comment}{//}}
+\DoxyCodeLine{1419 \textcolor{comment}{//  * Out parameters are typically also returned as return values, so that}}
+\DoxyCodeLine{1420 \textcolor{comment}{//    the output of one function may be used as a parameter to another.}}
+\DoxyCodeLine{1421 \textcolor{comment}{//}}
+\DoxyCodeLine{1422 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1423 }
+\DoxyCodeLine{1424 }
+\DoxyCodeLine{1425 \textcolor{comment}{// non-\/inline}}
+\DoxyCodeLine{1426 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{1427 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{1428 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1429 }
+\DoxyCodeLine{1430 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1431 \textcolor{comment}{//}}
+\DoxyCodeLine{1432 \textcolor{comment}{//  Basic Spherical Harmonic math routines}}
+\DoxyCodeLine{1433 \textcolor{comment}{//}}
+\DoxyCodeLine{1434 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1435 }
+\DoxyCodeLine{1436 \textcolor{preprocessor}{\#define D3DXSH\_MINORDER 2}}
+\DoxyCodeLine{1437 \textcolor{preprocessor}{\#define D3DXSH\_MAXORDER 6}}
+\DoxyCodeLine{1438 }
+\DoxyCodeLine{1439 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1440 \textcolor{comment}{//}}
+\DoxyCodeLine{1441 \textcolor{comment}{//  D3DXSHEvalDirection:}}
+\DoxyCodeLine{1442 \textcolor{comment}{//  -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1443 \textcolor{comment}{//  Evaluates the Spherical Harmonic basis functions}}
+\DoxyCodeLine{1444 \textcolor{comment}{//}}
+\DoxyCodeLine{1445 \textcolor{comment}{//  Parameters:}}
+\DoxyCodeLine{1446 \textcolor{comment}{//   pOut}}
+\DoxyCodeLine{1447 \textcolor{comment}{//      Output SH coefficients -\/ basis function Ylm is stored at l*l + m+l}}
+\DoxyCodeLine{1448 \textcolor{comment}{//      This is the pointer that is returned.}}
+\DoxyCodeLine{1449 \textcolor{comment}{//   Order}}
+\DoxyCodeLine{1450 \textcolor{comment}{//      Order of the SH evaluation, generates Order\string^2 coefs, degree is Order-\/1}}
+\DoxyCodeLine{1451 \textcolor{comment}{//   pDir}}
+\DoxyCodeLine{1452 \textcolor{comment}{//      Direction to evaluate in -\/ assumed to be normalized}}
+\DoxyCodeLine{1453 \textcolor{comment}{//}}
+\DoxyCodeLine{1454 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1455 }
+\DoxyCodeLine{1456 FLOAT* WINAPI D3DXSHEvalDirection}
+\DoxyCodeLine{1457     (  FLOAT *pOut, UINT Order, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pDir );}
+\DoxyCodeLine{1458     }
+\DoxyCodeLine{1459 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1460 \textcolor{comment}{//}}
+\DoxyCodeLine{1461 \textcolor{comment}{//  D3DXSHRotate:}}
+\DoxyCodeLine{1462 \textcolor{comment}{//  -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1463 \textcolor{comment}{//  Rotates SH vector by a rotation matrix}}
+\DoxyCodeLine{1464 \textcolor{comment}{//}}
+\DoxyCodeLine{1465 \textcolor{comment}{//  Parameters:}}
+\DoxyCodeLine{1466 \textcolor{comment}{//   pOut}}
+\DoxyCodeLine{1467 \textcolor{comment}{//      Output SH coefficients -\/ basis function Ylm is stored at l*l + m+l}}
+\DoxyCodeLine{1468 \textcolor{comment}{//      This is the pointer that is returned (should not alias with pIn.)}}
+\DoxyCodeLine{1469 \textcolor{comment}{//   Order}}
+\DoxyCodeLine{1470 \textcolor{comment}{//      Order of the SH evaluation, generates Order\string^2 coefs, degree is Order-\/1}}
+\DoxyCodeLine{1471 \textcolor{comment}{//   pMatrix}}
+\DoxyCodeLine{1472 \textcolor{comment}{//      Matrix used for rotation -\/ rotation sub matrix should be orthogonal}}
+\DoxyCodeLine{1473 \textcolor{comment}{//      and have a unit determinant.}}
+\DoxyCodeLine{1474 \textcolor{comment}{//   pIn}}
+\DoxyCodeLine{1475 \textcolor{comment}{//      Input SH coeffs (rotated), incorect results if this is also output.}}
+\DoxyCodeLine{1476 \textcolor{comment}{//}}
+\DoxyCodeLine{1477 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1478 }
+\DoxyCodeLine{1479 FLOAT* WINAPI D3DXSHRotate}
+\DoxyCodeLine{1480     ( FLOAT *pOut, UINT Order, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pMatrix, CONST FLOAT *pIn );}
+\DoxyCodeLine{1481     }
+\DoxyCodeLine{1482 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1483 \textcolor{comment}{//}}
+\DoxyCodeLine{1484 \textcolor{comment}{//  D3DXSHRotateZ:}}
+\DoxyCodeLine{1485 \textcolor{comment}{//  -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1486 \textcolor{comment}{//  Rotates the SH vector in the Z axis by an angle}}
+\DoxyCodeLine{1487 \textcolor{comment}{//}}
+\DoxyCodeLine{1488 \textcolor{comment}{//  Parameters:}}
+\DoxyCodeLine{1489 \textcolor{comment}{//   pOut}}
+\DoxyCodeLine{1490 \textcolor{comment}{//      Output SH coefficients -\/ basis function Ylm is stored at l*l + m+l}}
+\DoxyCodeLine{1491 \textcolor{comment}{//      This is the pointer that is returned (should not alias with pIn.)}}
+\DoxyCodeLine{1492 \textcolor{comment}{//   Order}}
+\DoxyCodeLine{1493 \textcolor{comment}{//      Order of the SH evaluation, generates Order\string^2 coefs, degree is Order-\/1}}
+\DoxyCodeLine{1494 \textcolor{comment}{//   Angle}}
+\DoxyCodeLine{1495 \textcolor{comment}{//      Angle in radians to rotate around the Z axis.}}
+\DoxyCodeLine{1496 \textcolor{comment}{//   pIn}}
+\DoxyCodeLine{1497 \textcolor{comment}{//      Input SH coeffs (rotated), incorect results if this is also output.}}
+\DoxyCodeLine{1498 \textcolor{comment}{//}}
+\DoxyCodeLine{1499 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1500 }
+\DoxyCodeLine{1501 }
+\DoxyCodeLine{1502 FLOAT* WINAPI D3DXSHRotateZ}
+\DoxyCodeLine{1503     ( FLOAT *pOut, UINT Order, FLOAT Angle, CONST FLOAT *pIn );}
+\DoxyCodeLine{1504     }
+\DoxyCodeLine{1505 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1506 \textcolor{comment}{//}}
+\DoxyCodeLine{1507 \textcolor{comment}{//  D3DXSHAdd:}}
+\DoxyCodeLine{1508 \textcolor{comment}{//  -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1509 \textcolor{comment}{//  Adds two SH vectors, pOut[i] = pA[i] + pB[i];}}
+\DoxyCodeLine{1510 \textcolor{comment}{//}}
+\DoxyCodeLine{1511 \textcolor{comment}{//  Parameters:}}
+\DoxyCodeLine{1512 \textcolor{comment}{//   pOut}}
+\DoxyCodeLine{1513 \textcolor{comment}{//      Output SH coefficients -\/ basis function Ylm is stored at l*l + m+l}}
+\DoxyCodeLine{1514 \textcolor{comment}{//      This is the pointer that is returned.}}
+\DoxyCodeLine{1515 \textcolor{comment}{//   Order}}
+\DoxyCodeLine{1516 \textcolor{comment}{//      Order of the SH evaluation, generates Order\string^2 coefs, degree is Order-\/1}}
+\DoxyCodeLine{1517 \textcolor{comment}{//   pA}}
+\DoxyCodeLine{1518 \textcolor{comment}{//      Input SH coeffs.}}
+\DoxyCodeLine{1519 \textcolor{comment}{//   pB}}
+\DoxyCodeLine{1520 \textcolor{comment}{//      Input SH coeffs (second vector.)}}
+\DoxyCodeLine{1521 \textcolor{comment}{//}}
+\DoxyCodeLine{1522 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1523 }
+\DoxyCodeLine{1524 FLOAT* WINAPI D3DXSHAdd}
+\DoxyCodeLine{1525     ( FLOAT *pOut, UINT Order, CONST FLOAT *pA, CONST FLOAT *pB );}
+\DoxyCodeLine{1526 }
+\DoxyCodeLine{1527 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1528 \textcolor{comment}{//}}
+\DoxyCodeLine{1529 \textcolor{comment}{//  D3DXSHScale:}}
+\DoxyCodeLine{1530 \textcolor{comment}{//  -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1531 \textcolor{comment}{//  Adds two SH vectors, pOut[i] = pA[i]*Scale;}}
+\DoxyCodeLine{1532 \textcolor{comment}{//}}
+\DoxyCodeLine{1533 \textcolor{comment}{//  Parameters:}}
+\DoxyCodeLine{1534 \textcolor{comment}{//   pOut}}
+\DoxyCodeLine{1535 \textcolor{comment}{//      Output SH coefficients -\/ basis function Ylm is stored at l*l + m+l}}
+\DoxyCodeLine{1536 \textcolor{comment}{//      This is the pointer that is returned.}}
+\DoxyCodeLine{1537 \textcolor{comment}{//   Order}}
+\DoxyCodeLine{1538 \textcolor{comment}{//      Order of the SH evaluation, generates Order\string^2 coefs, degree is Order-\/1}}
+\DoxyCodeLine{1539 \textcolor{comment}{//   pIn}}
+\DoxyCodeLine{1540 \textcolor{comment}{//      Input SH coeffs.}}
+\DoxyCodeLine{1541 \textcolor{comment}{//   Scale}}
+\DoxyCodeLine{1542 \textcolor{comment}{//      Scale factor.}}
+\DoxyCodeLine{1543 \textcolor{comment}{//}}
+\DoxyCodeLine{1544 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1545 }
+\DoxyCodeLine{1546 FLOAT* WINAPI D3DXSHScale}
+\DoxyCodeLine{1547     ( FLOAT *pOut, UINT Order, CONST FLOAT *pIn, CONST FLOAT Scale );}
+\DoxyCodeLine{1548     }
+\DoxyCodeLine{1549 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1550 \textcolor{comment}{//}}
+\DoxyCodeLine{1551 \textcolor{comment}{//  D3DXSHDot:}}
+\DoxyCodeLine{1552 \textcolor{comment}{//  -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1553 \textcolor{comment}{//  Computes the dot product of two SH vectors}}
+\DoxyCodeLine{1554 \textcolor{comment}{//}}
+\DoxyCodeLine{1555 \textcolor{comment}{//  Parameters:}}
+\DoxyCodeLine{1556 \textcolor{comment}{//   Order}}
+\DoxyCodeLine{1557 \textcolor{comment}{//      Order of the SH evaluation, generates Order\string^2 coefs, degree is Order-\/1}}
+\DoxyCodeLine{1558 \textcolor{comment}{//   pA}}
+\DoxyCodeLine{1559 \textcolor{comment}{//      Input SH coeffs.}}
+\DoxyCodeLine{1560 \textcolor{comment}{//   pB}}
+\DoxyCodeLine{1561 \textcolor{comment}{//      Second set of input SH coeffs.}}
+\DoxyCodeLine{1562 \textcolor{comment}{//}}
+\DoxyCodeLine{1563 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1564 }
+\DoxyCodeLine{1565 FLOAT WINAPI D3DXSHDot}
+\DoxyCodeLine{1566     ( UINT Order, CONST FLOAT *pA, CONST FLOAT *pB );}
+\DoxyCodeLine{1567 }
+\DoxyCodeLine{1568 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1569 \textcolor{comment}{//}}
+\DoxyCodeLine{1570 \textcolor{comment}{//  Basic Spherical Harmonic lighting routines}}
+\DoxyCodeLine{1571 \textcolor{comment}{//}}
+\DoxyCodeLine{1572 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1573 }
+\DoxyCodeLine{1574 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1575 \textcolor{comment}{//}}
+\DoxyCodeLine{1576 \textcolor{comment}{//  D3DXSHEvalDirectionalLight:}}
+\DoxyCodeLine{1577 \textcolor{comment}{//  -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1578 \textcolor{comment}{//  Evaluates a directional light and returns spectral SH data.  The output }}
+\DoxyCodeLine{1579 \textcolor{comment}{//  vector is computed so that if the intensity of R/G/B is unit the resulting}}
+\DoxyCodeLine{1580 \textcolor{comment}{//  exit radiance of a point directly under the light on a diffuse object with}}
+\DoxyCodeLine{1581 \textcolor{comment}{//  an albedo of 1 would be 1.0.  This will compute 3 spectral samples, pROut}}
+\DoxyCodeLine{1582 \textcolor{comment}{//  has to be specified, while pGout and pBout are optional.}}
+\DoxyCodeLine{1583 \textcolor{comment}{//}}
+\DoxyCodeLine{1584 \textcolor{comment}{//  Parameters:}}
+\DoxyCodeLine{1585 \textcolor{comment}{//   Order}}
+\DoxyCodeLine{1586 \textcolor{comment}{//      Order of the SH evaluation, generates Order\string^2 coefs, degree is Order-\/1}}
+\DoxyCodeLine{1587 \textcolor{comment}{//   pDir}}
+\DoxyCodeLine{1588 \textcolor{comment}{//      Direction light is coming from (assumed to be normalized.)}}
+\DoxyCodeLine{1589 \textcolor{comment}{//   RIntensity}}
+\DoxyCodeLine{1590 \textcolor{comment}{//      Red intensity of light.}}
+\DoxyCodeLine{1591 \textcolor{comment}{//   GIntensity}}
+\DoxyCodeLine{1592 \textcolor{comment}{//      Green intensity of light.}}
+\DoxyCodeLine{1593 \textcolor{comment}{//   BIntensity}}
+\DoxyCodeLine{1594 \textcolor{comment}{//      Blue intensity of light.}}
+\DoxyCodeLine{1595 \textcolor{comment}{//   pROut}}
+\DoxyCodeLine{1596 \textcolor{comment}{//      Output SH vector for Red.}}
+\DoxyCodeLine{1597 \textcolor{comment}{//   pGOut}}
+\DoxyCodeLine{1598 \textcolor{comment}{//      Output SH vector for Green (optional.)}}
+\DoxyCodeLine{1599 \textcolor{comment}{//   pBOut}}
+\DoxyCodeLine{1600 \textcolor{comment}{//      Output SH vector for Blue (optional.)        }}
+\DoxyCodeLine{1601 \textcolor{comment}{//}}
+\DoxyCodeLine{1602 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1603 }
+\DoxyCodeLine{1604 HRESULT WINAPI D3DXSHEvalDirectionalLight}
+\DoxyCodeLine{1605     ( UINT Order, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pDir, }
+\DoxyCodeLine{1606       FLOAT RIntensity, FLOAT GIntensity, FLOAT BIntensity,}
+\DoxyCodeLine{1607       FLOAT *pROut, FLOAT *pGOut, FLOAT *pBOut );}
+\DoxyCodeLine{1608 }
+\DoxyCodeLine{1609 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1610 \textcolor{comment}{//}}
+\DoxyCodeLine{1611 \textcolor{comment}{//  D3DXSHEvalSphericalLight:}}
+\DoxyCodeLine{1612 \textcolor{comment}{//  -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1613 \textcolor{comment}{//  Evaluates a spherical light and returns spectral SH data.  There is no }}
+\DoxyCodeLine{1614 \textcolor{comment}{//  normalization of the intensity of the light like there is for directional}}
+\DoxyCodeLine{1615 \textcolor{comment}{//  lights, care has to be taken when specifiying the intensities.  This will }}
+\DoxyCodeLine{1616 \textcolor{comment}{//  compute 3 spectral samples, pROut has to be specified, while pGout and }}
+\DoxyCodeLine{1617 \textcolor{comment}{//  pBout are optional.}}
+\DoxyCodeLine{1618 \textcolor{comment}{//}}
+\DoxyCodeLine{1619 \textcolor{comment}{//  Parameters:}}
+\DoxyCodeLine{1620 \textcolor{comment}{//   Order}}
+\DoxyCodeLine{1621 \textcolor{comment}{//      Order of the SH evaluation, generates Order\string^2 coefs, degree is Order-\/1}}
+\DoxyCodeLine{1622 \textcolor{comment}{//   pPos}}
+\DoxyCodeLine{1623 \textcolor{comment}{//      Position of light -\/ reciever is assumed to be at the origin.}}
+\DoxyCodeLine{1624 \textcolor{comment}{//   Radius}}
+\DoxyCodeLine{1625 \textcolor{comment}{//      Radius of the spherical light source.}}
+\DoxyCodeLine{1626 \textcolor{comment}{//   RIntensity}}
+\DoxyCodeLine{1627 \textcolor{comment}{//      Red intensity of light.}}
+\DoxyCodeLine{1628 \textcolor{comment}{//   GIntensity}}
+\DoxyCodeLine{1629 \textcolor{comment}{//      Green intensity of light.}}
+\DoxyCodeLine{1630 \textcolor{comment}{//   BIntensity}}
+\DoxyCodeLine{1631 \textcolor{comment}{//      Blue intensity of light.}}
+\DoxyCodeLine{1632 \textcolor{comment}{//   pROut}}
+\DoxyCodeLine{1633 \textcolor{comment}{//      Output SH vector for Red.}}
+\DoxyCodeLine{1634 \textcolor{comment}{//   pGOut}}
+\DoxyCodeLine{1635 \textcolor{comment}{//      Output SH vector for Green (optional.)}}
+\DoxyCodeLine{1636 \textcolor{comment}{//   pBOut}}
+\DoxyCodeLine{1637 \textcolor{comment}{//      Output SH vector for Blue (optional.)        }}
+\DoxyCodeLine{1638 \textcolor{comment}{//}}
+\DoxyCodeLine{1639 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1640 }
+\DoxyCodeLine{1641 HRESULT WINAPI D3DXSHEvalSphericalLight}
+\DoxyCodeLine{1642     ( UINT Order, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pPos, FLOAT Radius,}
+\DoxyCodeLine{1643       FLOAT RIntensity, FLOAT GIntensity, FLOAT BIntensity,}
+\DoxyCodeLine{1644       FLOAT *pROut, FLOAT *pGOut, FLOAT *pBOut );}
+\DoxyCodeLine{1645 }
+\DoxyCodeLine{1646 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1647 \textcolor{comment}{//}}
+\DoxyCodeLine{1648 \textcolor{comment}{//  D3DXSHEvalConeLight:}}
+\DoxyCodeLine{1649 \textcolor{comment}{//  -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1650 \textcolor{comment}{//  Evaluates a light that is a cone of constant intensity and returns spectral}}
+\DoxyCodeLine{1651 \textcolor{comment}{//  SH data.  The output vector is computed so that if the intensity of R/G/B is}}
+\DoxyCodeLine{1652 \textcolor{comment}{//  unit the resulting exit radiance of a point directly under the light oriented}}
+\DoxyCodeLine{1653 \textcolor{comment}{//  in the cone direction on a diffuse object with an albedo of 1 would be 1.0.}}
+\DoxyCodeLine{1654 \textcolor{comment}{//  This will compute 3 spectral samples, pROut has to be specified, while pGout}}
+\DoxyCodeLine{1655 \textcolor{comment}{//  and pBout are optional.}}
+\DoxyCodeLine{1656 \textcolor{comment}{//}}
+\DoxyCodeLine{1657 \textcolor{comment}{//  Parameters:}}
+\DoxyCodeLine{1658 \textcolor{comment}{//   Order}}
+\DoxyCodeLine{1659 \textcolor{comment}{//      Order of the SH evaluation, generates Order\string^2 coefs, degree is Order-\/1}}
+\DoxyCodeLine{1660 \textcolor{comment}{//   pDir}}
+\DoxyCodeLine{1661 \textcolor{comment}{//      Direction light is coming from (assumed to be normalized.)}}
+\DoxyCodeLine{1662 \textcolor{comment}{//   Radius}}
+\DoxyCodeLine{1663 \textcolor{comment}{//      Radius of cone in radians.}}
+\DoxyCodeLine{1664 \textcolor{comment}{//   RIntensity}}
+\DoxyCodeLine{1665 \textcolor{comment}{//      Red intensity of light.}}
+\DoxyCodeLine{1666 \textcolor{comment}{//   GIntensity}}
+\DoxyCodeLine{1667 \textcolor{comment}{//      Green intensity of light.}}
+\DoxyCodeLine{1668 \textcolor{comment}{//   BIntensity}}
+\DoxyCodeLine{1669 \textcolor{comment}{//      Blue intensity of light.}}
+\DoxyCodeLine{1670 \textcolor{comment}{//   pROut}}
+\DoxyCodeLine{1671 \textcolor{comment}{//      Output SH vector for Red.}}
+\DoxyCodeLine{1672 \textcolor{comment}{//   pGOut}}
+\DoxyCodeLine{1673 \textcolor{comment}{//      Output SH vector for Green (optional.)}}
+\DoxyCodeLine{1674 \textcolor{comment}{//   pBOut}}
+\DoxyCodeLine{1675 \textcolor{comment}{//      Output SH vector for Blue (optional.)        }}
+\DoxyCodeLine{1676 \textcolor{comment}{//}}
+\DoxyCodeLine{1677 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1678 }
+\DoxyCodeLine{1679 HRESULT WINAPI D3DXSHEvalConeLight}
+\DoxyCodeLine{1680     ( UINT Order, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pDir, FLOAT Radius,}
+\DoxyCodeLine{1681       FLOAT RIntensity, FLOAT GIntensity, FLOAT BIntensity,}
+\DoxyCodeLine{1682       FLOAT *pROut, FLOAT *pGOut, FLOAT *pBOut );}
+\DoxyCodeLine{1683       }
+\DoxyCodeLine{1684 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1685 \textcolor{comment}{//}}
+\DoxyCodeLine{1686 \textcolor{comment}{//  D3DXSHEvalHemisphereLight:}}
+\DoxyCodeLine{1687 \textcolor{comment}{//  -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1688 \textcolor{comment}{//  Evaluates a light that is a linear interpolant between two colors over the}}
+\DoxyCodeLine{1689 \textcolor{comment}{//  sphere.  The interpolant is linear along the axis of the two points, not}}
+\DoxyCodeLine{1690 \textcolor{comment}{//  over the surface of the sphere (ie: if the axis was (0,0,1) it is linear in}}
+\DoxyCodeLine{1691 \textcolor{comment}{//  Z, not in the azimuthal angle.)  The resulting spherical lighting function}}
+\DoxyCodeLine{1692 \textcolor{comment}{//  is normalized so that a point on a perfectly diffuse surface with no}}
+\DoxyCodeLine{1693 \textcolor{comment}{//  shadowing and a normal pointed in the direction pDir would result in exit}}
+\DoxyCodeLine{1694 \textcolor{comment}{//  radiance with a value of 1 if the top color was white and the bottom color}}
+\DoxyCodeLine{1695 \textcolor{comment}{//  was black.  This is a very simple model where Top represents the intensity }}
+\DoxyCodeLine{1696 \textcolor{comment}{//  of the "{}sky"{} and Bottom represents the intensity of the "{}ground"{}.}}
+\DoxyCodeLine{1697 \textcolor{comment}{//}}
+\DoxyCodeLine{1698 \textcolor{comment}{//  Parameters:}}
+\DoxyCodeLine{1699 \textcolor{comment}{//   Order}}
+\DoxyCodeLine{1700 \textcolor{comment}{//      Order of the SH evaluation, generates Order\string^2 coefs, degree is Order-\/1}}
+\DoxyCodeLine{1701 \textcolor{comment}{//   pDir}}
+\DoxyCodeLine{1702 \textcolor{comment}{//      Axis of the hemisphere.}}
+\DoxyCodeLine{1703 \textcolor{comment}{//   Top}}
+\DoxyCodeLine{1704 \textcolor{comment}{//      Color of the upper hemisphere.}}
+\DoxyCodeLine{1705 \textcolor{comment}{//   Bottom}}
+\DoxyCodeLine{1706 \textcolor{comment}{//      Color of the lower hemisphere.}}
+\DoxyCodeLine{1707 \textcolor{comment}{//   pROut}}
+\DoxyCodeLine{1708 \textcolor{comment}{//      Output SH vector for Red.}}
+\DoxyCodeLine{1709 \textcolor{comment}{//   pGOut}}
+\DoxyCodeLine{1710 \textcolor{comment}{//      Output SH vector for Green}}
+\DoxyCodeLine{1711 \textcolor{comment}{//   pBOut}}
+\DoxyCodeLine{1712 \textcolor{comment}{//      Output SH vector for Blue        }}
+\DoxyCodeLine{1713 \textcolor{comment}{//}}
+\DoxyCodeLine{1714 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1715 }
+\DoxyCodeLine{1716 HRESULT WINAPI D3DXSHEvalHemisphereLight}
+\DoxyCodeLine{1717     ( UINT Order, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pDir, \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} Top, \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} Bottom,}
+\DoxyCodeLine{1718       FLOAT *pROut, FLOAT *pGOut, FLOAT *pBOut );}
+\DoxyCodeLine{1719 }
+\DoxyCodeLine{1720 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1721 \textcolor{comment}{//}}
+\DoxyCodeLine{1722 \textcolor{comment}{//  Basic Spherical Harmonic projection routines}}
+\DoxyCodeLine{1723 \textcolor{comment}{//}}
+\DoxyCodeLine{1724 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1725 }
+\DoxyCodeLine{1726 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1727 \textcolor{comment}{//}}
+\DoxyCodeLine{1728 \textcolor{comment}{//  D3DXSHProjectCubeMap:}}
+\DoxyCodeLine{1729 \textcolor{comment}{//  -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1730 \textcolor{comment}{//  Projects a function represented on a cube map into spherical harmonics.}}
+\DoxyCodeLine{1731 \textcolor{comment}{//}}
+\DoxyCodeLine{1732 \textcolor{comment}{//  Parameters:}}
+\DoxyCodeLine{1733 \textcolor{comment}{//   Order}}
+\DoxyCodeLine{1734 \textcolor{comment}{//      Order of the SH evaluation, generates Order\string^2 coefs, degree is Order-\/1}}
+\DoxyCodeLine{1735 \textcolor{comment}{//   pCubeMap}}
+\DoxyCodeLine{1736 \textcolor{comment}{//      CubeMap that is going to be projected into spherical harmonics}}
+\DoxyCodeLine{1737 \textcolor{comment}{//   pROut}}
+\DoxyCodeLine{1738 \textcolor{comment}{//      Output SH vector for Red.}}
+\DoxyCodeLine{1739 \textcolor{comment}{//   pGOut}}
+\DoxyCodeLine{1740 \textcolor{comment}{//      Output SH vector for Green}}
+\DoxyCodeLine{1741 \textcolor{comment}{//   pBOut}}
+\DoxyCodeLine{1742 \textcolor{comment}{//      Output SH vector for Blue        }}
+\DoxyCodeLine{1743 \textcolor{comment}{//}}
+\DoxyCodeLine{1744 \textcolor{comment}{//============================================================================}}
+\DoxyCodeLine{1745 }
+\DoxyCodeLine{1746 HRESULT WINAPI D3DXSHProjectCubeMap}
+\DoxyCodeLine{1747     ( UINT uOrder, LPDIRECT3DCUBETEXTURE9 pCubeMap,}
+\DoxyCodeLine{1748       FLOAT *pROut, FLOAT *pGOut, FLOAT *pBOut );}
+\DoxyCodeLine{1749 }
+\DoxyCodeLine{1750 }
+\DoxyCodeLine{1751 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{1752 \}}
+\DoxyCodeLine{1753 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1754 }
+\DoxyCodeLine{1755 }
+\DoxyCodeLine{1756 \textcolor{preprocessor}{\#include "{}d3dx9math.inl"{}}}
+\DoxyCodeLine{1757 }
+\DoxyCodeLine{1758 \textcolor{preprocessor}{\#if \_MSC\_VER >= 1200}}
+\DoxyCodeLine{1759 \textcolor{preprocessor}{\#pragma warning(pop)}}
+\DoxyCodeLine{1760 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1761 \textcolor{preprocessor}{\#pragma warning(default:4201)}}
+\DoxyCodeLine{1762 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1763 }
+\DoxyCodeLine{1764 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_\_D3DX9MATH\_H\_\_}}
+\DoxyCodeLine{1765 }
+
+\end{DoxyCode}

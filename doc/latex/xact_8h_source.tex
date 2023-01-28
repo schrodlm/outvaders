@@ -1,0 +1,1078 @@
+\hypertarget{xact_8h_source}{}\doxysection{xact.\+h}
+\label{xact_8h_source}\index{src/lib/dx/Include/xact.h@{src/lib/dx/Include/xact.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*++}}
+\DoxyCodeLine{2 \textcolor{comment}{}}
+\DoxyCodeLine{3 \textcolor{comment}{Copyright (C) Microsoft Corporation.  All rights reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{}}
+\DoxyCodeLine{5 \textcolor{comment}{Module Name:}}
+\DoxyCodeLine{6 \textcolor{comment}{}}
+\DoxyCodeLine{7 \textcolor{comment}{    xact.h}}
+\DoxyCodeLine{8 \textcolor{comment}{}}
+\DoxyCodeLine{9 \textcolor{comment}{Abstract:}}
+\DoxyCodeLine{10 \textcolor{comment}{}}
+\DoxyCodeLine{11 \textcolor{comment}{    XACT public interfaces, functions and data types}}
+\DoxyCodeLine{12 \textcolor{comment}{}}
+\DoxyCodeLine{13 \textcolor{comment}{-\/-\/*/}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#ifndef \_XACT\_H\_}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#define \_XACT\_H\_}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{21 \textcolor{comment}{// XACT class and interface IDs}}
+\DoxyCodeLine{22 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#ifndef \_XBOX }\textcolor{comment}{// XACT COM support only exists on Windows}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{    \#include <comdecl.h>} \textcolor{comment}{// For DEFINE\_CLSID, DEFINE\_IID and DECLARE\_INTERFACE}}
+\DoxyCodeLine{25     DEFINE\_CLSID(XACTEngine,         0AA000AA, F404, 11D9, BD, 7A, 00, 10, DC, 4F, 8F, 81);}
+\DoxyCodeLine{26     DEFINE\_CLSID(XACTAuditionEngine, 0AA000AB, F404, 11D9, BD, 7A, 00, 10, DC, 4F, 8F, 81);}
+\DoxyCodeLine{27     DEFINE\_IID(IXACTEngine,          0AA000A0, F404, 11D9, BD, 7A, 00, 10, DC, 4F, 8F, 81);}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{comment}{// Ignore the rest of this header if only the GUID definitions were requested:}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#ifndef GUID\_DEFS\_ONLY}}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{34 \textcolor{comment}{// Includes}}
+\DoxyCodeLine{35 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#ifndef \_XBOX}}
+\DoxyCodeLine{38 \textcolor{preprocessor}{    \#include <windows.h>}}
+\DoxyCodeLine{39 \textcolor{preprocessor}{    \#include <objbase.h>}}
+\DoxyCodeLine{40 \textcolor{preprocessor}{    \#include <float.h>}}
+\DoxyCodeLine{41 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{42 \textcolor{preprocessor}{    \#include <xaudio.h>}}
+\DoxyCodeLine{43 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{46 \textcolor{comment}{// Forward Declarations}}
+\DoxyCodeLine{47 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IXACTSoundBank       IXACTSoundBank;}
+\DoxyCodeLine{50 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IXACTWaveBank        IXACTWaveBank;}
+\DoxyCodeLine{51 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IXACTCue             IXACTCue;}
+\DoxyCodeLine{52 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IXACTEngine          IXACTEngine;}
+\DoxyCodeLine{53 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n}{XACT\_NOTIFICATION}}    \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n}{XACT\_NOTIFICATION}};}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{57 \textcolor{comment}{// Typedefs}}
+\DoxyCodeLine{58 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60 \textcolor{keyword}{typedef} WORD  XACTINDEX;            \textcolor{comment}{// All normal indices}}
+\DoxyCodeLine{61 \textcolor{keyword}{typedef} BYTE  XACTNOTIFICATIONTYPE; \textcolor{comment}{// Notification type}}
+\DoxyCodeLine{62 \textcolor{keyword}{typedef} FLOAT XACTVARIABLEVALUE;    \textcolor{comment}{// Variable value}}
+\DoxyCodeLine{63 \textcolor{keyword}{typedef} WORD  XACTVARIABLEINDEX;    \textcolor{comment}{// Variable index}}
+\DoxyCodeLine{64 \textcolor{keyword}{typedef} WORD  XACTCATEGORY;         \textcolor{comment}{// Sound category}}
+\DoxyCodeLine{65 \textcolor{keyword}{typedef} BYTE  XACTCHANNEL;          \textcolor{comment}{// Audio channel}}
+\DoxyCodeLine{66 \textcolor{keyword}{typedef} FLOAT XACTVOLUME;           \textcolor{comment}{// Volume value}}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{68 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{69 \textcolor{comment}{// Constants}}
+\DoxyCodeLine{70 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTINDEX XACTINDEX\_MIN     = 0x0;}
+\DoxyCodeLine{73 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTINDEX XACTINDEX\_MAX     = 0xfffe;}
+\DoxyCodeLine{74 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTINDEX XACTINDEX\_INVALID = 0xffff;}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{76 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTNOTIFICATIONTYPE XACTNOTIFICATIONTYPE\_MIN  = 0x00;}
+\DoxyCodeLine{77 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTNOTIFICATIONTYPE XACTNOTIFICATIONTYPE\_MAX  = 0xff;}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTVARIABLEVALUE XACTVARIABLEVALUE\_MIN = -\/FLT\_MAX;}
+\DoxyCodeLine{80 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTVARIABLEVALUE XACTVARIABLEVALUE\_MAX = FLT\_MAX;}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{82 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTVARIABLEINDEX XACTVARIABLEINDEX\_MIN               = 0x0000;}
+\DoxyCodeLine{83 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTVARIABLEINDEX XACTVARIABLEINDEX\_MAX               = 0xfffe;}
+\DoxyCodeLine{84 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTVARIABLEINDEX XACTVARIABLEINDEX\_INVALID           = 0xffff;}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTCATEGORY XACTCATEGORY\_MIN     = 0x0;}
+\DoxyCodeLine{87 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTCATEGORY XACTCATEGORY\_MAX     = 0xfffe;}
+\DoxyCodeLine{88 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTCATEGORY XACTCATEGORY\_INVALID = 0xffff;}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{90 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTCHANNEL XACTCHANNEL\_MIN = 0;}
+\DoxyCodeLine{91 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTCHANNEL XACTCHANNEL\_MAX = 0xFF;}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{93 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTVOLUME XACTVOLUME\_MIN = 0.0f;}
+\DoxyCodeLine{94 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTVOLUME XACTVOLUME\_MAX = FLT\_MAX;}
+\DoxyCodeLine{95 }
+\DoxyCodeLine{96 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTVARIABLEVALUE XACTPARAMETERVALUE\_MIN = -\/FLT\_MAX;}
+\DoxyCodeLine{97 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTVARIABLEVALUE XACTPARAMETERVALUE\_MAX = FLT\_MAX;}
+\DoxyCodeLine{98 }
+\DoxyCodeLine{99 \textcolor{preprocessor}{\#ifdef \_XBOX}}
+\DoxyCodeLine{100 \textcolor{keyword}{static} \textcolor{keyword}{const} XAUDIOVOICEINDEX XACTMAXOUTPUTVOICECOUNT = 3;}
+\DoxyCodeLine{101 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_XBOX}}
+\DoxyCodeLine{102 }
+\DoxyCodeLine{103 \textcolor{preprocessor}{\#define XACT\_CONTENT\_VERSION    35}}
+\DoxyCodeLine{104 }
+\DoxyCodeLine{105 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{106 \textcolor{comment}{// XACT Parameters}}
+\DoxyCodeLine{107 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{109 \textcolor{keyword}{static} \textcolor{keyword}{const} DWORD XACT\_FLAG\_GLOBAL\_SETTINGS\_MANAGEDATA = 0x00000001;}
+\DoxyCodeLine{110 }
+\DoxyCodeLine{111 \textcolor{keyword}{typedef} BOOL (\_\_stdcall * XACT\_READFILE\_CALLBACK)(HANDLE hFile, LPVOID lpBuffer, DWORD nNumberOfBytesToRead, LPDWORD lpNumberOfBytesRead, LPOVERLAPPED lpOverlapped);}
+\DoxyCodeLine{112 \textcolor{keyword}{typedef} BOOL (\_\_stdcall * XACT\_GETOVERLAPPEDRESULT\_CALLBACK)(HANDLE hFile, LPOVERLAPPED lpOverlapped, LPDWORD lpNumberOfBytesTransferred, BOOL bWait);}
+\DoxyCodeLine{113 }
+\DoxyCodeLine{114 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x_a_c_t___f_i_l_e_i_o___c_a_l_l_b_a_c_k_s}{XACT\_FILEIO\_CALLBACKS}}}
+\DoxyCodeLine{115 \{}
+\DoxyCodeLine{116     XACT\_READFILE\_CALLBACK            readFileCallback;}
+\DoxyCodeLine{117     XACT\_GETOVERLAPPEDRESULT\_CALLBACK getOverlappedResultCallback;}
+\DoxyCodeLine{118 \} \mbox{\hyperlink{struct_x_a_c_t___f_i_l_e_i_o___c_a_l_l_b_a_c_k_s}{XACT\_FILEIO\_CALLBACKS}}, *\mbox{\hyperlink{struct_x_a_c_t___f_i_l_e_i_o___c_a_l_l_b_a_c_k_s}{PXACT\_FILEIO\_CALLBACKS}};}
+\DoxyCodeLine{119 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___f_i_l_e_i_o___c_a_l_l_b_a_c_k_s}{XACT\_FILEIO\_CALLBACKS}} *\mbox{\hyperlink{struct_x_a_c_t___f_i_l_e_i_o___c_a_l_l_b_a_c_k_s}{PCXACT\_FILEIO\_CALLBACKS}};}
+\DoxyCodeLine{120 }
+\DoxyCodeLine{121 \textcolor{comment}{// The callback that receives the notifications.}}
+\DoxyCodeLine{122 \textcolor{keyword}{typedef} void (\_\_stdcall * XACT\_NOTIFICATION\_CALLBACK)(\textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n}{XACT\_NOTIFICATION}}* pNotification);}
+\DoxyCodeLine{123 }
+\DoxyCodeLine{124 \textcolor{preprocessor}{\#ifndef \_XBOX}}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{126 \textcolor{preprocessor}{\#define XACT\_RENDERER\_ID\_LENGTH    0xff   }\textcolor{comment}{// Maximum number of characters allowed in the renderer ID}}
+\DoxyCodeLine{127 \textcolor{preprocessor}{\#define XACT\_RENDERER\_NAME\_LENGTH  0xff   }\textcolor{comment}{// Maximum number of characters allowed in the renderer display name.}}
+\DoxyCodeLine{128 }
+\DoxyCodeLine{129 \textcolor{comment}{// Renderer details}}
+\DoxyCodeLine{130 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x_a_c_t___r_e_n_d_e_r_e_r___d_e_t_a_i_l_s}{XACT\_RENDERER\_DETAILS}}}
+\DoxyCodeLine{131 \{}
+\DoxyCodeLine{132     WCHAR rendererID[XACT\_RENDERER\_ID\_LENGTH];      \textcolor{comment}{// The string ID for the rendering device.}}
+\DoxyCodeLine{133     WCHAR displayName[XACT\_RENDERER\_NAME\_LENGTH];   \textcolor{comment}{// A friendly name suitable for display to a human.}}
+\DoxyCodeLine{134 \} \mbox{\hyperlink{struct_x_a_c_t___r_e_n_d_e_r_e_r___d_e_t_a_i_l_s}{XACT\_RENDERER\_DETAILS}}, *\mbox{\hyperlink{struct_x_a_c_t___r_e_n_d_e_r_e_r___d_e_t_a_i_l_s}{LPXACT\_RENDERER\_DETAILS}};}
+\DoxyCodeLine{135 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{136 }
+\DoxyCodeLine{137 \textcolor{comment}{// Runtime (engine) parameters}}
+\DoxyCodeLine{138 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x_a_c_t___r_u_n_t_i_m_e___p_a_r_a_m_e_t_e_r_s}{XACT\_RUNTIME\_PARAMETERS}}}
+\DoxyCodeLine{139 \{}
+\DoxyCodeLine{140     DWORD                           lookAheadTime;                  \textcolor{comment}{// Time in ms}}
+\DoxyCodeLine{141     \textcolor{keywordtype}{void}*                           pGlobalSettingsBuffer;          \textcolor{comment}{// Buffer containing the global settings file}}
+\DoxyCodeLine{142     DWORD                           globalSettingsBufferSize;       \textcolor{comment}{// Size of global settings buffer}}
+\DoxyCodeLine{143     DWORD                           globalSettingsFlags;            \textcolor{comment}{// Flags for global settings}}
+\DoxyCodeLine{144     DWORD                           globalSettingsAllocAttributes;  \textcolor{comment}{// Global settings buffer allocation attributes (see XMemAlloc)}}
+\DoxyCodeLine{145     \mbox{\hyperlink{struct_x_a_c_t___f_i_l_e_i_o___c_a_l_l_b_a_c_k_s}{XACT\_FILEIO\_CALLBACKS}}           fileIOCallbacks;                \textcolor{comment}{// File I/O callbacks}}
+\DoxyCodeLine{146     XACT\_NOTIFICATION\_CALLBACK      fnNotificationCallback;         \textcolor{comment}{// Callback that receives notifications.}}
+\DoxyCodeLine{147 \textcolor{preprocessor}{\#ifndef \_XBOX}}
+\DoxyCodeLine{148     PWSTR                           pRendererID;                    \textcolor{comment}{// Ptr to the ID for the audio renderer the engine should connect to.}}
+\DoxyCodeLine{149 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{150 \} \mbox{\hyperlink{struct_x_a_c_t___r_u_n_t_i_m_e___p_a_r_a_m_e_t_e_r_s}{XACT\_RUNTIME\_PARAMETERS}}, *\mbox{\hyperlink{struct_x_a_c_t___r_u_n_t_i_m_e___p_a_r_a_m_e_t_e_r_s}{LPXACT\_RUNTIME\_PARAMETERS}};}
+\DoxyCodeLine{151 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___r_u_n_t_i_m_e___p_a_r_a_m_e_t_e_r_s}{XACT\_RUNTIME\_PARAMETERS}} *\mbox{\hyperlink{struct_x_a_c_t___r_u_n_t_i_m_e___p_a_r_a_m_e_t_e_r_s}{LPCXACT\_RUNTIME\_PARAMETERS}};}
+\DoxyCodeLine{152 }
+\DoxyCodeLine{153 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{154 \textcolor{comment}{// Streaming Parameters}}
+\DoxyCodeLine{155 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{156 }
+\DoxyCodeLine{157 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x_a_c_t___w_a_v_e_b_a_n_k___s_t_r_e_a_m_i_n_g___p_a_r_a_m_e_t_e_r_s}{XACT\_WAVEBANK\_STREAMING\_PARAMETERS}}}
+\DoxyCodeLine{158 \{}
+\DoxyCodeLine{159     HANDLE  file;            \textcolor{comment}{// File handle associated with wavebank data}}
+\DoxyCodeLine{160     DWORD   offset;          \textcolor{comment}{// Offset within file of wavebank header (must be sector aligned)}}
+\DoxyCodeLine{161     DWORD   flags;           \textcolor{comment}{// Flags (none currently)}}
+\DoxyCodeLine{162     WORD    packetSize;      \textcolor{comment}{// Stream packet size (in sectors) to use for each stream (min = 2)}}
+\DoxyCodeLine{163                              \textcolor{comment}{//   number of sectors (DVD = 2048 bytes: 2 = 4096, 3 = 6144, 4 = 8192 etc.)}}
+\DoxyCodeLine{164                              \textcolor{comment}{//   optimal DVD size is a multiple of 16 (DVD block = 16 DVD sectors)}}
+\DoxyCodeLine{165 \} \mbox{\hyperlink{struct_x_a_c_t___w_a_v_e_b_a_n_k___s_t_r_e_a_m_i_n_g___p_a_r_a_m_e_t_e_r_s}{XACT\_WAVEBANK\_STREAMING\_PARAMETERS}}, *\mbox{\hyperlink{struct_x_a_c_t___w_a_v_e_b_a_n_k___s_t_r_e_a_m_i_n_g___p_a_r_a_m_e_t_e_r_s}{LPXACT\_WAVEBANK\_STREAMING\_PARAMETERS}};}
+\DoxyCodeLine{166 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___w_a_v_e_b_a_n_k___s_t_r_e_a_m_i_n_g___p_a_r_a_m_e_t_e_r_s}{XACT\_WAVEBANK\_STREAMING\_PARAMETERS}} *\mbox{\hyperlink{struct_x_a_c_t___w_a_v_e_b_a_n_k___s_t_r_e_a_m_i_n_g___p_a_r_a_m_e_t_e_r_s}{LPCXACT\_WAVEBANK\_STREAMING\_PARAMETERS}};}
+\DoxyCodeLine{167 }
+\DoxyCodeLine{168 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{169 \textcolor{comment}{// Cue Properties (Xbox Only)}}
+\DoxyCodeLine{170 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{171 \textcolor{preprocessor}{\#ifdef \_XBOX}}
+\DoxyCodeLine{172 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }XACTCUEPROPERTIES}
+\DoxyCodeLine{173 \{}
+\DoxyCodeLine{174     XACTCATEGORY ActiveSoundCategory;    \textcolor{comment}{// Category of the active sound}}
+\DoxyCodeLine{175     BYTE         ActiveSoundTrackCount;  \textcolor{comment}{// The number of tracks in the active sound}}
+\DoxyCodeLine{176     BYTE         ActiveSoundPriority;    \textcolor{comment}{// The priority of the active sound}}
+\DoxyCodeLine{177     XACTINDEX    FirstTrackWaveIndex;    \textcolor{comment}{// Index of the currently selected wave variation in the first track}}
+\DoxyCodeLine{178     DWORD        FirstTrackWaveDuration; \textcolor{comment}{// Estimated duration (ms) of the selected wave in the first track (does not account for pitch changes)}}
+\DoxyCodeLine{179     XACTCHANNEL  MaxTrackChannelCount;   \textcolor{comment}{// The highest number of channels in any track}}
+\DoxyCodeLine{180     BYTE         MaxTrackLoopCount;      \textcolor{comment}{// The highest loop count of any track (255 is infinite)}}
+\DoxyCodeLine{181 \} XACTCUEPROPERTIES, *LPXACTCUEPROPERTIES;}
+\DoxyCodeLine{182 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_XBOX}}
+\DoxyCodeLine{183 }
+\DoxyCodeLine{184 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{185 \textcolor{comment}{// Channel Mapping / Speaker Panning}}
+\DoxyCodeLine{186 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{187 }
+\DoxyCodeLine{188 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_m_a_p_e_n_t_r_y}{XACTCHANNELMAPENTRY}}}
+\DoxyCodeLine{189 \{}
+\DoxyCodeLine{190     XACTCHANNEL   InputChannel;}
+\DoxyCodeLine{191     XACTCHANNEL   OutputChannel;}
+\DoxyCodeLine{192     XACTVOLUME    Volume;}
+\DoxyCodeLine{193 \} \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_m_a_p_e_n_t_r_y}{XACTCHANNELMAPENTRY}}, *\mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_m_a_p_e_n_t_r_y}{LPXACTCHANNELMAPENTRY}};}
+\DoxyCodeLine{194 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_m_a_p_e_n_t_r_y}{XACTCHANNELMAPENTRY}} *\mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_m_a_p_e_n_t_r_y}{LPCXACTCHANNELMAPENTRY}};}
+\DoxyCodeLine{195 }
+\DoxyCodeLine{196 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_m_a_p}{XACTCHANNELMAP}}}
+\DoxyCodeLine{197 \{}
+\DoxyCodeLine{198     XACTCHANNEL             EntryCount;}
+\DoxyCodeLine{199     \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_m_a_p_e_n_t_r_y}{XACTCHANNELMAPENTRY}}*    paEntries;}
+\DoxyCodeLine{200 \} \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_m_a_p}{XACTCHANNELMAP}}, *\mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_m_a_p}{LPXACTCHANNELMAP}};}
+\DoxyCodeLine{201 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_m_a_p}{XACTCHANNELMAP}} *\mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_m_a_p}{LPCXACTCHANNELMAP}};}
+\DoxyCodeLine{202 }
+\DoxyCodeLine{203 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_v_o_l_u_m_e_e_n_t_r_y}{XACTCHANNELVOLUMEENTRY}}}
+\DoxyCodeLine{204 \{}
+\DoxyCodeLine{205     XACTCHANNEL   EntryIndex;}
+\DoxyCodeLine{206     XACTVOLUME    Volume;}
+\DoxyCodeLine{207 \} \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_v_o_l_u_m_e_e_n_t_r_y}{XACTCHANNELVOLUMEENTRY}}, *\mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_v_o_l_u_m_e_e_n_t_r_y}{LPXACTCHANNELVOLUMEENTRY}};}
+\DoxyCodeLine{208 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_v_o_l_u_m_e_e_n_t_r_y}{XACTCHANNELVOLUMEENTRY}} *\mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_v_o_l_u_m_e_e_n_t_r_y}{LPCXACTCHANNELVOLUMEENTRY}};}
+\DoxyCodeLine{209 }
+\DoxyCodeLine{210 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_v_o_l_u_m_e}{XACTCHANNELVOLUME}}}
+\DoxyCodeLine{211 \{}
+\DoxyCodeLine{212     XACTCHANNEL             EntryCount;}
+\DoxyCodeLine{213     \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_v_o_l_u_m_e_e_n_t_r_y}{XACTCHANNELVOLUMEENTRY}}* paEntries;}
+\DoxyCodeLine{214 \} \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_v_o_l_u_m_e}{XACTCHANNELVOLUME}}, *\mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_v_o_l_u_m_e}{LPXACTCHANNELVOLUME}};}
+\DoxyCodeLine{215 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_v_o_l_u_m_e}{XACTCHANNELVOLUME}} *\mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_v_o_l_u_m_e}{LPCXACTCHANNELVOLUME}};}
+\DoxyCodeLine{216 }
+\DoxyCodeLine{217 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{218 \textcolor{comment}{// Notifications}}
+\DoxyCodeLine{219 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{220 }
+\DoxyCodeLine{221 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTNOTIFICATIONTYPE XACTNOTIFICATIONTYPE\_CUEPREPARED           = 1;  \textcolor{comment}{// None, SoundBank, SoundBank \& cue index, cue instance}}
+\DoxyCodeLine{222 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTNOTIFICATIONTYPE XACTNOTIFICATIONTYPE\_CUEPLAY               = 2;  \textcolor{comment}{// None, SoundBank, SoundBank \& cue index, cue instance}}
+\DoxyCodeLine{223 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTNOTIFICATIONTYPE XACTNOTIFICATIONTYPE\_CUESTOP               = 3;  \textcolor{comment}{// None, SoundBank, SoundBank \& cue index, cue instance}}
+\DoxyCodeLine{224 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTNOTIFICATIONTYPE XACTNOTIFICATIONTYPE\_CUEDESTROYED          = 4;  \textcolor{comment}{// None, SoundBank, SoundBank \& cue index, cue instance}}
+\DoxyCodeLine{225 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTNOTIFICATIONTYPE XACTNOTIFICATIONTYPE\_MARKER                = 5;  \textcolor{comment}{// None, SoundBank, SoundBank \& cue index, cue instance}}
+\DoxyCodeLine{226 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTNOTIFICATIONTYPE XACTNOTIFICATIONTYPE\_SOUNDBANKDESTROYED    = 6;  \textcolor{comment}{// None, SoundBank}}
+\DoxyCodeLine{227 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTNOTIFICATIONTYPE XACTNOTIFICATIONTYPE\_WAVEBANKDESTROYED     = 7;  \textcolor{comment}{// None, WaveBank}}
+\DoxyCodeLine{228 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTNOTIFICATIONTYPE XACTNOTIFICATIONTYPE\_LOCALVARIABLECHANGED  = 8;  \textcolor{comment}{// None, SoundBank, SoundBank \& cue index, cue instance}}
+\DoxyCodeLine{229 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTNOTIFICATIONTYPE XACTNOTIFICATIONTYPE\_GLOBALVARIABLECHANGED = 9;  \textcolor{comment}{// None}}
+\DoxyCodeLine{230 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTNOTIFICATIONTYPE XACTNOTIFICATIONTYPE\_GUICONNECTED          = 10; \textcolor{comment}{// None}}
+\DoxyCodeLine{231 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTNOTIFICATIONTYPE XACTNOTIFICATIONTYPE\_GUIDISCONNECTED       = 11; \textcolor{comment}{// None}}
+\DoxyCodeLine{232 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTNOTIFICATIONTYPE XACTNOTIFICATIONTYPE\_WAVEPLAY              = 12; \textcolor{comment}{// None, SoundBank, SoundBank \& cue index, cue instance, WaveBank}}
+\DoxyCodeLine{233 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTNOTIFICATIONTYPE XACTNOTIFICATIONTYPE\_WAVESTOP              = 13; \textcolor{comment}{// None, SoundBank, SoundBank \& cue index, cue instance, WaveBank}}
+\DoxyCodeLine{234 \textcolor{keyword}{static} \textcolor{keyword}{const} XACTNOTIFICATIONTYPE XACTNOTIFICATIONTYPE\_WAVEBANKPREPARED      = 14; \textcolor{comment}{// None, WaveBank}}
+\DoxyCodeLine{235 }
+\DoxyCodeLine{236 \textcolor{keyword}{static} \textcolor{keyword}{const} BYTE XACT\_FLAG\_NOTIFICATION\_PERSIST = 0x01;}
+\DoxyCodeLine{237 }
+\DoxyCodeLine{238 \textcolor{comment}{// Pack the notification structures}}
+\DoxyCodeLine{239 \textcolor{preprocessor}{\#pragma pack(push, 1)}}
+\DoxyCodeLine{240 }
+\DoxyCodeLine{241 \textcolor{comment}{// Notification description used for registering, un-\/registering and flushing notifications}}
+\DoxyCodeLine{242 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___d_e_s_c_r_i_p_t_i_o_n}{XACT\_NOTIFICATION\_DESCRIPTION}}}
+\DoxyCodeLine{243 \{}
+\DoxyCodeLine{244     XACTNOTIFICATIONTYPE type;          \textcolor{comment}{// Notification type}}
+\DoxyCodeLine{245     BYTE                 flags;         \textcolor{comment}{// Flags}}
+\DoxyCodeLine{246     IXACTSoundBank*      pSoundBank;    \textcolor{comment}{// SoundBank instance}}
+\DoxyCodeLine{247     IXACTWaveBank*       pWaveBank;     \textcolor{comment}{// WaveBank instance}}
+\DoxyCodeLine{248     IXACTCue*            pCue;          \textcolor{comment}{// Cue instance}}
+\DoxyCodeLine{249     XACTINDEX            cueIndex;      \textcolor{comment}{// Cue index}}
+\DoxyCodeLine{250     PVOID                pvContext;     \textcolor{comment}{// User context (optional)}}
+\DoxyCodeLine{251 }
+\DoxyCodeLine{252 \} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___d_e_s_c_r_i_p_t_i_o_n}{XACT\_NOTIFICATION\_DESCRIPTION}}, *\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___d_e_s_c_r_i_p_t_i_o_n}{LPXACT\_NOTIFICATION\_DESCRIPTION}};}
+\DoxyCodeLine{253 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___d_e_s_c_r_i_p_t_i_o_n}{XACT\_NOTIFICATION\_DESCRIPTION}} *\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___d_e_s_c_r_i_p_t_i_o_n}{LPCXACT\_NOTIFICATION\_DESCRIPTION}};}
+\DoxyCodeLine{254 }
+\DoxyCodeLine{255 \textcolor{comment}{// Notification structure for all XACTNOTIFICATIONTYPE\_CUE* notifications}}
+\DoxyCodeLine{256 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___c_u_e}{XACT\_NOTIFICATION\_CUE}}}
+\DoxyCodeLine{257 \{}
+\DoxyCodeLine{258     XACTINDEX       cueIndex;   \textcolor{comment}{// Cue index}}
+\DoxyCodeLine{259     IXACTSoundBank* pSoundBank; \textcolor{comment}{// SoundBank instance}}
+\DoxyCodeLine{260     IXACTCue*       pCue;       \textcolor{comment}{// Cue instance}}
+\DoxyCodeLine{261 }
+\DoxyCodeLine{262 \} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___c_u_e}{XACT\_NOTIFICATION\_CUE}}, *\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___c_u_e}{LPXACT\_NOTIFICATION\_CUE}};}
+\DoxyCodeLine{263 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___c_u_e}{XACT\_NOTIFICATION\_CUE}} *\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___c_u_e}{LPCXACT\_NOTIFICATION\_CUE}};}
+\DoxyCodeLine{264 }
+\DoxyCodeLine{265 \textcolor{comment}{// Notification structure for all XACTNOTIFICATIONTYPE\_MARKER* notifications}}
+\DoxyCodeLine{266 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___m_a_r_k_e_r}{XACT\_NOTIFICATION\_MARKER}}}
+\DoxyCodeLine{267 \{}
+\DoxyCodeLine{268     XACTINDEX       cueIndex;   \textcolor{comment}{// Cue index}}
+\DoxyCodeLine{269     IXACTSoundBank* pSoundBank; \textcolor{comment}{// SoundBank instance}}
+\DoxyCodeLine{270     IXACTCue*       pCue;       \textcolor{comment}{// Cue instance}}
+\DoxyCodeLine{271     DWORD           marker;     \textcolor{comment}{// Marker value}}
+\DoxyCodeLine{272 }
+\DoxyCodeLine{273 \} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___m_a_r_k_e_r}{XACT\_NOTIFICATION\_MARKER}}, *\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___m_a_r_k_e_r}{LPXACT\_NOTIFICATION\_MARKER}};}
+\DoxyCodeLine{274 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___m_a_r_k_e_r}{XACT\_NOTIFICATION\_MARKER}} *\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___m_a_r_k_e_r}{LPCXACT\_NOTIFICATION\_MARKER}};}
+\DoxyCodeLine{275 }
+\DoxyCodeLine{276 \textcolor{comment}{// Notification structure for all XACTNOTIFICATIONTYPE\_SOUNDBANK* notifications}}
+\DoxyCodeLine{277 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___s_o_u_n_d_b_a_n_k}{XACT\_NOTIFICATION\_SOUNDBANK}}}
+\DoxyCodeLine{278 \{}
+\DoxyCodeLine{279     IXACTSoundBank* pSoundBank; \textcolor{comment}{// SoundBank instance}}
+\DoxyCodeLine{280 }
+\DoxyCodeLine{281 \} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___s_o_u_n_d_b_a_n_k}{XACT\_NOTIFICATION\_SOUNDBANK}}, *\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___s_o_u_n_d_b_a_n_k}{LPXACT\_NOTIFICATION\_SOUNDBANK}};}
+\DoxyCodeLine{282 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___s_o_u_n_d_b_a_n_k}{XACT\_NOTIFICATION\_SOUNDBANK}} *\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___s_o_u_n_d_b_a_n_k}{LPCXACT\_NOTIFICATION\_SOUNDBANK}};}
+\DoxyCodeLine{283 }
+\DoxyCodeLine{284 \textcolor{comment}{// Notification structure for all XACTNOTIFICATIONTYPE\_WAVEBANK* notifications}}
+\DoxyCodeLine{285 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___w_a_v_e_b_a_n_k}{XACT\_NOTIFICATION\_WAVEBANK}}}
+\DoxyCodeLine{286 \{}
+\DoxyCodeLine{287     IXACTWaveBank*  pWaveBank;  \textcolor{comment}{// WaveBank instance}}
+\DoxyCodeLine{288 }
+\DoxyCodeLine{289 \} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___w_a_v_e_b_a_n_k}{XACT\_NOTIFICATION\_WAVEBANK}}, *\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___w_a_v_e_b_a_n_k}{LPXACT\_NOTIFICATION\_WAVEBANK}};}
+\DoxyCodeLine{290 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___w_a_v_e_b_a_n_k}{XACT\_NOTIFICATION\_WAVEBANK}} *\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___w_a_v_e_b_a_n_k}{LPCXACT\_NOTIFICATION\_WAVEBANK}};}
+\DoxyCodeLine{291 }
+\DoxyCodeLine{292 \textcolor{comment}{// Notification structure for all XACTNOTIFICATIONTYPE\_*VARIABLE* notifications}}
+\DoxyCodeLine{293 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___v_a_r_i_a_b_l_e}{XACT\_NOTIFICATION\_VARIABLE}}}
+\DoxyCodeLine{294 \{}
+\DoxyCodeLine{295     XACTINDEX           cueIndex;       \textcolor{comment}{// Cue index}}
+\DoxyCodeLine{296     IXACTSoundBank*     pSoundBank;     \textcolor{comment}{// SoundBank instance}}
+\DoxyCodeLine{297     IXACTCue*           pCue;           \textcolor{comment}{// Cue instance}}
+\DoxyCodeLine{298     XACTVARIABLEINDEX   variableIndex;  \textcolor{comment}{// Variable index}}
+\DoxyCodeLine{299     XACTVARIABLEVALUE   variableValue;  \textcolor{comment}{// Variable value}}
+\DoxyCodeLine{300     BOOL                local;          \textcolor{comment}{// TRUE if a local variable}}
+\DoxyCodeLine{301 }
+\DoxyCodeLine{302 \} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___v_a_r_i_a_b_l_e}{XACT\_NOTIFICATION\_VARIABLE}}, *\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___v_a_r_i_a_b_l_e}{LPXACT\_NOTIFICATION\_VARIABLE}};}
+\DoxyCodeLine{303 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___v_a_r_i_a_b_l_e}{XACT\_NOTIFICATION\_VARIABLE}} *\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___v_a_r_i_a_b_l_e}{LPCXACT\_NOTIFICATION\_VARIABLE}};}
+\DoxyCodeLine{304 }
+\DoxyCodeLine{305 \textcolor{comment}{// Notification structure for all XACTNOTIFICATIONTYPE\_GUI* notifications}}
+\DoxyCodeLine{306 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___g_u_i}{XACT\_NOTIFICATION\_GUI}}}
+\DoxyCodeLine{307 \{}
+\DoxyCodeLine{308     DWORD   reserved; \textcolor{comment}{// Reserved}}
+\DoxyCodeLine{309 \} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___g_u_i}{XACT\_NOTIFICATION\_GUI}}, *\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___g_u_i}{LPXACT\_NOTIFICATION\_GUI}};}
+\DoxyCodeLine{310 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___g_u_i}{XACT\_NOTIFICATION\_GUI}} *\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___g_u_i}{LPCXACT\_NOTIFICATION\_GUI}};}
+\DoxyCodeLine{311 }
+\DoxyCodeLine{312 \textcolor{comment}{// Notification structure for all XACTNOTIFICATIONTYPE\_WAVE* notifications}}
+\DoxyCodeLine{313 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___w_a_v_e}{XACT\_NOTIFICATION\_WAVE}}}
+\DoxyCodeLine{314 \{}
+\DoxyCodeLine{315     IXACTWaveBank*  pWaveBank;  \textcolor{comment}{// WaveBank}}
+\DoxyCodeLine{316     XACTINDEX       waveIndex;  \textcolor{comment}{// Wave index}}
+\DoxyCodeLine{317     XACTINDEX       cueIndex;   \textcolor{comment}{// Cue index}}
+\DoxyCodeLine{318     IXACTSoundBank* pSoundBank; \textcolor{comment}{// SoundBank instance}}
+\DoxyCodeLine{319     IXACTCue*       pCue;       \textcolor{comment}{// Cue instance}}
+\DoxyCodeLine{320 }
+\DoxyCodeLine{321 \} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___w_a_v_e}{XACT\_NOTIFICATION\_WAVE}}, *\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___w_a_v_e}{LPXACT\_NOTIFICATION\_WAVE}};}
+\DoxyCodeLine{322 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___w_a_v_e}{XACT\_NOTIFICATION\_WAVE}} *\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___w_a_v_e}{LPCXACT\_NOTIFICATION\_WAVE}};}
+\DoxyCodeLine{323 }
+\DoxyCodeLine{324 \textcolor{comment}{// General notification structure}}
+\DoxyCodeLine{325 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n}{XACT\_NOTIFICATION}}}
+\DoxyCodeLine{326 \{}
+\DoxyCodeLine{327     XACTNOTIFICATIONTYPE    type;        \textcolor{comment}{// Notification type}}
+\DoxyCodeLine{328     LONG                    timeStamp;   \textcolor{comment}{// Timestamp of notification (milliseconds)}}
+\DoxyCodeLine{329     PVOID                   pvContext;   \textcolor{comment}{// User context (optional)}}
+\DoxyCodeLine{330     \textcolor{keyword}{union}}
+\DoxyCodeLine{331     \{}
+\DoxyCodeLine{332         \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___c_u_e}{XACT\_NOTIFICATION\_CUE}}       cue;        \textcolor{comment}{// XACTNOTIFICATIONTYPE\_CUE*}}
+\DoxyCodeLine{333         \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___m_a_r_k_e_r}{XACT\_NOTIFICATION\_MARKER}}    marker;     \textcolor{comment}{// XACTNOTIFICATIONTYPE\_MARKER*}}
+\DoxyCodeLine{334         \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___s_o_u_n_d_b_a_n_k}{XACT\_NOTIFICATION\_SOUNDBANK}} soundBank;  \textcolor{comment}{// XACTNOTIFICATIONTYPE\_SOUNDBANK*}}
+\DoxyCodeLine{335         \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___w_a_v_e_b_a_n_k}{XACT\_NOTIFICATION\_WAVEBANK}}  waveBank;   \textcolor{comment}{// XACTNOTIFICATIONTYPE\_WAVEBANK*}}
+\DoxyCodeLine{336         \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___v_a_r_i_a_b_l_e}{XACT\_NOTIFICATION\_VARIABLE}}  variable;   \textcolor{comment}{// XACTNOTIFICATIONTYPE\_VARIABLE*}}
+\DoxyCodeLine{337         \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___g_u_i}{XACT\_NOTIFICATION\_GUI}}       gui;        \textcolor{comment}{// XACTNOTIFICATIONTYPE\_GUI*}}
+\DoxyCodeLine{338         \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___w_a_v_e}{XACT\_NOTIFICATION\_WAVE}}      wave;       \textcolor{comment}{// XACTNOTIFICATIONTYPE\_WAVE*}}
+\DoxyCodeLine{339     \};}
+\DoxyCodeLine{340 }
+\DoxyCodeLine{341 \} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n}{XACT\_NOTIFICATION}}, *\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n}{LPXACT\_NOTIFICATION}};}
+\DoxyCodeLine{342 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n}{XACT\_NOTIFICATION}} *\mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n}{LPCXACT\_NOTIFICATION}};}
+\DoxyCodeLine{343 \textcolor{preprocessor}{\#pragma pack(pop)}}
+\DoxyCodeLine{344 }
+\DoxyCodeLine{345 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{346 \textcolor{comment}{// IXACTSoundBank}}
+\DoxyCodeLine{347 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{348 }
+\DoxyCodeLine{349 \textcolor{keyword}{static} \textcolor{keyword}{const} DWORD XACT\_FLAG\_SOUNDBANK\_STOP\_IMMEDIATE = 0x00000001;}
+\DoxyCodeLine{350 }
+\DoxyCodeLine{351 \textcolor{keyword}{static} \textcolor{keyword}{const} DWORD XACT\_SOUNDBANKSTATE\_INUSE = 0x00000001;  \textcolor{comment}{// Currently in-\/use}}
+\DoxyCodeLine{352 }
+\DoxyCodeLine{353 STDAPI IXACTSoundBank\_Destroy(IXACTSoundBank* pSoundBank);}
+\DoxyCodeLine{354 STDAPI\_(XACTINDEX) IXACTSoundBank\_GetCueIndex(IXACTSoundBank* pSoundBank, PCSTR szFriendlyName);}
+\DoxyCodeLine{355 STDAPI IXACTSoundBank\_Prepare(IXACTSoundBank* pSoundBank, XACTINDEX nCueIndex, DWORD dwFlags, IXACTCue** ppCue);}
+\DoxyCodeLine{356 STDAPI IXACTSoundBank\_Play(IXACTSoundBank* pSoundBank, XACTINDEX nCueIndex, DWORD dwFlags, IXACTCue** ppCue);}
+\DoxyCodeLine{357 STDAPI IXACTSoundBank\_Stop(IXACTSoundBank* pSoundBank, XACTINDEX nCueIndex, DWORD dwFlags);}
+\DoxyCodeLine{358 STDAPI IXACTSoundBank\_GetState(IXACTSoundBank* pSoundBank, DWORD* pdwState);}
+\DoxyCodeLine{359 }
+\DoxyCodeLine{360 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{361 \textcolor{preprocessor}{\#define INTERFACE IXACTSoundBank}}
+\DoxyCodeLine{362 }
+\DoxyCodeLine{363 DECLARE\_INTERFACE(IXACTSoundBank)}
+\DoxyCodeLine{364 \{}
+\DoxyCodeLine{365     STDMETHOD\_(XACTINDEX, GetCueIndex)(THIS\_ PCSTR szFriendlyName) PURE;}
+\DoxyCodeLine{366     STDMETHOD(Prepare)(THIS\_ XACTINDEX nCueIndex, DWORD dwFlags, IXACTCue** ppCue) PURE;}
+\DoxyCodeLine{367     STDMETHOD(Play)(THIS\_ XACTINDEX nCueIndex, DWORD dwFlags, IXACTCue** ppCue) PURE;}
+\DoxyCodeLine{368     STDMETHOD(Stop)(THIS\_ XACTINDEX nCueIndex, DWORD dwFlags) PURE;}
+\DoxyCodeLine{369     STDMETHOD(Destroy)(THIS) PURE;}
+\DoxyCodeLine{370     STDMETHOD(GetState)(THIS\_ DWORD* pdwState) PURE;}
+\DoxyCodeLine{371 \};}
+\DoxyCodeLine{372 }
+\DoxyCodeLine{373 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{374 }
+\DoxyCodeLine{375 \_\_inline HRESULT \_\_stdcall IXACTSoundBank\_Destroy(IXACTSoundBank* pSoundBank)}
+\DoxyCodeLine{376 \{}
+\DoxyCodeLine{377     \textcolor{keywordflow}{return} pSoundBank-\/>Destroy();}
+\DoxyCodeLine{378 \}}
+\DoxyCodeLine{379 }
+\DoxyCodeLine{380 \_\_inline XACTINDEX \_\_stdcall IXACTSoundBank\_GetCueIndex(IXACTSoundBank* pSoundBank, PCSTR szFriendlyName)}
+\DoxyCodeLine{381 \{}
+\DoxyCodeLine{382     \textcolor{keywordflow}{return} pSoundBank-\/>GetCueIndex(szFriendlyName);}
+\DoxyCodeLine{383 \}}
+\DoxyCodeLine{384 }
+\DoxyCodeLine{385 \_\_inline HRESULT \_\_stdcall IXACTSoundBank\_Prepare(IXACTSoundBank* pSoundBank, XACTINDEX nCueIndex, DWORD dwFlags, IXACTCue** ppCue)}
+\DoxyCodeLine{386 \{}
+\DoxyCodeLine{387     \textcolor{keywordflow}{return} pSoundBank-\/>Prepare(nCueIndex, dwFlags, ppCue);}
+\DoxyCodeLine{388 \}}
+\DoxyCodeLine{389 }
+\DoxyCodeLine{390 \_\_inline HRESULT \_\_stdcall IXACTSoundBank\_Play(IXACTSoundBank* pSoundBank, XACTINDEX nCueIndex, DWORD dwFlags, IXACTCue** ppCue)}
+\DoxyCodeLine{391 \{}
+\DoxyCodeLine{392     \textcolor{keywordflow}{return} pSoundBank-\/>Play(nCueIndex, dwFlags, ppCue);}
+\DoxyCodeLine{393 \}}
+\DoxyCodeLine{394 }
+\DoxyCodeLine{395 \_\_inline HRESULT \_\_stdcall IXACTSoundBank\_Stop(IXACTSoundBank* pSoundBank, XACTINDEX nCueIndex, DWORD dwFlags)}
+\DoxyCodeLine{396 \{}
+\DoxyCodeLine{397     \textcolor{keywordflow}{return} pSoundBank-\/>Stop(nCueIndex, dwFlags);}
+\DoxyCodeLine{398 \}}
+\DoxyCodeLine{399 }
+\DoxyCodeLine{400 \_\_inline HRESULT \_\_stdcall IXACTSoundBank\_GetState(IXACTSoundBank* pSoundBank, DWORD* pdwState)}
+\DoxyCodeLine{401 \{}
+\DoxyCodeLine{402     \textcolor{keywordflow}{return} pSoundBank-\/>GetState(pdwState);}
+\DoxyCodeLine{403 \}}
+\DoxyCodeLine{404 }
+\DoxyCodeLine{405 \textcolor{preprocessor}{\#else }\textcolor{comment}{// \_\_cplusplus}}
+\DoxyCodeLine{406 }
+\DoxyCodeLine{407 \_\_inline HRESULT \_\_stdcall IXACTSoundBank\_Destroy(IXACTSoundBank* pSoundBank)}
+\DoxyCodeLine{408 \{}
+\DoxyCodeLine{409     \textcolor{keywordflow}{return} pSoundBank-\/>lpVtbl-\/>Destroy(pSoundBank);}
+\DoxyCodeLine{410 \}}
+\DoxyCodeLine{411 }
+\DoxyCodeLine{412 \_\_inline XACTINDEX \_\_stdcall IXACTSoundBank\_GetCueIndex(IXACTSoundBank* pSoundBank, PCSTR szFriendlyName)}
+\DoxyCodeLine{413 \{}
+\DoxyCodeLine{414     \textcolor{keywordflow}{return} pSoundBank-\/>lpVtbl-\/>GetCueIndex(pSoundBank, szFriendlyName);}
+\DoxyCodeLine{415 \}}
+\DoxyCodeLine{416 }
+\DoxyCodeLine{417 \_\_inline HRESULT \_\_stdcall IXACTSoundBank\_Prepare(IXACTSoundBank* pSoundBank, XACTINDEX nCueIndex, DWORD dwFlags, IXACTCue** ppCue)}
+\DoxyCodeLine{418 \{}
+\DoxyCodeLine{419     \textcolor{keywordflow}{return} pSoundBank-\/>lpVtbl-\/>Prepare(pSoundBank, nCueIndex, dwFlags, ppCue);}
+\DoxyCodeLine{420 \}}
+\DoxyCodeLine{421 }
+\DoxyCodeLine{422 \_\_inline HRESULT \_\_stdcall IXACTSoundBank\_Play(IXACTSoundBank* pSoundBank, XACTINDEX nCueIndex, DWORD dwFlags, IXACTCue** ppCue)}
+\DoxyCodeLine{423 \{}
+\DoxyCodeLine{424     \textcolor{keywordflow}{return} pSoundBank-\/>lpVtbl-\/>Play(pSoundBank, nCueIndex, dwFlags, ppCue);}
+\DoxyCodeLine{425 \}}
+\DoxyCodeLine{426 }
+\DoxyCodeLine{427 \_\_inline HRESULT \_\_stdcall IXACTSoundBank\_Stop(IXACTSoundBank* pSoundBank, XACTINDEX nCueIndex, DWORD dwFlags)}
+\DoxyCodeLine{428 \{}
+\DoxyCodeLine{429     \textcolor{keywordflow}{return} pSoundBank-\/>lpVtbl-\/>Stop(pSoundBank, nCueIndex, dwFlags);}
+\DoxyCodeLine{430 \}}
+\DoxyCodeLine{431 }
+\DoxyCodeLine{432 \_\_inline HRESULT \_\_stdcall IXACTSoundBank\_GetState(IXACTSoundBank* pSoundBank, DWORD* pdwState)}
+\DoxyCodeLine{433 \{}
+\DoxyCodeLine{434     \textcolor{keywordflow}{return} pSoundBank-\/>lpVtbl-\/>GetState(pSoundBank, pdwState);}
+\DoxyCodeLine{435 \}}
+\DoxyCodeLine{436 }
+\DoxyCodeLine{437 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_\_cplusplus}}
+\DoxyCodeLine{438 }
+\DoxyCodeLine{439 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{440 \textcolor{comment}{// IXACTWaveBank}}
+\DoxyCodeLine{441 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{442 }
+\DoxyCodeLine{443 \textcolor{keyword}{static} \textcolor{keyword}{const} DWORD XACT\_WAVEBANKSTATE\_INUSE    = 0x00000001;  \textcolor{comment}{// Currently in-\/use}}
+\DoxyCodeLine{444 \textcolor{keyword}{static} \textcolor{keyword}{const} DWORD XACT\_WAVEBANKSTATE\_PREPARED = 0x00000002;  \textcolor{comment}{// Prepared}}
+\DoxyCodeLine{445 }
+\DoxyCodeLine{446 STDAPI IXACTWaveBank\_Destroy(IXACTWaveBank* pWaveBank);}
+\DoxyCodeLine{447 STDAPI IXACTWaveBank\_GetState(IXACTWaveBank* pWaveBank, DWORD* pdwState);}
+\DoxyCodeLine{448 }
+\DoxyCodeLine{449 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{450 \textcolor{preprocessor}{\#define INTERFACE IXACTWaveBank}}
+\DoxyCodeLine{451 }
+\DoxyCodeLine{452 DECLARE\_INTERFACE(IXACTWaveBank)}
+\DoxyCodeLine{453 \{}
+\DoxyCodeLine{454     STDMETHOD(Destroy)(THIS) PURE;}
+\DoxyCodeLine{455     STDMETHOD(GetState)(THIS\_ DWORD* pdwState) PURE;}
+\DoxyCodeLine{456 \};}
+\DoxyCodeLine{457 }
+\DoxyCodeLine{458 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{459 }
+\DoxyCodeLine{460 \_\_inline HRESULT \_\_stdcall IXACTWaveBank\_Destroy(IXACTWaveBank* pWaveBank)}
+\DoxyCodeLine{461 \{}
+\DoxyCodeLine{462     \textcolor{keywordflow}{return} pWaveBank-\/>Destroy();}
+\DoxyCodeLine{463 \}}
+\DoxyCodeLine{464 }
+\DoxyCodeLine{465 \_\_inline HRESULT \_\_stdcall IXACTWaveBank\_GetState(IXACTWaveBank* pWaveBank, DWORD* pdwState)}
+\DoxyCodeLine{466 \{}
+\DoxyCodeLine{467     \textcolor{keywordflow}{return} pWaveBank-\/>GetState(pdwState);}
+\DoxyCodeLine{468 \}}
+\DoxyCodeLine{469 }
+\DoxyCodeLine{470 \textcolor{preprocessor}{\#else }\textcolor{comment}{// \_\_cplusplus}}
+\DoxyCodeLine{471 }
+\DoxyCodeLine{472 \_\_inline HRESULT \_\_stdcall IXACTWaveBank\_Destroy(IXACTWaveBank* pWaveBank)}
+\DoxyCodeLine{473 \{}
+\DoxyCodeLine{474     \textcolor{keywordflow}{return} pWaveBank-\/>lpVtbl-\/>Destroy(pWaveBank);}
+\DoxyCodeLine{475 \}}
+\DoxyCodeLine{476 }
+\DoxyCodeLine{477 \_\_inline HRESULT \_\_stdcall IXACTWaveBank\_GetState(IXACTWaveBank* pWaveBank, DWORD* pdwState)}
+\DoxyCodeLine{478 \{}
+\DoxyCodeLine{479     \textcolor{keywordflow}{return} pWaveBank-\/>lpVtbl-\/>GetState(pWaveBank, pdwState);}
+\DoxyCodeLine{480 \}}
+\DoxyCodeLine{481 }
+\DoxyCodeLine{482 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_\_cplusplus}}
+\DoxyCodeLine{483 }
+\DoxyCodeLine{484 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{485 \textcolor{comment}{// IXACTCue}}
+\DoxyCodeLine{486 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{487 }
+\DoxyCodeLine{488 \textcolor{comment}{// Cue Flags}}
+\DoxyCodeLine{489 \textcolor{keyword}{static} \textcolor{keyword}{const} DWORD XACT\_FLAG\_CUE\_STOP\_RELEASE           = 0x00000000;}
+\DoxyCodeLine{490 \textcolor{keyword}{static} \textcolor{keyword}{const} DWORD XACT\_FLAG\_CUE\_STOP\_IMMEDIATE         = 0x00000001;}
+\DoxyCodeLine{491 }
+\DoxyCodeLine{492 \textcolor{comment}{// Mutually exclusive states}}
+\DoxyCodeLine{493 \textcolor{keyword}{static} \textcolor{keyword}{const} DWORD XACT\_CUESTATE\_CREATED   = 0x00000001;  \textcolor{comment}{// Created, but nothing else}}
+\DoxyCodeLine{494 \textcolor{keyword}{static} \textcolor{keyword}{const} DWORD XACT\_CUESTATE\_PREPARING = 0x00000002;  \textcolor{comment}{// In the middle of preparing}}
+\DoxyCodeLine{495 \textcolor{keyword}{static} \textcolor{keyword}{const} DWORD XACT\_CUESTATE\_PREPARED  = 0x00000004;  \textcolor{comment}{// Prepared, but not yet played}}
+\DoxyCodeLine{496 \textcolor{keyword}{static} \textcolor{keyword}{const} DWORD XACT\_CUESTATE\_PLAYING   = 0x00000008;  \textcolor{comment}{// Playing (though could be paused)}}
+\DoxyCodeLine{497 \textcolor{keyword}{static} \textcolor{keyword}{const} DWORD XACT\_CUESTATE\_STOPPING  = 0x00000010;  \textcolor{comment}{// Stopping}}
+\DoxyCodeLine{498 \textcolor{keyword}{static} \textcolor{keyword}{const} DWORD XACT\_CUESTATE\_STOPPED   = 0x00000020;  \textcolor{comment}{// Stopped}}
+\DoxyCodeLine{499 }
+\DoxyCodeLine{500 \textcolor{comment}{// Inclusive states}}
+\DoxyCodeLine{501 \textcolor{keyword}{static} \textcolor{keyword}{const} DWORD XACT\_CUESTATE\_PAUSED    = 0x00000040;  \textcolor{comment}{// Paused (can be combinded with other states)}}
+\DoxyCodeLine{502 }
+\DoxyCodeLine{503 STDAPI IXACTCue\_Destroy(IXACTCue* pCue);}
+\DoxyCodeLine{504 STDAPI IXACTCue\_Play(IXACTCue* pCue);}
+\DoxyCodeLine{505 STDAPI IXACTCue\_Stop(IXACTCue* pCue, DWORD dwFlags);}
+\DoxyCodeLine{506 STDAPI IXACTCue\_GetState(IXACTCue* pCue, DWORD* pdwState);}
+\DoxyCodeLine{507 STDAPI IXACTCue\_GetChannelMap(IXACTCue*, \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_m_a_p}{LPXACTCHANNELMAP}} pChannelMap, DWORD BufferSize, LPDWORD pRequiredSize);}
+\DoxyCodeLine{508 STDAPI IXACTCue\_SetChannelMap(IXACTCue*, \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_m_a_p}{LPCXACTCHANNELMAP}} pChannelMap);}
+\DoxyCodeLine{509 STDAPI IXACTCue\_GetChannelVolume(IXACTCue*, \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_v_o_l_u_m_e}{LPXACTCHANNELVOLUME}} pVolume);}
+\DoxyCodeLine{510 STDAPI IXACTCue\_SetChannelVolume(IXACTCue*, \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_v_o_l_u_m_e}{LPCXACTCHANNELVOLUME}} pVolume);}
+\DoxyCodeLine{511 STDAPI IXACTCue\_SetMatrixCoefficients(IXACTCue*, UINT32 uSrcChannelCount, UINT32 uDstChannelCount, \textcolor{keywordtype}{float}* pMatrixCoefficients);}
+\DoxyCodeLine{512 STDAPI\_(XACTVARIABLEINDEX) IXACTCue\_GetVariableIndex(IXACTCue* pCue, PCSTR szFriendlyName);}
+\DoxyCodeLine{513 STDAPI IXACTCue\_SetVariable(IXACTCue* pCue, XACTVARIABLEINDEX nIndex, XACTVARIABLEVALUE nValue);}
+\DoxyCodeLine{514 STDAPI IXACTCue\_GetVariable(IXACTCue* pCue, XACTVARIABLEINDEX nIndex, XACTVARIABLEVALUE* nValue);}
+\DoxyCodeLine{515 STDAPI IXACTCue\_Pause(IXACTCue* pCue, BOOL fPause);}
+\DoxyCodeLine{516 \textcolor{preprocessor}{\#ifdef \_XBOX}}
+\DoxyCodeLine{517 STDAPI IXACTCue\_SetVoiceOutput(IXACTCue*, LPCXAUDIOVOICEOUTPUT pVoiceOutput);}
+\DoxyCodeLine{518 STDAPI IXACTCue\_SetVoiceOutputVolume(IXACTCue*, LPCXAUDIOVOICEOUTPUTVOLUME pVolume);}
+\DoxyCodeLine{519 STDAPI IXACTCue\_GetProperties(IXACTCue*, LPXACTCUEPROPERTIES pProperties);}
+\DoxyCodeLine{520 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_XBOX}}
+\DoxyCodeLine{521 }
+\DoxyCodeLine{522 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{523 \textcolor{preprocessor}{\#define INTERFACE IXACTCue}}
+\DoxyCodeLine{524 }
+\DoxyCodeLine{525 DECLARE\_INTERFACE(IXACTCue)}
+\DoxyCodeLine{526 \{}
+\DoxyCodeLine{527     STDMETHOD(Play)(THIS) PURE;}
+\DoxyCodeLine{528     STDMETHOD(Stop)(THIS\_ DWORD dwFlags) PURE;}
+\DoxyCodeLine{529     STDMETHOD(GetState)(THIS\_ DWORD* pdwState) PURE;}
+\DoxyCodeLine{530     STDMETHOD(Destroy)(THIS) PURE;}
+\DoxyCodeLine{531     STDMETHOD(GetChannelMap)(THIS\_ \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_m_a_p}{LPXACTCHANNELMAP}} pChannelMap, DWORD BufferSize, LPDWORD pRequiredSize) PURE;}
+\DoxyCodeLine{532     STDMETHOD(SetChannelMap)(THIS\_ \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_m_a_p}{LPCXACTCHANNELMAP}} pChannelMap) PURE;}
+\DoxyCodeLine{533     STDMETHOD(GetChannelVolume)(THIS\_ \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_v_o_l_u_m_e}{LPXACTCHANNELVOLUME}} pVolume) PURE;}
+\DoxyCodeLine{534     STDMETHOD(SetChannelVolume)(THIS\_ \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_v_o_l_u_m_e}{LPCXACTCHANNELVOLUME}} pVolume) PURE;}
+\DoxyCodeLine{535     STDMETHOD(SetMatrixCoefficients)(THIS\_ UINT32 uSrcChannelCount, UINT32 uDstChannelCount, \textcolor{keywordtype}{float}* pMatrixCoefficients) PURE;}
+\DoxyCodeLine{536     STDMETHOD\_(XACTVARIABLEINDEX, GetVariableIndex)(THIS\_ PCSTR szFriendlyName) PURE;}
+\DoxyCodeLine{537     STDMETHOD(SetVariable)(THIS\_ XACTVARIABLEINDEX nIndex, XACTVARIABLEVALUE nValue) PURE;}
+\DoxyCodeLine{538     STDMETHOD(GetVariable)(THIS\_ XACTVARIABLEINDEX nIndex, XACTVARIABLEVALUE* nValue) PURE;}
+\DoxyCodeLine{539     STDMETHOD(Pause)(THIS\_ BOOL fPause) PURE;}
+\DoxyCodeLine{540 \textcolor{preprocessor}{\#ifdef \_XBOX}}
+\DoxyCodeLine{541     STDMETHOD(SetVoiceOutput)(THIS\_ LPCXAUDIOVOICEOUTPUT pVoiceOutput) PURE;}
+\DoxyCodeLine{542     STDMETHOD(SetVoiceOutputVolume)(THIS\_ LPCXAUDIOVOICEOUTPUTVOLUME pVolume) PURE;}
+\DoxyCodeLine{543     STDMETHOD(GetProperties)(THIS\_ LPXACTCUEPROPERTIES pProperties) PURE;}
+\DoxyCodeLine{544 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_XBOX}}
+\DoxyCodeLine{545 \};}
+\DoxyCodeLine{546 }
+\DoxyCodeLine{547 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{548 }
+\DoxyCodeLine{549 \_\_inline HRESULT \_\_stdcall IXACTCue\_Play(IXACTCue* pCue)}
+\DoxyCodeLine{550 \{}
+\DoxyCodeLine{551     \textcolor{keywordflow}{return} pCue-\/>Play();}
+\DoxyCodeLine{552 \}}
+\DoxyCodeLine{553 }
+\DoxyCodeLine{554 \_\_inline HRESULT \_\_stdcall IXACTCue\_Stop(IXACTCue* pCue, DWORD dwFlags)}
+\DoxyCodeLine{555 \{}
+\DoxyCodeLine{556     \textcolor{keywordflow}{return} pCue-\/>Stop(dwFlags);}
+\DoxyCodeLine{557 \}}
+\DoxyCodeLine{558 }
+\DoxyCodeLine{559 \_\_inline HRESULT \_\_stdcall IXACTCue\_GetState(IXACTCue* pCue, DWORD* pdwState)}
+\DoxyCodeLine{560 \{}
+\DoxyCodeLine{561     \textcolor{keywordflow}{return} pCue-\/>GetState(pdwState);}
+\DoxyCodeLine{562 \}}
+\DoxyCodeLine{563 }
+\DoxyCodeLine{564 \_\_inline HRESULT \_\_stdcall IXACTCue\_Destroy(IXACTCue* pCue)}
+\DoxyCodeLine{565 \{}
+\DoxyCodeLine{566     \textcolor{keywordflow}{return} pCue-\/>Destroy();}
+\DoxyCodeLine{567 \}}
+\DoxyCodeLine{568 }
+\DoxyCodeLine{569 \_\_inline HRESULT \_\_stdcall IXACTCue\_GetChannelMap(IXACTCue* pCue, \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_m_a_p}{LPXACTCHANNELMAP}} pChannelMap, DWORD BufferSize, LPDWORD pRequiredSize)}
+\DoxyCodeLine{570 \{}
+\DoxyCodeLine{571     \textcolor{keywordflow}{return} pCue-\/>GetChannelMap(pChannelMap, BufferSize, pRequiredSize);}
+\DoxyCodeLine{572 \}}
+\DoxyCodeLine{573 }
+\DoxyCodeLine{574 \_\_inline HRESULT \_\_stdcall IXACTCue\_SetChannelMap(IXACTCue* pCue, \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_m_a_p}{LPCXACTCHANNELMAP}} pChannelMap)}
+\DoxyCodeLine{575 \{}
+\DoxyCodeLine{576     \textcolor{keywordflow}{return} pCue-\/>SetChannelMap(pChannelMap);}
+\DoxyCodeLine{577 \}}
+\DoxyCodeLine{578 }
+\DoxyCodeLine{579 \_\_inline HRESULT \_\_stdcall IXACTCue\_GetChannelVolume(IXACTCue* pCue, \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_v_o_l_u_m_e}{LPXACTCHANNELVOLUME}} pVolume)}
+\DoxyCodeLine{580 \{}
+\DoxyCodeLine{581     \textcolor{keywordflow}{return} pCue-\/>GetChannelVolume(pVolume);}
+\DoxyCodeLine{582 \}}
+\DoxyCodeLine{583 }
+\DoxyCodeLine{584 \_\_inline HRESULT \_\_stdcall IXACTCue\_SetChannelVolume(IXACTCue* pCue, \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_v_o_l_u_m_e}{LPCXACTCHANNELVOLUME}} pVolume)}
+\DoxyCodeLine{585 \{}
+\DoxyCodeLine{586     \textcolor{keywordflow}{return} pCue-\/>SetChannelVolume(pVolume);}
+\DoxyCodeLine{587 \}}
+\DoxyCodeLine{588 }
+\DoxyCodeLine{589 \_\_inline HRESULT \_\_stdcall IXACTCue\_SetMatrixCoefficients(IXACTCue* pCue, UINT32 uSrcChannelCount, UINT32 uDstChannelCount, \textcolor{keywordtype}{float}* pMatrixCoefficients)}
+\DoxyCodeLine{590 \{}
+\DoxyCodeLine{591     \textcolor{keywordflow}{return} pCue-\/>SetMatrixCoefficients(uSrcChannelCount, uDstChannelCount, pMatrixCoefficients);}
+\DoxyCodeLine{592 \}}
+\DoxyCodeLine{593 }
+\DoxyCodeLine{594 \_\_inline XACTVARIABLEINDEX \_\_stdcall IXACTCue\_GetVariableIndex(IXACTCue* pCue, PCSTR szFriendlyName)}
+\DoxyCodeLine{595 \{}
+\DoxyCodeLine{596     \textcolor{keywordflow}{return} pCue-\/>GetVariableIndex(szFriendlyName);}
+\DoxyCodeLine{597 \}}
+\DoxyCodeLine{598 }
+\DoxyCodeLine{599 \_\_inline HRESULT \_\_stdcall IXACTCue\_SetVariable(IXACTCue* pCue, XACTVARIABLEINDEX nIndex, XACTVARIABLEVALUE nValue)}
+\DoxyCodeLine{600 \{}
+\DoxyCodeLine{601     \textcolor{keywordflow}{return} pCue-\/>SetVariable(nIndex, nValue);}
+\DoxyCodeLine{602 \}}
+\DoxyCodeLine{603 }
+\DoxyCodeLine{604 \_\_inline HRESULT \_\_stdcall IXACTCue\_GetVariable(IXACTCue* pCue, XACTVARIABLEINDEX nIndex, XACTVARIABLEVALUE* pnValue)}
+\DoxyCodeLine{605 \{}
+\DoxyCodeLine{606     \textcolor{keywordflow}{return} pCue-\/>GetVariable(nIndex, pnValue);}
+\DoxyCodeLine{607 \}}
+\DoxyCodeLine{608 }
+\DoxyCodeLine{609 \_\_inline HRESULT \_\_stdcall IXACTCue\_Pause(IXACTCue* pCue, BOOL fPause)}
+\DoxyCodeLine{610 \{}
+\DoxyCodeLine{611     \textcolor{keywordflow}{return} pCue-\/>Pause(fPause);}
+\DoxyCodeLine{612 \}}
+\DoxyCodeLine{613 }
+\DoxyCodeLine{614 \textcolor{preprocessor}{\#ifdef \_XBOX}}
+\DoxyCodeLine{615 \_\_inline HRESULT \_\_stdcall IXACTCue\_SetVoiceOutput(IXACTCue* pCue, LPCXAUDIOVOICEOUTPUT pVoiceOutput)}
+\DoxyCodeLine{616 \{}
+\DoxyCodeLine{617     \textcolor{keywordflow}{return} pCue-\/>SetVoiceOutput(pVoiceOutput);}
+\DoxyCodeLine{618 \}}
+\DoxyCodeLine{619 }
+\DoxyCodeLine{620 \_\_inline HRESULT \_\_stdcall IXACTCue\_SetVoiceOutputVolume(IXACTCue* pCue, LPCXAUDIOVOICEOUTPUTVOLUME pVolume)}
+\DoxyCodeLine{621 \{}
+\DoxyCodeLine{622     \textcolor{keywordflow}{return} pCue-\/>SetVoiceOutputVolume(pVolume);}
+\DoxyCodeLine{623 \}}
+\DoxyCodeLine{624 }
+\DoxyCodeLine{625 \_\_inline HRESULT \_\_stdcall IXACTCue\_GetProperties(IXACTCue* pCue, LPXACTCUEPROPERTIES pProperties)}
+\DoxyCodeLine{626 \{}
+\DoxyCodeLine{627     \textcolor{keywordflow}{return} pCue-\/>GetProperties(pProperties);}
+\DoxyCodeLine{628 \}}
+\DoxyCodeLine{629 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_XBOX}}
+\DoxyCodeLine{630 }
+\DoxyCodeLine{631 \textcolor{preprocessor}{\#else }\textcolor{comment}{// \_\_cplusplus}}
+\DoxyCodeLine{632 }
+\DoxyCodeLine{633 \_\_inline HRESULT \_\_stdcall IXACTCue\_Play(IXACTCue* pCue)}
+\DoxyCodeLine{634 \{}
+\DoxyCodeLine{635     \textcolor{keywordflow}{return} pCue-\/>lpVtbl-\/>Play(pCue);}
+\DoxyCodeLine{636 \}}
+\DoxyCodeLine{637 }
+\DoxyCodeLine{638 \_\_inline HRESULT \_\_stdcall IXACTCue\_Stop(IXACTCue* pCue, DWORD dwFlags)}
+\DoxyCodeLine{639 \{}
+\DoxyCodeLine{640     \textcolor{keywordflow}{return} pCue-\/>lpVtbl-\/>Stop(pCue, dwFlags);}
+\DoxyCodeLine{641 \}}
+\DoxyCodeLine{642 }
+\DoxyCodeLine{643 \_\_inline HRESULT \_\_stdcall IXACTCue\_GetState(IXACTCue* pCue, DWORD* pdwState)}
+\DoxyCodeLine{644 \{}
+\DoxyCodeLine{645     \textcolor{keywordflow}{return} pCue-\/>lpVtbl-\/>GetState(pCue, pdwState);}
+\DoxyCodeLine{646 \}}
+\DoxyCodeLine{647 }
+\DoxyCodeLine{648 \_\_inline HRESULT \_\_stdcall IXACTCue\_Destroy(IXACTCue* pCue)}
+\DoxyCodeLine{649 \{}
+\DoxyCodeLine{650     \textcolor{keywordflow}{return} pCue-\/>lpVtbl-\/>Destroy(pCue);}
+\DoxyCodeLine{651 \}}
+\DoxyCodeLine{652 }
+\DoxyCodeLine{653 \_\_inline HRESULT \_\_stdcall IXACTCue\_GetChannelMap(IXACTCue* pCue, \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_m_a_p}{LPXACTCHANNELMAP}} pChannelMap, DWORD BufferSize, LPDWORD pRequiredSize)}
+\DoxyCodeLine{654 \{}
+\DoxyCodeLine{655     \textcolor{keywordflow}{return} pCue-\/>lpVtbl-\/>GetChannelMap(pCue, pChannelMap, BufferSize, pRequiredSize);}
+\DoxyCodeLine{656 \}}
+\DoxyCodeLine{657 }
+\DoxyCodeLine{658 \_\_inline HRESULT \_\_stdcall IXACTCue\_SetChannelMap(IXACTCue* pCue, \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_m_a_p}{LPCXACTCHANNELMAP}} pChannelMap)}
+\DoxyCodeLine{659 \{}
+\DoxyCodeLine{660     \textcolor{keywordflow}{return} pCue-\/>lpVtbl-\/>SetChannelMap(pCue, pChannelMap);}
+\DoxyCodeLine{661 \}}
+\DoxyCodeLine{662 }
+\DoxyCodeLine{663 \_\_inline HRESULT \_\_stdcall IXACTCue\_GetChannelVolume(IXACTCue* pCue, \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_v_o_l_u_m_e}{LPXACTCHANNELVOLUME}} pVolume)}
+\DoxyCodeLine{664 \{}
+\DoxyCodeLine{665     \textcolor{keywordflow}{return} pCue-\/>lpVtbl-\/>GetChannelVolume(pCue, pVolume);}
+\DoxyCodeLine{666 \}}
+\DoxyCodeLine{667 }
+\DoxyCodeLine{668 \_\_inline HRESULT \_\_stdcall IXACTCue\_SetChannelVolume(IXACTCue* pCue, \mbox{\hyperlink{struct_x_a_c_t_c_h_a_n_n_e_l_v_o_l_u_m_e}{LPCXACTCHANNELVOLUME}} pVolume)}
+\DoxyCodeLine{669 \{}
+\DoxyCodeLine{670     \textcolor{keywordflow}{return} pCue-\/>lpVtbl-\/>SetChannelVolume(pCue, pVolume);}
+\DoxyCodeLine{671 \}}
+\DoxyCodeLine{672 }
+\DoxyCodeLine{673 \_\_inline HRESULT \_\_stdcall IXACTCue\_SetMatrixCoefficients(IXACTCue* pCue, UINT32 uSrcChannelCount, UINT32 uDstChannelCount, \textcolor{keywordtype}{float}* pMatrixCoefficients)}
+\DoxyCodeLine{674 \{}
+\DoxyCodeLine{675     \textcolor{keywordflow}{return} pCue-\/>lpVtbl-\/>SetMatrixCoefficients(pCue, uSrcChannelCount, uDstChannelCount, pMatrixCoefficients);}
+\DoxyCodeLine{676 \}}
+\DoxyCodeLine{677 }
+\DoxyCodeLine{678 \_\_inline XACTVARIABLEINDEX \_\_stdcall IXACTCue\_GetVariableIndex(IXACTCue* pCue, PCSTR szFriendlyName)}
+\DoxyCodeLine{679 \{}
+\DoxyCodeLine{680     \textcolor{keywordflow}{return} pCue-\/>lpVtbl-\/>GetVariableIndex(pCue, szFriendlyName);}
+\DoxyCodeLine{681 \}}
+\DoxyCodeLine{682 }
+\DoxyCodeLine{683 \_\_inline HRESULT \_\_stdcall IXACTCue\_SetVariable(IXACTCue* pCue, XACTVARIABLEINDEX nIndex, XACTVARIABLEVALUE nValue)}
+\DoxyCodeLine{684 \{}
+\DoxyCodeLine{685     \textcolor{keywordflow}{return} pCue-\/>lpVtbl-\/>SetVariable(pCue, nIndex, nValue);}
+\DoxyCodeLine{686 \}}
+\DoxyCodeLine{687 }
+\DoxyCodeLine{688 \_\_inline HRESULT \_\_stdcall IXACTCue\_GetVariable(IXACTCue* pCue, XACTVARIABLEINDEX nIndex, XACTVARIABLEVALUE* pnValue)}
+\DoxyCodeLine{689 \{}
+\DoxyCodeLine{690     \textcolor{keywordflow}{return} pCue-\/>lpVtbl-\/>GetVariable(pCue, nIndex, pnValue);}
+\DoxyCodeLine{691 \}}
+\DoxyCodeLine{692 }
+\DoxyCodeLine{693 \_\_inline HRESULT \_\_stdcall IXACTCue\_Pause(IXACTCue* pCue, BOOL fPause)}
+\DoxyCodeLine{694 \{}
+\DoxyCodeLine{695     \textcolor{keywordflow}{return} pCue-\/>lpVtbl-\/>Pause(pCue, fPause);}
+\DoxyCodeLine{696 \}}
+\DoxyCodeLine{697 }
+\DoxyCodeLine{698 \textcolor{preprocessor}{\#ifdef \_XBOX}}
+\DoxyCodeLine{699 \_\_inline HRESULT \_\_stdcall IXACTCue\_SetVoiceOutput(IXACTCue* pCue, LPCXAUDIOVOICEOUTPUT pVoiceOutput)}
+\DoxyCodeLine{700 \{}
+\DoxyCodeLine{701     \textcolor{keywordflow}{return} pCue-\/>lpVtbl-\/>SetVoiceOutput(pCue, pVoiceOutput);}
+\DoxyCodeLine{702 \}}
+\DoxyCodeLine{703 }
+\DoxyCodeLine{704 \_\_inline HRESULT \_\_stdcall IXACTCue\_SetVoiceOutputVolume(IXACTCue* pCue, LPCXAUDIOVOICEOUTPUTVOLUME pVolume)}
+\DoxyCodeLine{705 \{}
+\DoxyCodeLine{706     \textcolor{keywordflow}{return} pCue-\/>lpVtbl-\/>SetVoiceOutputVolume(pCue, pVolume);}
+\DoxyCodeLine{707 \}}
+\DoxyCodeLine{708 }
+\DoxyCodeLine{709 \_\_inline HRESULT \_\_stdcall IXACTCue\_GetProperties(IXACTCue* pCue, LPXACTCUEPROPERTIES pProperties)}
+\DoxyCodeLine{710 \{}
+\DoxyCodeLine{711     \textcolor{keywordflow}{return} pCue-\/>lpVtbl-\/>GetProperties(pCue, pProperties);}
+\DoxyCodeLine{712 \}}
+\DoxyCodeLine{713 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_XBOX}}
+\DoxyCodeLine{714 }
+\DoxyCodeLine{715 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_\_cplusplus}}
+\DoxyCodeLine{716 }
+\DoxyCodeLine{717 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{718 \textcolor{comment}{// IXACTEngine}}
+\DoxyCodeLine{719 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{720 }
+\DoxyCodeLine{721 \textcolor{comment}{// Engine flags}}
+\DoxyCodeLine{722 \textcolor{keyword}{static} \textcolor{keyword}{const} DWORD XACT\_FLAG\_ENGINE\_CREATE\_MANAGEDATA  = 0x00000001;}
+\DoxyCodeLine{723 \textcolor{keyword}{static} \textcolor{keyword}{const} DWORD XACT\_FLAG\_ENGINE\_STOP\_IMMEDIATE     = 0x00000002;}
+\DoxyCodeLine{724 }
+\DoxyCodeLine{725 STDAPI\_(ULONG) IXACTEngine\_AddRef(IXACTEngine* pEngine);}
+\DoxyCodeLine{726 STDAPI\_(ULONG) IXACTEngine\_Release(IXACTEngine* pEngine);}
+\DoxyCodeLine{727 STDAPI IXACTEngine\_Initialize(IXACTEngine* pEngine, \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___r_u_n_t_i_m_e___p_a_r_a_m_e_t_e_r_s}{XACT\_RUNTIME\_PARAMETERS}}* pParams);}
+\DoxyCodeLine{728 STDAPI IXACTEngine\_ShutDown(IXACTEngine* pEngine);}
+\DoxyCodeLine{729 STDAPI IXACTEngine\_DoWork(IXACTEngine* pEngine);}
+\DoxyCodeLine{730 STDAPI IXACTEngine\_CreateSoundBank(IXACTEngine* pEngine, \textcolor{keyword}{const} \textcolor{keywordtype}{void}* pvBuffer, DWORD dwSize, DWORD dwFlags, DWORD dwAllocAttributes, IXACTSoundBank** ppSoundBank);}
+\DoxyCodeLine{731 STDAPI IXACTEngine\_CreateInMemoryWaveBank(IXACTEngine* pEngine, \textcolor{keyword}{const} \textcolor{keywordtype}{void}* pvBuffer, DWORD dwSize, DWORD dwFlags, DWORD dwAllocAttributes, IXACTWaveBank** ppWaveBank);}
+\DoxyCodeLine{732 STDAPI IXACTEngine\_CreateStreamingWaveBank(IXACTEngine* pEngine, \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___w_a_v_e_b_a_n_k___s_t_r_e_a_m_i_n_g___p_a_r_a_m_e_t_e_r_s}{XACT\_WAVEBANK\_STREAMING\_PARAMETERS}}* pParms, IXACTWaveBank** ppWaveBank);}
+\DoxyCodeLine{733 STDAPI IXACTEngine\_RegisterNotification(IXACTEngine* pEngine, \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___d_e_s_c_r_i_p_t_i_o_n}{XACT\_NOTIFICATION\_DESCRIPTION}}* pNotificationDesc);}
+\DoxyCodeLine{734 STDAPI IXACTEngine\_UnRegisterNotification(IXACTEngine* pEngine, \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___d_e_s_c_r_i_p_t_i_o_n}{XACT\_NOTIFICATION\_DESCRIPTION}}* pNotificationDesc);}
+\DoxyCodeLine{735 STDAPI\_(XACTCATEGORY) IXACTEngine\_GetCategory(IXACTEngine* pEngine, PCSTR szFriendlyName);}
+\DoxyCodeLine{736 STDAPI IXACTEngine\_Stop(IXACTEngine* pEngine, XACTCATEGORY nCategory, DWORD dwFlags);}
+\DoxyCodeLine{737 STDAPI IXACTEngine\_SetVolume(IXACTEngine* pEngine, XACTCATEGORY nCategory, XACTVOLUME nVolume);}
+\DoxyCodeLine{738 STDAPI IXACTEngine\_Pause(IXACTEngine* pEngine, XACTCATEGORY nCategory, BOOL fPause);}
+\DoxyCodeLine{739 STDAPI\_(XACTVARIABLEINDEX) IXACTEngine\_GetGlobalVariableIndex(IXACTEngine* pEngine, PCSTR szFriendlyName);}
+\DoxyCodeLine{740 STDAPI IXACTEngine\_SetGlobalVariable(IXACTEngine* pEngine, XACTVARIABLEINDEX nIndex, XACTVARIABLEVALUE nValue);}
+\DoxyCodeLine{741 STDAPI IXACTEngine\_GetGlobalVariable(IXACTEngine* pEngine, XACTVARIABLEINDEX nIndex, XACTVARIABLEVALUE* pnValue);}
+\DoxyCodeLine{742 }
+\DoxyCodeLine{743 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{744 \textcolor{preprocessor}{\#define INTERFACE IXACTEngine}}
+\DoxyCodeLine{745 }
+\DoxyCodeLine{746 \textcolor{preprocessor}{\#ifdef \_XBOX}}
+\DoxyCodeLine{747 DECLARE\_INTERFACE(IXACTEngine)}
+\DoxyCodeLine{748 \{}
+\DoxyCodeLine{749 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{750 DECLARE\_INTERFACE\_(IXACTEngine, IUnknown)}
+\DoxyCodeLine{751 \{}
+\DoxyCodeLine{752     STDMETHOD(QueryInterface)(THIS\_ REFIID riid, OUT \textcolor{keywordtype}{void}** ppvObj) PURE;}
+\DoxyCodeLine{753 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{754 }
+\DoxyCodeLine{755     STDMETHOD\_(ULONG, AddRef)(THIS) PURE;}
+\DoxyCodeLine{756     STDMETHOD\_(ULONG, Release)(THIS) PURE;}
+\DoxyCodeLine{757 }
+\DoxyCodeLine{758 \textcolor{preprocessor}{\#ifndef \_XBOX}}
+\DoxyCodeLine{759     STDMETHOD(GetRendererCount)(THIS\_ XACTINDEX* pnRendererCount) PURE;}
+\DoxyCodeLine{760     STDMETHOD(GetRendererDetails)(THIS\_ XACTINDEX nRendererIndex, \mbox{\hyperlink{struct_x_a_c_t___r_e_n_d_e_r_e_r___d_e_t_a_i_l_s}{LPXACT\_RENDERER\_DETAILS}} pRendererDetails) PURE;}
+\DoxyCodeLine{761 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{762 }
+\DoxyCodeLine{763     STDMETHOD(Initialize)(THIS\_ \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___r_u_n_t_i_m_e___p_a_r_a_m_e_t_e_r_s}{XACT\_RUNTIME\_PARAMETERS}}* pParams) PURE;}
+\DoxyCodeLine{764     STDMETHOD(ShutDown)(THIS) PURE;}
+\DoxyCodeLine{765 }
+\DoxyCodeLine{766     STDMETHOD(DoWork)(THIS) PURE;}
+\DoxyCodeLine{767 }
+\DoxyCodeLine{768     STDMETHOD(CreateSoundBank)(THIS\_ \textcolor{keyword}{const} \textcolor{keywordtype}{void}* pvBuffer, DWORD dwSize, DWORD dwFlags, DWORD dwAllocAttributes, IXACTSoundBank** ppSoundBank) PURE;}
+\DoxyCodeLine{769     STDMETHOD(CreateInMemoryWaveBank)(THIS\_ \textcolor{keyword}{const} \textcolor{keywordtype}{void}* pvBuffer, DWORD dwSize, DWORD dwFlags, DWORD dwAllocAttributes, IXACTWaveBank** ppWaveBank) PURE;}
+\DoxyCodeLine{770     STDMETHOD(CreateStreamingWaveBank)(THIS\_ \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___w_a_v_e_b_a_n_k___s_t_r_e_a_m_i_n_g___p_a_r_a_m_e_t_e_r_s}{XACT\_WAVEBANK\_STREAMING\_PARAMETERS}}* pParms, IXACTWaveBank** ppWaveBank) PURE;}
+\DoxyCodeLine{771 }
+\DoxyCodeLine{772     STDMETHOD(RegisterNotification)(THIS\_ \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___d_e_s_c_r_i_p_t_i_o_n}{XACT\_NOTIFICATION\_DESCRIPTION}}* pNotificationDesc) PURE;}
+\DoxyCodeLine{773     STDMETHOD(UnRegisterNotification)(THIS\_ \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___d_e_s_c_r_i_p_t_i_o_n}{XACT\_NOTIFICATION\_DESCRIPTION}}* pNotificationDesc) PURE;}
+\DoxyCodeLine{774 }
+\DoxyCodeLine{775     STDMETHOD\_(XACTCATEGORY, GetCategory)(THIS\_ PCSTR szFriendlyName) PURE;}
+\DoxyCodeLine{776     STDMETHOD(Stop)(THIS\_ XACTCATEGORY nCategory, DWORD dwFlags) PURE;}
+\DoxyCodeLine{777     STDMETHOD(SetVolume)(THIS\_ XACTCATEGORY nCategory, XACTVOLUME nVolume) PURE;}
+\DoxyCodeLine{778     STDMETHOD(Pause)(THIS\_ XACTCATEGORY nCategory, BOOL fPause) PURE;}
+\DoxyCodeLine{779 }
+\DoxyCodeLine{780     STDMETHOD\_(XACTVARIABLEINDEX, GetGlobalVariableIndex)(THIS\_ PCSTR szFriendlyName) PURE;}
+\DoxyCodeLine{781     STDMETHOD(SetGlobalVariable)(THIS\_ XACTVARIABLEINDEX nIndex, XACTVARIABLEVALUE nValue) PURE;}
+\DoxyCodeLine{782     STDMETHOD(GetGlobalVariable)(THIS\_ XACTVARIABLEINDEX nIndex, XACTVARIABLEVALUE* nValue) PURE;}
+\DoxyCodeLine{783 \};}
+\DoxyCodeLine{784 }
+\DoxyCodeLine{785 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{786 }
+\DoxyCodeLine{787 \_\_inline ULONG \_\_stdcall IXACTEngine\_AddRef(IXACTEngine* pEngine)}
+\DoxyCodeLine{788 \{}
+\DoxyCodeLine{789     \textcolor{keywordflow}{return} pEngine-\/>AddRef();}
+\DoxyCodeLine{790 \}}
+\DoxyCodeLine{791 }
+\DoxyCodeLine{792 \_\_inline ULONG \_\_stdcall IXACTEngine\_Release(IXACTEngine* pEngine)}
+\DoxyCodeLine{793 \{}
+\DoxyCodeLine{794     \textcolor{keywordflow}{return} pEngine-\/>Release();}
+\DoxyCodeLine{795 \}}
+\DoxyCodeLine{796 }
+\DoxyCodeLine{797 \_\_inline HRESULT \_\_stdcall IXACTEngine\_Initialize(IXACTEngine* pEngine, \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___r_u_n_t_i_m_e___p_a_r_a_m_e_t_e_r_s}{XACT\_RUNTIME\_PARAMETERS}}* pParams)}
+\DoxyCodeLine{798 \{}
+\DoxyCodeLine{799     \textcolor{keywordflow}{return} pEngine-\/>Initialize(pParams);}
+\DoxyCodeLine{800 \}}
+\DoxyCodeLine{801 }
+\DoxyCodeLine{802 \_\_inline HRESULT \_\_stdcall IXACTEngine\_ShutDown(IXACTEngine* pEngine)}
+\DoxyCodeLine{803 \{}
+\DoxyCodeLine{804     \textcolor{keywordflow}{return} pEngine-\/>ShutDown();}
+\DoxyCodeLine{805 \}}
+\DoxyCodeLine{806 }
+\DoxyCodeLine{807 \_\_inline HRESULT \_\_stdcall IXACTEngine\_DoWork(IXACTEngine* pEngine)}
+\DoxyCodeLine{808 \{}
+\DoxyCodeLine{809     \textcolor{keywordflow}{return} pEngine-\/>DoWork();}
+\DoxyCodeLine{810 \}}
+\DoxyCodeLine{811 }
+\DoxyCodeLine{812 \_\_inline HRESULT \_\_stdcall IXACTEngine\_CreateSoundBank(IXACTEngine* pEngine, \textcolor{keyword}{const} \textcolor{keywordtype}{void}* pvBuffer, DWORD dwSize, DWORD dwFlags, DWORD dwAllocAttributes, IXACTSoundBank** ppSoundBank)}
+\DoxyCodeLine{813 \{}
+\DoxyCodeLine{814     \textcolor{keywordflow}{return} pEngine-\/>CreateSoundBank(pvBuffer, dwSize, dwFlags, dwAllocAttributes, ppSoundBank);}
+\DoxyCodeLine{815 \}}
+\DoxyCodeLine{816 }
+\DoxyCodeLine{817 \_\_inline HRESULT \_\_stdcall IXACTEngine\_CreateInMemoryWaveBank(IXACTEngine* pEngine, \textcolor{keyword}{const} \textcolor{keywordtype}{void}* pvBuffer, DWORD dwSize, DWORD dwFlags, DWORD dwAllocAttributes, IXACTWaveBank** ppWaveBank)}
+\DoxyCodeLine{818 \{}
+\DoxyCodeLine{819     \textcolor{keywordflow}{return} pEngine-\/>CreateInMemoryWaveBank(pvBuffer, dwSize, dwFlags, dwAllocAttributes, ppWaveBank);}
+\DoxyCodeLine{820 \}}
+\DoxyCodeLine{821 }
+\DoxyCodeLine{822 \_\_inline HRESULT \_\_stdcall IXACTEngine\_CreateStreamingWaveBank(IXACTEngine* pEngine, \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___w_a_v_e_b_a_n_k___s_t_r_e_a_m_i_n_g___p_a_r_a_m_e_t_e_r_s}{XACT\_WAVEBANK\_STREAMING\_PARAMETERS}}* pParms, IXACTWaveBank** ppWaveBank)}
+\DoxyCodeLine{823 \{}
+\DoxyCodeLine{824     \textcolor{keywordflow}{return} pEngine-\/>CreateStreamingWaveBank(pParms, ppWaveBank);}
+\DoxyCodeLine{825 \}}
+\DoxyCodeLine{826 }
+\DoxyCodeLine{827 \_\_inline HRESULT \_\_stdcall IXACTEngine\_RegisterNotification(IXACTEngine* pEngine, \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___d_e_s_c_r_i_p_t_i_o_n}{XACT\_NOTIFICATION\_DESCRIPTION}}* pNotificationDesc)}
+\DoxyCodeLine{828 \{}
+\DoxyCodeLine{829     \textcolor{keywordflow}{return} pEngine-\/>RegisterNotification(pNotificationDesc);}
+\DoxyCodeLine{830 \}}
+\DoxyCodeLine{831 }
+\DoxyCodeLine{832 \_\_inline HRESULT \_\_stdcall IXACTEngine\_UnRegisterNotification(IXACTEngine* pEngine, \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___d_e_s_c_r_i_p_t_i_o_n}{XACT\_NOTIFICATION\_DESCRIPTION}}* pNotificationDesc)}
+\DoxyCodeLine{833 \{}
+\DoxyCodeLine{834     \textcolor{keywordflow}{return} pEngine-\/>UnRegisterNotification(pNotificationDesc);}
+\DoxyCodeLine{835 \}}
+\DoxyCodeLine{836 }
+\DoxyCodeLine{837 \_\_inline XACTCATEGORY \_\_stdcall IXACTEngine\_GetCategory(IXACTEngine* pEngine, PCSTR szFriendlyName)}
+\DoxyCodeLine{838 \{}
+\DoxyCodeLine{839     \textcolor{keywordflow}{return} pEngine-\/>GetCategory(szFriendlyName);}
+\DoxyCodeLine{840 \}}
+\DoxyCodeLine{841 }
+\DoxyCodeLine{842 \_\_inline HRESULT \_\_stdcall IXACTEngine\_Stop(IXACTEngine* pEngine, XACTCATEGORY nCategory, DWORD dwFlags)}
+\DoxyCodeLine{843 \{}
+\DoxyCodeLine{844     \textcolor{keywordflow}{return} pEngine-\/>Stop(nCategory, dwFlags);}
+\DoxyCodeLine{845 \}}
+\DoxyCodeLine{846 }
+\DoxyCodeLine{847 \_\_inline HRESULT \_\_stdcall IXACTEngine\_SetVolume(IXACTEngine* pEngine, XACTCATEGORY nCategory, XACTVOLUME nVolume)}
+\DoxyCodeLine{848 \{}
+\DoxyCodeLine{849     \textcolor{keywordflow}{return} pEngine-\/>SetVolume(nCategory, nVolume);}
+\DoxyCodeLine{850 \}}
+\DoxyCodeLine{851 }
+\DoxyCodeLine{852 \_\_inline HRESULT \_\_stdcall IXACTEngine\_Pause(IXACTEngine* pEngine, XACTCATEGORY nCategory, BOOL fPause)}
+\DoxyCodeLine{853 \{}
+\DoxyCodeLine{854     \textcolor{keywordflow}{return} pEngine-\/>Pause(nCategory, fPause);}
+\DoxyCodeLine{855 \}}
+\DoxyCodeLine{856 }
+\DoxyCodeLine{857 \_\_inline XACTVARIABLEINDEX \_\_stdcall IXACTEngine\_GetGlobalVariableIndex(IXACTEngine* pEngine, PCSTR szFriendlyName)}
+\DoxyCodeLine{858 \{}
+\DoxyCodeLine{859     \textcolor{keywordflow}{return} pEngine-\/>GetGlobalVariableIndex(szFriendlyName);}
+\DoxyCodeLine{860 \}}
+\DoxyCodeLine{861 }
+\DoxyCodeLine{862 \_\_inline HRESULT \_\_stdcall IXACTEngine\_SetGlobalVariable(IXACTEngine* pEngine, XACTVARIABLEINDEX nIndex, XACTVARIABLEVALUE nValue)}
+\DoxyCodeLine{863 \{}
+\DoxyCodeLine{864     \textcolor{keywordflow}{return} pEngine-\/>SetGlobalVariable(nIndex, nValue);}
+\DoxyCodeLine{865 \}}
+\DoxyCodeLine{866 }
+\DoxyCodeLine{867 \_\_inline HRESULT \_\_stdcall IXACTEngine\_GetGlobalVariable(IXACTEngine* pEngine, XACTVARIABLEINDEX nIndex, XACTVARIABLEVALUE* nValue)}
+\DoxyCodeLine{868 \{}
+\DoxyCodeLine{869     \textcolor{keywordflow}{return} pEngine-\/>GetGlobalVariable(nIndex, nValue);}
+\DoxyCodeLine{870 \}}
+\DoxyCodeLine{871 }
+\DoxyCodeLine{872 \textcolor{preprocessor}{\#else }\textcolor{comment}{// \_\_cplusplus}}
+\DoxyCodeLine{873 }
+\DoxyCodeLine{874 \_\_inline ULONG \_\_stdcall IXACTEngine\_AddRef(IXACTEngine* pEngine)}
+\DoxyCodeLine{875 \{}
+\DoxyCodeLine{876     \textcolor{keywordflow}{return} pEngine-\/>lpVtbl-\/>AddRef(pEngine);}
+\DoxyCodeLine{877 \}}
+\DoxyCodeLine{878 }
+\DoxyCodeLine{879 \_\_inline ULONG \_\_stdcall IXACTEngine\_Release(IXACTEngine* pEngine)}
+\DoxyCodeLine{880 \{}
+\DoxyCodeLine{881     \textcolor{keywordflow}{return} pEngine-\/>lpVtbl-\/>Release(pEngine);}
+\DoxyCodeLine{882 \}}
+\DoxyCodeLine{883 }
+\DoxyCodeLine{884 \_\_inline HRESULT \_\_stdcall IXACTEngine\_Initialize(IXACTEngine* pEngine, \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___r_u_n_t_i_m_e___p_a_r_a_m_e_t_e_r_s}{XACT\_RUNTIME\_PARAMETERS}}* pParams)}
+\DoxyCodeLine{885 \{}
+\DoxyCodeLine{886     \textcolor{keywordflow}{return} pEngine-\/>lpVtbl-\/>Initialize(pEngine, pParams);}
+\DoxyCodeLine{887 \}}
+\DoxyCodeLine{888 }
+\DoxyCodeLine{889 \_\_inline HRESULT \_\_stdcall IXACTEngine\_ShutDown(IXACTEngine* pEngine)}
+\DoxyCodeLine{890 \{}
+\DoxyCodeLine{891     \textcolor{keywordflow}{return} pEngine-\/>lpVtbl-\/>ShutDown(pEngine);}
+\DoxyCodeLine{892 \}}
+\DoxyCodeLine{893 }
+\DoxyCodeLine{894 \_\_inline HRESULT \_\_stdcall IXACTEngine\_DoWork(IXACTEngine* pEngine)}
+\DoxyCodeLine{895 \{}
+\DoxyCodeLine{896     \textcolor{keywordflow}{return} pEngine-\/>lpVtbl-\/>DoWork(pEngine);}
+\DoxyCodeLine{897 \}}
+\DoxyCodeLine{898 }
+\DoxyCodeLine{899 \_\_inline HRESULT \_\_stdcall IXACTEngine\_CreateSoundBank(IXACTEngine* pEngine, \textcolor{keyword}{const} \textcolor{keywordtype}{void}* pvBuffer, DWORD dwSize, DWORD dwFlags, DWORD dwAllocAttributes, IXACTSoundBank** ppSoundBank)}
+\DoxyCodeLine{900 \{}
+\DoxyCodeLine{901     \textcolor{keywordflow}{return} pEngine-\/>lpVtbl-\/>CreateSoundBank(pEngine, pvBuffer, dwSize, dwFlags, dwAllocAttributes, ppSoundBank);}
+\DoxyCodeLine{902 \}}
+\DoxyCodeLine{903 }
+\DoxyCodeLine{904 \_\_inline HRESULT \_\_stdcall IXACTEngine\_CreateInMemoryWaveBank(IXACTEngine* pEngine, \textcolor{keyword}{const} \textcolor{keywordtype}{void}* pvBuffer, DWORD dwSize, DWORD dwFlags, DWORD dwAllocAttributes, IXACTWaveBank** ppWaveBank)}
+\DoxyCodeLine{905 \{}
+\DoxyCodeLine{906     \textcolor{keywordflow}{return} pEngine-\/>lpVtbl-\/>CreateInMemoryWaveBank(pEngine, pvBuffer, dwSize, dwFlags, dwAllocAttributes, ppWaveBank);}
+\DoxyCodeLine{907 \}}
+\DoxyCodeLine{908 }
+\DoxyCodeLine{909 \_\_inline HRESULT \_\_stdcall IXACTEngine\_CreateStreamingWaveBank(IXACTEngine* pEngine, \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___w_a_v_e_b_a_n_k___s_t_r_e_a_m_i_n_g___p_a_r_a_m_e_t_e_r_s}{XACT\_WAVEBANK\_STREAMING\_PARAMETERS}}* pParms, IXACTWaveBank** ppWaveBank)}
+\DoxyCodeLine{910 \{}
+\DoxyCodeLine{911     \textcolor{keywordflow}{return} pEngine-\/>lpVtbl-\/>CreateStreamingWaveBank(pEngine, pParms, ppWaveBank);}
+\DoxyCodeLine{912 \}}
+\DoxyCodeLine{913 }
+\DoxyCodeLine{914 \_\_inline HRESULT \_\_stdcall IXACTEngine\_RegisterNotification(IXACTEngine* pEngine, \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___d_e_s_c_r_i_p_t_i_o_n}{XACT\_NOTIFICATION\_DESCRIPTION}}* pNotificationDesc)}
+\DoxyCodeLine{915 \{}
+\DoxyCodeLine{916     \textcolor{keywordflow}{return} pEngine-\/>lpVtbl-\/>RegisterNotification(pEngine, pNotificationDesc);}
+\DoxyCodeLine{917 \}}
+\DoxyCodeLine{918 }
+\DoxyCodeLine{919 \_\_inline HRESULT \_\_stdcall IXACTEngine\_UnRegisterNotification(IXACTEngine* pEngine, \textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___d_e_s_c_r_i_p_t_i_o_n}{XACT\_NOTIFICATION\_DESCRIPTION}}* pNotificationDesc)}
+\DoxyCodeLine{920 \{}
+\DoxyCodeLine{921     \textcolor{keywordflow}{return} pEngine-\/>lpVtbl-\/>UnRegisterNotification(pEngine, pNotificationDesc);}
+\DoxyCodeLine{922 \}}
+\DoxyCodeLine{923 }
+\DoxyCodeLine{924 \_\_inline XACTCATEGORY \_\_stdcall IXACTEngine\_GetCategory(IXACTEngine* pEngine, PCSTR szFriendlyName)}
+\DoxyCodeLine{925 \{}
+\DoxyCodeLine{926     \textcolor{keywordflow}{return} pEngine-\/>lpVtbl-\/>GetCategory(pEngine, szFriendlyName);}
+\DoxyCodeLine{927 \}}
+\DoxyCodeLine{928 }
+\DoxyCodeLine{929 \_\_inline HRESULT \_\_stdcall IXACTEngine\_Stop(IXACTEngine* pEngine, XACTCATEGORY nCategory, DWORD dwFlags)}
+\DoxyCodeLine{930 \{}
+\DoxyCodeLine{931     \textcolor{keywordflow}{return} pEngine-\/>lpVtbl-\/>Stop(pEngine, nCategory, dwFlags);}
+\DoxyCodeLine{932 \}}
+\DoxyCodeLine{933 }
+\DoxyCodeLine{934 \_\_inline HRESULT \_\_stdcall IXACTEngine\_SetVolume(IXACTEngine* pEngine, XACTCATEGORY nCategory, XACTVOLUME nVolume)}
+\DoxyCodeLine{935 \{}
+\DoxyCodeLine{936     \textcolor{keywordflow}{return} pEngine-\/>lpVtbl-\/>SetVolume(pEngine, nCategory, nVolume);}
+\DoxyCodeLine{937 \}}
+\DoxyCodeLine{938 }
+\DoxyCodeLine{939 \_\_inline HRESULT \_\_stdcall IXACTEngine\_Pause(IXACTEngine* pEngine, XACTCATEGORY nCategory, BOOL fPause)}
+\DoxyCodeLine{940 \{}
+\DoxyCodeLine{941     \textcolor{keywordflow}{return} pEngine-\/>lpVtbl-\/>Pause(pEngine, nCategory, fPause);}
+\DoxyCodeLine{942 \}}
+\DoxyCodeLine{943 }
+\DoxyCodeLine{944 \_\_inline XACTVARIABLEINDEX \_\_stdcall IXACTEngine\_GetGlobalVariableIndex(IXACTEngine* pEngine, PCSTR szFriendlyName)}
+\DoxyCodeLine{945 \{}
+\DoxyCodeLine{946     \textcolor{keywordflow}{return} pEngine-\/>lpVtbl-\/>GetGlobalVariableIndex(pEngine, szFriendlyName);}
+\DoxyCodeLine{947 \}}
+\DoxyCodeLine{948 }
+\DoxyCodeLine{949 \_\_inline HRESULT \_\_stdcall IXACTEngine\_SetGlobalVariable(IXACTEngine* pEngine, XACTVARIABLEINDEX nIndex, XACTVARIABLEVALUE nValue)}
+\DoxyCodeLine{950 \{}
+\DoxyCodeLine{951     \textcolor{keywordflow}{return} pEngine-\/>lpVtbl-\/>SetGlobalVariable(pEngine, nIndex, nValue);}
+\DoxyCodeLine{952 \}}
+\DoxyCodeLine{953 }
+\DoxyCodeLine{954 \_\_inline HRESULT \_\_stdcall IXACTEngine\_GetGlobalVariable(IXACTEngine* pEngine, XACTVARIABLEINDEX nIndex, XACTVARIABLEVALUE* nValue)}
+\DoxyCodeLine{955 \{}
+\DoxyCodeLine{956     \textcolor{keywordflow}{return} pEngine-\/>lpVtbl-\/>GetGlobalVariable(pEngine, nIndex, nValue);}
+\DoxyCodeLine{957 \}}
+\DoxyCodeLine{958 }
+\DoxyCodeLine{959 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_\_cplusplus}}
+\DoxyCodeLine{960 }
+\DoxyCodeLine{961 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{962 \textcolor{comment}{// XACT API's (these are deprecated and will be removed in a future release)}}
+\DoxyCodeLine{963 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{964 }
+\DoxyCodeLine{965 \textcolor{preprocessor}{\#ifdef \_XBOX}}
+\DoxyCodeLine{966 }
+\DoxyCodeLine{967 \textcolor{keyword}{static} \textcolor{keyword}{const} DWORD XACT\_FLAG\_API\_CREATE\_MANAGEDATA  = 0x00000001;}
+\DoxyCodeLine{968 \textcolor{keyword}{static} \textcolor{keyword}{const} DWORD XACT\_FLAG\_API\_STOP\_IMMEDIATE     = 0x00000002;}
+\DoxyCodeLine{969 }
+\DoxyCodeLine{970 STDAPI XACTInitialize(\textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___r_u_n_t_i_m_e___p_a_r_a_m_e_t_e_r_s}{XACT\_RUNTIME\_PARAMETERS}}* pParams);}
+\DoxyCodeLine{971 STDAPI XACTShutDown(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{972 STDAPI XACTDoWork(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{973 }
+\DoxyCodeLine{974 STDAPI XACTCreateSoundBank(\textcolor{keyword}{const} \textcolor{keywordtype}{void}* pvBuffer, DWORD dwSize, DWORD dwFlags, DWORD dwAllocAttributes, IXACTSoundBank** ppSoundBank);}
+\DoxyCodeLine{975 STDAPI XACTCreateInMemoryWaveBank(\textcolor{keyword}{const} \textcolor{keywordtype}{void}* pvBuffer, DWORD dwSize, DWORD dwFlags, DWORD dwAllocAttributes, IXACTWaveBank** ppWaveBank);}
+\DoxyCodeLine{976 STDAPI XACTCreateStreamingWaveBank(\textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___w_a_v_e_b_a_n_k___s_t_r_e_a_m_i_n_g___p_a_r_a_m_e_t_e_r_s}{XACT\_WAVEBANK\_STREAMING\_PARAMETERS}}* pParms, IXACTWaveBank** ppWaveBank);}
+\DoxyCodeLine{977 }
+\DoxyCodeLine{978 STDAPI XACTRegisterNotification(\textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___d_e_s_c_r_i_p_t_i_o_n}{XACT\_NOTIFICATION\_DESCRIPTION}}* pNotificationDesc);}
+\DoxyCodeLine{979 STDAPI XACTUnRegisterNotification(\textcolor{keyword}{const} \mbox{\hyperlink{struct_x_a_c_t___n_o_t_i_f_i_c_a_t_i_o_n___d_e_s_c_r_i_p_t_i_o_n}{XACT\_NOTIFICATION\_DESCRIPTION}}* pNotificationDesc);}
+\DoxyCodeLine{980 }
+\DoxyCodeLine{981 STDAPI\_(XACTCATEGORY) XACTGetCategory(PCSTR szFriendlyName);}
+\DoxyCodeLine{982 STDAPI XACTStop(XACTCATEGORY nCategory, DWORD dwFlags);}
+\DoxyCodeLine{983 STDAPI XACTSetVolume(XACTCATEGORY nCategory, XACTVOLUME nVolume);}
+\DoxyCodeLine{984 STDAPI XACTPause(XACTCATEGORY nCategory, BOOL fPause);}
+\DoxyCodeLine{985 }
+\DoxyCodeLine{986 STDAPI\_(XACTVARIABLEINDEX) XACTGetGlobalVariableIndex(PCSTR szFriendlyName);}
+\DoxyCodeLine{987 STDAPI XACTSetGlobalVariable(XACTVARIABLEINDEX nIndex, XACTVARIABLEVALUE nValue);}
+\DoxyCodeLine{988 STDAPI XACTGetGlobalVariable(XACTVARIABLEINDEX nIndex, XACTVARIABLEVALUE* pnValue);}
+\DoxyCodeLine{989 }
+\DoxyCodeLine{990 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \#ifdef \_XBOX}}
+\DoxyCodeLine{991 }
+\DoxyCodeLine{992 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{993 \textcolor{comment}{// Create Engine}}
+\DoxyCodeLine{994 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{995 }
+\DoxyCodeLine{996 \textcolor{comment}{// Flag used only in XACTCreateEngine below.  This flag is valid but ignored}}
+\DoxyCodeLine{997 \textcolor{comment}{// when building for Xbox 360; to enable auditioning on that platform you must}}
+\DoxyCodeLine{998 \textcolor{comment}{// link explicitly to an auditioning version of the XACT static library.}}
+\DoxyCodeLine{999 \textcolor{keyword}{static} \textcolor{keyword}{const} DWORD XACT\_FLAG\_API\_AUDITION\_MODE = 0x00000001;}
+\DoxyCodeLine{1000 }
+\DoxyCodeLine{1001 STDAPI XACTCreateEngine(DWORD dwCreationFlags, IXACTEngine** ppEngine);}
+\DoxyCodeLine{1002 }
+\DoxyCodeLine{1003 \textcolor{preprocessor}{\#ifndef \_XBOX}}
+\DoxyCodeLine{1004 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{1005 }
+\DoxyCodeLine{1006 \_\_inline HRESULT \_\_stdcall XACTCreateEngine(DWORD dwCreationFlags, IXACTEngine** ppEngine)}
+\DoxyCodeLine{1007 \{}
+\DoxyCodeLine{1008     \textcolor{keywordflow}{return} CoCreateInstance(dwCreationFlags \& XACT\_FLAG\_API\_AUDITION\_MODE}
+\DoxyCodeLine{1009                             ? \_\_uuidof(XACTAuditionEngine)}
+\DoxyCodeLine{1010                             : \_\_uuidof(XACTEngine),}
+\DoxyCodeLine{1011                             NULL, CLSCTX\_INPROC\_SERVER, \_\_uuidof(IXACTEngine), (\textcolor{keywordtype}{void}**)ppEngine);}
+\DoxyCodeLine{1012 \}}
+\DoxyCodeLine{1013 }
+\DoxyCodeLine{1014 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1015 }
+\DoxyCodeLine{1016 \_\_inline HRESULT \_\_stdcall XACTCreateEngine(DWORD dwCreationFlags, IXACTEngine** ppEngine)}
+\DoxyCodeLine{1017 \{}
+\DoxyCodeLine{1018     \textcolor{keywordflow}{return} CoCreateInstance(dwCreationFlags \& XACT\_FLAG\_API\_AUDITION\_MODE}
+\DoxyCodeLine{1019                             ? \&CLSID\_XACTAuditionEngine}
+\DoxyCodeLine{1020                             : \&CLSID\_XACTEngine,}
+\DoxyCodeLine{1021                             NULL, CLSCTX\_INPROC\_SERVER, \&IID\_IXACTEngine, (\textcolor{keywordtype}{void}**)ppEngine);}
+\DoxyCodeLine{1022 \}}
+\DoxyCodeLine{1023 }
+\DoxyCodeLine{1024 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \#ifdef \_\_cplusplus}}
+\DoxyCodeLine{1025 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \#ifndef \_XBOX}}
+\DoxyCodeLine{1026 }
+\DoxyCodeLine{1027 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1028 \textcolor{comment}{// XACT specific error codes}}
+\DoxyCodeLine{1029 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1030 }
+\DoxyCodeLine{1031 \textcolor{preprocessor}{\#define FACILITY\_XACTENGINE 0xAC7}}
+\DoxyCodeLine{1032 \textcolor{preprocessor}{\#define XACTENGINEERROR(n) MAKE\_HRESULT(SEVERITY\_ERROR, FACILITY\_XACTENGINE, n)}}
+\DoxyCodeLine{1033 }
+\DoxyCodeLine{1034 \textcolor{preprocessor}{\#define XACTENGINE\_E\_OUTOFMEMORY               E\_OUTOFMEMORY      }\textcolor{comment}{// Out of memory}}
+\DoxyCodeLine{1035 \textcolor{preprocessor}{\#define XACTENGINE\_E\_INVALIDARG                E\_INVALIDARG       }\textcolor{comment}{// Invalid arg}}
+\DoxyCodeLine{1036 \textcolor{preprocessor}{\#define XACTENGINE\_E\_NOTIMPL                   E\_NOTIMPL          }\textcolor{comment}{// Not implemented}}
+\DoxyCodeLine{1037 \textcolor{preprocessor}{\#define XACTENGINE\_E\_FAIL                      E\_FAIL             }\textcolor{comment}{// Unknown error}}
+\DoxyCodeLine{1038 }
+\DoxyCodeLine{1039 \textcolor{preprocessor}{\#define XACTENGINE\_E\_ALREADYINITIALIZED        XACTENGINEERROR(0x001)   }\textcolor{comment}{// The engine is already initialized}}
+\DoxyCodeLine{1040 \textcolor{preprocessor}{\#define XACTENGINE\_E\_NOTINITIALIZED            XACTENGINEERROR(0x002)   }\textcolor{comment}{// The engine has not been initialized}}
+\DoxyCodeLine{1041 \textcolor{preprocessor}{\#define XACTENGINE\_E\_EXPIRED                   XACTENGINEERROR(0x003)   }\textcolor{comment}{// The engine has expired (demo or pre-\/release version)}}
+\DoxyCodeLine{1042 \textcolor{preprocessor}{\#define XACTENGINE\_E\_NONOTIFICATIONCALLBACK    XACTENGINEERROR(0x004)   }\textcolor{comment}{// No notification callback}}
+\DoxyCodeLine{1043 \textcolor{preprocessor}{\#define XACTENGINE\_E\_NOTIFICATIONREGISTERED    XACTENGINEERROR(0x005)   }\textcolor{comment}{// Notification already registered}}
+\DoxyCodeLine{1044 \textcolor{preprocessor}{\#define XACTENGINE\_E\_INVALIDUSAGE              XACTENGINEERROR(0x006)   }\textcolor{comment}{// Invalid usage}}
+\DoxyCodeLine{1045 \textcolor{preprocessor}{\#define XACTENGINE\_E\_INVALIDDATA               XACTENGINEERROR(0x007)   }\textcolor{comment}{// Invalid data}}
+\DoxyCodeLine{1046 \textcolor{preprocessor}{\#define XACTENGINE\_E\_INSTANCELIMITFAILTOPLAY   XACTENGINEERROR(0x008)   }\textcolor{comment}{// Fail to play due to instance limit}}
+\DoxyCodeLine{1047 \textcolor{preprocessor}{\#define XACTENGINE\_E\_NOGLOBALSETTINGS          XACTENGINEERROR(0x009)   }\textcolor{comment}{// Global Settings not loaded}}
+\DoxyCodeLine{1048 \textcolor{preprocessor}{\#define XACTENGINE\_E\_INVALIDVARIABLEINDEX      XACTENGINEERROR(0x00a)   }\textcolor{comment}{// Invalid variable index}}
+\DoxyCodeLine{1049 \textcolor{preprocessor}{\#define XACTENGINE\_E\_INVALIDCATEGORY           XACTENGINEERROR(0x00b)   }\textcolor{comment}{// Invalid category}}
+\DoxyCodeLine{1050 \textcolor{preprocessor}{\#define XACTENGINE\_E\_INVALIDCUEINDEX           XACTENGINEERROR(0x00c)   }\textcolor{comment}{// Invalid cue index}}
+\DoxyCodeLine{1051 \textcolor{preprocessor}{\#define XACTENGINE\_E\_INVALIDWAVEINDEX          XACTENGINEERROR(0x00d)   }\textcolor{comment}{// Invalid wave index}}
+\DoxyCodeLine{1052 \textcolor{preprocessor}{\#define XACTENGINE\_E\_INVALIDTRACKINDEX         XACTENGINEERROR(0x00e)   }\textcolor{comment}{// Invalid track index}}
+\DoxyCodeLine{1053 \textcolor{preprocessor}{\#define XACTENGINE\_E\_INVALIDSOUNDOFFSETORINDEX XACTENGINEERROR(0x00f)   }\textcolor{comment}{// Invalid sound offset or index}}
+\DoxyCodeLine{1054 \textcolor{preprocessor}{\#define XACTENGINE\_E\_READFILE                  XACTENGINEERROR(0x010)   }\textcolor{comment}{// Error reading a file}}
+\DoxyCodeLine{1055 \textcolor{preprocessor}{\#define XACTENGINE\_E\_UNKNOWNEVENT              XACTENGINEERROR(0x011)   }\textcolor{comment}{// Unknown event type}}
+\DoxyCodeLine{1056 \textcolor{preprocessor}{\#define XACTENGINE\_E\_INCALLBACK                XACTENGINEERROR(0x012)   }\textcolor{comment}{// Invalid call of method of function from callback}}
+\DoxyCodeLine{1057 \textcolor{preprocessor}{\#define XACTENGINE\_E\_NOWAVEBANK                XACTENGINEERROR(0x013)   }\textcolor{comment}{// No wavebank exists for desired operation}}
+\DoxyCodeLine{1058 \textcolor{preprocessor}{\#define XACTENGINE\_E\_SELECTVARIATION           XACTENGINEERROR(0x014)   }\textcolor{comment}{// Unable to select a variation}}
+\DoxyCodeLine{1059 \textcolor{preprocessor}{\#define XACTENGINE\_E\_MULTIPLEAUDITIONENGINES   XACTENGINEERROR(0x015)   }\textcolor{comment}{// There can be only one audition engine}}
+\DoxyCodeLine{1060 \textcolor{preprocessor}{\#define XACTENGINE\_E\_WAVEBANKNOTPREPARED       XACTENGINEERROR(0x016)   }\textcolor{comment}{// The wavebank is not prepared}}
+\DoxyCodeLine{1061 \textcolor{preprocessor}{\#define XACTENGINE\_E\_NORENDERER                XACTENGINEERROR(0x017)   }\textcolor{comment}{// No audio device found on.}}
+\DoxyCodeLine{1062 \textcolor{preprocessor}{\#define XACTENGINE\_E\_INVALIDENTRYCOUNT         XACTENGINEERROR(0x018)   }\textcolor{comment}{// Invalid entry count for channel maps}}
+\DoxyCodeLine{1063 }
+\DoxyCodeLine{1064 \textcolor{preprocessor}{\#define XACTENGINE\_E\_AUDITION\_WRITEFILE        XACTENGINEERROR(0x101)  }\textcolor{comment}{// Error writing a file during auditioning}}
+\DoxyCodeLine{1065 \textcolor{preprocessor}{\#define XACTENGINE\_E\_AUDITION\_NOSOUNDBANK      XACTENGINEERROR(0x102)  }\textcolor{comment}{// Missing a soundbank}}
+\DoxyCodeLine{1066 \textcolor{preprocessor}{\#define XACTENGINE\_E\_AUDITION\_INVALIDRPCINDEX  XACTENGINEERROR(0x103)  }\textcolor{comment}{// Missing an RPC curve}}
+\DoxyCodeLine{1067 \textcolor{preprocessor}{\#define XACTENGINE\_E\_AUDITION\_MISSINGDATA      XACTENGINEERROR(0x104)  }\textcolor{comment}{// Missing data for an audition command}}
+\DoxyCodeLine{1068 \textcolor{preprocessor}{\#define XACTENGINE\_E\_AUDITION\_UNKNOWNCOMMAND   XACTENGINEERROR(0x105)  }\textcolor{comment}{// Unknown command}}
+\DoxyCodeLine{1069 \textcolor{preprocessor}{\#define XACTENGINE\_E\_AUDITION\_INVALIDDSPINDEX  XACTENGINEERROR(0x106)  }\textcolor{comment}{// Missing a DSP parameter}}
+\DoxyCodeLine{1070 }
+\DoxyCodeLine{1071 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \#ifndef GUID\_DEFS\_ONLY}}
+\DoxyCodeLine{1072 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \#ifndef \_XACT\_H\_}}
+
+\end{DoxyCode}

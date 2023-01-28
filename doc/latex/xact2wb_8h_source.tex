@@ -1,0 +1,392 @@
+\hypertarget{xact2wb_8h_source}{}\doxysection{xact2wb.\+h}
+\label{xact2wb_8h_source}\index{src/lib/dx/Include/xact2wb.h@{src/lib/dx/Include/xact2wb.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/***************************************************************************}}
+\DoxyCodeLine{2 \textcolor{comment}{ *}}
+\DoxyCodeLine{3 \textcolor{comment}{ *  Copyright (C) Microsoft Corporation.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{ *}}
+\DoxyCodeLine{5 \textcolor{comment}{ *  File:       xact2wb.h}}
+\DoxyCodeLine{6 \textcolor{comment}{ *  Content:    XACT 2 wave bank definitions.}}
+\DoxyCodeLine{7 \textcolor{comment}{ *}}
+\DoxyCodeLine{8 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#ifndef \_\_XACTWB\_H\_\_}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define \_\_XACTWB\_H\_\_}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#ifdef \_XBOX}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#   include <xauddefs.h>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#   include <math.h>}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#include <xact.h>}}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#pragma warning(push)}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#pragma warning(disable:4201)}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#pragma warning(disable:4214)   }\textcolor{comment}{// nonstandard extension used : bit field types other than int}}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#pragma pack(push, 1)}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#ifdef \_M\_PPCBE}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#pragma bitfield\_order(push, lsb\_to\_msb)}}
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#define WAVEBANK\_HEADER\_SIGNATURE   'DNBW'}}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33 \textcolor{preprocessor}{\#define WAVEBANK\_HEADER\_VERSION     XACT\_CONTENT\_VERSION          }\textcolor{comment}{// Current tool version}}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#define WAVEBANK\_BANKNAME\_LENGTH    64          }\textcolor{comment}{// Wave bank friendly name length, in characters}}
+\DoxyCodeLine{36 \textcolor{preprocessor}{\#define WAVEBANK\_ENTRYNAME\_LENGTH   64          }\textcolor{comment}{// Wave bank entry friendly name length, in characters}}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 \textcolor{preprocessor}{\#define WAVEBANK\_MAX\_DATA\_SEGMENT\_SIZE          0xFFFFFFFF  }\textcolor{comment}{// Maximum wave bank data segment size, in bytes}}
+\DoxyCodeLine{39 \textcolor{preprocessor}{\#define WAVEBANK\_MAX\_COMPACT\_DATA\_SEGMENT\_SIZE  0x001FFFFF  }\textcolor{comment}{// Maximum compact wave bank data segment size, in bytes}}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41 \textcolor{keyword}{typedef} DWORD WAVEBANKOFFSET;}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{comment}{//}}
+\DoxyCodeLine{44 \textcolor{comment}{// Bank flags}}
+\DoxyCodeLine{45 \textcolor{comment}{//}}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 \textcolor{preprocessor}{\#define WAVEBANK\_TYPE\_BUFFER         0x00000000      }\textcolor{comment}{// In-\/memory buffer}}
+\DoxyCodeLine{48 \textcolor{preprocessor}{\#define WAVEBANK\_TYPE\_STREAMING      0x00000001      }\textcolor{comment}{// Streaming}}
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#define WAVEBANK\_TYPE\_MASK           0x00000001}}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{preprocessor}{\#define WAVEBANK\_FLAGS\_ENTRYNAMES    0x00010000      }\textcolor{comment}{// Bank includes entry names}}
+\DoxyCodeLine{52 \textcolor{preprocessor}{\#define WAVEBANK\_FLAGS\_COMPACT       0x00020000      }\textcolor{comment}{// Bank uses compact format}}
+\DoxyCodeLine{53 \textcolor{preprocessor}{\#define WAVEBANK\_FLAGS\_SYNC\_DISABLED 0x00040000      }\textcolor{comment}{// Bank is disabled for audition sync}}
+\DoxyCodeLine{54 \textcolor{preprocessor}{\#define WAVEBANK\_FLAGS\_MASK          0x00070000}}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56 \textcolor{comment}{//}}
+\DoxyCodeLine{57 \textcolor{comment}{// Entry flags}}
+\DoxyCodeLine{58 \textcolor{comment}{//}}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60 \textcolor{preprocessor}{\#define WAVEBANKENTRY\_FLAGS\_READAHEAD       0x00000001  }\textcolor{comment}{// Enable stream read-\/ahead}}
+\DoxyCodeLine{61 \textcolor{preprocessor}{\#define WAVEBANKENTRY\_FLAGS\_LOOPCACHE       0x00000002  }\textcolor{comment}{// One or more looping sounds use this wave}}
+\DoxyCodeLine{62 \textcolor{preprocessor}{\#define WAVEBANKENTRY\_FLAGS\_REMOVELOOPTAIL  0x00000004  }\textcolor{comment}{// Remove data after the end of the loop region}}
+\DoxyCodeLine{63 \textcolor{preprocessor}{\#define WAVEBANKENTRY\_FLAGS\_IGNORELOOP      0x00000008  }\textcolor{comment}{// Used internally when the loop region can't be used}}
+\DoxyCodeLine{64 \textcolor{preprocessor}{\#define WAVEBANKENTRY\_FLAGS\_MASK            0x00000008}}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66 \textcolor{comment}{//}}
+\DoxyCodeLine{67 \textcolor{comment}{// Entry wave format identifiers}}
+\DoxyCodeLine{68 \textcolor{comment}{//}}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70 \textcolor{preprocessor}{\#define WAVEBANKMINIFORMAT\_TAG\_PCM      0x0     }\textcolor{comment}{// PCM data}}
+\DoxyCodeLine{71 \textcolor{preprocessor}{\#define WAVEBANKMINIFORMAT\_TAG\_XMA      0x1     }\textcolor{comment}{// XMA data}}
+\DoxyCodeLine{72 \textcolor{preprocessor}{\#define WAVEBANKMINIFORMAT\_TAG\_ADPCM    0x2     }\textcolor{comment}{// ADPCM data}}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74 \textcolor{preprocessor}{\#define WAVEBANKMINIFORMAT\_BITDEPTH\_8   0x0     }\textcolor{comment}{// 8-\/bit data (PCM only)}}
+\DoxyCodeLine{75 \textcolor{preprocessor}{\#define WAVEBANKMINIFORMAT\_BITDEPTH\_16  0x1     }\textcolor{comment}{// 16-\/bit data (PCM only)}}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{77 \textcolor{comment}{//}}
+\DoxyCodeLine{78 \textcolor{comment}{// Arbitrary fixed sizes}}
+\DoxyCodeLine{79 \textcolor{comment}{//}}
+\DoxyCodeLine{80 \textcolor{preprocessor}{\#define WAVEBANKENTRY\_XMASTREAMS\_MAX          3   }\textcolor{comment}{// enough for 5.1 channel audio}}
+\DoxyCodeLine{81 \textcolor{preprocessor}{\#define WAVEBANKENTRY\_XMACHANNELS\_MAX         6   }\textcolor{comment}{// enough for 5.1 channel audio (cf. XAUDIOCHANNEL\_SOURCEMAX)}}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{83 \textcolor{comment}{//}}
+\DoxyCodeLine{84 \textcolor{comment}{// DVD data sizes}}
+\DoxyCodeLine{85 \textcolor{comment}{//}}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87 \textcolor{preprocessor}{\#define WAVEBANK\_DVD\_SECTOR\_SIZE    2048}}
+\DoxyCodeLine{88 \textcolor{preprocessor}{\#define WAVEBANK\_DVD\_BLOCK\_SIZE     (WAVEBANK\_DVD\_SECTOR\_SIZE * 16)}}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{90 \textcolor{comment}{//}}
+\DoxyCodeLine{91 \textcolor{comment}{// Bank alignment presets}}
+\DoxyCodeLine{92 \textcolor{comment}{//}}
+\DoxyCodeLine{93 }
+\DoxyCodeLine{94 \textcolor{preprocessor}{\#define WAVEBANK\_ALIGNMENT\_MIN  4                           }\textcolor{comment}{// Minimum alignment}}
+\DoxyCodeLine{95 \textcolor{preprocessor}{\#define WAVEBANK\_ALIGNMENT\_DVD  WAVEBANK\_DVD\_SECTOR\_SIZE    }\textcolor{comment}{// DVD-\/optimized alignment}}
+\DoxyCodeLine{96 }
+\DoxyCodeLine{97 \textcolor{comment}{//}}
+\DoxyCodeLine{98 \textcolor{comment}{// Wave bank segment identifiers}}
+\DoxyCodeLine{99 \textcolor{comment}{//}}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} WAVEBANKSEGIDX}
+\DoxyCodeLine{102 \{}
+\DoxyCodeLine{103     WAVEBANK\_SEGIDX\_BANKDATA = 0,       \textcolor{comment}{// Bank data}}
+\DoxyCodeLine{104     WAVEBANK\_SEGIDX\_ENTRYMETADATA,      \textcolor{comment}{// Entry meta-\/data}}
+\DoxyCodeLine{105     WAVEBANK\_SEGIDX\_ENTRYNAMES,         \textcolor{comment}{// Entry friendly names}}
+\DoxyCodeLine{106     WAVEBANK\_SEGIDX\_EXTRA,              \textcolor{comment}{// Storage for extra metadata defined by the wave entry}}
+\DoxyCodeLine{107     WAVEBANK\_SEGIDX\_ENTRYWAVEDATA,      \textcolor{comment}{// Entry wave data}}
+\DoxyCodeLine{108     WAVEBANK\_SEGIDX\_COUNT}
+\DoxyCodeLine{109 \} WAVEBANKSEGIDX, *LPWAVEBANKSEGIDX;}
+\DoxyCodeLine{110 }
+\DoxyCodeLine{111 \textcolor{keyword}{typedef} \textcolor{keyword}{const} WAVEBANKSEGIDX *LPCWAVEBANKSEGIDX;}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113 \textcolor{comment}{//}}
+\DoxyCodeLine{114 \textcolor{comment}{// Endianness}}
+\DoxyCodeLine{115 \textcolor{comment}{//}}
+\DoxyCodeLine{116 }
+\DoxyCodeLine{117 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{118 }
+\DoxyCodeLine{119 \textcolor{keyword}{namespace }XACTWaveBank}
+\DoxyCodeLine{120 \{}
+\DoxyCodeLine{121     \_\_inline \textcolor{keywordtype}{void} SwapBytes(DWORD \&dw)}
+\DoxyCodeLine{122     \{}
+\DoxyCodeLine{123 }
+\DoxyCodeLine{124 \textcolor{preprocessor}{\#ifdef \_X86\_}}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{126         \_\_asm }
+\DoxyCodeLine{127         \{}
+\DoxyCodeLine{128             mov edi, dw}
+\DoxyCodeLine{129             mov eax, [edi]}
+\DoxyCodeLine{130             bswap eax}
+\DoxyCodeLine{131             mov [edi], eax}
+\DoxyCodeLine{132         \}}
+\DoxyCodeLine{133 }
+\DoxyCodeLine{134 \textcolor{preprocessor}{\#else }\textcolor{comment}{// \_X86\_}}
+\DoxyCodeLine{135 }
+\DoxyCodeLine{136         dw = \_byteswap\_ulong(dw);}
+\DoxyCodeLine{137 }
+\DoxyCodeLine{138 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_X86\_}}
+\DoxyCodeLine{139 }
+\DoxyCodeLine{140     \}}
+\DoxyCodeLine{141 }
+\DoxyCodeLine{142     \_\_inline \textcolor{keywordtype}{void} SwapBytes(WORD \&w)}
+\DoxyCodeLine{143     \{}
+\DoxyCodeLine{144 }
+\DoxyCodeLine{145 \textcolor{preprocessor}{\#ifdef \_X86\_}}
+\DoxyCodeLine{146 }
+\DoxyCodeLine{147         \_\_asm }
+\DoxyCodeLine{148         \{}
+\DoxyCodeLine{149             mov edi, w}
+\DoxyCodeLine{150             mov ax, [edi]}
+\DoxyCodeLine{151             xchg ah, al}
+\DoxyCodeLine{152             mov [edi], ax}
+\DoxyCodeLine{153         \}}
+\DoxyCodeLine{154 }
+\DoxyCodeLine{155 \textcolor{preprocessor}{\#else }\textcolor{comment}{// \_X86\_}}
+\DoxyCodeLine{156 }
+\DoxyCodeLine{157         w = \_byteswap\_ushort(w);}
+\DoxyCodeLine{158 }
+\DoxyCodeLine{159 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_X86\_}}
+\DoxyCodeLine{160 }
+\DoxyCodeLine{161     \}}
+\DoxyCodeLine{162 }
+\DoxyCodeLine{163 \}}
+\DoxyCodeLine{164 }
+\DoxyCodeLine{165 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_\_cplusplus}}
+\DoxyCodeLine{166 }
+\DoxyCodeLine{167 \textcolor{comment}{//}}
+\DoxyCodeLine{168 \textcolor{comment}{// Wave bank region}}
+\DoxyCodeLine{169 \textcolor{comment}{//}}
+\DoxyCodeLine{170 }
+\DoxyCodeLine{171 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_r_e_g_i_o_n}{WAVEBANKREGION}}}
+\DoxyCodeLine{172 \{}
+\DoxyCodeLine{173     DWORD       dwOffset;               \textcolor{comment}{// Region offset, in bytes}}
+\DoxyCodeLine{174     DWORD       dwLength;               \textcolor{comment}{// Region length, in bytes}}
+\DoxyCodeLine{175 }
+\DoxyCodeLine{176 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{177 }
+\DoxyCodeLine{178     \textcolor{keywordtype}{void} SwapBytes(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{179     \{}
+\DoxyCodeLine{180         XACTWaveBank::SwapBytes(dwOffset);}
+\DoxyCodeLine{181         XACTWaveBank::SwapBytes(dwLength);}
+\DoxyCodeLine{182     \}}
+\DoxyCodeLine{183 }
+\DoxyCodeLine{184 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_\_cplusplus}}
+\DoxyCodeLine{185 }
+\DoxyCodeLine{186 \} \mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_r_e_g_i_o_n}{WAVEBANKREGION}}, *\mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_r_e_g_i_o_n}{LPWAVEBANKREGION}};}
+\DoxyCodeLine{187 }
+\DoxyCodeLine{188 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_r_e_g_i_o_n}{WAVEBANKREGION}} *\mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_r_e_g_i_o_n}{LPCWAVEBANKREGION}};}
+\DoxyCodeLine{189 }
+\DoxyCodeLine{190 \textcolor{comment}{//}}
+\DoxyCodeLine{191 \textcolor{comment}{// Wave bank file header}}
+\DoxyCodeLine{192 \textcolor{comment}{//}}
+\DoxyCodeLine{193 }
+\DoxyCodeLine{194 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_h_e_a_d_e_r}{WAVEBANKHEADER}}}
+\DoxyCodeLine{195 \{}
+\DoxyCodeLine{196     DWORD           dwSignature;                        \textcolor{comment}{// File signature}}
+\DoxyCodeLine{197     DWORD           dwVersion;                          \textcolor{comment}{// Version of the tool that created the file}}
+\DoxyCodeLine{198     \mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_r_e_g_i_o_n}{WAVEBANKREGION}}  Segments[WAVEBANK\_SEGIDX\_COUNT];    \textcolor{comment}{// Segment lookup table}}
+\DoxyCodeLine{199 }
+\DoxyCodeLine{200 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{201 }
+\DoxyCodeLine{202     \textcolor{keywordtype}{void} SwapBytes(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{203     \{}
+\DoxyCodeLine{204         XACTWaveBank::SwapBytes(dwSignature);}
+\DoxyCodeLine{205         XACTWaveBank::SwapBytes(dwVersion);}
+\DoxyCodeLine{206 }
+\DoxyCodeLine{207         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < WAVEBANK\_SEGIDX\_COUNT; i++)}
+\DoxyCodeLine{208         \{}
+\DoxyCodeLine{209             Segments[i].SwapBytes();}
+\DoxyCodeLine{210         \}}
+\DoxyCodeLine{211     \}}
+\DoxyCodeLine{212 }
+\DoxyCodeLine{213 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_\_cplusplus}}
+\DoxyCodeLine{214 }
+\DoxyCodeLine{215 \} \mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_h_e_a_d_e_r}{WAVEBANKHEADER}}, *\mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_h_e_a_d_e_r}{LPWAVEBANKHEADER}};}
+\DoxyCodeLine{216 }
+\DoxyCodeLine{217 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_h_e_a_d_e_r}{WAVEBANKHEADER}} *\mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_h_e_a_d_e_r}{LPCWAVEBANKHEADER}};}
+\DoxyCodeLine{218 }
+\DoxyCodeLine{219 \textcolor{comment}{//}}
+\DoxyCodeLine{220 \textcolor{comment}{// Entry compressed data format}}
+\DoxyCodeLine{221 \textcolor{comment}{//}}
+\DoxyCodeLine{222 }
+\DoxyCodeLine{223 \textcolor{keyword}{typedef} \textcolor{keyword}{union }\mbox{\hyperlink{union_w_a_v_e_b_a_n_k_m_i_n_i_w_a_v_e_f_o_r_m_a_t}{WAVEBANKMINIWAVEFORMAT}}}
+\DoxyCodeLine{224 \{}
+\DoxyCodeLine{225     \textcolor{keyword}{struct}}
+\DoxyCodeLine{226     \{}
+\DoxyCodeLine{227         DWORD       wFormatTag      : 2;        \textcolor{comment}{// Format tag}}
+\DoxyCodeLine{228         DWORD       nChannels       : 3;        \textcolor{comment}{// Channel count (1 -\/ 6)}}
+\DoxyCodeLine{229         DWORD       nSamplesPerSec  : 18;       \textcolor{comment}{// Sampling rate}}
+\DoxyCodeLine{230         DWORD       wBlockAlign     : 8;        \textcolor{comment}{// Block alignment}}
+\DoxyCodeLine{231         DWORD       wBitsPerSample  : 1;        \textcolor{comment}{// Bits per sample (8 vs. 16, PCM only)}}
+\DoxyCodeLine{232     \};}
+\DoxyCodeLine{233 }
+\DoxyCodeLine{234     DWORD           dwValue;}
+\DoxyCodeLine{235 }
+\DoxyCodeLine{236 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{237 }
+\DoxyCodeLine{238     \textcolor{keywordtype}{void} SwapBytes(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{239     \{}
+\DoxyCodeLine{240         XACTWaveBank::SwapBytes(dwValue);}
+\DoxyCodeLine{241     \}}
+\DoxyCodeLine{242 }
+\DoxyCodeLine{243 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_\_cplusplus}}
+\DoxyCodeLine{244 }
+\DoxyCodeLine{245 \} \mbox{\hyperlink{union_w_a_v_e_b_a_n_k_m_i_n_i_w_a_v_e_f_o_r_m_a_t}{WAVEBANKMINIWAVEFORMAT}}, *\mbox{\hyperlink{union_w_a_v_e_b_a_n_k_m_i_n_i_w_a_v_e_f_o_r_m_a_t}{LPWAVEBANKMINIWAVEFORMAT}};}
+\DoxyCodeLine{246 }
+\DoxyCodeLine{247 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{union_w_a_v_e_b_a_n_k_m_i_n_i_w_a_v_e_f_o_r_m_a_t}{WAVEBANKMINIWAVEFORMAT}} *\mbox{\hyperlink{union_w_a_v_e_b_a_n_k_m_i_n_i_w_a_v_e_f_o_r_m_a_t}{LPCWAVEBANKMINIWAVEFORMAT}};}
+\DoxyCodeLine{248 }
+\DoxyCodeLine{249 \textcolor{comment}{//}}
+\DoxyCodeLine{250 \textcolor{comment}{// Entry meta-\/data}}
+\DoxyCodeLine{251 \textcolor{comment}{//}}
+\DoxyCodeLine{252 }
+\DoxyCodeLine{253 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_e_n_t_r_y}{WAVEBANKENTRY}}}
+\DoxyCodeLine{254 \{}
+\DoxyCodeLine{255     \textcolor{keyword}{union}}
+\DoxyCodeLine{256     \{}
+\DoxyCodeLine{257         \textcolor{keyword}{struct}}
+\DoxyCodeLine{258         \{}
+\DoxyCodeLine{259             \textcolor{comment}{// Entry flags}}
+\DoxyCodeLine{260             DWORD                   dwFlags  :  4;  }
+\DoxyCodeLine{261 }
+\DoxyCodeLine{262             \textcolor{comment}{// Duration of the wave, in units of one sample.}}
+\DoxyCodeLine{263             \textcolor{comment}{// For instance, a ten second long wave sampled}}
+\DoxyCodeLine{264             \textcolor{comment}{// at 48KHz would have a duration of 480,000. }}
+\DoxyCodeLine{265             \textcolor{comment}{// This value is not affected by the number of}}
+\DoxyCodeLine{266             \textcolor{comment}{// channels, the number of bits per sample, or the}}
+\DoxyCodeLine{267             \textcolor{comment}{// compression format of the wave.}}
+\DoxyCodeLine{268             DWORD                   Duration : 28;  }
+\DoxyCodeLine{269         \};}
+\DoxyCodeLine{270         DWORD dwFlagsAndDuration;}
+\DoxyCodeLine{271     \};}
+\DoxyCodeLine{272 }
+\DoxyCodeLine{273     \mbox{\hyperlink{union_w_a_v_e_b_a_n_k_m_i_n_i_w_a_v_e_f_o_r_m_a_t}{WAVEBANKMINIWAVEFORMAT}}  Format;         \textcolor{comment}{// Entry format}}
+\DoxyCodeLine{274     \mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_r_e_g_i_o_n}{WAVEBANKREGION}}          PlayRegion;     \textcolor{comment}{// Region within the wave data segment that contains this entry}}
+\DoxyCodeLine{275 }
+\DoxyCodeLine{276     \textcolor{keyword}{union}}
+\DoxyCodeLine{277     \{}
+\DoxyCodeLine{278         \mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_r_e_g_i_o_n}{WAVEBANKREGION}}          LoopRegion; \textcolor{comment}{// Region within the wave data that should loop}}
+\DoxyCodeLine{279 }
+\DoxyCodeLine{280         \textcolor{comment}{// XMA loop region}}
+\DoxyCodeLine{281         \textcolor{comment}{// Note: this is not the same memory layout as the XMA loop region }}
+\DoxyCodeLine{282         \textcolor{comment}{// passed to the XMA driver-\/-\/it is more compact. The named values}}
+\DoxyCodeLine{283         \textcolor{comment}{// map correctly and there are enough bits to store the entire}}
+\DoxyCodeLine{284         \textcolor{comment}{// range of values that XMA considers valid, with one exception:}}
+\DoxyCodeLine{285         \textcolor{comment}{// valid values for nSubframeSkip are 1, 2, 3, or 4. In order to}}
+\DoxyCodeLine{286         \textcolor{comment}{// store this in two bits, XACT subtracts 1 from the value, then adds}}
+\DoxyCodeLine{287 }
+\DoxyCodeLine{288         \textcolor{keyword}{struct }}
+\DoxyCodeLine{289         \{}
+\DoxyCodeLine{290             DWORD   dwStartOffset;          \textcolor{comment}{// loop start offset (in bits)}}
+\DoxyCodeLine{291 }
+\DoxyCodeLine{292             DWORD   nSubframeSkip   : 2;    \textcolor{comment}{// needed by XMA decoder. Valid values for XMA are 1-\/4; XACT converts to 0-\/3 for storage. Add 1 to this value before passing to driver.}}
+\DoxyCodeLine{293             DWORD   nSubframeEnd    : 2;    \textcolor{comment}{// needed by XMA decoder}}
+\DoxyCodeLine{294             DWORD   dwEndOffset     : 28;   \textcolor{comment}{// loop end offset (in bits)}}
+\DoxyCodeLine{295         \} XMALoopRegion[ WAVEBANKENTRY\_XMASTREAMS\_MAX ];}
+\DoxyCodeLine{296 }
+\DoxyCodeLine{297         \textcolor{comment}{// The last element in the union is an array that aliases the}}
+\DoxyCodeLine{298         \textcolor{comment}{// entire union so we can byte-\/reverse the whole thing.}}
+\DoxyCodeLine{299         \mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_r_e_g_i_o_n}{WAVEBANKREGION}} LoopRegionAlias[ WAVEBANKENTRY\_XMASTREAMS\_MAX ];}
+\DoxyCodeLine{300     \};}
+\DoxyCodeLine{301 }
+\DoxyCodeLine{302 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{303 }
+\DoxyCodeLine{304     \textcolor{keywordtype}{void} SwapBytes(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{305     \{}
+\DoxyCodeLine{306         XACTWaveBank::SwapBytes(dwFlagsAndDuration);}
+\DoxyCodeLine{307         Format.SwapBytes();}
+\DoxyCodeLine{308         PlayRegion.SwapBytes();}
+\DoxyCodeLine{309         \textcolor{keywordflow}{for}( \textcolor{keywordtype}{int} i = 0; i < WAVEBANKENTRY\_XMASTREAMS\_MAX; ++i )}
+\DoxyCodeLine{310         \{}
+\DoxyCodeLine{311             LoopRegionAlias[i].SwapBytes();}
+\DoxyCodeLine{312         \}}
+\DoxyCodeLine{313     \}}
+\DoxyCodeLine{314 }
+\DoxyCodeLine{315 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_\_cplusplus}}
+\DoxyCodeLine{316 }
+\DoxyCodeLine{317 \} \mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_e_n_t_r_y}{WAVEBANKENTRY}}, *\mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_e_n_t_r_y}{LPWAVEBANKENTRY}};}
+\DoxyCodeLine{318 }
+\DoxyCodeLine{319 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_e_n_t_r_y}{WAVEBANKENTRY}} *\mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_e_n_t_r_y}{LPCWAVEBANKENTRY}};}
+\DoxyCodeLine{320 }
+\DoxyCodeLine{321 \textcolor{comment}{//}}
+\DoxyCodeLine{322 \textcolor{comment}{// Compact entry meta-\/data}}
+\DoxyCodeLine{323 \textcolor{comment}{//}}
+\DoxyCodeLine{324 }
+\DoxyCodeLine{325 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_e_n_t_r_y_c_o_m_p_a_c_t}{WAVEBANKENTRYCOMPACT}}}
+\DoxyCodeLine{326 \{}
+\DoxyCodeLine{327     DWORD       dwOffset            : 21;       \textcolor{comment}{// Data offset, in sectors}}
+\DoxyCodeLine{328     DWORD       dwLengthDeviation   : 11;       \textcolor{comment}{// Data length deviation, in bytes}}
+\DoxyCodeLine{329 }
+\DoxyCodeLine{330 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{331 }
+\DoxyCodeLine{332     \textcolor{keywordtype}{void} SwapBytes(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{333     \{}
+\DoxyCodeLine{334         XACTWaveBank::SwapBytes(*(LPDWORD)\textcolor{keyword}{this});}
+\DoxyCodeLine{335     \}}
+\DoxyCodeLine{336 }
+\DoxyCodeLine{337 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_\_cplusplus}}
+\DoxyCodeLine{338 }
+\DoxyCodeLine{339 \} \mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_e_n_t_r_y_c_o_m_p_a_c_t}{WAVEBANKENTRYCOMPACT}}, *\mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_e_n_t_r_y_c_o_m_p_a_c_t}{LPWAVEBANKENTRYCOMPACT}};}
+\DoxyCodeLine{340 }
+\DoxyCodeLine{341 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_e_n_t_r_y_c_o_m_p_a_c_t}{WAVEBANKENTRYCOMPACT}} *\mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_e_n_t_r_y_c_o_m_p_a_c_t}{LPCWAVEBANKENTRYCOMPACT}};}
+\DoxyCodeLine{342 }
+\DoxyCodeLine{343 \textcolor{comment}{//}}
+\DoxyCodeLine{344 \textcolor{comment}{// Bank data segment}}
+\DoxyCodeLine{345 \textcolor{comment}{//}}
+\DoxyCodeLine{346 }
+\DoxyCodeLine{347 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_d_a_t_a}{WAVEBANKDATA}}}
+\DoxyCodeLine{348 \{}
+\DoxyCodeLine{349     DWORD                   dwFlags;                                 \textcolor{comment}{// Bank flags}}
+\DoxyCodeLine{350     DWORD                   dwEntryCount;                           \textcolor{comment}{// Number of entries in the bank}}
+\DoxyCodeLine{351     CHAR                    szBankName[WAVEBANK\_BANKNAME\_LENGTH];   \textcolor{comment}{// Bank friendly name}}
+\DoxyCodeLine{352     DWORD                   dwEntryMetaDataElementSize;             \textcolor{comment}{// Size of each entry meta-\/data element, in bytes}}
+\DoxyCodeLine{353     DWORD                   dwEntryNameElementSize;                 \textcolor{comment}{// Size of each entry name element, in bytes}}
+\DoxyCodeLine{354     DWORD                   dwAlignment;                            \textcolor{comment}{// Entry alignment, in bytes}}
+\DoxyCodeLine{355     \mbox{\hyperlink{union_w_a_v_e_b_a_n_k_m_i_n_i_w_a_v_e_f_o_r_m_a_t}{WAVEBANKMINIWAVEFORMAT}}  CompactFormat;                          \textcolor{comment}{// Format data for compact bank}}
+\DoxyCodeLine{356     FILETIME                BuildTime;                              \textcolor{comment}{// Build timestamp}}
+\DoxyCodeLine{357 }
+\DoxyCodeLine{358 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{359 }
+\DoxyCodeLine{360     \textcolor{keywordtype}{void} SwapBytes(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{361     \{}
+\DoxyCodeLine{362         XACTWaveBank::SwapBytes(dwFlags);}
+\DoxyCodeLine{363         XACTWaveBank::SwapBytes(dwEntryCount);}
+\DoxyCodeLine{364         XACTWaveBank::SwapBytes(dwEntryMetaDataElementSize);}
+\DoxyCodeLine{365         XACTWaveBank::SwapBytes(dwEntryNameElementSize);}
+\DoxyCodeLine{366         XACTWaveBank::SwapBytes(dwAlignment);}
+\DoxyCodeLine{367         CompactFormat.SwapBytes();}
+\DoxyCodeLine{368         XACTWaveBank::SwapBytes(BuildTime.dwLowDateTime);}
+\DoxyCodeLine{369         XACTWaveBank::SwapBytes(BuildTime.dwHighDateTime);}
+\DoxyCodeLine{370     \}}
+\DoxyCodeLine{371 }
+\DoxyCodeLine{372 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_\_cplusplus}}
+\DoxyCodeLine{373 }
+\DoxyCodeLine{374 \} \mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_d_a_t_a}{WAVEBANKDATA}}, *\mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_d_a_t_a}{LPWAVEBANKDATA}};}
+\DoxyCodeLine{375 }
+\DoxyCodeLine{376 \textcolor{keyword}{typedef} \textcolor{keyword}{const} \mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_d_a_t_a}{WAVEBANKDATA}} *\mbox{\hyperlink{struct_w_a_v_e_b_a_n_k_d_a_t_a}{LPCWAVEBANKDATA}};}
+\DoxyCodeLine{377 }
+\DoxyCodeLine{378 \textcolor{preprocessor}{\#ifdef \_M\_PPCBE}}
+\DoxyCodeLine{379 \textcolor{preprocessor}{\#pragma bitfield\_order(pop)}}
+\DoxyCodeLine{380 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{381 }
+\DoxyCodeLine{382 \textcolor{preprocessor}{\#pragma warning(pop)}}
+\DoxyCodeLine{383 \textcolor{preprocessor}{\#pragma pack(pop)}}
+\DoxyCodeLine{384 }
+\DoxyCodeLine{385 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_\_XACTWB\_H\_\_}}
+\DoxyCodeLine{386 }
+
+\end{DoxyCode}

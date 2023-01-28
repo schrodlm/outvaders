@@ -1,0 +1,1730 @@
+\hypertarget{d3dx9tex_8h_source}{}\doxysection{d3dx9tex.\+h}
+\label{d3dx9tex_8h_source}\index{src/lib/dx/Include/d3dx9tex.h@{src/lib/dx/Include/d3dx9tex.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{2 \textcolor{comment}{//}}
+\DoxyCodeLine{3 \textcolor{comment}{//  Copyright (C) Microsoft Corporation.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{//}}
+\DoxyCodeLine{5 \textcolor{comment}{//  File:       d3dx9tex.h}}
+\DoxyCodeLine{6 \textcolor{comment}{//  Content:    D3DX texturing APIs}}
+\DoxyCodeLine{7 \textcolor{comment}{//}}
+\DoxyCodeLine{9 \textcolor{comment}{}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}d3dx9.h"{}}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#ifndef \_\_D3DX9TEX\_H\_\_}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#define \_\_D3DX9TEX\_H\_\_}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{17 \textcolor{comment}{// D3DX\_FILTER flags:}}
+\DoxyCodeLine{18 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{19 \textcolor{comment}{//}}
+\DoxyCodeLine{20 \textcolor{comment}{// A valid filter must contain one of these values:}}
+\DoxyCodeLine{21 \textcolor{comment}{//}}
+\DoxyCodeLine{22 \textcolor{comment}{//  D3DX\_FILTER\_NONE}}
+\DoxyCodeLine{23 \textcolor{comment}{//      No scaling or filtering will take place.  Pixels outside the bounds}}
+\DoxyCodeLine{24 \textcolor{comment}{//      of the source image are assumed to be transparent black.}}
+\DoxyCodeLine{25 \textcolor{comment}{//  D3DX\_FILTER\_POINT}}
+\DoxyCodeLine{26 \textcolor{comment}{//      Each destination pixel is computed by sampling the nearest pixel}}
+\DoxyCodeLine{27 \textcolor{comment}{//      from the source image.}}
+\DoxyCodeLine{28 \textcolor{comment}{//  D3DX\_FILTER\_LINEAR}}
+\DoxyCodeLine{29 \textcolor{comment}{//      Each destination pixel is computed by linearly interpolating between}}
+\DoxyCodeLine{30 \textcolor{comment}{//      the nearest pixels in the source image.  This filter works best }}
+\DoxyCodeLine{31 \textcolor{comment}{//      when the scale on each axis is less than 2.}}
+\DoxyCodeLine{32 \textcolor{comment}{//  D3DX\_FILTER\_TRIANGLE}}
+\DoxyCodeLine{33 \textcolor{comment}{//      Every pixel in the source image contributes equally to the}}
+\DoxyCodeLine{34 \textcolor{comment}{//      destination image.  This is the slowest of all the filters.}}
+\DoxyCodeLine{35 \textcolor{comment}{//  D3DX\_FILTER\_BOX}}
+\DoxyCodeLine{36 \textcolor{comment}{//      Each pixel is computed by averaging a 2x2(x2) box pixels from }}
+\DoxyCodeLine{37 \textcolor{comment}{//      the source image. Only works when the dimensions of the }}
+\DoxyCodeLine{38 \textcolor{comment}{//      destination are half those of the source. (as with mip maps)}}
+\DoxyCodeLine{39 \textcolor{comment}{//}}
+\DoxyCodeLine{40 \textcolor{comment}{// And can be OR'd with any of these optional flags:}}
+\DoxyCodeLine{41 \textcolor{comment}{//}}
+\DoxyCodeLine{42 \textcolor{comment}{//  D3DX\_FILTER\_MIRROR\_U}}
+\DoxyCodeLine{43 \textcolor{comment}{//      Indicates that pixels off the edge of the texture on the U-\/axis}}
+\DoxyCodeLine{44 \textcolor{comment}{//      should be mirrored, not wraped.}}
+\DoxyCodeLine{45 \textcolor{comment}{//  D3DX\_FILTER\_MIRROR\_V}}
+\DoxyCodeLine{46 \textcolor{comment}{//      Indicates that pixels off the edge of the texture on the V-\/axis}}
+\DoxyCodeLine{47 \textcolor{comment}{//      should be mirrored, not wraped.}}
+\DoxyCodeLine{48 \textcolor{comment}{//  D3DX\_FILTER\_MIRROR\_W}}
+\DoxyCodeLine{49 \textcolor{comment}{//      Indicates that pixels off the edge of the texture on the W-\/axis}}
+\DoxyCodeLine{50 \textcolor{comment}{//      should be mirrored, not wraped.}}
+\DoxyCodeLine{51 \textcolor{comment}{//  D3DX\_FILTER\_MIRROR}}
+\DoxyCodeLine{52 \textcolor{comment}{//      Same as specifying D3DX\_FILTER\_MIRROR\_U | D3DX\_FILTER\_MIRROR\_V |}}
+\DoxyCodeLine{53 \textcolor{comment}{//      D3DX\_FILTER\_MIRROR\_V}}
+\DoxyCodeLine{54 \textcolor{comment}{//  D3DX\_FILTER\_DITHER}}
+\DoxyCodeLine{55 \textcolor{comment}{//      Dithers the resulting image using a 4x4 order dither pattern.}}
+\DoxyCodeLine{56 \textcolor{comment}{//  D3DX\_FILTER\_SRGB\_IN}}
+\DoxyCodeLine{57 \textcolor{comment}{//      Denotes that the input data is in sRGB (gamma 2.2) colorspace.}}
+\DoxyCodeLine{58 \textcolor{comment}{//  D3DX\_FILTER\_SRGB\_OUT}}
+\DoxyCodeLine{59 \textcolor{comment}{//      Denotes that the output data is in sRGB (gamma 2.2) colorspace.}}
+\DoxyCodeLine{60 \textcolor{comment}{//  D3DX\_FILTER\_SRGB}}
+\DoxyCodeLine{61 \textcolor{comment}{//      Same as specifying D3DX\_FILTER\_SRGB\_IN | D3DX\_FILTER\_SRGB\_OUT}}
+\DoxyCodeLine{62 \textcolor{comment}{//}}
+\DoxyCodeLine{63 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65 \textcolor{preprocessor}{\#define D3DX\_FILTER\_NONE             (1 << 0)}}
+\DoxyCodeLine{66 \textcolor{preprocessor}{\#define D3DX\_FILTER\_POINT            (2 << 0)}}
+\DoxyCodeLine{67 \textcolor{preprocessor}{\#define D3DX\_FILTER\_LINEAR           (3 << 0)}}
+\DoxyCodeLine{68 \textcolor{preprocessor}{\#define D3DX\_FILTER\_TRIANGLE         (4 << 0)}}
+\DoxyCodeLine{69 \textcolor{preprocessor}{\#define D3DX\_FILTER\_BOX              (5 << 0)}}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{71 \textcolor{preprocessor}{\#define D3DX\_FILTER\_MIRROR\_U         (1 << 16)}}
+\DoxyCodeLine{72 \textcolor{preprocessor}{\#define D3DX\_FILTER\_MIRROR\_V         (2 << 16)}}
+\DoxyCodeLine{73 \textcolor{preprocessor}{\#define D3DX\_FILTER\_MIRROR\_W         (4 << 16)}}
+\DoxyCodeLine{74 \textcolor{preprocessor}{\#define D3DX\_FILTER\_MIRROR           (7 << 16)}}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{76 \textcolor{preprocessor}{\#define D3DX\_FILTER\_DITHER           (1 << 19)}}
+\DoxyCodeLine{77 \textcolor{preprocessor}{\#define D3DX\_FILTER\_DITHER\_DIFFUSION (2 << 19)}}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79 \textcolor{preprocessor}{\#define D3DX\_FILTER\_SRGB\_IN          (1 << 21)}}
+\DoxyCodeLine{80 \textcolor{preprocessor}{\#define D3DX\_FILTER\_SRGB\_OUT         (2 << 21)}}
+\DoxyCodeLine{81 \textcolor{preprocessor}{\#define D3DX\_FILTER\_SRGB             (3 << 21)}}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{85 \textcolor{comment}{// D3DX\_SKIP\_DDS\_MIP\_LEVELS is used to skip mip levels when loading a DDS file:}}
+\DoxyCodeLine{86 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{88 \textcolor{preprocessor}{\#define D3DX\_SKIP\_DDS\_MIP\_LEVELS\_MASK   0x1F}}
+\DoxyCodeLine{89 \textcolor{preprocessor}{\#define D3DX\_SKIP\_DDS\_MIP\_LEVELS\_SHIFT  26}}
+\DoxyCodeLine{90 \textcolor{preprocessor}{\#define D3DX\_SKIP\_DDS\_MIP\_LEVELS(levels, filter) ((((levels) \& D3DX\_SKIP\_DDS\_MIP\_LEVELS\_MASK) << D3DX\_SKIP\_DDS\_MIP\_LEVELS\_SHIFT) | (filter))}}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{92 }
+\DoxyCodeLine{93 }
+\DoxyCodeLine{94 }
+\DoxyCodeLine{95 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{96 \textcolor{comment}{// D3DX\_NORMALMAP flags:}}
+\DoxyCodeLine{97 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{98 \textcolor{comment}{// These flags are used to control how D3DXComputeNormalMap generates normal}}
+\DoxyCodeLine{99 \textcolor{comment}{// maps.  Any number of these flags may be OR'd together in any combination.}}
+\DoxyCodeLine{100 \textcolor{comment}{//}}
+\DoxyCodeLine{101 \textcolor{comment}{//  D3DX\_NORMALMAP\_MIRROR\_U}}
+\DoxyCodeLine{102 \textcolor{comment}{//      Indicates that pixels off the edge of the texture on the U-\/axis}}
+\DoxyCodeLine{103 \textcolor{comment}{//      should be mirrored, not wraped.}}
+\DoxyCodeLine{104 \textcolor{comment}{//  D3DX\_NORMALMAP\_MIRROR\_V}}
+\DoxyCodeLine{105 \textcolor{comment}{//      Indicates that pixels off the edge of the texture on the V-\/axis}}
+\DoxyCodeLine{106 \textcolor{comment}{//      should be mirrored, not wraped.}}
+\DoxyCodeLine{107 \textcolor{comment}{//  D3DX\_NORMALMAP\_MIRROR}}
+\DoxyCodeLine{108 \textcolor{comment}{//      Same as specifying D3DX\_NORMALMAP\_MIRROR\_U | D3DX\_NORMALMAP\_MIRROR\_V}}
+\DoxyCodeLine{109 \textcolor{comment}{//  D3DX\_NORMALMAP\_INVERTSIGN}}
+\DoxyCodeLine{110 \textcolor{comment}{//      Inverts the direction of each normal }}
+\DoxyCodeLine{111 \textcolor{comment}{//  D3DX\_NORMALMAP\_COMPUTE\_OCCLUSION}}
+\DoxyCodeLine{112 \textcolor{comment}{//      Compute the per pixel Occlusion term and encodes it into the alpha.}}
+\DoxyCodeLine{113 \textcolor{comment}{//      An Alpha of 1 means that the pixel is not obscured in anyway, and}}
+\DoxyCodeLine{114 \textcolor{comment}{//      an alpha of 0 would mean that the pixel is completly obscured.}}
+\DoxyCodeLine{115 \textcolor{comment}{//}}
+\DoxyCodeLine{116 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{119 }
+\DoxyCodeLine{120 \textcolor{preprocessor}{\#define D3DX\_NORMALMAP\_MIRROR\_U     (1 << 16)}}
+\DoxyCodeLine{121 \textcolor{preprocessor}{\#define D3DX\_NORMALMAP\_MIRROR\_V     (2 << 16)}}
+\DoxyCodeLine{122 \textcolor{preprocessor}{\#define D3DX\_NORMALMAP\_MIRROR       (3 << 16)}}
+\DoxyCodeLine{123 \textcolor{preprocessor}{\#define D3DX\_NORMALMAP\_INVERTSIGN   (8 << 16)}}
+\DoxyCodeLine{124 \textcolor{preprocessor}{\#define D3DX\_NORMALMAP\_COMPUTE\_OCCLUSION (16 << 16)}}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{126 }
+\DoxyCodeLine{127 }
+\DoxyCodeLine{128 }
+\DoxyCodeLine{129 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{130 \textcolor{comment}{// D3DX\_CHANNEL flags:}}
+\DoxyCodeLine{131 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{132 \textcolor{comment}{// These flags are used by functions which operate on or more channels}}
+\DoxyCodeLine{133 \textcolor{comment}{// in a texture.}}
+\DoxyCodeLine{134 \textcolor{comment}{//}}
+\DoxyCodeLine{135 \textcolor{comment}{// D3DX\_CHANNEL\_RED}}
+\DoxyCodeLine{136 \textcolor{comment}{//     Indicates the red channel should be used}}
+\DoxyCodeLine{137 \textcolor{comment}{// D3DX\_CHANNEL\_BLUE}}
+\DoxyCodeLine{138 \textcolor{comment}{//     Indicates the blue channel should be used}}
+\DoxyCodeLine{139 \textcolor{comment}{// D3DX\_CHANNEL\_GREEN}}
+\DoxyCodeLine{140 \textcolor{comment}{//     Indicates the green channel should be used}}
+\DoxyCodeLine{141 \textcolor{comment}{// D3DX\_CHANNEL\_ALPHA}}
+\DoxyCodeLine{142 \textcolor{comment}{//     Indicates the alpha channel should be used}}
+\DoxyCodeLine{143 \textcolor{comment}{// D3DX\_CHANNEL\_LUMINANCE}}
+\DoxyCodeLine{144 \textcolor{comment}{//     Indicates the luminaces of the red green and blue channels should be }}
+\DoxyCodeLine{145 \textcolor{comment}{//     used.}}
+\DoxyCodeLine{146 \textcolor{comment}{//}}
+\DoxyCodeLine{147 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{148 }
+\DoxyCodeLine{149 \textcolor{preprocessor}{\#define D3DX\_CHANNEL\_RED            (1 << 0)}}
+\DoxyCodeLine{150 \textcolor{preprocessor}{\#define D3DX\_CHANNEL\_BLUE           (1 << 1)}}
+\DoxyCodeLine{151 \textcolor{preprocessor}{\#define D3DX\_CHANNEL\_GREEN          (1 << 2)}}
+\DoxyCodeLine{152 \textcolor{preprocessor}{\#define D3DX\_CHANNEL\_ALPHA          (1 << 3)}}
+\DoxyCodeLine{153 \textcolor{preprocessor}{\#define D3DX\_CHANNEL\_LUMINANCE      (1 << 4)}}
+\DoxyCodeLine{154 }
+\DoxyCodeLine{155 }
+\DoxyCodeLine{156 }
+\DoxyCodeLine{157 }
+\DoxyCodeLine{158 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{159 \textcolor{comment}{// D3DXIMAGE\_FILEFORMAT:}}
+\DoxyCodeLine{160 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{161 \textcolor{comment}{// This enum is used to describe supported image file formats.}}
+\DoxyCodeLine{162 \textcolor{comment}{//}}
+\DoxyCodeLine{163 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{164 }
+\DoxyCodeLine{165 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \_D3DXIMAGE\_FILEFORMAT}
+\DoxyCodeLine{166 \{}
+\DoxyCodeLine{167     D3DXIFF\_BMP         = 0,}
+\DoxyCodeLine{168     D3DXIFF\_JPG         = 1,}
+\DoxyCodeLine{169     D3DXIFF\_TGA         = 2,}
+\DoxyCodeLine{170     D3DXIFF\_PNG         = 3,}
+\DoxyCodeLine{171     D3DXIFF\_DDS         = 4,}
+\DoxyCodeLine{172     D3DXIFF\_PPM         = 5,}
+\DoxyCodeLine{173     D3DXIFF\_DIB         = 6,}
+\DoxyCodeLine{174     D3DXIFF\_HDR         = 7,       \textcolor{comment}{//high dynamic range formats}}
+\DoxyCodeLine{175     D3DXIFF\_PFM         = 8,       \textcolor{comment}{//}}
+\DoxyCodeLine{176     D3DXIFF\_FORCE\_DWORD = 0x7fffffff}
+\DoxyCodeLine{177 }
+\DoxyCodeLine{178 \} D3DXIMAGE\_FILEFORMAT;}
+\DoxyCodeLine{179 }
+\DoxyCodeLine{180 }
+\DoxyCodeLine{181 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{182 \textcolor{comment}{// LPD3DXFILL2D and LPD3DXFILL3D:}}
+\DoxyCodeLine{183 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{184 \textcolor{comment}{// Function types used by the texture fill functions.}}
+\DoxyCodeLine{185 \textcolor{comment}{//}}
+\DoxyCodeLine{186 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{187 \textcolor{comment}{//  pOut}}
+\DoxyCodeLine{188 \textcolor{comment}{//      Pointer to a vector which the function uses to return its result.}}
+\DoxyCodeLine{189 \textcolor{comment}{//      X,Y,Z,W will be mapped to R,G,B,A respectivly. }}
+\DoxyCodeLine{190 \textcolor{comment}{//  pTexCoord}}
+\DoxyCodeLine{191 \textcolor{comment}{//      Pointer to a vector containing the coordinates of the texel currently }}
+\DoxyCodeLine{192 \textcolor{comment}{//      being evaluated.  Textures and VolumeTexture texcoord components }}
+\DoxyCodeLine{193 \textcolor{comment}{//      range from 0 to 1. CubeTexture texcoord component range from -\/1 to 1.}}
+\DoxyCodeLine{194 \textcolor{comment}{//  pTexelSize}}
+\DoxyCodeLine{195 \textcolor{comment}{//      Pointer to a vector containing the dimensions of the current texel.}}
+\DoxyCodeLine{196 \textcolor{comment}{//  pData}}
+\DoxyCodeLine{197 \textcolor{comment}{//      Pointer to user data.}}
+\DoxyCodeLine{198 \textcolor{comment}{//}}
+\DoxyCodeLine{199 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{200 }
+\DoxyCodeLine{201 \textcolor{keyword}{typedef} VOID (WINAPI *LPD3DXFILL2D)(\mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pOut, }
+\DoxyCodeLine{202     CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pTexCoord, CONST \mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r2}{D3DXVECTOR2}} *pTexelSize, LPVOID pData);}
+\DoxyCodeLine{203 }
+\DoxyCodeLine{204 \textcolor{keyword}{typedef} VOID (WINAPI *LPD3DXFILL3D)(\mbox{\hyperlink{struct_d3_d_x_v_e_c_t_o_r4}{D3DXVECTOR4}} *pOut, }
+\DoxyCodeLine{205     CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pTexCoord, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pTexelSize, LPVOID pData);}
+\DoxyCodeLine{206  }
+\DoxyCodeLine{207 }
+\DoxyCodeLine{208 }
+\DoxyCodeLine{209 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{210 \textcolor{comment}{// D3DXIMAGE\_INFO:}}
+\DoxyCodeLine{211 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{212 \textcolor{comment}{// This structure is used to return a rough description of what the}}
+\DoxyCodeLine{213 \textcolor{comment}{// the original contents of an image file looked like.}}
+\DoxyCodeLine{214 \textcolor{comment}{// }}
+\DoxyCodeLine{215 \textcolor{comment}{//  Width}}
+\DoxyCodeLine{216 \textcolor{comment}{//      Width of original image in pixels}}
+\DoxyCodeLine{217 \textcolor{comment}{//  Height}}
+\DoxyCodeLine{218 \textcolor{comment}{//      Height of original image in pixels}}
+\DoxyCodeLine{219 \textcolor{comment}{//  Depth}}
+\DoxyCodeLine{220 \textcolor{comment}{//      Depth of original image in pixels}}
+\DoxyCodeLine{221 \textcolor{comment}{//  MipLevels}}
+\DoxyCodeLine{222 \textcolor{comment}{//      Number of mip levels in original image}}
+\DoxyCodeLine{223 \textcolor{comment}{//  Format}}
+\DoxyCodeLine{224 \textcolor{comment}{//      D3D format which most closely describes the data in original image}}
+\DoxyCodeLine{225 \textcolor{comment}{//  ResourceType}}
+\DoxyCodeLine{226 \textcolor{comment}{//      D3DRESOURCETYPE representing the type of texture stored in the file.}}
+\DoxyCodeLine{227 \textcolor{comment}{//      D3DRTYPE\_TEXTURE, D3DRTYPE\_VOLUMETEXTURE, or D3DRTYPE\_CUBETEXTURE.}}
+\DoxyCodeLine{228 \textcolor{comment}{//  ImageFileFormat}}
+\DoxyCodeLine{229 \textcolor{comment}{//      D3DXIMAGE\_FILEFORMAT representing the format of the image file.}}
+\DoxyCodeLine{230 \textcolor{comment}{//}}
+\DoxyCodeLine{231 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{232 }
+\DoxyCodeLine{233 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{\_D3DXIMAGE\_INFO}}}
+\DoxyCodeLine{234 \{}
+\DoxyCodeLine{235     UINT                    Width;}
+\DoxyCodeLine{236     UINT                    Height;}
+\DoxyCodeLine{237     UINT                    Depth;}
+\DoxyCodeLine{238     UINT                    MipLevels;}
+\DoxyCodeLine{239     D3DFORMAT               Format;}
+\DoxyCodeLine{240     D3DRESOURCETYPE         ResourceType;}
+\DoxyCodeLine{241     D3DXIMAGE\_FILEFORMAT    ImageFileFormat;}
+\DoxyCodeLine{242 }
+\DoxyCodeLine{243 \} \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}};}
+\DoxyCodeLine{244 }
+\DoxyCodeLine{245 }
+\DoxyCodeLine{246 }
+\DoxyCodeLine{247 }
+\DoxyCodeLine{248 }
+\DoxyCodeLine{249 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{250 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{251 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{252 }
+\DoxyCodeLine{253 }
+\DoxyCodeLine{254 }
+\DoxyCodeLine{256 \textcolor{comment}{// Image File APIs ///////////////////////////////////////////////////////////}}
+\DoxyCodeLine{258 \textcolor{comment}{};}
+\DoxyCodeLine{259 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{260 \textcolor{comment}{// GetImageInfoFromFile/Resource:}}
+\DoxyCodeLine{261 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{262 \textcolor{comment}{// Fills in a D3DXIMAGE\_INFO struct with information about an image file.}}
+\DoxyCodeLine{263 \textcolor{comment}{//}}
+\DoxyCodeLine{264 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{265 \textcolor{comment}{//  pSrcFile}}
+\DoxyCodeLine{266 \textcolor{comment}{//      File name of the source image.}}
+\DoxyCodeLine{267 \textcolor{comment}{//  pSrcModule}}
+\DoxyCodeLine{268 \textcolor{comment}{//      Module where resource is located, or NULL for module associated}}
+\DoxyCodeLine{269 \textcolor{comment}{//      with image the os used to create the current process.}}
+\DoxyCodeLine{270 \textcolor{comment}{//  pSrcResource}}
+\DoxyCodeLine{271 \textcolor{comment}{//      Resource name}}
+\DoxyCodeLine{272 \textcolor{comment}{//  pSrcData}}
+\DoxyCodeLine{273 \textcolor{comment}{//      Pointer to file in memory.}}
+\DoxyCodeLine{274 \textcolor{comment}{//  SrcDataSize}}
+\DoxyCodeLine{275 \textcolor{comment}{//      Size in bytes of file in memory.}}
+\DoxyCodeLine{276 \textcolor{comment}{//  pSrcInfo}}
+\DoxyCodeLine{277 \textcolor{comment}{//      Pointer to a D3DXIMAGE\_INFO structure to be filled in with the }}
+\DoxyCodeLine{278 \textcolor{comment}{//      description of the data in the source image file.}}
+\DoxyCodeLine{279 \textcolor{comment}{//}}
+\DoxyCodeLine{280 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{281 }
+\DoxyCodeLine{282 HRESULT WINAPI}
+\DoxyCodeLine{283     D3DXGetImageInfoFromFileA(}
+\DoxyCodeLine{284         LPCSTR                    pSrcFile,}
+\DoxyCodeLine{285         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo);}
+\DoxyCodeLine{286 }
+\DoxyCodeLine{287 HRESULT WINAPI}
+\DoxyCodeLine{288     D3DXGetImageInfoFromFileW(}
+\DoxyCodeLine{289         LPCWSTR                   pSrcFile,}
+\DoxyCodeLine{290         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo);}
+\DoxyCodeLine{291 }
+\DoxyCodeLine{292 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{293 \textcolor{preprocessor}{\#define D3DXGetImageInfoFromFile D3DXGetImageInfoFromFileW}}
+\DoxyCodeLine{294 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{295 \textcolor{preprocessor}{\#define D3DXGetImageInfoFromFile D3DXGetImageInfoFromFileA}}
+\DoxyCodeLine{296 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{297 }
+\DoxyCodeLine{298 }
+\DoxyCodeLine{299 HRESULT WINAPI}
+\DoxyCodeLine{300     D3DXGetImageInfoFromResourceA(}
+\DoxyCodeLine{301         HMODULE                   hSrcModule,}
+\DoxyCodeLine{302         LPCSTR                    pSrcResource,}
+\DoxyCodeLine{303         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo);}
+\DoxyCodeLine{304 }
+\DoxyCodeLine{305 HRESULT WINAPI}
+\DoxyCodeLine{306     D3DXGetImageInfoFromResourceW(}
+\DoxyCodeLine{307         HMODULE                   hSrcModule,}
+\DoxyCodeLine{308         LPCWSTR                   pSrcResource,}
+\DoxyCodeLine{309         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo);}
+\DoxyCodeLine{310 }
+\DoxyCodeLine{311 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{312 \textcolor{preprocessor}{\#define D3DXGetImageInfoFromResource D3DXGetImageInfoFromResourceW}}
+\DoxyCodeLine{313 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{314 \textcolor{preprocessor}{\#define D3DXGetImageInfoFromResource D3DXGetImageInfoFromResourceA}}
+\DoxyCodeLine{315 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{316 }
+\DoxyCodeLine{317 }
+\DoxyCodeLine{318 HRESULT WINAPI}
+\DoxyCodeLine{319     D3DXGetImageInfoFromFileInMemory(}
+\DoxyCodeLine{320         LPCVOID                   pSrcData,}
+\DoxyCodeLine{321         UINT                      SrcDataSize,}
+\DoxyCodeLine{322         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo);}
+\DoxyCodeLine{323 }
+\DoxyCodeLine{324 }
+\DoxyCodeLine{325 }
+\DoxyCodeLine{326 }
+\DoxyCodeLine{328 \textcolor{comment}{// Load/Save Surface APIs ////////////////////////////////////////////////////}}
+\DoxyCodeLine{330 \textcolor{comment}{}}
+\DoxyCodeLine{331 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{332 \textcolor{comment}{// D3DXLoadSurfaceFromFile/Resource:}}
+\DoxyCodeLine{333 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{334 \textcolor{comment}{// Load surface from a file or resource}}
+\DoxyCodeLine{335 \textcolor{comment}{//}}
+\DoxyCodeLine{336 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{337 \textcolor{comment}{//  pDestSurface}}
+\DoxyCodeLine{338 \textcolor{comment}{//      Destination surface, which will receive the image.}}
+\DoxyCodeLine{339 \textcolor{comment}{//  pDestPalette}}
+\DoxyCodeLine{340 \textcolor{comment}{//      Destination palette of 256 colors, or NULL}}
+\DoxyCodeLine{341 \textcolor{comment}{//  pDestRect}}
+\DoxyCodeLine{342 \textcolor{comment}{//      Destination rectangle, or NULL for entire surface}}
+\DoxyCodeLine{343 \textcolor{comment}{//  pSrcFile}}
+\DoxyCodeLine{344 \textcolor{comment}{//      File name of the source image.}}
+\DoxyCodeLine{345 \textcolor{comment}{//  pSrcModule}}
+\DoxyCodeLine{346 \textcolor{comment}{//      Module where resource is located, or NULL for module associated}}
+\DoxyCodeLine{347 \textcolor{comment}{//      with image the os used to create the current process.}}
+\DoxyCodeLine{348 \textcolor{comment}{//  pSrcResource}}
+\DoxyCodeLine{349 \textcolor{comment}{//      Resource name}}
+\DoxyCodeLine{350 \textcolor{comment}{//  pSrcData}}
+\DoxyCodeLine{351 \textcolor{comment}{//      Pointer to file in memory.}}
+\DoxyCodeLine{352 \textcolor{comment}{//  SrcDataSize}}
+\DoxyCodeLine{353 \textcolor{comment}{//      Size in bytes of file in memory.}}
+\DoxyCodeLine{354 \textcolor{comment}{//  pSrcRect}}
+\DoxyCodeLine{355 \textcolor{comment}{//      Source rectangle, or NULL for entire image}}
+\DoxyCodeLine{356 \textcolor{comment}{//  Filter}}
+\DoxyCodeLine{357 \textcolor{comment}{//      D3DX\_FILTER flags controlling how the image is filtered.}}
+\DoxyCodeLine{358 \textcolor{comment}{//      Or D3DX\_DEFAULT for D3DX\_FILTER\_TRIANGLE.}}
+\DoxyCodeLine{359 \textcolor{comment}{//  ColorKey}}
+\DoxyCodeLine{360 \textcolor{comment}{//      Color to replace with transparent black, or 0 to disable colorkey.}}
+\DoxyCodeLine{361 \textcolor{comment}{//      This is always a 32-\/bit ARGB color, independent of the source image}}
+\DoxyCodeLine{362 \textcolor{comment}{//      format.  Alpha is significant, and should usually be set to FF for }}
+\DoxyCodeLine{363 \textcolor{comment}{//      opaque colorkeys.  (ex. Opaque black == 0xff000000)}}
+\DoxyCodeLine{364 \textcolor{comment}{//  pSrcInfo}}
+\DoxyCodeLine{365 \textcolor{comment}{//      Pointer to a D3DXIMAGE\_INFO structure to be filled in with the }}
+\DoxyCodeLine{366 \textcolor{comment}{//      description of the data in the source image file, or NULL.}}
+\DoxyCodeLine{367 \textcolor{comment}{//}}
+\DoxyCodeLine{368 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{369 }
+\DoxyCodeLine{370 HRESULT WINAPI}
+\DoxyCodeLine{371     D3DXLoadSurfaceFromFileA(}
+\DoxyCodeLine{372         LPDIRECT3DSURFACE9        pDestSurface,}
+\DoxyCodeLine{373         CONST PALETTEENTRY*       pDestPalette,}
+\DoxyCodeLine{374         CONST RECT*               pDestRect,}
+\DoxyCodeLine{375         LPCSTR                    pSrcFile,}
+\DoxyCodeLine{376         CONST RECT*               pSrcRect,}
+\DoxyCodeLine{377         DWORD                     Filter,}
+\DoxyCodeLine{378         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{379         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo);}
+\DoxyCodeLine{380 }
+\DoxyCodeLine{381 HRESULT WINAPI}
+\DoxyCodeLine{382     D3DXLoadSurfaceFromFileW(}
+\DoxyCodeLine{383         LPDIRECT3DSURFACE9        pDestSurface,}
+\DoxyCodeLine{384         CONST PALETTEENTRY*       pDestPalette,}
+\DoxyCodeLine{385         CONST RECT*               pDestRect,}
+\DoxyCodeLine{386         LPCWSTR                   pSrcFile,}
+\DoxyCodeLine{387         CONST RECT*               pSrcRect,}
+\DoxyCodeLine{388         DWORD                     Filter,}
+\DoxyCodeLine{389         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{390         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo);}
+\DoxyCodeLine{391 }
+\DoxyCodeLine{392 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{393 \textcolor{preprocessor}{\#define D3DXLoadSurfaceFromFile D3DXLoadSurfaceFromFileW}}
+\DoxyCodeLine{394 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{395 \textcolor{preprocessor}{\#define D3DXLoadSurfaceFromFile D3DXLoadSurfaceFromFileA}}
+\DoxyCodeLine{396 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{397 }
+\DoxyCodeLine{398 }
+\DoxyCodeLine{399 }
+\DoxyCodeLine{400 HRESULT WINAPI}
+\DoxyCodeLine{401     D3DXLoadSurfaceFromResourceA(}
+\DoxyCodeLine{402         LPDIRECT3DSURFACE9        pDestSurface,}
+\DoxyCodeLine{403         CONST PALETTEENTRY*       pDestPalette,}
+\DoxyCodeLine{404         CONST RECT*               pDestRect,}
+\DoxyCodeLine{405         HMODULE                   hSrcModule,}
+\DoxyCodeLine{406         LPCSTR                    pSrcResource,}
+\DoxyCodeLine{407         CONST RECT*               pSrcRect,}
+\DoxyCodeLine{408         DWORD                     Filter,}
+\DoxyCodeLine{409         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{410         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo);}
+\DoxyCodeLine{411 }
+\DoxyCodeLine{412 HRESULT WINAPI}
+\DoxyCodeLine{413     D3DXLoadSurfaceFromResourceW(}
+\DoxyCodeLine{414         LPDIRECT3DSURFACE9        pDestSurface,}
+\DoxyCodeLine{415         CONST PALETTEENTRY*       pDestPalette,}
+\DoxyCodeLine{416         CONST RECT*               pDestRect,}
+\DoxyCodeLine{417         HMODULE                   hSrcModule,}
+\DoxyCodeLine{418         LPCWSTR                   pSrcResource,}
+\DoxyCodeLine{419         CONST RECT*               pSrcRect,}
+\DoxyCodeLine{420         DWORD                     Filter,}
+\DoxyCodeLine{421         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{422         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo);}
+\DoxyCodeLine{423 }
+\DoxyCodeLine{424 }
+\DoxyCodeLine{425 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{426 \textcolor{preprocessor}{\#define D3DXLoadSurfaceFromResource D3DXLoadSurfaceFromResourceW}}
+\DoxyCodeLine{427 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{428 \textcolor{preprocessor}{\#define D3DXLoadSurfaceFromResource D3DXLoadSurfaceFromResourceA}}
+\DoxyCodeLine{429 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{430 }
+\DoxyCodeLine{431 }
+\DoxyCodeLine{432 }
+\DoxyCodeLine{433 HRESULT WINAPI}
+\DoxyCodeLine{434     D3DXLoadSurfaceFromFileInMemory(}
+\DoxyCodeLine{435         LPDIRECT3DSURFACE9        pDestSurface,}
+\DoxyCodeLine{436         CONST PALETTEENTRY*       pDestPalette,}
+\DoxyCodeLine{437         CONST RECT*               pDestRect,}
+\DoxyCodeLine{438         LPCVOID                   pSrcData,}
+\DoxyCodeLine{439         UINT                      SrcDataSize,}
+\DoxyCodeLine{440         CONST RECT*               pSrcRect,}
+\DoxyCodeLine{441         DWORD                     Filter,}
+\DoxyCodeLine{442         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{443         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo);}
+\DoxyCodeLine{444 }
+\DoxyCodeLine{445 }
+\DoxyCodeLine{446 }
+\DoxyCodeLine{447 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{448 \textcolor{comment}{// D3DXLoadSurfaceFromSurface:}}
+\DoxyCodeLine{449 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{450 \textcolor{comment}{// Load surface from another surface (with color conversion)}}
+\DoxyCodeLine{451 \textcolor{comment}{//}}
+\DoxyCodeLine{452 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{453 \textcolor{comment}{//  pDestSurface}}
+\DoxyCodeLine{454 \textcolor{comment}{//      Destination surface, which will receive the image.}}
+\DoxyCodeLine{455 \textcolor{comment}{//  pDestPalette}}
+\DoxyCodeLine{456 \textcolor{comment}{//      Destination palette of 256 colors, or NULL}}
+\DoxyCodeLine{457 \textcolor{comment}{//  pDestRect}}
+\DoxyCodeLine{458 \textcolor{comment}{//      Destination rectangle, or NULL for entire surface}}
+\DoxyCodeLine{459 \textcolor{comment}{//  pSrcSurface}}
+\DoxyCodeLine{460 \textcolor{comment}{//      Source surface}}
+\DoxyCodeLine{461 \textcolor{comment}{//  pSrcPalette}}
+\DoxyCodeLine{462 \textcolor{comment}{//      Source palette of 256 colors, or NULL}}
+\DoxyCodeLine{463 \textcolor{comment}{//  pSrcRect}}
+\DoxyCodeLine{464 \textcolor{comment}{//      Source rectangle, or NULL for entire surface}}
+\DoxyCodeLine{465 \textcolor{comment}{//  Filter}}
+\DoxyCodeLine{466 \textcolor{comment}{//      D3DX\_FILTER flags controlling how the image is filtered.}}
+\DoxyCodeLine{467 \textcolor{comment}{//      Or D3DX\_DEFAULT for D3DX\_FILTER\_TRIANGLE.}}
+\DoxyCodeLine{468 \textcolor{comment}{//  ColorKey}}
+\DoxyCodeLine{469 \textcolor{comment}{//      Color to replace with transparent black, or 0 to disable colorkey.}}
+\DoxyCodeLine{470 \textcolor{comment}{//      This is always a 32-\/bit ARGB color, independent of the source image}}
+\DoxyCodeLine{471 \textcolor{comment}{//      format.  Alpha is significant, and should usually be set to FF for }}
+\DoxyCodeLine{472 \textcolor{comment}{//      opaque colorkeys.  (ex. Opaque black == 0xff000000)}}
+\DoxyCodeLine{473 \textcolor{comment}{//}}
+\DoxyCodeLine{474 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{475 }
+\DoxyCodeLine{476 HRESULT WINAPI}
+\DoxyCodeLine{477     D3DXLoadSurfaceFromSurface(}
+\DoxyCodeLine{478         LPDIRECT3DSURFACE9        pDestSurface,}
+\DoxyCodeLine{479         CONST PALETTEENTRY*       pDestPalette,}
+\DoxyCodeLine{480         CONST RECT*               pDestRect,}
+\DoxyCodeLine{481         LPDIRECT3DSURFACE9        pSrcSurface,}
+\DoxyCodeLine{482         CONST PALETTEENTRY*       pSrcPalette,}
+\DoxyCodeLine{483         CONST RECT*               pSrcRect,}
+\DoxyCodeLine{484         DWORD                     Filter,}
+\DoxyCodeLine{485         D3DCOLOR                  ColorKey);}
+\DoxyCodeLine{486 }
+\DoxyCodeLine{487 }
+\DoxyCodeLine{488 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{489 \textcolor{comment}{// D3DXLoadSurfaceFromMemory:}}
+\DoxyCodeLine{490 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{491 \textcolor{comment}{// Load surface from memory.}}
+\DoxyCodeLine{492 \textcolor{comment}{//}}
+\DoxyCodeLine{493 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{494 \textcolor{comment}{//  pDestSurface}}
+\DoxyCodeLine{495 \textcolor{comment}{//      Destination surface, which will receive the image.}}
+\DoxyCodeLine{496 \textcolor{comment}{//  pDestPalette}}
+\DoxyCodeLine{497 \textcolor{comment}{//      Destination palette of 256 colors, or NULL}}
+\DoxyCodeLine{498 \textcolor{comment}{//  pDestRect}}
+\DoxyCodeLine{499 \textcolor{comment}{//      Destination rectangle, or NULL for entire surface}}
+\DoxyCodeLine{500 \textcolor{comment}{//  pSrcMemory}}
+\DoxyCodeLine{501 \textcolor{comment}{//      Pointer to the top-\/left corner of the source image in memory}}
+\DoxyCodeLine{502 \textcolor{comment}{//  SrcFormat}}
+\DoxyCodeLine{503 \textcolor{comment}{//      Pixel format of the source image.}}
+\DoxyCodeLine{504 \textcolor{comment}{//  SrcPitch}}
+\DoxyCodeLine{505 \textcolor{comment}{//      Pitch of source image, in bytes.  For DXT formats, this number}}
+\DoxyCodeLine{506 \textcolor{comment}{//      should represent the width of one row of cells, in bytes.}}
+\DoxyCodeLine{507 \textcolor{comment}{//  pSrcPalette}}
+\DoxyCodeLine{508 \textcolor{comment}{//      Source palette of 256 colors, or NULL}}
+\DoxyCodeLine{509 \textcolor{comment}{//  pSrcRect}}
+\DoxyCodeLine{510 \textcolor{comment}{//      Source rectangle.}}
+\DoxyCodeLine{511 \textcolor{comment}{//  Filter}}
+\DoxyCodeLine{512 \textcolor{comment}{//      D3DX\_FILTER flags controlling how the image is filtered.}}
+\DoxyCodeLine{513 \textcolor{comment}{//      Or D3DX\_DEFAULT for D3DX\_FILTER\_TRIANGLE.}}
+\DoxyCodeLine{514 \textcolor{comment}{//  ColorKey}}
+\DoxyCodeLine{515 \textcolor{comment}{//      Color to replace with transparent black, or 0 to disable colorkey.}}
+\DoxyCodeLine{516 \textcolor{comment}{//      This is always a 32-\/bit ARGB color, independent of the source image}}
+\DoxyCodeLine{517 \textcolor{comment}{//      format.  Alpha is significant, and should usually be set to FF for }}
+\DoxyCodeLine{518 \textcolor{comment}{//      opaque colorkeys.  (ex. Opaque black == 0xff000000)}}
+\DoxyCodeLine{519 \textcolor{comment}{//}}
+\DoxyCodeLine{520 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{521 }
+\DoxyCodeLine{522 HRESULT WINAPI}
+\DoxyCodeLine{523     D3DXLoadSurfaceFromMemory(}
+\DoxyCodeLine{524         LPDIRECT3DSURFACE9        pDestSurface,}
+\DoxyCodeLine{525         CONST PALETTEENTRY*       pDestPalette,}
+\DoxyCodeLine{526         CONST RECT*               pDestRect,}
+\DoxyCodeLine{527         LPCVOID                   pSrcMemory,}
+\DoxyCodeLine{528         D3DFORMAT                 SrcFormat,}
+\DoxyCodeLine{529         UINT                      SrcPitch,}
+\DoxyCodeLine{530         CONST PALETTEENTRY*       pSrcPalette,}
+\DoxyCodeLine{531         CONST RECT*               pSrcRect,}
+\DoxyCodeLine{532         DWORD                     Filter,}
+\DoxyCodeLine{533         D3DCOLOR                  ColorKey);}
+\DoxyCodeLine{534 }
+\DoxyCodeLine{535 }
+\DoxyCodeLine{536 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{537 \textcolor{comment}{// D3DXSaveSurfaceToFile:}}
+\DoxyCodeLine{538 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{539 \textcolor{comment}{// Save a surface to a image file.}}
+\DoxyCodeLine{540 \textcolor{comment}{//}}
+\DoxyCodeLine{541 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{542 \textcolor{comment}{//  pDestFile}}
+\DoxyCodeLine{543 \textcolor{comment}{//      File name of the destination file}}
+\DoxyCodeLine{544 \textcolor{comment}{//  DestFormat}}
+\DoxyCodeLine{545 \textcolor{comment}{//      D3DXIMAGE\_FILEFORMAT specifying file format to use when saving.}}
+\DoxyCodeLine{546 \textcolor{comment}{//  pSrcSurface}}
+\DoxyCodeLine{547 \textcolor{comment}{//      Source surface, containing the image to be saved}}
+\DoxyCodeLine{548 \textcolor{comment}{//  pSrcPalette}}
+\DoxyCodeLine{549 \textcolor{comment}{//      Source palette of 256 colors, or NULL}}
+\DoxyCodeLine{550 \textcolor{comment}{//  pSrcRect}}
+\DoxyCodeLine{551 \textcolor{comment}{//      Source rectangle, or NULL for the entire image}}
+\DoxyCodeLine{552 \textcolor{comment}{//}}
+\DoxyCodeLine{553 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{554 }
+\DoxyCodeLine{555 HRESULT WINAPI}
+\DoxyCodeLine{556     D3DXSaveSurfaceToFileA(}
+\DoxyCodeLine{557         LPCSTR                    pDestFile,}
+\DoxyCodeLine{558         D3DXIMAGE\_FILEFORMAT      DestFormat,}
+\DoxyCodeLine{559         LPDIRECT3DSURFACE9        pSrcSurface,}
+\DoxyCodeLine{560         CONST PALETTEENTRY*       pSrcPalette,}
+\DoxyCodeLine{561         CONST RECT*               pSrcRect);}
+\DoxyCodeLine{562 }
+\DoxyCodeLine{563 HRESULT WINAPI}
+\DoxyCodeLine{564     D3DXSaveSurfaceToFileW(}
+\DoxyCodeLine{565         LPCWSTR                   pDestFile,}
+\DoxyCodeLine{566         D3DXIMAGE\_FILEFORMAT      DestFormat,}
+\DoxyCodeLine{567         LPDIRECT3DSURFACE9        pSrcSurface,}
+\DoxyCodeLine{568         CONST PALETTEENTRY*       pSrcPalette,}
+\DoxyCodeLine{569         CONST RECT*               pSrcRect);}
+\DoxyCodeLine{570 }
+\DoxyCodeLine{571 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{572 \textcolor{preprocessor}{\#define D3DXSaveSurfaceToFile D3DXSaveSurfaceToFileW}}
+\DoxyCodeLine{573 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{574 \textcolor{preprocessor}{\#define D3DXSaveSurfaceToFile D3DXSaveSurfaceToFileA}}
+\DoxyCodeLine{575 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{576 }
+\DoxyCodeLine{577 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{578 \textcolor{comment}{// D3DXSaveSurfaceToFileInMemory:}}
+\DoxyCodeLine{579 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{580 \textcolor{comment}{// Save a surface to a image file.}}
+\DoxyCodeLine{581 \textcolor{comment}{//}}
+\DoxyCodeLine{582 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{583 \textcolor{comment}{//  ppDestBuf}}
+\DoxyCodeLine{584 \textcolor{comment}{//      address of pointer to d3dxbuffer for returning data bits}}
+\DoxyCodeLine{585 \textcolor{comment}{//  DestFormat}}
+\DoxyCodeLine{586 \textcolor{comment}{//      D3DXIMAGE\_FILEFORMAT specifying file format to use when saving.}}
+\DoxyCodeLine{587 \textcolor{comment}{//  pSrcSurface}}
+\DoxyCodeLine{588 \textcolor{comment}{//      Source surface, containing the image to be saved}}
+\DoxyCodeLine{589 \textcolor{comment}{//  pSrcPalette}}
+\DoxyCodeLine{590 \textcolor{comment}{//      Source palette of 256 colors, or NULL}}
+\DoxyCodeLine{591 \textcolor{comment}{//  pSrcRect}}
+\DoxyCodeLine{592 \textcolor{comment}{//      Source rectangle, or NULL for the entire image}}
+\DoxyCodeLine{593 \textcolor{comment}{//}}
+\DoxyCodeLine{594 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{595 }
+\DoxyCodeLine{596 HRESULT WINAPI}
+\DoxyCodeLine{597     D3DXSaveSurfaceToFileInMemory(}
+\DoxyCodeLine{598         LPD3DXBUFFER*             ppDestBuf,}
+\DoxyCodeLine{599         D3DXIMAGE\_FILEFORMAT      DestFormat,}
+\DoxyCodeLine{600         LPDIRECT3DSURFACE9        pSrcSurface,}
+\DoxyCodeLine{601         CONST PALETTEENTRY*       pSrcPalette,}
+\DoxyCodeLine{602         CONST RECT*               pSrcRect);}
+\DoxyCodeLine{603 }
+\DoxyCodeLine{604 }
+\DoxyCodeLine{606 \textcolor{comment}{// Load/Save Volume APIs /////////////////////////////////////////////////////}}
+\DoxyCodeLine{608 \textcolor{comment}{}}
+\DoxyCodeLine{609 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{610 \textcolor{comment}{// D3DXLoadVolumeFromFile/Resource:}}
+\DoxyCodeLine{611 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{612 \textcolor{comment}{// Load volume from a file or resource}}
+\DoxyCodeLine{613 \textcolor{comment}{//}}
+\DoxyCodeLine{614 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{615 \textcolor{comment}{//  pDestVolume}}
+\DoxyCodeLine{616 \textcolor{comment}{//      Destination volume, which will receive the image.}}
+\DoxyCodeLine{617 \textcolor{comment}{//  pDestPalette}}
+\DoxyCodeLine{618 \textcolor{comment}{//      Destination palette of 256 colors, or NULL}}
+\DoxyCodeLine{619 \textcolor{comment}{//  pDestBox}}
+\DoxyCodeLine{620 \textcolor{comment}{//      Destination box, or NULL for entire volume}}
+\DoxyCodeLine{621 \textcolor{comment}{//  pSrcFile}}
+\DoxyCodeLine{622 \textcolor{comment}{//      File name of the source image.}}
+\DoxyCodeLine{623 \textcolor{comment}{//  pSrcModule}}
+\DoxyCodeLine{624 \textcolor{comment}{//      Module where resource is located, or NULL for module associated}}
+\DoxyCodeLine{625 \textcolor{comment}{//      with image the os used to create the current process.}}
+\DoxyCodeLine{626 \textcolor{comment}{//  pSrcResource}}
+\DoxyCodeLine{627 \textcolor{comment}{//      Resource name}}
+\DoxyCodeLine{628 \textcolor{comment}{//  pSrcData}}
+\DoxyCodeLine{629 \textcolor{comment}{//      Pointer to file in memory.}}
+\DoxyCodeLine{630 \textcolor{comment}{//  SrcDataSize}}
+\DoxyCodeLine{631 \textcolor{comment}{//      Size in bytes of file in memory.}}
+\DoxyCodeLine{632 \textcolor{comment}{//  pSrcBox}}
+\DoxyCodeLine{633 \textcolor{comment}{//      Source box, or NULL for entire image}}
+\DoxyCodeLine{634 \textcolor{comment}{//  Filter}}
+\DoxyCodeLine{635 \textcolor{comment}{//      D3DX\_FILTER flags controlling how the image is filtered.}}
+\DoxyCodeLine{636 \textcolor{comment}{//      Or D3DX\_DEFAULT for D3DX\_FILTER\_TRIANGLE.}}
+\DoxyCodeLine{637 \textcolor{comment}{//  ColorKey}}
+\DoxyCodeLine{638 \textcolor{comment}{//      Color to replace with transparent black, or 0 to disable colorkey.}}
+\DoxyCodeLine{639 \textcolor{comment}{//      This is always a 32-\/bit ARGB color, independent of the source image}}
+\DoxyCodeLine{640 \textcolor{comment}{//      format.  Alpha is significant, and should usually be set to FF for }}
+\DoxyCodeLine{641 \textcolor{comment}{//      opaque colorkeys.  (ex. Opaque black == 0xff000000)}}
+\DoxyCodeLine{642 \textcolor{comment}{//  pSrcInfo}}
+\DoxyCodeLine{643 \textcolor{comment}{//      Pointer to a D3DXIMAGE\_INFO structure to be filled in with the }}
+\DoxyCodeLine{644 \textcolor{comment}{//      description of the data in the source image file, or NULL.}}
+\DoxyCodeLine{645 \textcolor{comment}{//}}
+\DoxyCodeLine{646 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{647 }
+\DoxyCodeLine{648 HRESULT WINAPI}
+\DoxyCodeLine{649     D3DXLoadVolumeFromFileA(}
+\DoxyCodeLine{650         LPDIRECT3DVOLUME9         pDestVolume,}
+\DoxyCodeLine{651         CONST PALETTEENTRY*       pDestPalette,}
+\DoxyCodeLine{652         CONST \mbox{\hyperlink{struct___d3_d_b_o_x}{D3DBOX}}*             pDestBox,}
+\DoxyCodeLine{653         LPCSTR                    pSrcFile,}
+\DoxyCodeLine{654         CONST \mbox{\hyperlink{struct___d3_d_b_o_x}{D3DBOX}}*             pSrcBox,}
+\DoxyCodeLine{655         DWORD                     Filter,}
+\DoxyCodeLine{656         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{657         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo);}
+\DoxyCodeLine{658 }
+\DoxyCodeLine{659 HRESULT WINAPI}
+\DoxyCodeLine{660     D3DXLoadVolumeFromFileW(}
+\DoxyCodeLine{661         LPDIRECT3DVOLUME9         pDestVolume,}
+\DoxyCodeLine{662         CONST PALETTEENTRY*       pDestPalette,}
+\DoxyCodeLine{663         CONST \mbox{\hyperlink{struct___d3_d_b_o_x}{D3DBOX}}*             pDestBox,}
+\DoxyCodeLine{664         LPCWSTR                   pSrcFile,}
+\DoxyCodeLine{665         CONST \mbox{\hyperlink{struct___d3_d_b_o_x}{D3DBOX}}*             pSrcBox,}
+\DoxyCodeLine{666         DWORD                     Filter,}
+\DoxyCodeLine{667         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{668         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo);}
+\DoxyCodeLine{669 }
+\DoxyCodeLine{670 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{671 \textcolor{preprocessor}{\#define D3DXLoadVolumeFromFile D3DXLoadVolumeFromFileW}}
+\DoxyCodeLine{672 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{673 \textcolor{preprocessor}{\#define D3DXLoadVolumeFromFile D3DXLoadVolumeFromFileA}}
+\DoxyCodeLine{674 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{675 }
+\DoxyCodeLine{676 }
+\DoxyCodeLine{677 HRESULT WINAPI}
+\DoxyCodeLine{678     D3DXLoadVolumeFromResourceA(}
+\DoxyCodeLine{679         LPDIRECT3DVOLUME9         pDestVolume,}
+\DoxyCodeLine{680         CONST PALETTEENTRY*       pDestPalette,}
+\DoxyCodeLine{681         CONST \mbox{\hyperlink{struct___d3_d_b_o_x}{D3DBOX}}*             pDestBox,}
+\DoxyCodeLine{682         HMODULE                   hSrcModule,}
+\DoxyCodeLine{683         LPCSTR                    pSrcResource,}
+\DoxyCodeLine{684         CONST \mbox{\hyperlink{struct___d3_d_b_o_x}{D3DBOX}}*             pSrcBox,}
+\DoxyCodeLine{685         DWORD                     Filter,}
+\DoxyCodeLine{686         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{687         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo);}
+\DoxyCodeLine{688 }
+\DoxyCodeLine{689 HRESULT WINAPI}
+\DoxyCodeLine{690     D3DXLoadVolumeFromResourceW(}
+\DoxyCodeLine{691         LPDIRECT3DVOLUME9         pDestVolume,}
+\DoxyCodeLine{692         CONST PALETTEENTRY*       pDestPalette,}
+\DoxyCodeLine{693         CONST \mbox{\hyperlink{struct___d3_d_b_o_x}{D3DBOX}}*             pDestBox,}
+\DoxyCodeLine{694         HMODULE                   hSrcModule,}
+\DoxyCodeLine{695         LPCWSTR                   pSrcResource,}
+\DoxyCodeLine{696         CONST \mbox{\hyperlink{struct___d3_d_b_o_x}{D3DBOX}}*             pSrcBox,}
+\DoxyCodeLine{697         DWORD                     Filter,}
+\DoxyCodeLine{698         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{699         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo);}
+\DoxyCodeLine{700 }
+\DoxyCodeLine{701 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{702 \textcolor{preprocessor}{\#define D3DXLoadVolumeFromResource D3DXLoadVolumeFromResourceW}}
+\DoxyCodeLine{703 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{704 \textcolor{preprocessor}{\#define D3DXLoadVolumeFromResource D3DXLoadVolumeFromResourceA}}
+\DoxyCodeLine{705 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{706 }
+\DoxyCodeLine{707 }
+\DoxyCodeLine{708 }
+\DoxyCodeLine{709 HRESULT WINAPI}
+\DoxyCodeLine{710     D3DXLoadVolumeFromFileInMemory(}
+\DoxyCodeLine{711         LPDIRECT3DVOLUME9         pDestVolume,}
+\DoxyCodeLine{712         CONST PALETTEENTRY*       pDestPalette,}
+\DoxyCodeLine{713         CONST \mbox{\hyperlink{struct___d3_d_b_o_x}{D3DBOX}}*             pDestBox,}
+\DoxyCodeLine{714         LPCVOID                   pSrcData,}
+\DoxyCodeLine{715         UINT                      SrcDataSize,}
+\DoxyCodeLine{716         CONST \mbox{\hyperlink{struct___d3_d_b_o_x}{D3DBOX}}*             pSrcBox,}
+\DoxyCodeLine{717         DWORD                     Filter,}
+\DoxyCodeLine{718         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{719         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo);}
+\DoxyCodeLine{720 }
+\DoxyCodeLine{721 }
+\DoxyCodeLine{722 }
+\DoxyCodeLine{723 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{724 \textcolor{comment}{// D3DXLoadVolumeFromVolume:}}
+\DoxyCodeLine{725 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{726 \textcolor{comment}{// Load volume from another volume (with color conversion)}}
+\DoxyCodeLine{727 \textcolor{comment}{//}}
+\DoxyCodeLine{728 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{729 \textcolor{comment}{//  pDestVolume}}
+\DoxyCodeLine{730 \textcolor{comment}{//      Destination volume, which will receive the image.}}
+\DoxyCodeLine{731 \textcolor{comment}{//  pDestPalette}}
+\DoxyCodeLine{732 \textcolor{comment}{//      Destination palette of 256 colors, or NULL}}
+\DoxyCodeLine{733 \textcolor{comment}{//  pDestBox}}
+\DoxyCodeLine{734 \textcolor{comment}{//      Destination box, or NULL for entire volume}}
+\DoxyCodeLine{735 \textcolor{comment}{//  pSrcVolume}}
+\DoxyCodeLine{736 \textcolor{comment}{//      Source volume}}
+\DoxyCodeLine{737 \textcolor{comment}{//  pSrcPalette}}
+\DoxyCodeLine{738 \textcolor{comment}{//      Source palette of 256 colors, or NULL}}
+\DoxyCodeLine{739 \textcolor{comment}{//  pSrcBox}}
+\DoxyCodeLine{740 \textcolor{comment}{//      Source box, or NULL for entire volume}}
+\DoxyCodeLine{741 \textcolor{comment}{//  Filter}}
+\DoxyCodeLine{742 \textcolor{comment}{//      D3DX\_FILTER flags controlling how the image is filtered.}}
+\DoxyCodeLine{743 \textcolor{comment}{//      Or D3DX\_DEFAULT for D3DX\_FILTER\_TRIANGLE.}}
+\DoxyCodeLine{744 \textcolor{comment}{//  ColorKey}}
+\DoxyCodeLine{745 \textcolor{comment}{//      Color to replace with transparent black, or 0 to disable colorkey.}}
+\DoxyCodeLine{746 \textcolor{comment}{//      This is always a 32-\/bit ARGB color, independent of the source image}}
+\DoxyCodeLine{747 \textcolor{comment}{//      format.  Alpha is significant, and should usually be set to FF for }}
+\DoxyCodeLine{748 \textcolor{comment}{//      opaque colorkeys.  (ex. Opaque black == 0xff000000)}}
+\DoxyCodeLine{749 \textcolor{comment}{//}}
+\DoxyCodeLine{750 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{751 }
+\DoxyCodeLine{752 HRESULT WINAPI}
+\DoxyCodeLine{753     D3DXLoadVolumeFromVolume(}
+\DoxyCodeLine{754         LPDIRECT3DVOLUME9         pDestVolume,}
+\DoxyCodeLine{755         CONST PALETTEENTRY*       pDestPalette,}
+\DoxyCodeLine{756         CONST \mbox{\hyperlink{struct___d3_d_b_o_x}{D3DBOX}}*             pDestBox,}
+\DoxyCodeLine{757         LPDIRECT3DVOLUME9         pSrcVolume,}
+\DoxyCodeLine{758         CONST PALETTEENTRY*       pSrcPalette,}
+\DoxyCodeLine{759         CONST \mbox{\hyperlink{struct___d3_d_b_o_x}{D3DBOX}}*             pSrcBox,}
+\DoxyCodeLine{760         DWORD                     Filter,}
+\DoxyCodeLine{761         D3DCOLOR                  ColorKey);}
+\DoxyCodeLine{762 }
+\DoxyCodeLine{763 }
+\DoxyCodeLine{764 }
+\DoxyCodeLine{765 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{766 \textcolor{comment}{// D3DXLoadVolumeFromMemory:}}
+\DoxyCodeLine{767 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{768 \textcolor{comment}{// Load volume from memory.}}
+\DoxyCodeLine{769 \textcolor{comment}{//}}
+\DoxyCodeLine{770 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{771 \textcolor{comment}{//  pDestVolume}}
+\DoxyCodeLine{772 \textcolor{comment}{//      Destination volume, which will receive the image.}}
+\DoxyCodeLine{773 \textcolor{comment}{//  pDestPalette}}
+\DoxyCodeLine{774 \textcolor{comment}{//      Destination palette of 256 colors, or NULL}}
+\DoxyCodeLine{775 \textcolor{comment}{//  pDestBox}}
+\DoxyCodeLine{776 \textcolor{comment}{//      Destination box, or NULL for entire volume}}
+\DoxyCodeLine{777 \textcolor{comment}{//  pSrcMemory}}
+\DoxyCodeLine{778 \textcolor{comment}{//      Pointer to the top-\/left corner of the source volume in memory}}
+\DoxyCodeLine{779 \textcolor{comment}{//  SrcFormat}}
+\DoxyCodeLine{780 \textcolor{comment}{//      Pixel format of the source volume.}}
+\DoxyCodeLine{781 \textcolor{comment}{//  SrcRowPitch}}
+\DoxyCodeLine{782 \textcolor{comment}{//      Pitch of source image, in bytes.  For DXT formats, this number}}
+\DoxyCodeLine{783 \textcolor{comment}{//      should represent the size of one row of cells, in bytes.}}
+\DoxyCodeLine{784 \textcolor{comment}{//  SrcSlicePitch}}
+\DoxyCodeLine{785 \textcolor{comment}{//      Pitch of source image, in bytes.  For DXT formats, this number}}
+\DoxyCodeLine{786 \textcolor{comment}{//      should represent the size of one slice of cells, in bytes.}}
+\DoxyCodeLine{787 \textcolor{comment}{//  pSrcPalette}}
+\DoxyCodeLine{788 \textcolor{comment}{//      Source palette of 256 colors, or NULL}}
+\DoxyCodeLine{789 \textcolor{comment}{//  pSrcBox}}
+\DoxyCodeLine{790 \textcolor{comment}{//      Source box.}}
+\DoxyCodeLine{791 \textcolor{comment}{//  Filter}}
+\DoxyCodeLine{792 \textcolor{comment}{//      D3DX\_FILTER flags controlling how the image is filtered.}}
+\DoxyCodeLine{793 \textcolor{comment}{//      Or D3DX\_DEFAULT for D3DX\_FILTER\_TRIANGLE.}}
+\DoxyCodeLine{794 \textcolor{comment}{//  ColorKey}}
+\DoxyCodeLine{795 \textcolor{comment}{//      Color to replace with transparent black, or 0 to disable colorkey.}}
+\DoxyCodeLine{796 \textcolor{comment}{//      This is always a 32-\/bit ARGB color, independent of the source image}}
+\DoxyCodeLine{797 \textcolor{comment}{//      format.  Alpha is significant, and should usually be set to FF for }}
+\DoxyCodeLine{798 \textcolor{comment}{//      opaque colorkeys.  (ex. Opaque black == 0xff000000)}}
+\DoxyCodeLine{799 \textcolor{comment}{//}}
+\DoxyCodeLine{800 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{801 }
+\DoxyCodeLine{802 HRESULT WINAPI}
+\DoxyCodeLine{803     D3DXLoadVolumeFromMemory(}
+\DoxyCodeLine{804         LPDIRECT3DVOLUME9         pDestVolume,}
+\DoxyCodeLine{805         CONST PALETTEENTRY*       pDestPalette,}
+\DoxyCodeLine{806         CONST \mbox{\hyperlink{struct___d3_d_b_o_x}{D3DBOX}}*             pDestBox,}
+\DoxyCodeLine{807         LPCVOID                   pSrcMemory,}
+\DoxyCodeLine{808         D3DFORMAT                 SrcFormat,}
+\DoxyCodeLine{809         UINT                      SrcRowPitch,}
+\DoxyCodeLine{810         UINT                      SrcSlicePitch,}
+\DoxyCodeLine{811         CONST PALETTEENTRY*       pSrcPalette,}
+\DoxyCodeLine{812         CONST \mbox{\hyperlink{struct___d3_d_b_o_x}{D3DBOX}}*             pSrcBox,}
+\DoxyCodeLine{813         DWORD                     Filter,}
+\DoxyCodeLine{814         D3DCOLOR                  ColorKey);}
+\DoxyCodeLine{815 }
+\DoxyCodeLine{816 }
+\DoxyCodeLine{817 }
+\DoxyCodeLine{818 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{819 \textcolor{comment}{// D3DXSaveVolumeToFile:}}
+\DoxyCodeLine{820 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{821 \textcolor{comment}{// Save a volume to a image file.}}
+\DoxyCodeLine{822 \textcolor{comment}{//}}
+\DoxyCodeLine{823 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{824 \textcolor{comment}{//  pDestFile}}
+\DoxyCodeLine{825 \textcolor{comment}{//      File name of the destination file}}
+\DoxyCodeLine{826 \textcolor{comment}{//  DestFormat}}
+\DoxyCodeLine{827 \textcolor{comment}{//      D3DXIMAGE\_FILEFORMAT specifying file format to use when saving.}}
+\DoxyCodeLine{828 \textcolor{comment}{//  pSrcVolume}}
+\DoxyCodeLine{829 \textcolor{comment}{//      Source volume, containing the image to be saved}}
+\DoxyCodeLine{830 \textcolor{comment}{//  pSrcPalette}}
+\DoxyCodeLine{831 \textcolor{comment}{//      Source palette of 256 colors, or NULL}}
+\DoxyCodeLine{832 \textcolor{comment}{//  pSrcBox}}
+\DoxyCodeLine{833 \textcolor{comment}{//      Source box, or NULL for the entire volume}}
+\DoxyCodeLine{834 \textcolor{comment}{//}}
+\DoxyCodeLine{835 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{836 }
+\DoxyCodeLine{837 HRESULT WINAPI}
+\DoxyCodeLine{838     D3DXSaveVolumeToFileA(}
+\DoxyCodeLine{839         LPCSTR                    pDestFile,}
+\DoxyCodeLine{840         D3DXIMAGE\_FILEFORMAT      DestFormat,}
+\DoxyCodeLine{841         LPDIRECT3DVOLUME9         pSrcVolume,}
+\DoxyCodeLine{842         CONST PALETTEENTRY*       pSrcPalette,}
+\DoxyCodeLine{843         CONST \mbox{\hyperlink{struct___d3_d_b_o_x}{D3DBOX}}*             pSrcBox);}
+\DoxyCodeLine{844 }
+\DoxyCodeLine{845 HRESULT WINAPI}
+\DoxyCodeLine{846     D3DXSaveVolumeToFileW(}
+\DoxyCodeLine{847         LPCWSTR                   pDestFile,}
+\DoxyCodeLine{848         D3DXIMAGE\_FILEFORMAT      DestFormat,}
+\DoxyCodeLine{849         LPDIRECT3DVOLUME9         pSrcVolume,}
+\DoxyCodeLine{850         CONST PALETTEENTRY*       pSrcPalette,}
+\DoxyCodeLine{851         CONST \mbox{\hyperlink{struct___d3_d_b_o_x}{D3DBOX}}*             pSrcBox);}
+\DoxyCodeLine{852 }
+\DoxyCodeLine{853 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{854 \textcolor{preprocessor}{\#define D3DXSaveVolumeToFile D3DXSaveVolumeToFileW}}
+\DoxyCodeLine{855 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{856 \textcolor{preprocessor}{\#define D3DXSaveVolumeToFile D3DXSaveVolumeToFileA}}
+\DoxyCodeLine{857 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{858 }
+\DoxyCodeLine{859 }
+\DoxyCodeLine{860 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{861 \textcolor{comment}{// D3DXSaveVolumeToFileInMemory:}}
+\DoxyCodeLine{862 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{863 \textcolor{comment}{// Save a volume to a image file.}}
+\DoxyCodeLine{864 \textcolor{comment}{//}}
+\DoxyCodeLine{865 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{866 \textcolor{comment}{//  pDestFile}}
+\DoxyCodeLine{867 \textcolor{comment}{//      File name of the destination file}}
+\DoxyCodeLine{868 \textcolor{comment}{//  DestFormat}}
+\DoxyCodeLine{869 \textcolor{comment}{//      D3DXIMAGE\_FILEFORMAT specifying file format to use when saving.}}
+\DoxyCodeLine{870 \textcolor{comment}{//  pSrcVolume}}
+\DoxyCodeLine{871 \textcolor{comment}{//      Source volume, containing the image to be saved}}
+\DoxyCodeLine{872 \textcolor{comment}{//  pSrcPalette}}
+\DoxyCodeLine{873 \textcolor{comment}{//      Source palette of 256 colors, or NULL}}
+\DoxyCodeLine{874 \textcolor{comment}{//  pSrcBox}}
+\DoxyCodeLine{875 \textcolor{comment}{//      Source box, or NULL for the entire volume}}
+\DoxyCodeLine{876 \textcolor{comment}{//}}
+\DoxyCodeLine{877 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{878 }
+\DoxyCodeLine{879 HRESULT WINAPI}
+\DoxyCodeLine{880     D3DXSaveVolumeToFileInMemory(}
+\DoxyCodeLine{881         LPD3DXBUFFER*             ppDestBuf,}
+\DoxyCodeLine{882         D3DXIMAGE\_FILEFORMAT      DestFormat,}
+\DoxyCodeLine{883         LPDIRECT3DVOLUME9         pSrcVolume,}
+\DoxyCodeLine{884         CONST PALETTEENTRY*       pSrcPalette,}
+\DoxyCodeLine{885         CONST \mbox{\hyperlink{struct___d3_d_b_o_x}{D3DBOX}}*             pSrcBox);}
+\DoxyCodeLine{886 }
+\DoxyCodeLine{888 \textcolor{comment}{// Create/Save Texture APIs //////////////////////////////////////////////////}}
+\DoxyCodeLine{890 \textcolor{comment}{}}
+\DoxyCodeLine{891 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{892 \textcolor{comment}{// D3DXCheckTextureRequirements:}}
+\DoxyCodeLine{893 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{894 \textcolor{comment}{// Checks texture creation parameters.  If parameters are invalid, this}}
+\DoxyCodeLine{895 \textcolor{comment}{// function returns corrected parameters.}}
+\DoxyCodeLine{896 \textcolor{comment}{//}}
+\DoxyCodeLine{897 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{898 \textcolor{comment}{//}}
+\DoxyCodeLine{899 \textcolor{comment}{//  pDevice}}
+\DoxyCodeLine{900 \textcolor{comment}{//      The D3D device to be used}}
+\DoxyCodeLine{901 \textcolor{comment}{//  pWidth, pHeight, pDepth, pSize}}
+\DoxyCodeLine{902 \textcolor{comment}{//      Desired size in pixels, or NULL.  Returns corrected size.}}
+\DoxyCodeLine{903 \textcolor{comment}{//  pNumMipLevels}}
+\DoxyCodeLine{904 \textcolor{comment}{//      Number of desired mipmap levels, or NULL.  Returns corrected number.}}
+\DoxyCodeLine{905 \textcolor{comment}{//  Usage}}
+\DoxyCodeLine{906 \textcolor{comment}{//      Texture usage flags}}
+\DoxyCodeLine{907 \textcolor{comment}{//  pFormat}}
+\DoxyCodeLine{908 \textcolor{comment}{//      Desired pixel format, or NULL.  Returns corrected format.}}
+\DoxyCodeLine{909 \textcolor{comment}{//  Pool}}
+\DoxyCodeLine{910 \textcolor{comment}{//      Memory pool to be used to create texture}}
+\DoxyCodeLine{911 \textcolor{comment}{//}}
+\DoxyCodeLine{912 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{913 }
+\DoxyCodeLine{914 HRESULT WINAPI}
+\DoxyCodeLine{915     D3DXCheckTextureRequirements(}
+\DoxyCodeLine{916         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{917         UINT*                     pWidth,}
+\DoxyCodeLine{918         UINT*                     pHeight,}
+\DoxyCodeLine{919         UINT*                     pNumMipLevels,}
+\DoxyCodeLine{920         DWORD                     Usage,}
+\DoxyCodeLine{921         D3DFORMAT*                pFormat,}
+\DoxyCodeLine{922         D3DPOOL                   Pool);}
+\DoxyCodeLine{923 }
+\DoxyCodeLine{924 HRESULT WINAPI}
+\DoxyCodeLine{925     D3DXCheckCubeTextureRequirements(}
+\DoxyCodeLine{926         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{927         UINT*                     pSize,}
+\DoxyCodeLine{928         UINT*                     pNumMipLevels,}
+\DoxyCodeLine{929         DWORD                     Usage,}
+\DoxyCodeLine{930         D3DFORMAT*                pFormat,}
+\DoxyCodeLine{931         D3DPOOL                   Pool);}
+\DoxyCodeLine{932 }
+\DoxyCodeLine{933 HRESULT WINAPI}
+\DoxyCodeLine{934     D3DXCheckVolumeTextureRequirements(}
+\DoxyCodeLine{935         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{936         UINT*                     pWidth,}
+\DoxyCodeLine{937         UINT*                     pHeight,}
+\DoxyCodeLine{938         UINT*                     pDepth,}
+\DoxyCodeLine{939         UINT*                     pNumMipLevels,}
+\DoxyCodeLine{940         DWORD                     Usage,}
+\DoxyCodeLine{941         D3DFORMAT*                pFormat,}
+\DoxyCodeLine{942         D3DPOOL                   Pool);}
+\DoxyCodeLine{943 }
+\DoxyCodeLine{944 }
+\DoxyCodeLine{945 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{946 \textcolor{comment}{// D3DXCreateTexture:}}
+\DoxyCodeLine{947 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{948 \textcolor{comment}{// Create an empty texture}}
+\DoxyCodeLine{949 \textcolor{comment}{//}}
+\DoxyCodeLine{950 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{951 \textcolor{comment}{//}}
+\DoxyCodeLine{952 \textcolor{comment}{//  pDevice}}
+\DoxyCodeLine{953 \textcolor{comment}{//      The D3D device with which the texture is going to be used.}}
+\DoxyCodeLine{954 \textcolor{comment}{//  Width, Height, Depth, Size}}
+\DoxyCodeLine{955 \textcolor{comment}{//      size in pixels. these must be non-\/zero}}
+\DoxyCodeLine{956 \textcolor{comment}{//  MipLevels}}
+\DoxyCodeLine{957 \textcolor{comment}{//      number of mip levels desired. if zero or D3DX\_DEFAULT, a complete}}
+\DoxyCodeLine{958 \textcolor{comment}{//      mipmap chain will be created.}}
+\DoxyCodeLine{959 \textcolor{comment}{//  Usage}}
+\DoxyCodeLine{960 \textcolor{comment}{//      Texture usage flags}}
+\DoxyCodeLine{961 \textcolor{comment}{//  Format}}
+\DoxyCodeLine{962 \textcolor{comment}{//      Pixel format.}}
+\DoxyCodeLine{963 \textcolor{comment}{//  Pool}}
+\DoxyCodeLine{964 \textcolor{comment}{//      Memory pool to be used to create texture}}
+\DoxyCodeLine{965 \textcolor{comment}{//  ppTexture, ppCubeTexture, ppVolumeTexture}}
+\DoxyCodeLine{966 \textcolor{comment}{//      The texture object that will be created}}
+\DoxyCodeLine{967 \textcolor{comment}{//}}
+\DoxyCodeLine{968 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{969 }
+\DoxyCodeLine{970 HRESULT WINAPI}
+\DoxyCodeLine{971     D3DXCreateTexture(}
+\DoxyCodeLine{972         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{973         UINT                      Width,}
+\DoxyCodeLine{974         UINT                      Height,}
+\DoxyCodeLine{975         UINT                      MipLevels,}
+\DoxyCodeLine{976         DWORD                     Usage,}
+\DoxyCodeLine{977         D3DFORMAT                 Format,}
+\DoxyCodeLine{978         D3DPOOL                   Pool,}
+\DoxyCodeLine{979         LPDIRECT3DTEXTURE9*       ppTexture);}
+\DoxyCodeLine{980 }
+\DoxyCodeLine{981 HRESULT WINAPI}
+\DoxyCodeLine{982     D3DXCreateCubeTexture(}
+\DoxyCodeLine{983         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{984         UINT                      Size,}
+\DoxyCodeLine{985         UINT                      MipLevels,}
+\DoxyCodeLine{986         DWORD                     Usage,}
+\DoxyCodeLine{987         D3DFORMAT                 Format,}
+\DoxyCodeLine{988         D3DPOOL                   Pool,}
+\DoxyCodeLine{989         LPDIRECT3DCUBETEXTURE9*   ppCubeTexture);}
+\DoxyCodeLine{990 }
+\DoxyCodeLine{991 HRESULT WINAPI}
+\DoxyCodeLine{992     D3DXCreateVolumeTexture(}
+\DoxyCodeLine{993         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{994         UINT                      Width,}
+\DoxyCodeLine{995         UINT                      Height,}
+\DoxyCodeLine{996         UINT                      Depth,}
+\DoxyCodeLine{997         UINT                      MipLevels,}
+\DoxyCodeLine{998         DWORD                     Usage,}
+\DoxyCodeLine{999         D3DFORMAT                 Format,}
+\DoxyCodeLine{1000         D3DPOOL                   Pool,}
+\DoxyCodeLine{1001         LPDIRECT3DVOLUMETEXTURE9* ppVolumeTexture);}
+\DoxyCodeLine{1002 }
+\DoxyCodeLine{1003 }
+\DoxyCodeLine{1004 }
+\DoxyCodeLine{1005 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1006 \textcolor{comment}{// D3DXCreateTextureFromFile/Resource:}}
+\DoxyCodeLine{1007 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1008 \textcolor{comment}{// Create a texture object from a file or resource.}}
+\DoxyCodeLine{1009 \textcolor{comment}{//}}
+\DoxyCodeLine{1010 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{1011 \textcolor{comment}{//}}
+\DoxyCodeLine{1012 \textcolor{comment}{//  pDevice}}
+\DoxyCodeLine{1013 \textcolor{comment}{//      The D3D device with which the texture is going to be used.}}
+\DoxyCodeLine{1014 \textcolor{comment}{//  pSrcFile}}
+\DoxyCodeLine{1015 \textcolor{comment}{//      File name.}}
+\DoxyCodeLine{1016 \textcolor{comment}{//  hSrcModule}}
+\DoxyCodeLine{1017 \textcolor{comment}{//      Module handle. if NULL, current module will be used.}}
+\DoxyCodeLine{1018 \textcolor{comment}{//  pSrcResource}}
+\DoxyCodeLine{1019 \textcolor{comment}{//      Resource name in module}}
+\DoxyCodeLine{1020 \textcolor{comment}{//  pvSrcData}}
+\DoxyCodeLine{1021 \textcolor{comment}{//      Pointer to file in memory.}}
+\DoxyCodeLine{1022 \textcolor{comment}{//  SrcDataSize}}
+\DoxyCodeLine{1023 \textcolor{comment}{//      Size in bytes of file in memory.}}
+\DoxyCodeLine{1024 \textcolor{comment}{//  Width, Height, Depth, Size}}
+\DoxyCodeLine{1025 \textcolor{comment}{//      Size in pixels.  If zero or D3DX\_DEFAULT, the size will be taken from }}
+\DoxyCodeLine{1026 \textcolor{comment}{//      the file and rounded up to a power of two.  If D3DX\_DEFAULT\_NONPOW2, }}
+\DoxyCodeLine{1027 \textcolor{comment}{//      and the device supports NONPOW2 textures, the size will not be rounded.}}
+\DoxyCodeLine{1028 \textcolor{comment}{//      If D3DX\_FROM\_FILE, the size will be taken exactly as it is in the file, }}
+\DoxyCodeLine{1029 \textcolor{comment}{//      and the call will fail if this violates device capabilities.}}
+\DoxyCodeLine{1030 \textcolor{comment}{//  MipLevels}}
+\DoxyCodeLine{1031 \textcolor{comment}{//      Number of mip levels.  If zero or D3DX\_DEFAULT, a complete mipmap}}
+\DoxyCodeLine{1032 \textcolor{comment}{//      chain will be created.  If D3DX\_FROM\_FILE, the size will be taken }}
+\DoxyCodeLine{1033 \textcolor{comment}{//      exactly as it is in the file, and the call will fail if this violates }}
+\DoxyCodeLine{1034 \textcolor{comment}{//      device capabilities.}}
+\DoxyCodeLine{1035 \textcolor{comment}{//  Usage}}
+\DoxyCodeLine{1036 \textcolor{comment}{//      Texture usage flags}}
+\DoxyCodeLine{1037 \textcolor{comment}{//  Format}}
+\DoxyCodeLine{1038 \textcolor{comment}{//      Desired pixel format.  If D3DFMT\_UNKNOWN, the format will be}}
+\DoxyCodeLine{1039 \textcolor{comment}{//      taken from the file.  If D3DFMT\_FROM\_FILE, the format will be taken}}
+\DoxyCodeLine{1040 \textcolor{comment}{//      exactly as it is in the file, and the call will fail if the device does}}
+\DoxyCodeLine{1041 \textcolor{comment}{//      not support the given format.}}
+\DoxyCodeLine{1042 \textcolor{comment}{//  Pool}}
+\DoxyCodeLine{1043 \textcolor{comment}{//      Memory pool to be used to create texture}}
+\DoxyCodeLine{1044 \textcolor{comment}{//  Filter}}
+\DoxyCodeLine{1045 \textcolor{comment}{//      D3DX\_FILTER flags controlling how the image is filtered.}}
+\DoxyCodeLine{1046 \textcolor{comment}{//      Or D3DX\_DEFAULT for D3DX\_FILTER\_TRIANGLE.}}
+\DoxyCodeLine{1047 \textcolor{comment}{//  MipFilter}}
+\DoxyCodeLine{1048 \textcolor{comment}{//      D3DX\_FILTER flags controlling how each miplevel is filtered.}}
+\DoxyCodeLine{1049 \textcolor{comment}{//      Or D3DX\_DEFAULT for D3DX\_FILTER\_BOX.}}
+\DoxyCodeLine{1050 \textcolor{comment}{//      Use the D3DX\_SKIP\_DDS\_MIP\_LEVELS macro to specify both a filter and the}}
+\DoxyCodeLine{1051 \textcolor{comment}{//      number of mip levels to skip when loading DDS files.}}
+\DoxyCodeLine{1052 \textcolor{comment}{//  ColorKey}}
+\DoxyCodeLine{1053 \textcolor{comment}{//      Color to replace with transparent black, or 0 to disable colorkey.}}
+\DoxyCodeLine{1054 \textcolor{comment}{//      This is always a 32-\/bit ARGB color, independent of the source image}}
+\DoxyCodeLine{1055 \textcolor{comment}{//      format.  Alpha is significant, and should usually be set to FF for }}
+\DoxyCodeLine{1056 \textcolor{comment}{//      opaque colorkeys.  (ex. Opaque black == 0xff000000)}}
+\DoxyCodeLine{1057 \textcolor{comment}{//  pSrcInfo}}
+\DoxyCodeLine{1058 \textcolor{comment}{//      Pointer to a D3DXIMAGE\_INFO structure to be filled in with the }}
+\DoxyCodeLine{1059 \textcolor{comment}{//      description of the data in the source image file, or NULL.}}
+\DoxyCodeLine{1060 \textcolor{comment}{//  pPalette}}
+\DoxyCodeLine{1061 \textcolor{comment}{//      256 color palette to be filled in, or NULL}}
+\DoxyCodeLine{1062 \textcolor{comment}{//  ppTexture, ppCubeTexture, ppVolumeTexture}}
+\DoxyCodeLine{1063 \textcolor{comment}{//      The texture object that will be created}}
+\DoxyCodeLine{1064 \textcolor{comment}{//}}
+\DoxyCodeLine{1065 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1066 }
+\DoxyCodeLine{1067 \textcolor{comment}{// FromFile}}
+\DoxyCodeLine{1068 }
+\DoxyCodeLine{1069 HRESULT WINAPI}
+\DoxyCodeLine{1070     D3DXCreateTextureFromFileA(}
+\DoxyCodeLine{1071         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1072         LPCSTR                    pSrcFile,}
+\DoxyCodeLine{1073         LPDIRECT3DTEXTURE9*       ppTexture);}
+\DoxyCodeLine{1074 }
+\DoxyCodeLine{1075 HRESULT WINAPI}
+\DoxyCodeLine{1076     D3DXCreateTextureFromFileW(}
+\DoxyCodeLine{1077         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1078         LPCWSTR                   pSrcFile,}
+\DoxyCodeLine{1079         LPDIRECT3DTEXTURE9*       ppTexture);}
+\DoxyCodeLine{1080 }
+\DoxyCodeLine{1081 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{1082 \textcolor{preprocessor}{\#define D3DXCreateTextureFromFile D3DXCreateTextureFromFileW}}
+\DoxyCodeLine{1083 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1084 \textcolor{preprocessor}{\#define D3DXCreateTextureFromFile D3DXCreateTextureFromFileA}}
+\DoxyCodeLine{1085 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1086 }
+\DoxyCodeLine{1087 }
+\DoxyCodeLine{1088 HRESULT WINAPI}
+\DoxyCodeLine{1089     D3DXCreateCubeTextureFromFileA(}
+\DoxyCodeLine{1090         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1091         LPCSTR                    pSrcFile,}
+\DoxyCodeLine{1092         LPDIRECT3DCUBETEXTURE9*   ppCubeTexture);}
+\DoxyCodeLine{1093 }
+\DoxyCodeLine{1094 HRESULT WINAPI}
+\DoxyCodeLine{1095     D3DXCreateCubeTextureFromFileW(}
+\DoxyCodeLine{1096         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1097         LPCWSTR                   pSrcFile,}
+\DoxyCodeLine{1098         LPDIRECT3DCUBETEXTURE9*   ppCubeTexture);}
+\DoxyCodeLine{1099 }
+\DoxyCodeLine{1100 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{1101 \textcolor{preprocessor}{\#define D3DXCreateCubeTextureFromFile D3DXCreateCubeTextureFromFileW}}
+\DoxyCodeLine{1102 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1103 \textcolor{preprocessor}{\#define D3DXCreateCubeTextureFromFile D3DXCreateCubeTextureFromFileA}}
+\DoxyCodeLine{1104 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1105 }
+\DoxyCodeLine{1106 }
+\DoxyCodeLine{1107 HRESULT WINAPI}
+\DoxyCodeLine{1108     D3DXCreateVolumeTextureFromFileA(}
+\DoxyCodeLine{1109         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1110         LPCSTR                    pSrcFile,}
+\DoxyCodeLine{1111         LPDIRECT3DVOLUMETEXTURE9* ppVolumeTexture);}
+\DoxyCodeLine{1112 }
+\DoxyCodeLine{1113 HRESULT WINAPI}
+\DoxyCodeLine{1114     D3DXCreateVolumeTextureFromFileW(}
+\DoxyCodeLine{1115         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1116         LPCWSTR                   pSrcFile,}
+\DoxyCodeLine{1117         LPDIRECT3DVOLUMETEXTURE9* ppVolumeTexture);}
+\DoxyCodeLine{1118 }
+\DoxyCodeLine{1119 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{1120 \textcolor{preprocessor}{\#define D3DXCreateVolumeTextureFromFile D3DXCreateVolumeTextureFromFileW}}
+\DoxyCodeLine{1121 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1122 \textcolor{preprocessor}{\#define D3DXCreateVolumeTextureFromFile D3DXCreateVolumeTextureFromFileA}}
+\DoxyCodeLine{1123 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1124 }
+\DoxyCodeLine{1125 }
+\DoxyCodeLine{1126 \textcolor{comment}{// FromResource}}
+\DoxyCodeLine{1127 }
+\DoxyCodeLine{1128 HRESULT WINAPI}
+\DoxyCodeLine{1129     D3DXCreateTextureFromResourceA(}
+\DoxyCodeLine{1130         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1131         HMODULE                   hSrcModule,}
+\DoxyCodeLine{1132         LPCSTR                    pSrcResource,}
+\DoxyCodeLine{1133         LPDIRECT3DTEXTURE9*       ppTexture);}
+\DoxyCodeLine{1134 }
+\DoxyCodeLine{1135 HRESULT WINAPI}
+\DoxyCodeLine{1136     D3DXCreateTextureFromResourceW(}
+\DoxyCodeLine{1137         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1138         HMODULE                   hSrcModule,}
+\DoxyCodeLine{1139         LPCWSTR                   pSrcResource,}
+\DoxyCodeLine{1140         LPDIRECT3DTEXTURE9*       ppTexture);}
+\DoxyCodeLine{1141 }
+\DoxyCodeLine{1142 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{1143 \textcolor{preprocessor}{\#define D3DXCreateTextureFromResource D3DXCreateTextureFromResourceW}}
+\DoxyCodeLine{1144 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1145 \textcolor{preprocessor}{\#define D3DXCreateTextureFromResource D3DXCreateTextureFromResourceA}}
+\DoxyCodeLine{1146 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1147 }
+\DoxyCodeLine{1148 }
+\DoxyCodeLine{1149 HRESULT WINAPI}
+\DoxyCodeLine{1150     D3DXCreateCubeTextureFromResourceA(}
+\DoxyCodeLine{1151         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1152         HMODULE                   hSrcModule,}
+\DoxyCodeLine{1153         LPCSTR                    pSrcResource,}
+\DoxyCodeLine{1154         LPDIRECT3DCUBETEXTURE9*   ppCubeTexture);}
+\DoxyCodeLine{1155 }
+\DoxyCodeLine{1156 HRESULT WINAPI}
+\DoxyCodeLine{1157     D3DXCreateCubeTextureFromResourceW(}
+\DoxyCodeLine{1158         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1159         HMODULE                   hSrcModule,}
+\DoxyCodeLine{1160         LPCWSTR                   pSrcResource,}
+\DoxyCodeLine{1161         LPDIRECT3DCUBETEXTURE9*   ppCubeTexture);}
+\DoxyCodeLine{1162 }
+\DoxyCodeLine{1163 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{1164 \textcolor{preprocessor}{\#define D3DXCreateCubeTextureFromResource D3DXCreateCubeTextureFromResourceW}}
+\DoxyCodeLine{1165 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1166 \textcolor{preprocessor}{\#define D3DXCreateCubeTextureFromResource D3DXCreateCubeTextureFromResourceA}}
+\DoxyCodeLine{1167 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1168 }
+\DoxyCodeLine{1169 }
+\DoxyCodeLine{1170 HRESULT WINAPI}
+\DoxyCodeLine{1171     D3DXCreateVolumeTextureFromResourceA(}
+\DoxyCodeLine{1172         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1173         HMODULE                   hSrcModule,}
+\DoxyCodeLine{1174         LPCSTR                    pSrcResource,}
+\DoxyCodeLine{1175         LPDIRECT3DVOLUMETEXTURE9* ppVolumeTexture);}
+\DoxyCodeLine{1176 }
+\DoxyCodeLine{1177 HRESULT WINAPI}
+\DoxyCodeLine{1178     D3DXCreateVolumeTextureFromResourceW(}
+\DoxyCodeLine{1179         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1180         HMODULE                   hSrcModule,}
+\DoxyCodeLine{1181         LPCWSTR                   pSrcResource,}
+\DoxyCodeLine{1182         LPDIRECT3DVOLUMETEXTURE9* ppVolumeTexture);}
+\DoxyCodeLine{1183 }
+\DoxyCodeLine{1184 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{1185 \textcolor{preprocessor}{\#define D3DXCreateVolumeTextureFromResource D3DXCreateVolumeTextureFromResourceW}}
+\DoxyCodeLine{1186 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1187 \textcolor{preprocessor}{\#define D3DXCreateVolumeTextureFromResource D3DXCreateVolumeTextureFromResourceA}}
+\DoxyCodeLine{1188 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1189 }
+\DoxyCodeLine{1190 }
+\DoxyCodeLine{1191 \textcolor{comment}{// FromFileEx}}
+\DoxyCodeLine{1192 }
+\DoxyCodeLine{1193 HRESULT WINAPI}
+\DoxyCodeLine{1194     D3DXCreateTextureFromFileExA(}
+\DoxyCodeLine{1195         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1196         LPCSTR                    pSrcFile,}
+\DoxyCodeLine{1197         UINT                      Width,}
+\DoxyCodeLine{1198         UINT                      Height,}
+\DoxyCodeLine{1199         UINT                      MipLevels,}
+\DoxyCodeLine{1200         DWORD                     Usage,}
+\DoxyCodeLine{1201         D3DFORMAT                 Format,}
+\DoxyCodeLine{1202         D3DPOOL                   Pool,}
+\DoxyCodeLine{1203         DWORD                     Filter,}
+\DoxyCodeLine{1204         DWORD                     MipFilter,}
+\DoxyCodeLine{1205         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{1206         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo,}
+\DoxyCodeLine{1207         PALETTEENTRY*             pPalette,}
+\DoxyCodeLine{1208         LPDIRECT3DTEXTURE9*       ppTexture);}
+\DoxyCodeLine{1209 }
+\DoxyCodeLine{1210 HRESULT WINAPI}
+\DoxyCodeLine{1211     D3DXCreateTextureFromFileExW(}
+\DoxyCodeLine{1212         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1213         LPCWSTR                   pSrcFile,}
+\DoxyCodeLine{1214         UINT                      Width,}
+\DoxyCodeLine{1215         UINT                      Height,}
+\DoxyCodeLine{1216         UINT                      MipLevels,}
+\DoxyCodeLine{1217         DWORD                     Usage,}
+\DoxyCodeLine{1218         D3DFORMAT                 Format,}
+\DoxyCodeLine{1219         D3DPOOL                   Pool,}
+\DoxyCodeLine{1220         DWORD                     Filter,}
+\DoxyCodeLine{1221         DWORD                     MipFilter,}
+\DoxyCodeLine{1222         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{1223         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo,}
+\DoxyCodeLine{1224         PALETTEENTRY*             pPalette,}
+\DoxyCodeLine{1225         LPDIRECT3DTEXTURE9*       ppTexture);}
+\DoxyCodeLine{1226 }
+\DoxyCodeLine{1227 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{1228 \textcolor{preprocessor}{\#define D3DXCreateTextureFromFileEx D3DXCreateTextureFromFileExW}}
+\DoxyCodeLine{1229 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1230 \textcolor{preprocessor}{\#define D3DXCreateTextureFromFileEx D3DXCreateTextureFromFileExA}}
+\DoxyCodeLine{1231 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1232 }
+\DoxyCodeLine{1233 }
+\DoxyCodeLine{1234 HRESULT WINAPI}
+\DoxyCodeLine{1235     D3DXCreateCubeTextureFromFileExA(}
+\DoxyCodeLine{1236         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1237         LPCSTR                    pSrcFile,}
+\DoxyCodeLine{1238         UINT                      Size,}
+\DoxyCodeLine{1239         UINT                      MipLevels,}
+\DoxyCodeLine{1240         DWORD                     Usage,}
+\DoxyCodeLine{1241         D3DFORMAT                 Format,}
+\DoxyCodeLine{1242         D3DPOOL                   Pool,}
+\DoxyCodeLine{1243         DWORD                     Filter,}
+\DoxyCodeLine{1244         DWORD                     MipFilter,}
+\DoxyCodeLine{1245         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{1246         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo,}
+\DoxyCodeLine{1247         PALETTEENTRY*             pPalette,}
+\DoxyCodeLine{1248         LPDIRECT3DCUBETEXTURE9*   ppCubeTexture);}
+\DoxyCodeLine{1249 }
+\DoxyCodeLine{1250 HRESULT WINAPI}
+\DoxyCodeLine{1251     D3DXCreateCubeTextureFromFileExW(}
+\DoxyCodeLine{1252         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1253         LPCWSTR                   pSrcFile,}
+\DoxyCodeLine{1254         UINT                      Size,}
+\DoxyCodeLine{1255         UINT                      MipLevels,}
+\DoxyCodeLine{1256         DWORD                     Usage,}
+\DoxyCodeLine{1257         D3DFORMAT                 Format,}
+\DoxyCodeLine{1258         D3DPOOL                   Pool,}
+\DoxyCodeLine{1259         DWORD                     Filter,}
+\DoxyCodeLine{1260         DWORD                     MipFilter,}
+\DoxyCodeLine{1261         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{1262         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo,}
+\DoxyCodeLine{1263         PALETTEENTRY*             pPalette,}
+\DoxyCodeLine{1264         LPDIRECT3DCUBETEXTURE9*   ppCubeTexture);}
+\DoxyCodeLine{1265 }
+\DoxyCodeLine{1266 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{1267 \textcolor{preprocessor}{\#define D3DXCreateCubeTextureFromFileEx D3DXCreateCubeTextureFromFileExW}}
+\DoxyCodeLine{1268 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1269 \textcolor{preprocessor}{\#define D3DXCreateCubeTextureFromFileEx D3DXCreateCubeTextureFromFileExA}}
+\DoxyCodeLine{1270 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1271 }
+\DoxyCodeLine{1272 }
+\DoxyCodeLine{1273 HRESULT WINAPI}
+\DoxyCodeLine{1274     D3DXCreateVolumeTextureFromFileExA(}
+\DoxyCodeLine{1275         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1276         LPCSTR                    pSrcFile,}
+\DoxyCodeLine{1277         UINT                      Width,}
+\DoxyCodeLine{1278         UINT                      Height,}
+\DoxyCodeLine{1279         UINT                      Depth,}
+\DoxyCodeLine{1280         UINT                      MipLevels,}
+\DoxyCodeLine{1281         DWORD                     Usage,}
+\DoxyCodeLine{1282         D3DFORMAT                 Format,}
+\DoxyCodeLine{1283         D3DPOOL                   Pool,}
+\DoxyCodeLine{1284         DWORD                     Filter,}
+\DoxyCodeLine{1285         DWORD                     MipFilter,}
+\DoxyCodeLine{1286         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{1287         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo,}
+\DoxyCodeLine{1288         PALETTEENTRY*             pPalette,}
+\DoxyCodeLine{1289         LPDIRECT3DVOLUMETEXTURE9* ppVolumeTexture);}
+\DoxyCodeLine{1290 }
+\DoxyCodeLine{1291 HRESULT WINAPI}
+\DoxyCodeLine{1292     D3DXCreateVolumeTextureFromFileExW(}
+\DoxyCodeLine{1293         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1294         LPCWSTR                   pSrcFile,}
+\DoxyCodeLine{1295         UINT                      Width,}
+\DoxyCodeLine{1296         UINT                      Height,}
+\DoxyCodeLine{1297         UINT                      Depth,}
+\DoxyCodeLine{1298         UINT                      MipLevels,}
+\DoxyCodeLine{1299         DWORD                     Usage,}
+\DoxyCodeLine{1300         D3DFORMAT                 Format,}
+\DoxyCodeLine{1301         D3DPOOL                   Pool,}
+\DoxyCodeLine{1302         DWORD                     Filter,}
+\DoxyCodeLine{1303         DWORD                     MipFilter,}
+\DoxyCodeLine{1304         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{1305         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo,}
+\DoxyCodeLine{1306         PALETTEENTRY*             pPalette,}
+\DoxyCodeLine{1307         LPDIRECT3DVOLUMETEXTURE9* ppVolumeTexture);}
+\DoxyCodeLine{1308 }
+\DoxyCodeLine{1309 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{1310 \textcolor{preprocessor}{\#define D3DXCreateVolumeTextureFromFileEx D3DXCreateVolumeTextureFromFileExW}}
+\DoxyCodeLine{1311 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1312 \textcolor{preprocessor}{\#define D3DXCreateVolumeTextureFromFileEx D3DXCreateVolumeTextureFromFileExA}}
+\DoxyCodeLine{1313 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1314 }
+\DoxyCodeLine{1315 }
+\DoxyCodeLine{1316 \textcolor{comment}{// FromResourceEx}}
+\DoxyCodeLine{1317 }
+\DoxyCodeLine{1318 HRESULT WINAPI}
+\DoxyCodeLine{1319     D3DXCreateTextureFromResourceExA(}
+\DoxyCodeLine{1320         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1321         HMODULE                   hSrcModule,}
+\DoxyCodeLine{1322         LPCSTR                    pSrcResource,}
+\DoxyCodeLine{1323         UINT                      Width,}
+\DoxyCodeLine{1324         UINT                      Height,}
+\DoxyCodeLine{1325         UINT                      MipLevels,}
+\DoxyCodeLine{1326         DWORD                     Usage,}
+\DoxyCodeLine{1327         D3DFORMAT                 Format,}
+\DoxyCodeLine{1328         D3DPOOL                   Pool,}
+\DoxyCodeLine{1329         DWORD                     Filter,}
+\DoxyCodeLine{1330         DWORD                     MipFilter,}
+\DoxyCodeLine{1331         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{1332         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo,}
+\DoxyCodeLine{1333         PALETTEENTRY*             pPalette,}
+\DoxyCodeLine{1334         LPDIRECT3DTEXTURE9*       ppTexture);}
+\DoxyCodeLine{1335 }
+\DoxyCodeLine{1336 HRESULT WINAPI}
+\DoxyCodeLine{1337     D3DXCreateTextureFromResourceExW(}
+\DoxyCodeLine{1338         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1339         HMODULE                   hSrcModule,}
+\DoxyCodeLine{1340         LPCWSTR                   pSrcResource,}
+\DoxyCodeLine{1341         UINT                      Width,}
+\DoxyCodeLine{1342         UINT                      Height,}
+\DoxyCodeLine{1343         UINT                      MipLevels,}
+\DoxyCodeLine{1344         DWORD                     Usage,}
+\DoxyCodeLine{1345         D3DFORMAT                 Format,}
+\DoxyCodeLine{1346         D3DPOOL                   Pool,}
+\DoxyCodeLine{1347         DWORD                     Filter,}
+\DoxyCodeLine{1348         DWORD                     MipFilter,}
+\DoxyCodeLine{1349         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{1350         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo,}
+\DoxyCodeLine{1351         PALETTEENTRY*             pPalette,}
+\DoxyCodeLine{1352         LPDIRECT3DTEXTURE9*       ppTexture);}
+\DoxyCodeLine{1353 }
+\DoxyCodeLine{1354 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{1355 \textcolor{preprocessor}{\#define D3DXCreateTextureFromResourceEx D3DXCreateTextureFromResourceExW}}
+\DoxyCodeLine{1356 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1357 \textcolor{preprocessor}{\#define D3DXCreateTextureFromResourceEx D3DXCreateTextureFromResourceExA}}
+\DoxyCodeLine{1358 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1359 }
+\DoxyCodeLine{1360 }
+\DoxyCodeLine{1361 HRESULT WINAPI}
+\DoxyCodeLine{1362     D3DXCreateCubeTextureFromResourceExA(}
+\DoxyCodeLine{1363         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1364         HMODULE                   hSrcModule,}
+\DoxyCodeLine{1365         LPCSTR                    pSrcResource,}
+\DoxyCodeLine{1366         UINT                      Size,}
+\DoxyCodeLine{1367         UINT                      MipLevels,}
+\DoxyCodeLine{1368         DWORD                     Usage,}
+\DoxyCodeLine{1369         D3DFORMAT                 Format,}
+\DoxyCodeLine{1370         D3DPOOL                   Pool,}
+\DoxyCodeLine{1371         DWORD                     Filter,}
+\DoxyCodeLine{1372         DWORD                     MipFilter,}
+\DoxyCodeLine{1373         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{1374         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo,}
+\DoxyCodeLine{1375         PALETTEENTRY*             pPalette,}
+\DoxyCodeLine{1376         LPDIRECT3DCUBETEXTURE9*   ppCubeTexture);}
+\DoxyCodeLine{1377 }
+\DoxyCodeLine{1378 HRESULT WINAPI}
+\DoxyCodeLine{1379     D3DXCreateCubeTextureFromResourceExW(}
+\DoxyCodeLine{1380         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1381         HMODULE                   hSrcModule,}
+\DoxyCodeLine{1382         LPCWSTR                   pSrcResource,}
+\DoxyCodeLine{1383         UINT                      Size,}
+\DoxyCodeLine{1384         UINT                      MipLevels,}
+\DoxyCodeLine{1385         DWORD                     Usage,}
+\DoxyCodeLine{1386         D3DFORMAT                 Format,}
+\DoxyCodeLine{1387         D3DPOOL                   Pool,}
+\DoxyCodeLine{1388         DWORD                     Filter,}
+\DoxyCodeLine{1389         DWORD                     MipFilter,}
+\DoxyCodeLine{1390         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{1391         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo,}
+\DoxyCodeLine{1392         PALETTEENTRY*             pPalette,}
+\DoxyCodeLine{1393         LPDIRECT3DCUBETEXTURE9*   ppCubeTexture);}
+\DoxyCodeLine{1394 }
+\DoxyCodeLine{1395 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{1396 \textcolor{preprocessor}{\#define D3DXCreateCubeTextureFromResourceEx D3DXCreateCubeTextureFromResourceExW}}
+\DoxyCodeLine{1397 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1398 \textcolor{preprocessor}{\#define D3DXCreateCubeTextureFromResourceEx D3DXCreateCubeTextureFromResourceExA}}
+\DoxyCodeLine{1399 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1400 }
+\DoxyCodeLine{1401 }
+\DoxyCodeLine{1402 HRESULT WINAPI}
+\DoxyCodeLine{1403     D3DXCreateVolumeTextureFromResourceExA(}
+\DoxyCodeLine{1404         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1405         HMODULE                   hSrcModule,}
+\DoxyCodeLine{1406         LPCSTR                    pSrcResource,}
+\DoxyCodeLine{1407         UINT                      Width,}
+\DoxyCodeLine{1408         UINT                      Height,}
+\DoxyCodeLine{1409         UINT                      Depth,}
+\DoxyCodeLine{1410         UINT                      MipLevels,}
+\DoxyCodeLine{1411         DWORD                     Usage,}
+\DoxyCodeLine{1412         D3DFORMAT                 Format,}
+\DoxyCodeLine{1413         D3DPOOL                   Pool,}
+\DoxyCodeLine{1414         DWORD                     Filter,}
+\DoxyCodeLine{1415         DWORD                     MipFilter,}
+\DoxyCodeLine{1416         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{1417         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo,}
+\DoxyCodeLine{1418         PALETTEENTRY*             pPalette,}
+\DoxyCodeLine{1419         LPDIRECT3DVOLUMETEXTURE9* ppVolumeTexture);}
+\DoxyCodeLine{1420 }
+\DoxyCodeLine{1421 HRESULT WINAPI}
+\DoxyCodeLine{1422     D3DXCreateVolumeTextureFromResourceExW(}
+\DoxyCodeLine{1423         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1424         HMODULE                   hSrcModule,}
+\DoxyCodeLine{1425         LPCWSTR                   pSrcResource,}
+\DoxyCodeLine{1426         UINT                      Width,}
+\DoxyCodeLine{1427         UINT                      Height,}
+\DoxyCodeLine{1428         UINT                      Depth,}
+\DoxyCodeLine{1429         UINT                      MipLevels,}
+\DoxyCodeLine{1430         DWORD                     Usage,}
+\DoxyCodeLine{1431         D3DFORMAT                 Format,}
+\DoxyCodeLine{1432         D3DPOOL                   Pool,}
+\DoxyCodeLine{1433         DWORD                     Filter,}
+\DoxyCodeLine{1434         DWORD                     MipFilter,}
+\DoxyCodeLine{1435         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{1436         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo,}
+\DoxyCodeLine{1437         PALETTEENTRY*             pPalette,}
+\DoxyCodeLine{1438         LPDIRECT3DVOLUMETEXTURE9* ppVolumeTexture);}
+\DoxyCodeLine{1439 }
+\DoxyCodeLine{1440 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{1441 \textcolor{preprocessor}{\#define D3DXCreateVolumeTextureFromResourceEx D3DXCreateVolumeTextureFromResourceExW}}
+\DoxyCodeLine{1442 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1443 \textcolor{preprocessor}{\#define D3DXCreateVolumeTextureFromResourceEx D3DXCreateVolumeTextureFromResourceExA}}
+\DoxyCodeLine{1444 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1445 }
+\DoxyCodeLine{1446 }
+\DoxyCodeLine{1447 \textcolor{comment}{// FromFileInMemory}}
+\DoxyCodeLine{1448 }
+\DoxyCodeLine{1449 HRESULT WINAPI}
+\DoxyCodeLine{1450     D3DXCreateTextureFromFileInMemory(}
+\DoxyCodeLine{1451         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1452         LPCVOID                   pSrcData,}
+\DoxyCodeLine{1453         UINT                      SrcDataSize,}
+\DoxyCodeLine{1454         LPDIRECT3DTEXTURE9*       ppTexture);}
+\DoxyCodeLine{1455 }
+\DoxyCodeLine{1456 HRESULT WINAPI}
+\DoxyCodeLine{1457     D3DXCreateCubeTextureFromFileInMemory(}
+\DoxyCodeLine{1458         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1459         LPCVOID                   pSrcData,}
+\DoxyCodeLine{1460         UINT                      SrcDataSize,}
+\DoxyCodeLine{1461         LPDIRECT3DCUBETEXTURE9*   ppCubeTexture);}
+\DoxyCodeLine{1462 }
+\DoxyCodeLine{1463 HRESULT WINAPI}
+\DoxyCodeLine{1464     D3DXCreateVolumeTextureFromFileInMemory(}
+\DoxyCodeLine{1465         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1466         LPCVOID                   pSrcData,}
+\DoxyCodeLine{1467         UINT                      SrcDataSize,}
+\DoxyCodeLine{1468         LPDIRECT3DVOLUMETEXTURE9* ppVolumeTexture);}
+\DoxyCodeLine{1469 }
+\DoxyCodeLine{1470 }
+\DoxyCodeLine{1471 \textcolor{comment}{// FromFileInMemoryEx}}
+\DoxyCodeLine{1472 }
+\DoxyCodeLine{1473 HRESULT WINAPI}
+\DoxyCodeLine{1474     D3DXCreateTextureFromFileInMemoryEx(}
+\DoxyCodeLine{1475         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1476         LPCVOID                   pSrcData,}
+\DoxyCodeLine{1477         UINT                      SrcDataSize,}
+\DoxyCodeLine{1478         UINT                      Width,}
+\DoxyCodeLine{1479         UINT                      Height,}
+\DoxyCodeLine{1480         UINT                      MipLevels,}
+\DoxyCodeLine{1481         DWORD                     Usage,}
+\DoxyCodeLine{1482         D3DFORMAT                 Format,}
+\DoxyCodeLine{1483         D3DPOOL                   Pool,}
+\DoxyCodeLine{1484         DWORD                     Filter,}
+\DoxyCodeLine{1485         DWORD                     MipFilter,}
+\DoxyCodeLine{1486         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{1487         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo,}
+\DoxyCodeLine{1488         PALETTEENTRY*             pPalette,}
+\DoxyCodeLine{1489         LPDIRECT3DTEXTURE9*       ppTexture);}
+\DoxyCodeLine{1490 }
+\DoxyCodeLine{1491 HRESULT WINAPI}
+\DoxyCodeLine{1492     D3DXCreateCubeTextureFromFileInMemoryEx(}
+\DoxyCodeLine{1493         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1494         LPCVOID                   pSrcData,}
+\DoxyCodeLine{1495         UINT                      SrcDataSize,}
+\DoxyCodeLine{1496         UINT                      Size,}
+\DoxyCodeLine{1497         UINT                      MipLevels,}
+\DoxyCodeLine{1498         DWORD                     Usage,}
+\DoxyCodeLine{1499         D3DFORMAT                 Format,}
+\DoxyCodeLine{1500         D3DPOOL                   Pool,}
+\DoxyCodeLine{1501         DWORD                     Filter,}
+\DoxyCodeLine{1502         DWORD                     MipFilter,}
+\DoxyCodeLine{1503         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{1504         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo,}
+\DoxyCodeLine{1505         PALETTEENTRY*             pPalette,}
+\DoxyCodeLine{1506         LPDIRECT3DCUBETEXTURE9*   ppCubeTexture);}
+\DoxyCodeLine{1507 }
+\DoxyCodeLine{1508 HRESULT WINAPI}
+\DoxyCodeLine{1509     D3DXCreateVolumeTextureFromFileInMemoryEx(}
+\DoxyCodeLine{1510         LPDIRECT3DDEVICE9         pDevice,}
+\DoxyCodeLine{1511         LPCVOID                   pSrcData,}
+\DoxyCodeLine{1512         UINT                      SrcDataSize,}
+\DoxyCodeLine{1513         UINT                      Width,}
+\DoxyCodeLine{1514         UINT                      Height,}
+\DoxyCodeLine{1515         UINT                      Depth,}
+\DoxyCodeLine{1516         UINT                      MipLevels,}
+\DoxyCodeLine{1517         DWORD                     Usage,}
+\DoxyCodeLine{1518         D3DFORMAT                 Format,}
+\DoxyCodeLine{1519         D3DPOOL                   Pool,}
+\DoxyCodeLine{1520         DWORD                     Filter,}
+\DoxyCodeLine{1521         DWORD                     MipFilter,}
+\DoxyCodeLine{1522         D3DCOLOR                  ColorKey,}
+\DoxyCodeLine{1523         \mbox{\hyperlink{struct___d3_d_x_i_m_a_g_e___i_n_f_o}{D3DXIMAGE\_INFO}}*           pSrcInfo,}
+\DoxyCodeLine{1524         PALETTEENTRY*             pPalette,}
+\DoxyCodeLine{1525         LPDIRECT3DVOLUMETEXTURE9* ppVolumeTexture);}
+\DoxyCodeLine{1526 }
+\DoxyCodeLine{1527 }
+\DoxyCodeLine{1528 }
+\DoxyCodeLine{1529 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1530 \textcolor{comment}{// D3DXSaveTextureToFile:}}
+\DoxyCodeLine{1531 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1532 \textcolor{comment}{// Save a texture to a file.}}
+\DoxyCodeLine{1533 \textcolor{comment}{//}}
+\DoxyCodeLine{1534 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{1535 \textcolor{comment}{//  pDestFile}}
+\DoxyCodeLine{1536 \textcolor{comment}{//      File name of the destination file}}
+\DoxyCodeLine{1537 \textcolor{comment}{//  DestFormat}}
+\DoxyCodeLine{1538 \textcolor{comment}{//      D3DXIMAGE\_FILEFORMAT specifying file format to use when saving.}}
+\DoxyCodeLine{1539 \textcolor{comment}{//  pSrcTexture}}
+\DoxyCodeLine{1540 \textcolor{comment}{//      Source texture, containing the image to be saved}}
+\DoxyCodeLine{1541 \textcolor{comment}{//  pSrcPalette}}
+\DoxyCodeLine{1542 \textcolor{comment}{//      Source palette of 256 colors, or NULL}}
+\DoxyCodeLine{1543 \textcolor{comment}{//}}
+\DoxyCodeLine{1544 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1545 }
+\DoxyCodeLine{1546 }
+\DoxyCodeLine{1547 HRESULT WINAPI}
+\DoxyCodeLine{1548     D3DXSaveTextureToFileA(}
+\DoxyCodeLine{1549         LPCSTR                    pDestFile,}
+\DoxyCodeLine{1550         D3DXIMAGE\_FILEFORMAT      DestFormat,}
+\DoxyCodeLine{1551         LPDIRECT3DBASETEXTURE9    pSrcTexture,}
+\DoxyCodeLine{1552         CONST PALETTEENTRY*       pSrcPalette);}
+\DoxyCodeLine{1553 }
+\DoxyCodeLine{1554 HRESULT WINAPI}
+\DoxyCodeLine{1555     D3DXSaveTextureToFileW(}
+\DoxyCodeLine{1556         LPCWSTR                   pDestFile,}
+\DoxyCodeLine{1557         D3DXIMAGE\_FILEFORMAT      DestFormat,}
+\DoxyCodeLine{1558         LPDIRECT3DBASETEXTURE9    pSrcTexture,}
+\DoxyCodeLine{1559         CONST PALETTEENTRY*       pSrcPalette);}
+\DoxyCodeLine{1560 }
+\DoxyCodeLine{1561 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{1562 \textcolor{preprocessor}{\#define D3DXSaveTextureToFile D3DXSaveTextureToFileW}}
+\DoxyCodeLine{1563 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1564 \textcolor{preprocessor}{\#define D3DXSaveTextureToFile D3DXSaveTextureToFileA}}
+\DoxyCodeLine{1565 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1566 }
+\DoxyCodeLine{1567 }
+\DoxyCodeLine{1568 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1569 \textcolor{comment}{// D3DXSaveTextureToFileInMemory:}}
+\DoxyCodeLine{1570 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1571 \textcolor{comment}{// Save a texture to a file.}}
+\DoxyCodeLine{1572 \textcolor{comment}{//}}
+\DoxyCodeLine{1573 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{1574 \textcolor{comment}{//  ppDestBuf}}
+\DoxyCodeLine{1575 \textcolor{comment}{//      address of a d3dxbuffer pointer to return the image data}}
+\DoxyCodeLine{1576 \textcolor{comment}{//  DestFormat}}
+\DoxyCodeLine{1577 \textcolor{comment}{//      D3DXIMAGE\_FILEFORMAT specifying file format to use when saving.}}
+\DoxyCodeLine{1578 \textcolor{comment}{//  pSrcTexture}}
+\DoxyCodeLine{1579 \textcolor{comment}{//      Source texture, containing the image to be saved}}
+\DoxyCodeLine{1580 \textcolor{comment}{//  pSrcPalette}}
+\DoxyCodeLine{1581 \textcolor{comment}{//      Source palette of 256 colors, or NULL}}
+\DoxyCodeLine{1582 \textcolor{comment}{//}}
+\DoxyCodeLine{1583 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1584 }
+\DoxyCodeLine{1585 HRESULT WINAPI}
+\DoxyCodeLine{1586     D3DXSaveTextureToFileInMemory(}
+\DoxyCodeLine{1587         LPD3DXBUFFER*             ppDestBuf,}
+\DoxyCodeLine{1588         D3DXIMAGE\_FILEFORMAT      DestFormat,}
+\DoxyCodeLine{1589         LPDIRECT3DBASETEXTURE9    pSrcTexture,}
+\DoxyCodeLine{1590         CONST PALETTEENTRY*       pSrcPalette);}
+\DoxyCodeLine{1591 }
+\DoxyCodeLine{1592 }
+\DoxyCodeLine{1593 }
+\DoxyCodeLine{1594 }
+\DoxyCodeLine{1596 \textcolor{comment}{// Misc Texture APIs /////////////////////////////////////////////////////////}}
+\DoxyCodeLine{1598 \textcolor{comment}{}}
+\DoxyCodeLine{1599 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1600 \textcolor{comment}{// D3DXFilterTexture:}}
+\DoxyCodeLine{1601 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1602 \textcolor{comment}{// Filters mipmaps levels of a texture.}}
+\DoxyCodeLine{1603 \textcolor{comment}{//}}
+\DoxyCodeLine{1604 \textcolor{comment}{// Parameters:}}
+\DoxyCodeLine{1605 \textcolor{comment}{//  pBaseTexture}}
+\DoxyCodeLine{1606 \textcolor{comment}{//      The texture object to be filtered}}
+\DoxyCodeLine{1607 \textcolor{comment}{//  pPalette}}
+\DoxyCodeLine{1608 \textcolor{comment}{//      256 color palette to be used, or NULL for non-\/palettized formats}}
+\DoxyCodeLine{1609 \textcolor{comment}{//  SrcLevel}}
+\DoxyCodeLine{1610 \textcolor{comment}{//      The level whose image is used to generate the subsequent levels. }}
+\DoxyCodeLine{1611 \textcolor{comment}{//  Filter}}
+\DoxyCodeLine{1612 \textcolor{comment}{//      D3DX\_FILTER flags controlling how each miplevel is filtered.}}
+\DoxyCodeLine{1613 \textcolor{comment}{//      Or D3DX\_DEFAULT for D3DX\_FILTER\_BOX,}}
+\DoxyCodeLine{1614 \textcolor{comment}{//}}
+\DoxyCodeLine{1615 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1616 }
+\DoxyCodeLine{1617 HRESULT WINAPI}
+\DoxyCodeLine{1618     D3DXFilterTexture(}
+\DoxyCodeLine{1619         LPDIRECT3DBASETEXTURE9    pBaseTexture,}
+\DoxyCodeLine{1620         CONST PALETTEENTRY*       pPalette,}
+\DoxyCodeLine{1621         UINT                      SrcLevel,}
+\DoxyCodeLine{1622         DWORD                     Filter);}
+\DoxyCodeLine{1623 }
+\DoxyCodeLine{1624 \textcolor{preprocessor}{\#define D3DXFilterCubeTexture D3DXFilterTexture}}
+\DoxyCodeLine{1625 \textcolor{preprocessor}{\#define D3DXFilterVolumeTexture D3DXFilterTexture}}
+\DoxyCodeLine{1626 }
+\DoxyCodeLine{1627 }
+\DoxyCodeLine{1628 }
+\DoxyCodeLine{1629 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1630 \textcolor{comment}{// D3DXFillTexture:}}
+\DoxyCodeLine{1631 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1632 \textcolor{comment}{// Uses a user provided function to fill each texel of each mip level of a}}
+\DoxyCodeLine{1633 \textcolor{comment}{// given texture.}}
+\DoxyCodeLine{1634 \textcolor{comment}{//}}
+\DoxyCodeLine{1635 \textcolor{comment}{// Paramters:}}
+\DoxyCodeLine{1636 \textcolor{comment}{//  pTexture, pCubeTexture, pVolumeTexture}}
+\DoxyCodeLine{1637 \textcolor{comment}{//      Pointer to the texture to be filled.}}
+\DoxyCodeLine{1638 \textcolor{comment}{//  pFunction}}
+\DoxyCodeLine{1639 \textcolor{comment}{//      Pointer to user provided evalutor function which will be used to }}
+\DoxyCodeLine{1640 \textcolor{comment}{//      compute the value of each texel.}}
+\DoxyCodeLine{1641 \textcolor{comment}{//  pData}}
+\DoxyCodeLine{1642 \textcolor{comment}{//      Pointer to an arbitrary block of user defined data.  This pointer }}
+\DoxyCodeLine{1643 \textcolor{comment}{//      will be passed to the function provided in pFunction}}
+\DoxyCodeLine{1644 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1645 }
+\DoxyCodeLine{1646 HRESULT WINAPI}
+\DoxyCodeLine{1647     D3DXFillTexture(}
+\DoxyCodeLine{1648         LPDIRECT3DTEXTURE9        pTexture,}
+\DoxyCodeLine{1649         LPD3DXFILL2D              pFunction,}
+\DoxyCodeLine{1650         LPVOID                    pData);}
+\DoxyCodeLine{1651 }
+\DoxyCodeLine{1652 HRESULT WINAPI}
+\DoxyCodeLine{1653     D3DXFillCubeTexture(}
+\DoxyCodeLine{1654         LPDIRECT3DCUBETEXTURE9    pCubeTexture,}
+\DoxyCodeLine{1655         LPD3DXFILL3D              pFunction,}
+\DoxyCodeLine{1656         LPVOID                    pData);}
+\DoxyCodeLine{1657 }
+\DoxyCodeLine{1658 HRESULT WINAPI}
+\DoxyCodeLine{1659     D3DXFillVolumeTexture(}
+\DoxyCodeLine{1660         LPDIRECT3DVOLUMETEXTURE9  pVolumeTexture,}
+\DoxyCodeLine{1661         LPD3DXFILL3D              pFunction,}
+\DoxyCodeLine{1662         LPVOID                    pData);}
+\DoxyCodeLine{1663 }
+\DoxyCodeLine{1664 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1665 \textcolor{comment}{// D3DXFillTextureTX:}}
+\DoxyCodeLine{1666 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1667 \textcolor{comment}{// Uses a TX Shader target to function to fill each texel of each mip level}}
+\DoxyCodeLine{1668 \textcolor{comment}{// of a given texture. The TX Shader target should be a compiled function }}
+\DoxyCodeLine{1669 \textcolor{comment}{// taking 2 paramters and returning a float4 color.}}
+\DoxyCodeLine{1670 \textcolor{comment}{//}}
+\DoxyCodeLine{1671 \textcolor{comment}{// Paramters:}}
+\DoxyCodeLine{1672 \textcolor{comment}{//  pTexture, pCubeTexture, pVolumeTexture}}
+\DoxyCodeLine{1673 \textcolor{comment}{//      Pointer to the texture to be filled.}}
+\DoxyCodeLine{1674 \textcolor{comment}{//  pTextureShader}}
+\DoxyCodeLine{1675 \textcolor{comment}{//      Pointer to the texture shader to be used to fill in the texture}}
+\DoxyCodeLine{1676 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1677 }
+\DoxyCodeLine{1678 HRESULT WINAPI }
+\DoxyCodeLine{1679     D3DXFillTextureTX(}
+\DoxyCodeLine{1680         LPDIRECT3DTEXTURE9        pTexture,}
+\DoxyCodeLine{1681         LPD3DXTEXTURESHADER       pTextureShader);}
+\DoxyCodeLine{1682 }
+\DoxyCodeLine{1683 }
+\DoxyCodeLine{1684 HRESULT WINAPI}
+\DoxyCodeLine{1685     D3DXFillCubeTextureTX(}
+\DoxyCodeLine{1686         LPDIRECT3DCUBETEXTURE9    pCubeTexture,}
+\DoxyCodeLine{1687         LPD3DXTEXTURESHADER       pTextureShader);}
+\DoxyCodeLine{1688                                                 }
+\DoxyCodeLine{1689                                                         }
+\DoxyCodeLine{1690 HRESULT WINAPI }
+\DoxyCodeLine{1691     D3DXFillVolumeTextureTX(}
+\DoxyCodeLine{1692         LPDIRECT3DVOLUMETEXTURE9  pVolumeTexture,}
+\DoxyCodeLine{1693         LPD3DXTEXTURESHADER       pTextureShader);}
+\DoxyCodeLine{1694 }
+\DoxyCodeLine{1695 }
+\DoxyCodeLine{1696 }
+\DoxyCodeLine{1697 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1698 \textcolor{comment}{// D3DXComputeNormalMap:}}
+\DoxyCodeLine{1699 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1700 \textcolor{comment}{// Converts a height map into a normal map.  The (x,y,z) components of each}}
+\DoxyCodeLine{1701 \textcolor{comment}{// normal are mapped to the (r,g,b) channels of the output texture.}}
+\DoxyCodeLine{1702 \textcolor{comment}{//}}
+\DoxyCodeLine{1703 \textcolor{comment}{// Parameters}}
+\DoxyCodeLine{1704 \textcolor{comment}{//  pTexture}}
+\DoxyCodeLine{1705 \textcolor{comment}{//      Pointer to the destination texture}}
+\DoxyCodeLine{1706 \textcolor{comment}{//  pSrcTexture}}
+\DoxyCodeLine{1707 \textcolor{comment}{//      Pointer to the source heightmap texture }}
+\DoxyCodeLine{1708 \textcolor{comment}{//  pSrcPalette}}
+\DoxyCodeLine{1709 \textcolor{comment}{//      Source palette of 256 colors, or NULL}}
+\DoxyCodeLine{1710 \textcolor{comment}{//  Flags}}
+\DoxyCodeLine{1711 \textcolor{comment}{//      D3DX\_NORMALMAP flags}}
+\DoxyCodeLine{1712 \textcolor{comment}{//  Channel}}
+\DoxyCodeLine{1713 \textcolor{comment}{//      D3DX\_CHANNEL specifying source of height information}}
+\DoxyCodeLine{1714 \textcolor{comment}{//  Amplitude}}
+\DoxyCodeLine{1715 \textcolor{comment}{//      The constant value which the height information is multiplied by.}}
+\DoxyCodeLine{1716 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1717 }
+\DoxyCodeLine{1718 HRESULT WINAPI}
+\DoxyCodeLine{1719     D3DXComputeNormalMap(}
+\DoxyCodeLine{1720         LPDIRECT3DTEXTURE9        pTexture,}
+\DoxyCodeLine{1721         LPDIRECT3DTEXTURE9        pSrcTexture,}
+\DoxyCodeLine{1722         CONST PALETTEENTRY*       pSrcPalette,}
+\DoxyCodeLine{1723         DWORD                     Flags,}
+\DoxyCodeLine{1724         DWORD                     Channel,}
+\DoxyCodeLine{1725         FLOAT                     Amplitude);}
+\DoxyCodeLine{1726 }
+\DoxyCodeLine{1727 }
+\DoxyCodeLine{1728 }
+\DoxyCodeLine{1729 }
+\DoxyCodeLine{1730 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{1731 \}}
+\DoxyCodeLine{1732 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{1733 }
+\DoxyCodeLine{1734 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_D3DX9TEX\_H\_\_}}
+\DoxyCodeLine{1735 }
+
+\end{DoxyCode}

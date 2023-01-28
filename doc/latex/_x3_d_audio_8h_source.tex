@@ -1,0 +1,255 @@
+\hypertarget{_x3_d_audio_8h_source}{}\doxysection{X3\+DAudio.\+h}
+\label{_x3_d_audio_8h_source}\index{src/lib/dx/Include/X3DAudio.h@{src/lib/dx/Include/X3DAudio.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*-\/========================================================================-\/\_}}
+\DoxyCodeLine{2 \textcolor{comment}{ |                               -\/ X3DAUDIO -\/                               |}}
+\DoxyCodeLine{3 \textcolor{comment}{ |        Copyright (c) Microsoft Corporation.  All rights reserved.        |}}
+\DoxyCodeLine{4 \textcolor{comment}{ |\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~|}}
+\DoxyCodeLine{5 \textcolor{comment}{ |VERSION:  0.1                         MODEL:   Unmanaged User-\/mode        |}}
+\DoxyCodeLine{6 \textcolor{comment}{ |CONTRACT: N / A                       EXCEPT:  No Exceptions              |}}
+\DoxyCodeLine{7 \textcolor{comment}{ |PARENT:   N / A                       MINREQ:  Win2000, Xenon             |}}
+\DoxyCodeLine{8 \textcolor{comment}{ |PROJECT:  X3DAudio                    DIALECT: MS Visual C++ 7.0          |}}
+\DoxyCodeLine{9 \textcolor{comment}{ |>-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/<|}}
+\DoxyCodeLine{10 \textcolor{comment}{ | DUTY: Cross-\/platform stand-\/alone 3D audio math library                   |}}
+\DoxyCodeLine{11 \textcolor{comment}{ \string^\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string~\string^}}
+\DoxyCodeLine{12 \textcolor{comment}{  NOTES:}}
+\DoxyCodeLine{13 \textcolor{comment}{    1.  Definition of terms:}}
+\DoxyCodeLine{14 \textcolor{comment}{            LFE: Low Frequency Effect -\/-\/ always omnidirectional.}}
+\DoxyCodeLine{15 \textcolor{comment}{            LPF: Low Pass Filter, divided into two classifications:}}
+\DoxyCodeLine{16 \textcolor{comment}{                 Direct -\/-\/ Applied to the direct signal path,}}
+\DoxyCodeLine{17 \textcolor{comment}{                           used for obstruction/occlusion effect.}}
+\DoxyCodeLine{18 \textcolor{comment}{                 Reverb -\/-\/ Applied to the reverb signal path,}}
+\DoxyCodeLine{19 \textcolor{comment}{                           used for occlusion effect only.}}
+\DoxyCodeLine{20 \textcolor{comment}{}}
+\DoxyCodeLine{21 \textcolor{comment}{    2.  Volume level is expressed as a linear amplitude scaler:}}
+\DoxyCodeLine{22 \textcolor{comment}{        1.0f represents no attenuation applied to the original signal,}}
+\DoxyCodeLine{23 \textcolor{comment}{        0.5f denotes an attenuation of 6dB, and 0.0f results in silence.}}
+\DoxyCodeLine{24 \textcolor{comment}{        Amplification (volume > 1.0f) is also allowed, and is not clamped.}}
+\DoxyCodeLine{25 \textcolor{comment}{}}
+\DoxyCodeLine{26 \textcolor{comment}{    3.  X3DAudio uses a left-\/handed Cartesian coordinate system with values}}
+\DoxyCodeLine{27 \textcolor{comment}{        on the x-\/axis increasing from left to right, on the y-\/axis from}}
+\DoxyCodeLine{28 \textcolor{comment}{        bottom to top, and on the z-\/axis from near to far.}}
+\DoxyCodeLine{29 \textcolor{comment}{        Azimuths are measured clockwise from a given reference direction.}}
+\DoxyCodeLine{30 \textcolor{comment}{}}
+\DoxyCodeLine{31 \textcolor{comment}{        Distance measurement is with respect to user-\/defined world units.}}
+\DoxyCodeLine{32 \textcolor{comment}{        Applications may provide coordinates using any system of measure}}
+\DoxyCodeLine{33 \textcolor{comment}{        as all non-\/normalized calculations are scale invariant, with such}}
+\DoxyCodeLine{34 \textcolor{comment}{        operations natively occurring in the user-\/defined world unit space.}}
+\DoxyCodeLine{35 \textcolor{comment}{        Metric constants are supplied only as a convenience.}}
+\DoxyCodeLine{36 \textcolor{comment}{        Distance is calculated using the Euclidean norm formula.}}
+\DoxyCodeLine{37 \textcolor{comment}{}}
+\DoxyCodeLine{38 \textcolor{comment}{    4.  Only real values are permissible with functions using 32-\/bit}}
+\DoxyCodeLine{39 \textcolor{comment}{        float parameters -\/-\/ NAN and infinite values are not accepted.}}
+\DoxyCodeLine{40 \textcolor{comment}{        All computation occurs in 32-\/bit precision mode.                    */}}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{preprocessor}{\#ifndef \_\_X3DAUDIO\_H\_\_}}
+\DoxyCodeLine{44 \textcolor{preprocessor}{\#define \_\_X3DAUDIO\_H\_\_}}
+\DoxyCodeLine{45 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/<D-\/E-\/F-\/I-\/N-\/I-\/T-\/I-\/O-\/N-\/S>-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{46 \textcolor{preprocessor}{    \#if defined(\_XBOX)}}
+\DoxyCodeLine{47 \textcolor{preprocessor}{        \#include <vectorintrinsics.h>}}
+\DoxyCodeLine{48 \textcolor{preprocessor}{    \#endif}}
+\DoxyCodeLine{49 \textcolor{preprocessor}{    \#include <d3d9types.h>}}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{preprocessor}{    \#if defined(\_XBOX)}}
+\DoxyCodeLine{52 \textcolor{preprocessor}{        \#define SPEAKER\_XENON 0x3f }\textcolor{comment}{// xenon speaker geometry configuration, used with X3DAudioInitialize}}
+\DoxyCodeLine{53 \textcolor{preprocessor}{    \#endif}}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55 \textcolor{preprocessor}{    \#define X3DAUDIO\_HANDLE\_BYTESIZE 16 }\textcolor{comment}{// size of instance handle in bytes}}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57     \textcolor{comment}{// float math constants}}
+\DoxyCodeLine{58 \textcolor{preprocessor}{    \#define X3DAUDIO\_PI  3.141592654f}}
+\DoxyCodeLine{59 \textcolor{preprocessor}{    \#define X3DAUDIO\_2PI 6.283185307f}}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61     \textcolor{comment}{// speed of sound in meters per second for dry air at approximately 20C, used with X3DAudioInitialize}}
+\DoxyCodeLine{62 \textcolor{preprocessor}{    \#define X3DAUDIO\_SPEED\_OF\_SOUND 343.5f}}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64     \textcolor{comment}{// calculation control flags, used with X3DAudioCalculate}}
+\DoxyCodeLine{65 \textcolor{preprocessor}{    \#define X3DAUDIO\_CALCULATE\_MATRIX        0x00000001 }\textcolor{comment}{// enable matrix coefficient table calculation}}
+\DoxyCodeLine{66 \textcolor{preprocessor}{    \#define X3DAUDIO\_CALCULATE\_DELAY         0x00000002 }\textcolor{comment}{// enable delay time array calculation (stereo final mix only)}}
+\DoxyCodeLine{67 \textcolor{preprocessor}{    \#define X3DAUDIO\_CALCULATE\_LPF\_DIRECT    0x00000004 }\textcolor{comment}{// enable LPF direct-\/path coefficient calculation}}
+\DoxyCodeLine{68 \textcolor{preprocessor}{    \#define X3DAUDIO\_CALCULATE\_LPF\_REVERB    0x00000008 }\textcolor{comment}{// enable LPF reverb-\/path coefficient calculation}}
+\DoxyCodeLine{69 \textcolor{preprocessor}{    \#define X3DAUDIO\_CALCULATE\_REVERB        0x00000010 }\textcolor{comment}{// enable reverb send level calculation}}
+\DoxyCodeLine{70 \textcolor{preprocessor}{    \#define X3DAUDIO\_CALCULATE\_DOPPLER       0x00000020 }\textcolor{comment}{// enable doppler shift factor calculation}}
+\DoxyCodeLine{71 \textcolor{preprocessor}{    \#define X3DAUDIO\_CALCULATE\_EMITTER\_ANGLE 0x00000040 }\textcolor{comment}{// enable emitter-\/to-\/listener interior angle calculation}}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/<M-\/A-\/C-\/R-\/O-\/S>-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{75     \textcolor{comment}{// function storage-\/class attribute and calltype}}
+\DoxyCodeLine{76 \textcolor{preprocessor}{    \#if defined(\_XBOX)}}
+\DoxyCodeLine{77 \textcolor{preprocessor}{        \#define X3DAUDIO\_API\_(type) EXTERN\_C type STDAPICALLTYPE}}
+\DoxyCodeLine{78 \textcolor{preprocessor}{    \#else}}
+\DoxyCodeLine{79 \textcolor{preprocessor}{        \#if defined(X3DEXPORT)}}
+\DoxyCodeLine{80 \textcolor{preprocessor}{            \#define X3DAUDIO\_API\_(type) EXTERN\_C \_\_declspec(dllexport) type STDAPICALLTYPE}}
+\DoxyCodeLine{81 \textcolor{preprocessor}{        \#else}}
+\DoxyCodeLine{82 \textcolor{preprocessor}{            \#define X3DAUDIO\_API\_(type) EXTERN\_C \_\_declspec(dllimport) type STDAPICALLTYPE}}
+\DoxyCodeLine{83 \textcolor{preprocessor}{        \#endif}}
+\DoxyCodeLine{84 \textcolor{preprocessor}{    \#endif}}
+\DoxyCodeLine{85 \textcolor{preprocessor}{    \#define X3DAUDIO\_IMP\_(type) type STDMETHODCALLTYPE}}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87 }
+\DoxyCodeLine{88 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/<D-\/A-\/T-\/A-\/-\/-\/T-\/Y-\/P-\/E-\/S>-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{89     \textcolor{comment}{// primitive types}}
+\DoxyCodeLine{90     \textcolor{keyword}{typedef} INT\_PTR  NWORD;   \textcolor{comment}{// natural machine word, bytesize platform specific}}
+\DoxyCodeLine{91     \textcolor{keyword}{typedef} UINT\_PTR UNWORD;  \textcolor{comment}{// unsigned natural machine word, bytesize platform specific}}
+\DoxyCodeLine{92     \textcolor{keyword}{typedef} \textcolor{keywordtype}{float}    FLOAT32; \textcolor{comment}{// 32-\/bit IEEE float}}
+\DoxyCodeLine{93     \textcolor{keyword}{typedef} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DVECTOR}} \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{X3DAUDIO\_VECTOR}}; \textcolor{comment}{// float 3D vector}}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{95     \textcolor{comment}{// instance handle to precalculated constants}}
+\DoxyCodeLine{96     \textcolor{keyword}{typedef} BYTE X3DAUDIO\_HANDLE[X3DAUDIO\_HANDLE\_BYTESIZE];}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{98 }
+\DoxyCodeLine{99     \textcolor{comment}{// Distance curve point:}}
+\DoxyCodeLine{100     \textcolor{comment}{// Defines a DSP setting at a given normalized distance.}}
+\DoxyCodeLine{101     \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x3_d_a_u_d_i_o___d_i_s_t_a_n_c_e___c_u_r_v_e___p_o_i_n_t}{X3DAUDIO\_DISTANCE\_CURVE\_POINT}}}
+\DoxyCodeLine{102     \{}
+\DoxyCodeLine{103         FLOAT32 Distance;   \textcolor{comment}{// normalized distance, must be within [0.0f, 1.0f]}}
+\DoxyCodeLine{104         FLOAT32 DSPSetting; \textcolor{comment}{// DSP control setting}}
+\DoxyCodeLine{105     \} \mbox{\hyperlink{struct_x3_d_a_u_d_i_o___d_i_s_t_a_n_c_e___c_u_r_v_e___p_o_i_n_t}{X3DAUDIO\_DISTANCE\_CURVE\_POINT}}, *\mbox{\hyperlink{struct_x3_d_a_u_d_i_o___d_i_s_t_a_n_c_e___c_u_r_v_e___p_o_i_n_t}{LPX3DAUDIO\_DISTANCE\_CURVE\_POINT}};}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107     \textcolor{comment}{// Distance curve:}}
+\DoxyCodeLine{108     \textcolor{comment}{// A piecewise curve made up of linear segments used to}}
+\DoxyCodeLine{109     \textcolor{comment}{// define DSP behaviour with respect to normalized distance.}}
+\DoxyCodeLine{110     \textcolor{comment}{//}}
+\DoxyCodeLine{111     \textcolor{comment}{// Note that curve point distances are normalized within [0.0f, 1.0f].}}
+\DoxyCodeLine{112     \textcolor{comment}{// X3DAUDIO\_EMITTER.CurveDistanceScaler must be used to scale the}}
+\DoxyCodeLine{113     \textcolor{comment}{// normalized distances to user-\/defined world units.}}
+\DoxyCodeLine{114     \textcolor{comment}{// For distances beyond CurveDistanceScaler * 1.0f,}}
+\DoxyCodeLine{115     \textcolor{comment}{// pPoints[PointCount-\/1].DSPSetting is used as the DSP setting.}}
+\DoxyCodeLine{116     \textcolor{comment}{//}}
+\DoxyCodeLine{117     \textcolor{comment}{// All distance curve spans must be such that:}}
+\DoxyCodeLine{118     \textcolor{comment}{//      pPoints[k-\/1].DSPSetting + ((pPoints[k].DSPSetting-\/pPoints[k-\/1].DSPSetting) / (pPoints[k].Distance-\/pPoints[k-\/1].Distance)) * (pPoints[k].Distance-\/pPoints[k-\/1].Distance) != NAN or infinite values}}
+\DoxyCodeLine{119     \textcolor{comment}{// For all points in the distance curve where 1 <= k < PointCount.}}
+\DoxyCodeLine{120     \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x3_d_a_u_d_i_o___d_i_s_t_a_n_c_e___c_u_r_v_e}{X3DAUDIO\_DISTANCE\_CURVE}}}
+\DoxyCodeLine{121     \{}
+\DoxyCodeLine{122         \mbox{\hyperlink{struct_x3_d_a_u_d_i_o___d_i_s_t_a_n_c_e___c_u_r_v_e___p_o_i_n_t}{X3DAUDIO\_DISTANCE\_CURVE\_POINT}}* pPoints;    \textcolor{comment}{// distance curve point array, must have at least PointCount elements with no duplicates and be sorted in ascending order with respect to Distance}}
+\DoxyCodeLine{123         UINT32                         PointCount; \textcolor{comment}{// number of distance curve points, must be >= 2 as all distance curves must have at least two endpoints, defining DSP settings at 0.0f and 1.0f normalized distance}}
+\DoxyCodeLine{124     \} \mbox{\hyperlink{struct_x3_d_a_u_d_i_o___d_i_s_t_a_n_c_e___c_u_r_v_e}{X3DAUDIO\_DISTANCE\_CURVE}}, *\mbox{\hyperlink{struct_x3_d_a_u_d_i_o___d_i_s_t_a_n_c_e___c_u_r_v_e}{LPX3DAUDIO\_DISTANCE\_CURVE}};}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{126     \textcolor{comment}{// Cone:}}
+\DoxyCodeLine{127     \textcolor{comment}{// Specifies directionality for a single-\/channel emitter by}}
+\DoxyCodeLine{128     \textcolor{comment}{// scaling DSP behaviour with respect to the emitter's front orientation.}}
+\DoxyCodeLine{129     \textcolor{comment}{// This is modeled using two sound cones: an inner cone and an outer cone.}}
+\DoxyCodeLine{130     \textcolor{comment}{// On/within the inner cone, DSP settings are scaled by the inner values.}}
+\DoxyCodeLine{131     \textcolor{comment}{// On/beyond the outer cone, DSP settings are scaled by the outer values.}}
+\DoxyCodeLine{132     \textcolor{comment}{// If on both the cones, DSP settings are scaled by the inner values only.}}
+\DoxyCodeLine{133     \textcolor{comment}{// Between the two cones, the scaler is linearly interpolated between the}}
+\DoxyCodeLine{134     \textcolor{comment}{// inner and outer values.  Set both cone angles to 0 or X3DAUDIO\_2PI for}}
+\DoxyCodeLine{135     \textcolor{comment}{// omnidirectionality using only the outer or inner values respectively.}}
+\DoxyCodeLine{136     \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x3_d_a_u_d_i_o___c_o_n_e}{X3DAUDIO\_CONE}}}
+\DoxyCodeLine{137     \{}
+\DoxyCodeLine{138         FLOAT32 InnerAngle; \textcolor{comment}{// inner cone angle in radians, must be within [0.0f, X3DAUDIO\_2PI]}}
+\DoxyCodeLine{139         FLOAT32 OuterAngle; \textcolor{comment}{// outer cone angle in radians, must be within [InnerAngle, X3DAUDIO\_2PI]}}
+\DoxyCodeLine{140 }
+\DoxyCodeLine{141         FLOAT32 InnerVolume; \textcolor{comment}{// volume level scaler on/within inner cone, used only for matrix calculations, must be within [0.0f, 2.0f] when used}}
+\DoxyCodeLine{142         FLOAT32 OuterVolume; \textcolor{comment}{// volume level scaler on/beyond outer cone, used only for matrix calculations, must be within [0.0f, 2.0f] when used}}
+\DoxyCodeLine{143         FLOAT32 InnerLPF;    \textcolor{comment}{// LPF (both direct and reverb paths) coefficient scaler on/within inner cone, used only for LPF (both direct and reverb paths) calculations, must be within [0.0f, 1.0f] when used}}
+\DoxyCodeLine{144         FLOAT32 OuterLPF;    \textcolor{comment}{// LPF (both direct and reverb paths) coefficient scaler on/beyond outer cone, used only for LPF (both direct and reverb paths) calculations, must be within [0.0f, 1.0f] when used}}
+\DoxyCodeLine{145         FLOAT32 InnerReverb; \textcolor{comment}{// reverb send level scaler on/within inner cone, used only for reverb calculations, must be within [0.0f, 2.0f] when used}}
+\DoxyCodeLine{146         FLOAT32 OuterReverb; \textcolor{comment}{// reverb send level scaler on/beyond outer cone, used only for reverb calculations, must be within [0.0f, 2.0f] when used}}
+\DoxyCodeLine{147     \} \mbox{\hyperlink{struct_x3_d_a_u_d_i_o___c_o_n_e}{X3DAUDIO\_CONE}}, *\mbox{\hyperlink{struct_x3_d_a_u_d_i_o___c_o_n_e}{LPX3DAUDIO\_CONE}};}
+\DoxyCodeLine{148 }
+\DoxyCodeLine{149 }
+\DoxyCodeLine{150     \textcolor{comment}{// Listener:}}
+\DoxyCodeLine{151     \textcolor{comment}{// Defines a point of 3D audio reception.}}
+\DoxyCodeLine{152     \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x3_d_a_u_d_i_o___l_i_s_t_e_n_e_r}{X3DAUDIO\_LISTENER}}}
+\DoxyCodeLine{153     \{}
+\DoxyCodeLine{154         \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{X3DAUDIO\_VECTOR}} OrientFront; \textcolor{comment}{// orientation of front direction, used only for matrix and delay calculations, must be orthonormal with OrientTop when used}}
+\DoxyCodeLine{155         \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{X3DAUDIO\_VECTOR}} OrientTop;   \textcolor{comment}{// orientation of top direction, used only for matrix and delay calculations, must be orthonormal with OrientFront when used}}
+\DoxyCodeLine{156 }
+\DoxyCodeLine{157         \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{X3DAUDIO\_VECTOR}} Position; \textcolor{comment}{// position in user-\/defined world units, does not affect Velocity}}
+\DoxyCodeLine{158         \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{X3DAUDIO\_VECTOR}} Velocity; \textcolor{comment}{// velocity vector in user-\/defined world units/second, used only for doppler calculations, does not affect Position}}
+\DoxyCodeLine{159     \} \mbox{\hyperlink{struct_x3_d_a_u_d_i_o___l_i_s_t_e_n_e_r}{X3DAUDIO\_LISTENER}}, *\mbox{\hyperlink{struct_x3_d_a_u_d_i_o___l_i_s_t_e_n_e_r}{LPX3DAUDIO\_LISTENER}};}
+\DoxyCodeLine{160 }
+\DoxyCodeLine{161     \textcolor{comment}{// Emitter:}}
+\DoxyCodeLine{162     \textcolor{comment}{// Defines a 3D audio source, divided into two classifications:}}
+\DoxyCodeLine{163     \textcolor{comment}{//}}
+\DoxyCodeLine{164     \textcolor{comment}{// Single-\/point -\/-\/ For use with single-\/channel sounds.}}
+\DoxyCodeLine{165     \textcolor{comment}{//                 Positioned at the emitter base, i.e. the channel radius}}
+\DoxyCodeLine{166     \textcolor{comment}{//                 and azimuth are ignored if the number of channels == 1.}}
+\DoxyCodeLine{167     \textcolor{comment}{//}}
+\DoxyCodeLine{168     \textcolor{comment}{//                 May be omnidirectional or directional using a cone.}}
+\DoxyCodeLine{169     \textcolor{comment}{//                 The cone originates from the emitter base position,}}
+\DoxyCodeLine{170     \textcolor{comment}{//                 and is directed by the emitter's front orientation.}}
+\DoxyCodeLine{171     \textcolor{comment}{//}}
+\DoxyCodeLine{172     \textcolor{comment}{// Multi-\/point  -\/-\/ For use with multi-\/channel sounds.}}
+\DoxyCodeLine{173     \textcolor{comment}{//                 Each non-\/LFE channel is positioned using an}}
+\DoxyCodeLine{174     \textcolor{comment}{//                 azimuth along the channel radius with respect to the}}
+\DoxyCodeLine{175     \textcolor{comment}{//                 front orientation vector in the plane orthogonal to the}}
+\DoxyCodeLine{176     \textcolor{comment}{//                 top orientation vector.  An azimuth of X3DAUDIO\_2PI}}
+\DoxyCodeLine{177     \textcolor{comment}{//                 specifies a channel is a LFE.  Such channels are}}
+\DoxyCodeLine{178     \textcolor{comment}{//                 positioned at the emitter base and are calculated}}
+\DoxyCodeLine{179     \textcolor{comment}{//                 with respect to pLFECurve only, never pVolumeCurve.}}
+\DoxyCodeLine{180     \textcolor{comment}{//}}
+\DoxyCodeLine{181     \textcolor{comment}{//                 Multi-\/point emitters are always omnidirectional,}}
+\DoxyCodeLine{182     \textcolor{comment}{//                 i.e. the cone is ignored if the number of channels > 1.}}
+\DoxyCodeLine{183     \textcolor{comment}{//}}
+\DoxyCodeLine{184     \textcolor{comment}{// Note that many properties are shared among all channel points,}}
+\DoxyCodeLine{185     \textcolor{comment}{// locking certain behaviour with respect to the emitter base position.}}
+\DoxyCodeLine{186     \textcolor{comment}{// For example, doppler shift is always calculated with respect to the}}
+\DoxyCodeLine{187     \textcolor{comment}{// emitter base position and so is constant for all its channel points.}}
+\DoxyCodeLine{188     \textcolor{comment}{// Distance curve calculations are also with respect to the emitter base}}
+\DoxyCodeLine{189     \textcolor{comment}{// position, with the curves being calculated independently of each other.}}
+\DoxyCodeLine{190     \textcolor{comment}{// For instance, volume and LFE calculations do not affect one another.}}
+\DoxyCodeLine{191     \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x3_d_a_u_d_i_o___e_m_i_t_t_e_r}{X3DAUDIO\_EMITTER}}}
+\DoxyCodeLine{192     \{}
+\DoxyCodeLine{193         \mbox{\hyperlink{struct_x3_d_a_u_d_i_o___c_o_n_e}{X3DAUDIO\_CONE}}* pCone; \textcolor{comment}{// sound cone, used only with single-\/channel emitters for matrix, LPF (both direct and reverb paths), and reverb calculations, NULL specifies omnidirectionality}}
+\DoxyCodeLine{194         \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{X3DAUDIO\_VECTOR}} OrientFront; \textcolor{comment}{// orientation of front direction, used only for emitter angle calculations or with multi-\/channel emitters for matrix calculations or single-\/channel emitters with cones for matrix, LPF (both direct and reverb paths), and reverb calculations, must be normalized when used}}
+\DoxyCodeLine{195         \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{X3DAUDIO\_VECTOR}} OrientTop;   \textcolor{comment}{// orientation of top direction, used only with multi-\/channel emitters for matrix calculations, must be orthonormal with OrientFront when used}}
+\DoxyCodeLine{196 }
+\DoxyCodeLine{197         \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{X3DAUDIO\_VECTOR}} Position; \textcolor{comment}{// position in user-\/defined world units, does not affect Velocity}}
+\DoxyCodeLine{198         \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{X3DAUDIO\_VECTOR}} Velocity; \textcolor{comment}{// velocity vector in user-\/defined world units/second, used only for doppler calculations, does not affect Position}}
+\DoxyCodeLine{199 }
+\DoxyCodeLine{200         UINT32 ChannelCount;       \textcolor{comment}{// number of sound channels, must be > 0}}
+\DoxyCodeLine{201         FLOAT32 ChannelRadius;     \textcolor{comment}{// channel radius, used only with multi-\/channel emitters for matrix calculations, must be >= 0.0f when used}}
+\DoxyCodeLine{202         FLOAT32* pChannelAzimuths; \textcolor{comment}{// channel azimuth array, used only with multi-\/channel emitters for matrix calculations, contains positions of each channel expressed in radians along the channel radius with respect to the front orientation vector in the plane orthogonal to the top orientation vector, or X3DAUDIO\_2PI to specify a LFE channel, must have at least ChannelCount elements, all within [0.0f, X3DAUDIO\_2PI] when used}}
+\DoxyCodeLine{203 }
+\DoxyCodeLine{204         \mbox{\hyperlink{struct_x3_d_a_u_d_i_o___d_i_s_t_a_n_c_e___c_u_r_v_e}{X3DAUDIO\_DISTANCE\_CURVE}}* pVolumeCurve;    \textcolor{comment}{// volume level distance curve, used only for matrix calculations, NULL specifies the default curve: [0.0f,1.0f], [1.0f,0.0f]}}
+\DoxyCodeLine{205         \mbox{\hyperlink{struct_x3_d_a_u_d_i_o___d_i_s_t_a_n_c_e___c_u_r_v_e}{X3DAUDIO\_DISTANCE\_CURVE}}* pLFECurve;       \textcolor{comment}{// LFE level distance curve, used only for matrix calculations, NULL specifies the default curve: [0.0f,1.0f], [1.0f,0.0f]}}
+\DoxyCodeLine{206         \mbox{\hyperlink{struct_x3_d_a_u_d_i_o___d_i_s_t_a_n_c_e___c_u_r_v_e}{X3DAUDIO\_DISTANCE\_CURVE}}* pLPFDirectCurve; \textcolor{comment}{// LPF direct-\/path coefficient distance curve, used only for LPF direct-\/path calculations, NULL specifies the default curve: [0.0f,0.0f], [1.0f,0.25f]}}
+\DoxyCodeLine{207         \mbox{\hyperlink{struct_x3_d_a_u_d_i_o___d_i_s_t_a_n_c_e___c_u_r_v_e}{X3DAUDIO\_DISTANCE\_CURVE}}* pLPFReverbCurve; \textcolor{comment}{// LPF reverb-\/path coefficient distance curve, used only for LPF reverb-\/path calculations, NULL specifies the default curve: [0.0f,0.25f], [1.0f,0.25f]}}
+\DoxyCodeLine{208         \mbox{\hyperlink{struct_x3_d_a_u_d_i_o___d_i_s_t_a_n_c_e___c_u_r_v_e}{X3DAUDIO\_DISTANCE\_CURVE}}* pReverbCurve;    \textcolor{comment}{// reverb send level distance curve, used only for reverb calculations, NULL specifies the default curve: [0.0f,1.0f], [1.0f,0.0f]}}
+\DoxyCodeLine{209 }
+\DoxyCodeLine{210         FLOAT32 CurveDistanceScaler; \textcolor{comment}{// curve distance scaler, used to scale normalized distance curves to user-\/defined world units and/or exaggerate their effect, does not affect any other calculations, must be within [FLT\_MIN, FLT\_MAX] when used}}
+\DoxyCodeLine{211         FLOAT32 DopplerScaler;       \textcolor{comment}{// doppler shift scaler, used to exaggerate doppler shift effect, does not affect any other calculations, must be within [0.0f, FLT\_MAX] when used}}
+\DoxyCodeLine{212     \} \mbox{\hyperlink{struct_x3_d_a_u_d_i_o___e_m_i_t_t_e_r}{X3DAUDIO\_EMITTER}}, *\mbox{\hyperlink{struct_x3_d_a_u_d_i_o___e_m_i_t_t_e_r}{LPX3DAUDIO\_EMITTER}};}
+\DoxyCodeLine{213 }
+\DoxyCodeLine{214 }
+\DoxyCodeLine{215     \textcolor{comment}{// DSP settings:}}
+\DoxyCodeLine{216     \textcolor{comment}{// Receives results from a call to X3DAudioCalculate() to be sent}}
+\DoxyCodeLine{217     \textcolor{comment}{// to the low-\/level audio rendering API for 3D signal processing.}}
+\DoxyCodeLine{218     \textcolor{comment}{//}}
+\DoxyCodeLine{219     \textcolor{comment}{// The user is responsible for allocating the matrix coefficient table,}}
+\DoxyCodeLine{220     \textcolor{comment}{// delay time array, and initializing the channel counts when used.}}
+\DoxyCodeLine{221     \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_x3_d_a_u_d_i_o___d_s_p___s_e_t_t_i_n_g_s}{X3DAUDIO\_DSP\_SETTINGS}}}
+\DoxyCodeLine{222     \{}
+\DoxyCodeLine{223         FLOAT32* pMatrixCoefficients; \textcolor{comment}{// [in] matrix coefficient table, receives an array representing the volume level of each source channel present in each destination channel with the source channels being the column index and the destination channels being the row index of the table, must have at least SrcChannelCount*DstChannelCount elements}}
+\DoxyCodeLine{224         FLOAT32* pDelayTimes;         \textcolor{comment}{// [in] delay time array, receives delays for each destination channel in milliseconds, must have at least DstChannelCount elements (stereo final mix only)}}
+\DoxyCodeLine{225         UINT32 SrcChannelCount;       \textcolor{comment}{// [in] number of source channels, must equal number of channels on respective emitter}}
+\DoxyCodeLine{226         UINT32 DstChannelCount;       \textcolor{comment}{// [in] number of destination channels, must equal number of channels on the final mix}}
+\DoxyCodeLine{227 }
+\DoxyCodeLine{228         FLOAT32 LPFDirectCoefficient; \textcolor{comment}{// [out] LPF direct-\/path coefficient}}
+\DoxyCodeLine{229         FLOAT32 LPFReverbCoefficient; \textcolor{comment}{// [out] LPF reverb-\/path coefficient}}
+\DoxyCodeLine{230         FLOAT32 ReverbLevel; \textcolor{comment}{// [out] reverb send level}}
+\DoxyCodeLine{231         FLOAT32 DopplerFactor; \textcolor{comment}{// [out] doppler shift factor, scales resampler ratio for doppler shift effect, where the effective frequency = DopplerFactor * original frequency}}
+\DoxyCodeLine{232         FLOAT32 EmitterToListenerAngle; \textcolor{comment}{// [out] emitter-\/to-\/listener interior angle, expressed in radians with respect to the emitter's front orientation}}
+\DoxyCodeLine{233 }
+\DoxyCodeLine{234         FLOAT32 EmitterToListenerDistance; \textcolor{comment}{// [out] distance in user-\/defined world units from the emitter base to listener position, always calculated}}
+\DoxyCodeLine{235         FLOAT32 EmitterVelocityComponent; \textcolor{comment}{// [out] component of emitter velocity vector projected onto emitter-\/>listener vector in user-\/defined world units/second, calculated only for doppler}}
+\DoxyCodeLine{236         FLOAT32 ListenerVelocityComponent; \textcolor{comment}{// [out] component of listener velocity vector projected onto emitter-\/>listener vector in user-\/defined world units/second, calculated only for doppler}}
+\DoxyCodeLine{237     \} \mbox{\hyperlink{struct_x3_d_a_u_d_i_o___d_s_p___s_e_t_t_i_n_g_s}{X3DAUDIO\_DSP\_SETTINGS}}, *\mbox{\hyperlink{struct_x3_d_a_u_d_i_o___d_s_p___s_e_t_t_i_n_g_s}{LPX3DAUDIO\_DSP\_SETTINGS}};}
+\DoxyCodeLine{238 }
+\DoxyCodeLine{239 }
+\DoxyCodeLine{240 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/<F-\/U-\/N-\/C-\/T-\/I-\/O-\/N-\/S>-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{241     \textcolor{comment}{// sets all global 3D audio constants}}
+\DoxyCodeLine{242     X3DAUDIO\_API\_(\textcolor{keywordtype}{void}) X3DAudioInitialize (UINT32 SpeakerChannelMask, FLOAT32 SpeedOfSound, X3DAUDIO\_HANDLE Instance);}
+\DoxyCodeLine{243 }
+\DoxyCodeLine{244     \textcolor{comment}{// calculates DSP settings with respect to 3D parameters}}
+\DoxyCodeLine{245     X3DAUDIO\_API\_(\textcolor{keywordtype}{void}) X3DAudioCalculate (\textcolor{keyword}{const} X3DAUDIO\_HANDLE Instance, \textcolor{keyword}{const} \mbox{\hyperlink{struct_x3_d_a_u_d_i_o___l_i_s_t_e_n_e_r}{X3DAUDIO\_LISTENER}}* pListener, \textcolor{keyword}{const} \mbox{\hyperlink{struct_x3_d_a_u_d_i_o___e_m_i_t_t_e_r}{X3DAUDIO\_EMITTER}}* pEmitter, UINT32 Flags, \mbox{\hyperlink{struct_x3_d_a_u_d_i_o___d_s_p___s_e_t_t_i_n_g_s}{X3DAUDIO\_DSP\_SETTINGS}}* pDSPSettings);}
+\DoxyCodeLine{246 }
+\DoxyCodeLine{247 }
+\DoxyCodeLine{248 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_\_X3DAUDIO\_H\_\_}}
+\DoxyCodeLine{249 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/<-\/EOF-\/>-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+
+\end{DoxyCode}

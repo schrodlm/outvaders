@@ -1,0 +1,266 @@
+\hypertarget{dls1_8h_source}{}\doxysection{dls1.\+h}
+\label{dls1_8h_source}\index{src/lib/dx/Include/dls1.h@{src/lib/dx/Include/dls1.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*==========================================================================;}}
+\DoxyCodeLine{2 \textcolor{comment}{//}}
+\DoxyCodeLine{3 \textcolor{comment}{//  dls1.h}}
+\DoxyCodeLine{4 \textcolor{comment}{//}}
+\DoxyCodeLine{5 \textcolor{comment}{//}}
+\DoxyCodeLine{6 \textcolor{comment}{//  Description:}}
+\DoxyCodeLine{7 \textcolor{comment}{//}}
+\DoxyCodeLine{8 \textcolor{comment}{//  Interface defines and structures for the Instrument Collection Form}}
+\DoxyCodeLine{9 \textcolor{comment}{//  RIFF DLS.}}
+\DoxyCodeLine{10 \textcolor{comment}{//}}
+\DoxyCodeLine{11 \textcolor{comment}{//}}
+\DoxyCodeLine{12 \textcolor{comment}{//  Written by Sonic Foundry 1996.  Released for public use.}}
+\DoxyCodeLine{13 \textcolor{comment}{//}}
+\DoxyCodeLine{14 \textcolor{comment}{//=========================================================================*/}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#ifndef \_INC\_DLS1}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#define \_INC\_DLS1}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{comment}{/*//////////////////////////////////////////////////////////////////////////}}
+\DoxyCodeLine{20 \textcolor{comment}{//}}
+\DoxyCodeLine{21 \textcolor{comment}{//}}
+\DoxyCodeLine{22 \textcolor{comment}{// Layout of an instrument collection:}}
+\DoxyCodeLine{23 \textcolor{comment}{//}}
+\DoxyCodeLine{24 \textcolor{comment}{//}}
+\DoxyCodeLine{25 \textcolor{comment}{// RIFF [] 'DLS ' [dlid,colh,INSTLIST,WAVEPOOL,INFOLIST]}}
+\DoxyCodeLine{26 \textcolor{comment}{//}}
+\DoxyCodeLine{27 \textcolor{comment}{// INSTLIST}}
+\DoxyCodeLine{28 \textcolor{comment}{// LIST [] 'lins'}}
+\DoxyCodeLine{29 \textcolor{comment}{//               LIST [] 'ins ' [dlid,insh,RGNLIST,ARTLIST,INFOLIST]}}
+\DoxyCodeLine{30 \textcolor{comment}{//               LIST [] 'ins ' [dlid,insh,RGNLIST,ARTLIST,INFOLIST]}}
+\DoxyCodeLine{31 \textcolor{comment}{//               LIST [] 'ins ' [dlid,insh,RGNLIST,ARTLIST,INFOLIST]}}
+\DoxyCodeLine{32 \textcolor{comment}{//}}
+\DoxyCodeLine{33 \textcolor{comment}{// RGNLIST}}
+\DoxyCodeLine{34 \textcolor{comment}{// LIST [] 'lrgn' }}
+\DoxyCodeLine{35 \textcolor{comment}{//               LIST [] 'rgn '  [rgnh,wsmp,wlnk,ARTLIST]}}
+\DoxyCodeLine{36 \textcolor{comment}{//               LIST [] 'rgn '  [rgnh,wsmp,wlnk,ARTLIST]}}
+\DoxyCodeLine{37 \textcolor{comment}{//               LIST [] 'rgn '  [rgnh,wsmp,wlnk,ARTLIST]}}
+\DoxyCodeLine{38 \textcolor{comment}{//}}
+\DoxyCodeLine{39 \textcolor{comment}{// ARTLIST}}
+\DoxyCodeLine{40 \textcolor{comment}{// LIST [] 'lart'}}
+\DoxyCodeLine{41 \textcolor{comment}{//         'art1' level 1 Articulation connection graph}}
+\DoxyCodeLine{42 \textcolor{comment}{//         'art2' level 2 Articulation connection graph}}
+\DoxyCodeLine{43 \textcolor{comment}{//         '3rd1' Possible 3rd party articulation structure 1}}
+\DoxyCodeLine{44 \textcolor{comment}{//         '3rd2' Possible 3rd party articulation structure 2 .... and so on}}
+\DoxyCodeLine{45 \textcolor{comment}{//}}
+\DoxyCodeLine{46 \textcolor{comment}{// WAVEPOOL }}
+\DoxyCodeLine{47 \textcolor{comment}{// ptbl [] [pool table]}}
+\DoxyCodeLine{48 \textcolor{comment}{// LIST [] 'wvpl'}}
+\DoxyCodeLine{49 \textcolor{comment}{//               [path],}}
+\DoxyCodeLine{50 \textcolor{comment}{//               [path],}}
+\DoxyCodeLine{51 \textcolor{comment}{//               LIST [] 'wave' [dlid,RIFFWAVE]}}
+\DoxyCodeLine{52 \textcolor{comment}{//               LIST [] 'wave' [dlid,RIFFWAVE]}}
+\DoxyCodeLine{53 \textcolor{comment}{//               LIST [] 'wave' [dlid,RIFFWAVE]}}
+\DoxyCodeLine{54 \textcolor{comment}{//               LIST [] 'wave' [dlid,RIFFWAVE]}}
+\DoxyCodeLine{55 \textcolor{comment}{//               LIST [] 'wave' [dlid,RIFFWAVE]}}
+\DoxyCodeLine{56 \textcolor{comment}{//}}
+\DoxyCodeLine{57 \textcolor{comment}{// INFOLIST}}
+\DoxyCodeLine{58 \textcolor{comment}{// LIST [] 'INFO' }}
+\DoxyCodeLine{59 \textcolor{comment}{//               'icmt' 'One of those crazy comments.'}}
+\DoxyCodeLine{60 \textcolor{comment}{//               'icop' 'Copyright (C) 1996 Sonic Foundry'}}
+\DoxyCodeLine{61 \textcolor{comment}{//}}
+\DoxyCodeLine{63 \textcolor{comment}{}}
+\DoxyCodeLine{64 \textcolor{comment}{}}
+\DoxyCodeLine{65 \textcolor{comment}{/*/////////////////////////////////////////////////////////////////////////}}
+\DoxyCodeLine{66 \textcolor{comment}{// FOURCC's used in the DLS file}}
+\DoxyCodeLine{68 \textcolor{comment}{}}
+\DoxyCodeLine{69 \textcolor{comment}{\#define FOURCC\_DLS   mmioFOURCC('D','L','S',' ')}}
+\DoxyCodeLine{70 \textcolor{comment}{\#define FOURCC\_DLID  mmioFOURCC('d','l','i','d')}}
+\DoxyCodeLine{71 \textcolor{comment}{\#define FOURCC\_COLH  mmioFOURCC('c','o','l','h')}}
+\DoxyCodeLine{72 \textcolor{comment}{\#define FOURCC\_WVPL  mmioFOURCC('w','v','p','l')}}
+\DoxyCodeLine{73 \textcolor{comment}{\#define FOURCC\_PTBL  mmioFOURCC('p','t','b','l')}}
+\DoxyCodeLine{74 \textcolor{comment}{\#define FOURCC\_PATH  mmioFOURCC('p','a','t','h')}}
+\DoxyCodeLine{75 \textcolor{comment}{\#define FOURCC\_wave  mmioFOURCC('w','a','v','e')}}
+\DoxyCodeLine{76 \textcolor{comment}{\#define FOURCC\_LINS  mmioFOURCC('l','i','n','s')}}
+\DoxyCodeLine{77 \textcolor{comment}{\#define FOURCC\_INS   mmioFOURCC('i','n','s',' ')}}
+\DoxyCodeLine{78 \textcolor{comment}{\#define FOURCC\_INSH  mmioFOURCC('i','n','s','h')}}
+\DoxyCodeLine{79 \textcolor{comment}{\#define FOURCC\_LRGN  mmioFOURCC('l','r','g','n')}}
+\DoxyCodeLine{80 \textcolor{comment}{\#define FOURCC\_RGN   mmioFOURCC('r','g','n',' ')}}
+\DoxyCodeLine{81 \textcolor{comment}{\#define FOURCC\_RGNH  mmioFOURCC('r','g','n','h')}}
+\DoxyCodeLine{82 \textcolor{comment}{\#define FOURCC\_LART  mmioFOURCC('l','a','r','t')}}
+\DoxyCodeLine{83 \textcolor{comment}{\#define FOURCC\_ART1  mmioFOURCC('a','r','t','1')}}
+\DoxyCodeLine{84 \textcolor{comment}{\#define FOURCC\_WLNK  mmioFOURCC('w','l','n','k')}}
+\DoxyCodeLine{85 \textcolor{comment}{\#define FOURCC\_WSMP  mmioFOURCC('w','s','m','p')}}
+\DoxyCodeLine{86 \textcolor{comment}{\#define FOURCC\_VERS  mmioFOURCC('v','e','r','s')}}
+\DoxyCodeLine{87 \textcolor{comment}{}}
+\DoxyCodeLine{88 \textcolor{comment}{/*/////////////////////////////////////////////////////////////////////////}}
+\DoxyCodeLine{89 \textcolor{comment}{// Articulation connection graph definitions }}
+\DoxyCodeLine{91 \textcolor{comment}{}}
+\DoxyCodeLine{92 \textcolor{comment}{/* Generic Sources */}}
+\DoxyCodeLine{93 \textcolor{preprocessor}{\#define CONN\_SRC\_NONE              0x0000}}
+\DoxyCodeLine{94 \textcolor{preprocessor}{\#define CONN\_SRC\_LFO               0x0001}}
+\DoxyCodeLine{95 \textcolor{preprocessor}{\#define CONN\_SRC\_KEYONVELOCITY     0x0002}}
+\DoxyCodeLine{96 \textcolor{preprocessor}{\#define CONN\_SRC\_KEYNUMBER         0x0003}}
+\DoxyCodeLine{97 \textcolor{preprocessor}{\#define CONN\_SRC\_EG1               0x0004}}
+\DoxyCodeLine{98 \textcolor{preprocessor}{\#define CONN\_SRC\_EG2               0x0005}}
+\DoxyCodeLine{99 \textcolor{preprocessor}{\#define CONN\_SRC\_PITCHWHEEL        0x0006}}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101 \textcolor{comment}{/* Midi Controllers 0-\/127 */}}
+\DoxyCodeLine{102 \textcolor{preprocessor}{\#define CONN\_SRC\_CC1               0x0081}}
+\DoxyCodeLine{103 \textcolor{preprocessor}{\#define CONN\_SRC\_CC7               0x0087}}
+\DoxyCodeLine{104 \textcolor{preprocessor}{\#define CONN\_SRC\_CC10              0x008a}}
+\DoxyCodeLine{105 \textcolor{preprocessor}{\#define CONN\_SRC\_CC11              0x008b}}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107 \textcolor{comment}{/* Generic Destinations */}}
+\DoxyCodeLine{108 \textcolor{preprocessor}{\#define CONN\_DST\_NONE              0x0000}}
+\DoxyCodeLine{109 \textcolor{preprocessor}{\#define CONN\_DST\_ATTENUATION       0x0001}}
+\DoxyCodeLine{110 \textcolor{preprocessor}{\#define CONN\_DST\_PITCH             0x0003}}
+\DoxyCodeLine{111 \textcolor{preprocessor}{\#define CONN\_DST\_PAN               0x0004}}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113 \textcolor{comment}{/* LFO Destinations */}}
+\DoxyCodeLine{114 \textcolor{preprocessor}{\#define CONN\_DST\_LFO\_FREQUENCY     0x0104}}
+\DoxyCodeLine{115 \textcolor{preprocessor}{\#define CONN\_DST\_LFO\_STARTDELAY    0x0105}}
+\DoxyCodeLine{116 }
+\DoxyCodeLine{117 \textcolor{comment}{/* EG1 Destinations */}}
+\DoxyCodeLine{118 \textcolor{preprocessor}{\#define CONN\_DST\_EG1\_ATTACKTIME    0x0206}}
+\DoxyCodeLine{119 \textcolor{preprocessor}{\#define CONN\_DST\_EG1\_DECAYTIME     0x0207}}
+\DoxyCodeLine{120 \textcolor{preprocessor}{\#define CONN\_DST\_EG1\_RELEASETIME   0x0209}}
+\DoxyCodeLine{121 \textcolor{preprocessor}{\#define CONN\_DST\_EG1\_SUSTAINLEVEL  0x020a}}
+\DoxyCodeLine{122 }
+\DoxyCodeLine{123 \textcolor{comment}{/* EG2 Destinations */}}
+\DoxyCodeLine{124 \textcolor{preprocessor}{\#define CONN\_DST\_EG2\_ATTACKTIME    0x030a}}
+\DoxyCodeLine{125 \textcolor{preprocessor}{\#define CONN\_DST\_EG2\_DECAYTIME     0x030b}}
+\DoxyCodeLine{126 \textcolor{preprocessor}{\#define CONN\_DST\_EG2\_RELEASETIME   0x030d}}
+\DoxyCodeLine{127 \textcolor{preprocessor}{\#define CONN\_DST\_EG2\_SUSTAINLEVEL  0x030e}}
+\DoxyCodeLine{128 }
+\DoxyCodeLine{129 \textcolor{preprocessor}{\#define CONN\_TRN\_NONE              0x0000}}
+\DoxyCodeLine{130 \textcolor{preprocessor}{\#define CONN\_TRN\_CONCAVE           0x0001}}
+\DoxyCodeLine{131 }
+\DoxyCodeLine{132 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_l_s_i_d}{\_DLSID}} \{}
+\DoxyCodeLine{133   ULONG    ulData1;}
+\DoxyCodeLine{134   USHORT   usData2;}
+\DoxyCodeLine{135   USHORT   usData3;}
+\DoxyCodeLine{136   BYTE     abData4[8];}
+\DoxyCodeLine{137 \} \mbox{\hyperlink{struct___d_l_s_i_d}{DLSID}}, FAR *\mbox{\hyperlink{struct___d_l_s_i_d}{LPDLSID}};}
+\DoxyCodeLine{138 }
+\DoxyCodeLine{139 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_l_s_v_e_r_s_i_o_n}{\_DLSVERSION}} \{}
+\DoxyCodeLine{140   DWORD    dwVersionMS;}
+\DoxyCodeLine{141   DWORD    dwVersionLS;}
+\DoxyCodeLine{142 \}\mbox{\hyperlink{struct___d_l_s_v_e_r_s_i_o_n}{DLSVERSION}}, FAR *\mbox{\hyperlink{struct___d_l_s_v_e_r_s_i_o_n}{LPDLSVERSION}};}
+\DoxyCodeLine{143                    }
+\DoxyCodeLine{144 }
+\DoxyCodeLine{145 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___c_o_n_n_e_c_t_i_o_n}{\_CONNECTION}} \{}
+\DoxyCodeLine{146   USHORT   usSource;}
+\DoxyCodeLine{147   USHORT   usControl;}
+\DoxyCodeLine{148   USHORT   usDestination;}
+\DoxyCodeLine{149   USHORT   usTransform;}
+\DoxyCodeLine{150   LONG     lScale;}
+\DoxyCodeLine{151   \}\mbox{\hyperlink{struct___c_o_n_n_e_c_t_i_o_n}{CONNECTION}}, FAR *\mbox{\hyperlink{struct___c_o_n_n_e_c_t_i_o_n}{LPCONNECTION}};}
+\DoxyCodeLine{152 }
+\DoxyCodeLine{153 }
+\DoxyCodeLine{154 \textcolor{comment}{/* Level 1 Articulation Data */}}
+\DoxyCodeLine{155 }
+\DoxyCodeLine{156 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___c_o_n_n_e_c_t_i_o_n_l_i_s_t}{\_CONNECTIONLIST}} \{}
+\DoxyCodeLine{157   ULONG    cbSize;            \textcolor{comment}{/* size of the connection list structure */}}
+\DoxyCodeLine{158   ULONG    cConnections;      \textcolor{comment}{/* count of connections in the list */}}
+\DoxyCodeLine{159   \} \mbox{\hyperlink{struct___c_o_n_n_e_c_t_i_o_n_l_i_s_t}{CONNECTIONLIST}}, FAR *\mbox{\hyperlink{struct___c_o_n_n_e_c_t_i_o_n_l_i_s_t}{LPCONNECTIONLIST}};}
+\DoxyCodeLine{160 }
+\DoxyCodeLine{161 }
+\DoxyCodeLine{162 }
+\DoxyCodeLine{163 \textcolor{comment}{/*/////////////////////////////////////////////////////////////////////////}}
+\DoxyCodeLine{164 \textcolor{comment}{// Generic type defines for regions and instruments}}
+\DoxyCodeLine{166 \textcolor{comment}{}}
+\DoxyCodeLine{167 \textcolor{comment}{typedef struct \_RGNRANGE \{}}
+\DoxyCodeLine{168 \textcolor{comment}{  USHORT usLow;}}
+\DoxyCodeLine{169 \textcolor{comment}{  USHORT usHigh;}}
+\DoxyCodeLine{170 \textcolor{comment}{\}RGNRANGE, FAR * LPRGNRANGE;}}
+\DoxyCodeLine{171 \textcolor{comment}{}}
+\DoxyCodeLine{172 \textcolor{comment}{\#define F\_INSTRUMENT\_DRUMS      0x80000000}}
+\DoxyCodeLine{173 \textcolor{comment}{}}
+\DoxyCodeLine{174 \textcolor{comment}{typedef struct \_MIDILOCALE \{}}
+\DoxyCodeLine{175 \textcolor{comment}{  ULONG ulBank;}}
+\DoxyCodeLine{176 \textcolor{comment}{  ULONG ulInstrument;}}
+\DoxyCodeLine{177 \textcolor{comment}{\}MIDILOCALE, FAR *LPMIDILOCALE;}}
+\DoxyCodeLine{178 \textcolor{comment}{}}
+\DoxyCodeLine{179 \textcolor{comment}{/*/////////////////////////////////////////////////////////////////////////}}
+\DoxyCodeLine{180 \textcolor{comment}{// Header structures found in an DLS file for collection, instruments, and}}
+\DoxyCodeLine{181 \textcolor{comment}{// regions.}}
+\DoxyCodeLine{183 \textcolor{comment}{}}
+\DoxyCodeLine{184 \textcolor{comment}{\#define F\_RGN\_OPTION\_SELFNONEXCLUSIVE  0x0001}}
+\DoxyCodeLine{185 \textcolor{comment}{}}
+\DoxyCodeLine{186 \textcolor{comment}{typedef struct \_RGNHEADER \{}}
+\DoxyCodeLine{187 \textcolor{comment}{  RGNRANGE RangeKey;            /* Key range  */}}
+\DoxyCodeLine{188   \mbox{\hyperlink{struct___r_g_n_r_a_n_g_e}{RGNRANGE}} RangeVelocity;       \textcolor{comment}{/* Velocity Range  */}}
+\DoxyCodeLine{189   USHORT   fusOptions;          \textcolor{comment}{/* Synthesis options for this range */}}
+\DoxyCodeLine{190   USHORT   usKeyGroup;          \textcolor{comment}{/* Key grouping for non simultaneous play */}}
+\DoxyCodeLine{191                                 \textcolor{comment}{/* 0 = no group, 1 up is group */}}
+\DoxyCodeLine{192                                 \textcolor{comment}{/* for Level 1 only groups 1-\/15 are allowed */}}
+\DoxyCodeLine{193 \}\mbox{\hyperlink{struct___r_g_n_h_e_a_d_e_r}{RGNHEADER}}, FAR *\mbox{\hyperlink{struct___r_g_n_h_e_a_d_e_r}{LPRGNHEADER}};}
+\DoxyCodeLine{194 }
+\DoxyCodeLine{195 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___i_n_s_t_h_e_a_d_e_r}{\_INSTHEADER}} \{}
+\DoxyCodeLine{196   ULONG      cRegions;          \textcolor{comment}{/* Count of regions in this instrument */}}
+\DoxyCodeLine{197   \mbox{\hyperlink{struct___m_i_d_i_l_o_c_a_l_e}{MIDILOCALE}} Locale;            \textcolor{comment}{/* Intended MIDI locale of this instrument */}}
+\DoxyCodeLine{198 \}\mbox{\hyperlink{struct___i_n_s_t_h_e_a_d_e_r}{INSTHEADER}}, FAR *\mbox{\hyperlink{struct___i_n_s_t_h_e_a_d_e_r}{LPINSTHEADER}};}
+\DoxyCodeLine{199 }
+\DoxyCodeLine{200 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_l_s_h_e_a_d_e_r}{\_DLSHEADER}} \{}
+\DoxyCodeLine{201   ULONG      cInstruments;      \textcolor{comment}{/* Count of instruments in the collection */}}
+\DoxyCodeLine{202 \}\mbox{\hyperlink{struct___d_l_s_h_e_a_d_e_r}{DLSHEADER}}, FAR *\mbox{\hyperlink{struct___d_l_s_h_e_a_d_e_r}{LPDLSHEADER}};}
+\DoxyCodeLine{203 }
+\DoxyCodeLine{204 \textcolor{comment}{/*////////////////////////////////////////////////////////////////////////////}}
+\DoxyCodeLine{205 \textcolor{comment}{// definitions for the Wave link structure}}
+\DoxyCodeLine{207 \textcolor{comment}{}}
+\DoxyCodeLine{208 \textcolor{comment}{/* ****  For level 1 only WAVELINK\_CHANNEL\_MONO is valid  **** */}}
+\DoxyCodeLine{209 \textcolor{comment}{/* ulChannel allows for up to 32 channels of audio with each bit position */}}
+\DoxyCodeLine{210 \textcolor{comment}{/* specifiying a channel of playback */}}
+\DoxyCodeLine{211 }
+\DoxyCodeLine{212 \textcolor{preprocessor}{\#define WAVELINK\_CHANNEL\_LEFT    0x0001l}}
+\DoxyCodeLine{213 \textcolor{preprocessor}{\#define WAVELINK\_CHANNEL\_RIGHT   0x0002l}}
+\DoxyCodeLine{214 }
+\DoxyCodeLine{215 \textcolor{preprocessor}{\#define F\_WAVELINK\_PHASE\_MASTER  0x0001}}
+\DoxyCodeLine{216 }
+\DoxyCodeLine{217 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___w_a_v_e_l_i_n_k}{\_WAVELINK}} \{ \textcolor{comment}{/* any paths or links are stored right after struct */}}
+\DoxyCodeLine{218   USHORT   fusOptions;     \textcolor{comment}{/* options flags for this wave */}}
+\DoxyCodeLine{219   USHORT   usPhaseGroup;   \textcolor{comment}{/* Phase grouping for locking channels */}}
+\DoxyCodeLine{220   ULONG    ulChannel;      \textcolor{comment}{/* channel placement */}}
+\DoxyCodeLine{221   ULONG    ulTableIndex;   \textcolor{comment}{/* index into the wave pool table, 0 based */}}
+\DoxyCodeLine{222 \}\mbox{\hyperlink{struct___w_a_v_e_l_i_n_k}{WAVELINK}}, FAR *\mbox{\hyperlink{struct___w_a_v_e_l_i_n_k}{LPWAVELINK}};}
+\DoxyCodeLine{223 }
+\DoxyCodeLine{224 \textcolor{preprocessor}{\#define POOL\_CUE\_NULL  0xffffffffl}}
+\DoxyCodeLine{225 }
+\DoxyCodeLine{226 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___p_o_o_l_c_u_e}{\_POOLCUE}} \{ }
+\DoxyCodeLine{227   ULONG    ulOffset;       \textcolor{comment}{/* Offset to the entry in the list */}}
+\DoxyCodeLine{228 \}\mbox{\hyperlink{struct___p_o_o_l_c_u_e}{POOLCUE}}, FAR *\mbox{\hyperlink{struct___p_o_o_l_c_u_e}{LPPOOLCUE}};}
+\DoxyCodeLine{229 }
+\DoxyCodeLine{230 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___p_o_o_l_t_a_b_l_e}{\_POOLTABLE}} \{}
+\DoxyCodeLine{231   ULONG    cbSize;            \textcolor{comment}{/* size of the pool table structure */}}
+\DoxyCodeLine{232   ULONG    cCues;             \textcolor{comment}{/* count of cues in the list */}}
+\DoxyCodeLine{233   \} \mbox{\hyperlink{struct___p_o_o_l_t_a_b_l_e}{POOLTABLE}}, FAR *\mbox{\hyperlink{struct___p_o_o_l_t_a_b_l_e}{LPPOOLTABLE}};}
+\DoxyCodeLine{234 }
+\DoxyCodeLine{235 \textcolor{comment}{/*////////////////////////////////////////////////////////////////////////////}}
+\DoxyCodeLine{236 \textcolor{comment}{// Structures for the "{}wsmp"{} chunk}}
+\DoxyCodeLine{238 \textcolor{comment}{}}
+\DoxyCodeLine{239 \textcolor{comment}{\#define F\_WSMP\_NO\_TRUNCATION     0x0001l}}
+\DoxyCodeLine{240 \textcolor{comment}{\#define F\_WSMP\_NO\_COMPRESSION    0x0002l}}
+\DoxyCodeLine{241 \textcolor{comment}{}}
+\DoxyCodeLine{242 \textcolor{comment}{}}
+\DoxyCodeLine{243 \textcolor{comment}{typedef struct \_rwsmp \{}}
+\DoxyCodeLine{244 \textcolor{comment}{  ULONG   cbSize;}}
+\DoxyCodeLine{245 \textcolor{comment}{  USHORT  usUnityNote;         /* MIDI Unity Playback Note */}}
+\DoxyCodeLine{246   SHORT   sFineTune;           \textcolor{comment}{/* Fine Tune in log tuning */}}
+\DoxyCodeLine{247   LONG    lAttenuation;        \textcolor{comment}{/* Overall Attenuation to be applied to data */}}
+\DoxyCodeLine{248   ULONG   fulOptions;          \textcolor{comment}{/* Flag options  */}}
+\DoxyCodeLine{249   ULONG   cSampleLoops;        \textcolor{comment}{/* Count of Sample loops, 0 loops is one shot */}}
+\DoxyCodeLine{250   \} \mbox{\hyperlink{struct__rwsmp}{WSMPL}}, FAR *\mbox{\hyperlink{struct__rwsmp}{LPWSMPL}};}
+\DoxyCodeLine{251 }
+\DoxyCodeLine{252 }
+\DoxyCodeLine{253 \textcolor{comment}{/* This loop type is a normal forward playing loop which is continually */}}
+\DoxyCodeLine{254 \textcolor{comment}{/* played until the envelope reaches an off threshold in the release */}}
+\DoxyCodeLine{255 \textcolor{comment}{/* portion of the volume envelope */}}
+\DoxyCodeLine{256 }
+\DoxyCodeLine{257 \textcolor{preprocessor}{\#define WLOOP\_TYPE\_FORWARD   0}}
+\DoxyCodeLine{258 }
+\DoxyCodeLine{259 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct__rloop}{\_rloop}} \{}
+\DoxyCodeLine{260   ULONG cbSize;}
+\DoxyCodeLine{261   ULONG ulType;              \textcolor{comment}{/* Loop Type */}}
+\DoxyCodeLine{262   ULONG ulStart;             \textcolor{comment}{/* Start of loop in samples */}}
+\DoxyCodeLine{263   ULONG ulLength;            \textcolor{comment}{/* Length of loop in samples */}}
+\DoxyCodeLine{264 \} \mbox{\hyperlink{struct__rloop}{WLOOP}}, FAR *\mbox{\hyperlink{struct__rloop}{LPWLOOP}};}
+\DoxyCodeLine{265 }
+\DoxyCodeLine{266 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/*\_INC\_DLS1 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{267 }
+
+\end{DoxyCode}

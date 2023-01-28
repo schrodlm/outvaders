@@ -1,0 +1,863 @@
+\hypertarget{dvoice_8h_source}{}\doxysection{dvoice.\+h}
+\label{dvoice_8h_source}\index{src/lib/dx/Include/dvoice.h@{src/lib/dx/Include/dvoice.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*==========================================================================;}}
+\DoxyCodeLine{2 \textcolor{comment}{ *}}
+\DoxyCodeLine{3 \textcolor{comment}{ *  Copyright (C) 1999 Microsoft Corporation.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{ *}}
+\DoxyCodeLine{5 \textcolor{comment}{ *  File:       dpvoice.h}}
+\DoxyCodeLine{6 \textcolor{comment}{ *  Content:    DirectPlayVoice include file}}
+\DoxyCodeLine{7 \textcolor{comment}{ ***************************************************************************/}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#ifndef \_\_DVOICE\_\_}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#define \_\_DVOICE\_\_}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <ole2.h>}           \textcolor{comment}{// for DECLARE\_INTERFACE and HRESULT}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <mmsystem.h>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <mmreg.h>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <msacm.h>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include "{}dsound.h"{}}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{19 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{24 \textcolor{comment}{ *}}
+\DoxyCodeLine{25 \textcolor{comment}{ * DirectPlayVoice CLSIDs}}
+\DoxyCodeLine{26 \textcolor{comment}{ *}}
+\DoxyCodeLine{27 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{comment}{// \{B9F3EB85-\/B781-\/4ac1-\/8D90-\/93A05EE37D7D\}}}
+\DoxyCodeLine{31 DEFINE\_GUID(CLSID\_DirectPlayVoiceClient, }
+\DoxyCodeLine{32 0xb9f3eb85, 0xb781, 0x4ac1, 0x8d, 0x90, 0x93, 0xa0, 0x5e, 0xe3, 0x7d, 0x7d);}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{comment}{// \{D3F5B8E6-\/9B78-\/4a4c-\/94EA-\/CA2397B663D3\}}}
+\DoxyCodeLine{35 DEFINE\_GUID(CLSID\_DirectPlayVoiceServer, }
+\DoxyCodeLine{36 0xd3f5b8e6, 0x9b78, 0x4a4c, 0x94, 0xea, 0xca, 0x23, 0x97, 0xb6, 0x63, 0xd3);}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 \textcolor{comment}{// \{0F0F094B-\/B01C-\/4091-\/A14D-\/DD0CD807711A\}}}
+\DoxyCodeLine{39 DEFINE\_GUID(CLSID\_DirectPlayVoiceTest, }
+\DoxyCodeLine{40 0xf0f094b, 0xb01c, 0x4091, 0xa1, 0x4d, 0xdd, 0xc, 0xd8, 0x7, 0x71, 0x1a);}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{43 \textcolor{comment}{ *}}
+\DoxyCodeLine{44 \textcolor{comment}{ * DirectPlayVoice Interface IIDs}}
+\DoxyCodeLine{45 \textcolor{comment}{ *}}
+\DoxyCodeLine{46 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 \textcolor{comment}{// \{1DFDC8EA-\/BCF7-\/41d6-\/B295-\/AB64B3B23306\}}}
+\DoxyCodeLine{50 DEFINE\_GUID(IID\_IDirectPlayVoiceClient, }
+\DoxyCodeLine{51 0x1dfdc8ea, 0xbcf7, 0x41d6, 0xb2, 0x95, 0xab, 0x64, 0xb3, 0xb2, 0x33, 0x6);}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53 \textcolor{comment}{// \{FAA1C173-\/0468-\/43b6-\/8A2A-\/EA8A4F2076C9\}}}
+\DoxyCodeLine{54 DEFINE\_GUID(IID\_IDirectPlayVoiceServer, }
+\DoxyCodeLine{55 0xfaa1c173, 0x468, 0x43b6, 0x8a, 0x2a, 0xea, 0x8a, 0x4f, 0x20, 0x76, 0xc9);}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57 \textcolor{comment}{// \{D26AF734-\/208B-\/41da-\/8224-\/E0CE79810BE1\}}}
+\DoxyCodeLine{58 DEFINE\_GUID(IID\_IDirectPlayVoiceTest,}
+\DoxyCodeLine{59 0xd26af734, 0x208b, 0x41da, 0x82, 0x24, 0xe0, 0xce, 0x79, 0x81, 0xb, 0xe1);}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{62 \textcolor{comment}{ *}}
+\DoxyCodeLine{63 \textcolor{comment}{ * DirectPlayVoice Compression Type GUIDs}}
+\DoxyCodeLine{64 \textcolor{comment}{ *}}
+\DoxyCodeLine{65 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67 \textcolor{comment}{// MS-\/ADPCM 32.8 kbit/s}}
+\DoxyCodeLine{68 \textcolor{comment}{//}}
+\DoxyCodeLine{69 \textcolor{comment}{// \{699B52C1-\/A885-\/46a8-\/A308-\/97172419ADC7\}}}
+\DoxyCodeLine{70 DEFINE\_GUID(DPVCTGUID\_ADPCM,}
+\DoxyCodeLine{71 0x699b52c1, 0xa885, 0x46a8, 0xa3, 0x8, 0x97, 0x17, 0x24, 0x19, 0xad, 0xc7);}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{73 \textcolor{comment}{// Microsoft GSM 6.10 13 kbit/s}}
+\DoxyCodeLine{74 \textcolor{comment}{//}}
+\DoxyCodeLine{75 \textcolor{comment}{// \{24768C60-\/5A0D-\/11d3-\/9BE4-\/525400D985E7\}}}
+\DoxyCodeLine{76 DEFINE\_GUID(DPVCTGUID\_GSM,}
+\DoxyCodeLine{77 0x24768c60, 0x5a0d, 0x11d3, 0x9b, 0xe4, 0x52, 0x54, 0x0, 0xd9, 0x85, 0xe7);}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79 \textcolor{comment}{// MS-\/PCM 64 kbit/s}}
+\DoxyCodeLine{80 \textcolor{comment}{// }}
+\DoxyCodeLine{81 \textcolor{comment}{// \{8DE12FD4-\/7CB3-\/48ce-\/A7E8-\/9C47A22E8AC5\}}}
+\DoxyCodeLine{82 DEFINE\_GUID(DPVCTGUID\_NONE,}
+\DoxyCodeLine{83 0x8de12fd4, 0x7cb3, 0x48ce, 0xa7, 0xe8, 0x9c, 0x47, 0xa2, 0x2e, 0x8a, 0xc5);}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85 \textcolor{comment}{// Voxware SC03 3.2kbit/s}}
+\DoxyCodeLine{86 \textcolor{comment}{//}}
+\DoxyCodeLine{87 \textcolor{comment}{// \{7D82A29B-\/2242-\/4f82-\/8F39-\/5D1153DF3E41\}}}
+\DoxyCodeLine{88 DEFINE\_GUID(DPVCTGUID\_SC03,}
+\DoxyCodeLine{89 0x7d82a29b, 0x2242, 0x4f82, 0x8f, 0x39, 0x5d, 0x11, 0x53, 0xdf, 0x3e, 0x41);}
+\DoxyCodeLine{90 }
+\DoxyCodeLine{91 \textcolor{comment}{// Voxware SC06 6.4kbit/s}}
+\DoxyCodeLine{92 \textcolor{comment}{//}}
+\DoxyCodeLine{93 \textcolor{comment}{// \{53DEF900-\/7168-\/4633-\/B47F-\/D143916A13C7\}}}
+\DoxyCodeLine{94 DEFINE\_GUID(DPVCTGUID\_SC06,}
+\DoxyCodeLine{95 0x53def900, 0x7168, 0x4633, 0xb4, 0x7f, 0xd1, 0x43, 0x91, 0x6a, 0x13, 0xc7);}
+\DoxyCodeLine{96 }
+\DoxyCodeLine{97 \textcolor{comment}{// TrueSpeech(TM) 8.6 kbit/s}}
+\DoxyCodeLine{98 \textcolor{comment}{//}}
+\DoxyCodeLine{99 \textcolor{comment}{// \{D7954361-\/5A0B-\/11d3-\/9BE4-\/525400D985E7\}}}
+\DoxyCodeLine{100 DEFINE\_GUID(DPVCTGUID\_TRUESPEECH,}
+\DoxyCodeLine{101 0xd7954361, 0x5a0b, 0x11d3, 0x9b, 0xe4, 0x52, 0x54, 0x0, 0xd9, 0x85, 0xe7);}
+\DoxyCodeLine{102 }
+\DoxyCodeLine{103 \textcolor{comment}{// Voxware VR12 1.4kbit/s}}
+\DoxyCodeLine{104 \textcolor{comment}{//}}
+\DoxyCodeLine{105 \textcolor{comment}{// \{FE44A9FE-\/8ED4-\/48bf-\/9D66-\/1B1ADFF9FF6D\}}}
+\DoxyCodeLine{106 DEFINE\_GUID(DPVCTGUID\_VR12,}
+\DoxyCodeLine{107 0xfe44a9fe, 0x8ed4, 0x48bf, 0x9d, 0x66, 0x1b, 0x1a, 0xdf, 0xf9, 0xff, 0x6d);}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{109 \textcolor{comment}{// Define the default compression type}}
+\DoxyCodeLine{110 \textcolor{preprocessor}{\#define DPVCTGUID\_DEFAULT   DPVCTGUID\_SC03}}
+\DoxyCodeLine{111 }
+\DoxyCodeLine{112 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{113 \textcolor{comment}{ *}}
+\DoxyCodeLine{114 \textcolor{comment}{ * DirectPlayVoice Interface Pointer definitions}}
+\DoxyCodeLine{115 \textcolor{comment}{ *}}
+\DoxyCodeLine{116 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirectPlayVoiceClient FAR *LPDIRECTPLAYVOICECLIENT, *PDIRECTPLAYVOICECLIENT;}
+\DoxyCodeLine{119 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirectPlayVoiceServer FAR *LPDIRECTPLAYVOICESERVER, *PDIRECTPLAYVOICESERVER;}
+\DoxyCodeLine{120 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDirectPlayVoiceTest FAR *LPDIRECTPLAYVOICETEST, *PDIRECTPLAYVOICETEST;}
+\DoxyCodeLine{121 }
+\DoxyCodeLine{122 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{123 \textcolor{comment}{ *}}
+\DoxyCodeLine{124 \textcolor{comment}{ * DirectPlayVoice Callback Functions}}
+\DoxyCodeLine{125 \textcolor{comment}{ *}}
+\DoxyCodeLine{126 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{127 \textcolor{keyword}{typedef} HRESULT (FAR PASCAL *PDVMESSAGEHANDLER)(}
+\DoxyCodeLine{128     PVOID   pvUserContext,}
+\DoxyCodeLine{129     DWORD   dwMessageType,}
+\DoxyCodeLine{130     LPVOID  lpMessage}
+\DoxyCodeLine{131 );}
+\DoxyCodeLine{132 }
+\DoxyCodeLine{133 \textcolor{keyword}{typedef} PDVMESSAGEHANDLER LPDVMESSAGEHANDLER;}
+\DoxyCodeLine{134 }
+\DoxyCodeLine{135 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{136 \textcolor{comment}{ *}}
+\DoxyCodeLine{137 \textcolor{comment}{ * DirectPlayVoice Datatypes (Non-\/Structure / Non-\/Message)}}
+\DoxyCodeLine{138 \textcolor{comment}{ *}}
+\DoxyCodeLine{139 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{140 }
+\DoxyCodeLine{141 \textcolor{keyword}{typedef} DWORD DVID, *LPDVID, *PDVID;}
+\DoxyCodeLine{142 }
+\DoxyCodeLine{143 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{144 \textcolor{comment}{ *}}
+\DoxyCodeLine{145 \textcolor{comment}{ * DirectPlayVoice Message Types}}
+\DoxyCodeLine{146 \textcolor{comment}{ *}}
+\DoxyCodeLine{147 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{148 }
+\DoxyCodeLine{149 \textcolor{preprocessor}{\#define DVMSGID\_BASE                        0x0000}}
+\DoxyCodeLine{150 }
+\DoxyCodeLine{151 \textcolor{preprocessor}{\#define DVMSGID\_MINBASE                     (DVMSGID\_CREATEVOICEPLAYER)}}
+\DoxyCodeLine{152 \textcolor{preprocessor}{\#define DVMSGID\_CREATEVOICEPLAYER           (DVMSGID\_BASE+0x0001)}}
+\DoxyCodeLine{153 \textcolor{preprocessor}{\#define DVMSGID\_DELETEVOICEPLAYER           (DVMSGID\_BASE+0x0002)}}
+\DoxyCodeLine{154 \textcolor{preprocessor}{\#define DVMSGID\_SESSIONLOST                 (DVMSGID\_BASE+0x0003)}}
+\DoxyCodeLine{155 \textcolor{preprocessor}{\#define DVMSGID\_PLAYERVOICESTART            (DVMSGID\_BASE+0x0004)}}
+\DoxyCodeLine{156 \textcolor{preprocessor}{\#define DVMSGID\_PLAYERVOICESTOP             (DVMSGID\_BASE+0x0005)}}
+\DoxyCodeLine{157 \textcolor{preprocessor}{\#define DVMSGID\_RECORDSTART                 (DVMSGID\_BASE+0x0006)}}
+\DoxyCodeLine{158 \textcolor{preprocessor}{\#define DVMSGID\_RECORDSTOP                  (DVMSGID\_BASE+0x0007)}}
+\DoxyCodeLine{159 \textcolor{preprocessor}{\#define DVMSGID\_CONNECTRESULT               (DVMSGID\_BASE+0x0008)}}
+\DoxyCodeLine{160 \textcolor{preprocessor}{\#define DVMSGID\_DISCONNECTRESULT            (DVMSGID\_BASE+0x0009)}}
+\DoxyCodeLine{161 \textcolor{preprocessor}{\#define DVMSGID\_INPUTLEVEL                  (DVMSGID\_BASE+0x000A)}}
+\DoxyCodeLine{162 \textcolor{preprocessor}{\#define DVMSGID\_OUTPUTLEVEL                 (DVMSGID\_BASE+0x000B)}}
+\DoxyCodeLine{163 \textcolor{preprocessor}{\#define DVMSGID\_HOSTMIGRATED                (DVMSGID\_BASE+0x000C)}}
+\DoxyCodeLine{164 \textcolor{preprocessor}{\#define DVMSGID\_SETTARGETS                  (DVMSGID\_BASE+0x000D)}}
+\DoxyCodeLine{165 \textcolor{preprocessor}{\#define DVMSGID\_PLAYEROUTPUTLEVEL           (DVMSGID\_BASE+0x000E)}}
+\DoxyCodeLine{166 \textcolor{preprocessor}{\#define DVMSGID\_LOSTFOCUS                   (DVMSGID\_BASE+0x0010)}}
+\DoxyCodeLine{167 \textcolor{preprocessor}{\#define DVMSGID\_GAINFOCUS                   (DVMSGID\_BASE+0x0011)}}
+\DoxyCodeLine{168 \textcolor{preprocessor}{\#define DVMSGID\_LOCALHOSTSETUP              (DVMSGID\_BASE+0x0012)}}
+\DoxyCodeLine{169 \textcolor{preprocessor}{\#define DVMSGID\_MAXBASE                     (DVMSGID\_LOCALHOSTSETUP)}}
+\DoxyCodeLine{170 }
+\DoxyCodeLine{171 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{172 \textcolor{comment}{ *}}
+\DoxyCodeLine{173 \textcolor{comment}{ * DirectPlayVoice Constants}}
+\DoxyCodeLine{174 \textcolor{comment}{ *}}
+\DoxyCodeLine{175 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{176 }
+\DoxyCodeLine{177 \textcolor{comment}{//}}
+\DoxyCodeLine{178 \textcolor{comment}{// Buffer Aggresiveness Value Ranges}}
+\DoxyCodeLine{179 \textcolor{comment}{//}}
+\DoxyCodeLine{180 \textcolor{preprocessor}{\#define DVBUFFERAGGRESSIVENESS\_MIN          0x00000001}}
+\DoxyCodeLine{181 \textcolor{preprocessor}{\#define DVBUFFERAGGRESSIVENESS\_MAX          0x00000064}}
+\DoxyCodeLine{182 \textcolor{preprocessor}{\#define DVBUFFERAGGRESSIVENESS\_DEFAULT      0x00000000}}
+\DoxyCodeLine{183 }
+\DoxyCodeLine{184 \textcolor{comment}{// }}
+\DoxyCodeLine{185 \textcolor{comment}{// Buffer Quality Value Ranges}}
+\DoxyCodeLine{186 \textcolor{comment}{//}}
+\DoxyCodeLine{187 \textcolor{preprocessor}{\#define DVBUFFERQUALITY\_MIN                 0x00000001}}
+\DoxyCodeLine{188 \textcolor{preprocessor}{\#define DVBUFFERQUALITY\_MAX                 0x00000064}}
+\DoxyCodeLine{189 \textcolor{preprocessor}{\#define DVBUFFERQUALITY\_DEFAULT             0x00000000}}
+\DoxyCodeLine{190 }
+\DoxyCodeLine{191 \textcolor{preprocessor}{\#define DVID\_SYS                0}}
+\DoxyCodeLine{192 }
+\DoxyCodeLine{193 \textcolor{comment}{//}}
+\DoxyCodeLine{194 \textcolor{comment}{// Used to identify the session host in client/server}}
+\DoxyCodeLine{195 \textcolor{comment}{//}}
+\DoxyCodeLine{196 \textcolor{preprocessor}{\#define DVID\_SERVERPLAYER       1}}
+\DoxyCodeLine{197 }
+\DoxyCodeLine{198 \textcolor{comment}{//}}
+\DoxyCodeLine{199 \textcolor{comment}{// Used to target all players}}
+\DoxyCodeLine{200 \textcolor{comment}{//}}
+\DoxyCodeLine{201 \textcolor{preprocessor}{\#define DVID\_ALLPLAYERS         0}}
+\DoxyCodeLine{202 }
+\DoxyCodeLine{203 \textcolor{comment}{//}}
+\DoxyCodeLine{204 \textcolor{comment}{// Used to identify the main buffer}}
+\DoxyCodeLine{205 \textcolor{comment}{//}}
+\DoxyCodeLine{206 \textcolor{preprocessor}{\#define DVID\_REMAINING          0xFFFFFFFF}}
+\DoxyCodeLine{207 }
+\DoxyCodeLine{208 \textcolor{comment}{// }}
+\DoxyCodeLine{209 \textcolor{comment}{// Input level range}}
+\DoxyCodeLine{210 \textcolor{comment}{//}}
+\DoxyCodeLine{211 \textcolor{preprocessor}{\#define DVINPUTLEVEL\_MIN                    0x00000000}}
+\DoxyCodeLine{212 \textcolor{preprocessor}{\#define DVINPUTLEVEL\_MAX                    0x00000063  }\textcolor{comment}{// 99 decimal}}
+\DoxyCodeLine{213 }
+\DoxyCodeLine{214 \textcolor{preprocessor}{\#define DVNOTIFYPERIOD\_MINPERIOD            20}}
+\DoxyCodeLine{215 }
+\DoxyCodeLine{216 }
+\DoxyCodeLine{217 \textcolor{preprocessor}{\#define DVPLAYBACKVOLUME\_DEFAULT            DSBVOLUME\_MAX}}
+\DoxyCodeLine{218 }
+\DoxyCodeLine{219 \textcolor{preprocessor}{\#define DVRECORDVOLUME\_LAST                 0x00000001}}
+\DoxyCodeLine{220 }
+\DoxyCodeLine{221 }
+\DoxyCodeLine{222 \textcolor{comment}{//}}
+\DoxyCodeLine{223 \textcolor{comment}{// Use the default value}}
+\DoxyCodeLine{224 \textcolor{comment}{//}}
+\DoxyCodeLine{225 \textcolor{preprocessor}{\#define DVTHRESHOLD\_DEFAULT               0xFFFFFFFF}}
+\DoxyCodeLine{226 }
+\DoxyCodeLine{227 \textcolor{comment}{//}}
+\DoxyCodeLine{228 \textcolor{comment}{// Threshold Ranges}}
+\DoxyCodeLine{229 \textcolor{comment}{//}}
+\DoxyCodeLine{230 \textcolor{preprocessor}{\#define DVTHRESHOLD\_MIN                   0x00000000}}
+\DoxyCodeLine{231 \textcolor{preprocessor}{\#define DVTHRESHOLD\_MAX                   0x00000063    }\textcolor{comment}{// 99 decimal}}
+\DoxyCodeLine{232 }
+\DoxyCodeLine{233 \textcolor{comment}{//}}
+\DoxyCodeLine{234 \textcolor{comment}{// Threshold field is not used }}
+\DoxyCodeLine{235 \textcolor{comment}{//}}
+\DoxyCodeLine{236 \textcolor{preprocessor}{\#define DVTHRESHOLD\_UNUSED                0xFFFFFFFE}}
+\DoxyCodeLine{237 }
+\DoxyCodeLine{238 \textcolor{comment}{//}}
+\DoxyCodeLine{239 \textcolor{comment}{// Session Types}}
+\DoxyCodeLine{240 \textcolor{comment}{//}}
+\DoxyCodeLine{241 \textcolor{preprocessor}{\#define DVSESSIONTYPE\_PEER                  0x00000001}}
+\DoxyCodeLine{242 \textcolor{preprocessor}{\#define DVSESSIONTYPE\_MIXING                0x00000002}}
+\DoxyCodeLine{243 \textcolor{preprocessor}{\#define DVSESSIONTYPE\_FORWARDING            0x00000003}}
+\DoxyCodeLine{244 \textcolor{preprocessor}{\#define DVSESSIONTYPE\_ECHO                  0x00000004}}
+\DoxyCodeLine{245 }
+\DoxyCodeLine{246 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{247 \textcolor{comment}{ *}}
+\DoxyCodeLine{248 \textcolor{comment}{ * DirectPlayVoice Flags}}
+\DoxyCodeLine{249 \textcolor{comment}{ *}}
+\DoxyCodeLine{250 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{251 }
+\DoxyCodeLine{252 }
+\DoxyCodeLine{253 \textcolor{comment}{// }}
+\DoxyCodeLine{254 \textcolor{comment}{// Enable automatic adjustment of the recording volume}}
+\DoxyCodeLine{255 \textcolor{comment}{//}}
+\DoxyCodeLine{256 \textcolor{preprocessor}{\#define DVCLIENTCONFIG\_AUTORECORDVOLUME     0x00000008}}
+\DoxyCodeLine{257 }
+\DoxyCodeLine{258 \textcolor{comment}{//}}
+\DoxyCodeLine{259 \textcolor{comment}{// Enable automatic voice activation}}
+\DoxyCodeLine{260 \textcolor{comment}{//}}
+\DoxyCodeLine{261 \textcolor{preprocessor}{\#define DVCLIENTCONFIG\_AUTOVOICEACTIVATED   0x00000020}}
+\DoxyCodeLine{262 }
+\DoxyCodeLine{263 \textcolor{comment}{// }}
+\DoxyCodeLine{264 \textcolor{comment}{// Enable echo suppression}}
+\DoxyCodeLine{265 \textcolor{comment}{//}}
+\DoxyCodeLine{266 \textcolor{preprocessor}{\#define DVCLIENTCONFIG\_ECHOSUPPRESSION      0x08000000}}
+\DoxyCodeLine{267 }
+\DoxyCodeLine{268 \textcolor{comment}{// }}
+\DoxyCodeLine{269 \textcolor{comment}{// Voice Activation manual mode}}
+\DoxyCodeLine{270 \textcolor{comment}{//}}
+\DoxyCodeLine{271 \textcolor{preprocessor}{\#define DVCLIENTCONFIG\_MANUALVOICEACTIVATED 0x00000004}}
+\DoxyCodeLine{272 }
+\DoxyCodeLine{273 \textcolor{comment}{// }}
+\DoxyCodeLine{274 \textcolor{comment}{// Only playback voices that have buffers created for them}}
+\DoxyCodeLine{275 \textcolor{comment}{//}}
+\DoxyCodeLine{276 \textcolor{preprocessor}{\#define DVCLIENTCONFIG\_MUTEGLOBAL           0x00000010}}
+\DoxyCodeLine{277 }
+\DoxyCodeLine{278 \textcolor{comment}{// }}
+\DoxyCodeLine{279 \textcolor{comment}{// Mute the playback}}
+\DoxyCodeLine{280 \textcolor{comment}{//}}
+\DoxyCodeLine{281 \textcolor{preprocessor}{\#define DVCLIENTCONFIG\_PLAYBACKMUTE         0x00000002}}
+\DoxyCodeLine{282 }
+\DoxyCodeLine{283 \textcolor{comment}{//}}
+\DoxyCodeLine{284 \textcolor{comment}{// Mute the recording }}
+\DoxyCodeLine{285 \textcolor{comment}{//}}
+\DoxyCodeLine{286 \textcolor{preprocessor}{\#define DVCLIENTCONFIG\_RECORDMUTE           0x00000001}}
+\DoxyCodeLine{287 }
+\DoxyCodeLine{288 \textcolor{comment}{// }}
+\DoxyCodeLine{289 \textcolor{comment}{// Complete the operation before returning}}
+\DoxyCodeLine{290 \textcolor{comment}{//}}
+\DoxyCodeLine{291 \textcolor{preprocessor}{\#define DVFLAGS\_SYNC                        0x00000001}}
+\DoxyCodeLine{292 }
+\DoxyCodeLine{293 \textcolor{comment}{// }}
+\DoxyCodeLine{294 \textcolor{comment}{// Just check to see if wizard has been run, and if so what it's results were}}
+\DoxyCodeLine{295 \textcolor{comment}{//}}
+\DoxyCodeLine{296 \textcolor{preprocessor}{\#define DVFLAGS\_QUERYONLY                   0x00000002}}
+\DoxyCodeLine{297 }
+\DoxyCodeLine{298 \textcolor{comment}{//}}
+\DoxyCodeLine{299 \textcolor{comment}{// Shutdown the voice session without migrating the host}}
+\DoxyCodeLine{300 \textcolor{comment}{//}}
+\DoxyCodeLine{301 \textcolor{preprocessor}{\#define DVFLAGS\_NOHOSTMIGRATE               0x00000008}}
+\DoxyCodeLine{302 }
+\DoxyCodeLine{303 \textcolor{comment}{// }}
+\DoxyCodeLine{304 \textcolor{comment}{// Allow the back button to be enabled in the wizard}}
+\DoxyCodeLine{305 \textcolor{comment}{//}}
+\DoxyCodeLine{306 \textcolor{preprocessor}{\#define DVFLAGS\_ALLOWBACK                   0x00000010}}
+\DoxyCodeLine{307 }
+\DoxyCodeLine{308 \textcolor{comment}{//}}
+\DoxyCodeLine{309 \textcolor{comment}{// Disable host migration in the voice session}}
+\DoxyCodeLine{310 \textcolor{comment}{//}}
+\DoxyCodeLine{311 \textcolor{preprocessor}{\#define DVSESSION\_NOHOSTMIGRATION           0x00000001}}
+\DoxyCodeLine{312 }
+\DoxyCodeLine{313 \textcolor{comment}{// }}
+\DoxyCodeLine{314 \textcolor{comment}{// Server controlled targetting}}
+\DoxyCodeLine{315 \textcolor{comment}{//}}
+\DoxyCodeLine{316 \textcolor{preprocessor}{\#define DVSESSION\_SERVERCONTROLTARGET       0x00000002}}
+\DoxyCodeLine{317 }
+\DoxyCodeLine{318 \textcolor{comment}{//}}
+\DoxyCodeLine{319 \textcolor{comment}{// Use DirectSound Normal Mode instead of priority }}
+\DoxyCodeLine{320 \textcolor{comment}{//}}
+\DoxyCodeLine{321 \textcolor{preprocessor}{\#define DVSOUNDCONFIG\_NORMALMODE            0x00000001}}
+\DoxyCodeLine{322 }
+\DoxyCodeLine{323 \textcolor{comment}{//}}
+\DoxyCodeLine{324 \textcolor{comment}{// Automatically select the microphone}}
+\DoxyCodeLine{325 \textcolor{comment}{//}}
+\DoxyCodeLine{326 \textcolor{preprocessor}{\#define DVSOUNDCONFIG\_AUTOSELECT            0x00000002}}
+\DoxyCodeLine{327 }
+\DoxyCodeLine{328 \textcolor{comment}{// }}
+\DoxyCodeLine{329 \textcolor{comment}{// Run in half duplex mode}}
+\DoxyCodeLine{330 \textcolor{comment}{//}}
+\DoxyCodeLine{331 \textcolor{preprocessor}{\#define DVSOUNDCONFIG\_HALFDUPLEX            0x00000004}}
+\DoxyCodeLine{332 }
+\DoxyCodeLine{333 \textcolor{comment}{// }}
+\DoxyCodeLine{334 \textcolor{comment}{// No volume controls are available for the recording device}}
+\DoxyCodeLine{335 \textcolor{comment}{//}}
+\DoxyCodeLine{336 \textcolor{preprocessor}{\#define DVSOUNDCONFIG\_NORECVOLAVAILABLE     0x00000010}}
+\DoxyCodeLine{337 }
+\DoxyCodeLine{338 \textcolor{comment}{// }}
+\DoxyCodeLine{339 \textcolor{comment}{// Disable capture sharing}}
+\DoxyCodeLine{340 \textcolor{comment}{//}}
+\DoxyCodeLine{341 \textcolor{preprocessor}{\#define DVSOUNDCONFIG\_NOFOCUS               0x20000000}}
+\DoxyCodeLine{342 }
+\DoxyCodeLine{343 \textcolor{comment}{// }}
+\DoxyCodeLine{344 \textcolor{comment}{// Set system conversion quality to high}}
+\DoxyCodeLine{345 \textcolor{comment}{//}}
+\DoxyCodeLine{346 \textcolor{preprocessor}{\#define DVSOUNDCONFIG\_SETCONVERSIONQUALITY  0x00000008}}
+\DoxyCodeLine{347 }
+\DoxyCodeLine{348 \textcolor{comment}{//}}
+\DoxyCodeLine{349 \textcolor{comment}{// Enable strict focus mode}}
+\DoxyCodeLine{350 \textcolor{comment}{// }}
+\DoxyCodeLine{351 \textcolor{preprocessor}{\#define DVSOUNDCONFIG\_STRICTFOCUS           0x40000000}}
+\DoxyCodeLine{352 }
+\DoxyCodeLine{353 \textcolor{comment}{//}}
+\DoxyCodeLine{354 \textcolor{comment}{// Player is in half duplex mode}}
+\DoxyCodeLine{355 \textcolor{comment}{//}}
+\DoxyCodeLine{356 \textcolor{preprocessor}{\#define DVPLAYERCAPS\_HALFDUPLEX             0x00000001}}
+\DoxyCodeLine{357 }
+\DoxyCodeLine{358 \textcolor{comment}{// }}
+\DoxyCodeLine{359 \textcolor{comment}{// Specifies that player is the local player}}
+\DoxyCodeLine{360 \textcolor{comment}{//}}
+\DoxyCodeLine{361 \textcolor{preprocessor}{\#define DVPLAYERCAPS\_LOCAL                  0x00000002}}
+\DoxyCodeLine{362 }
+\DoxyCodeLine{363 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{364 \textcolor{comment}{ *}}
+\DoxyCodeLine{365 \textcolor{comment}{ * DirectPlayVoice Structures (Non-\/Message)}}
+\DoxyCodeLine{366 \textcolor{comment}{ *}}
+\DoxyCodeLine{367 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{368 }
+\DoxyCodeLine{369 }
+\DoxyCodeLine{370 \textcolor{comment}{//}}
+\DoxyCodeLine{371 \textcolor{comment}{// DirectPlayVoice Caps}}
+\DoxyCodeLine{372 \textcolor{comment}{// (GetCaps / SetCaps)}}
+\DoxyCodeLine{373 \textcolor{comment}{//}}
+\DoxyCodeLine{374 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{375 \{}
+\DoxyCodeLine{376     DWORD   dwSize;                 \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{377     DWORD   dwFlags;                \textcolor{comment}{// Caps flags}}
+\DoxyCodeLine{378 \} \mbox{\hyperlink{struct_d_v_c_a_p_s}{DVCAPS}}, *\mbox{\hyperlink{struct_d_v_c_a_p_s}{LPDVCAPS}}, *\mbox{\hyperlink{struct_d_v_c_a_p_s}{PDVCAPS}};}
+\DoxyCodeLine{379 }
+\DoxyCodeLine{380 \textcolor{comment}{//}}
+\DoxyCodeLine{381 \textcolor{comment}{// DirectPlayVoice Client Configuration}}
+\DoxyCodeLine{382 \textcolor{comment}{// (Connect / GetClientConfig)}}
+\DoxyCodeLine{383 \textcolor{comment}{//}}
+\DoxyCodeLine{384 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{385 \{}
+\DoxyCodeLine{386     DWORD   dwSize;                 \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{387     DWORD   dwFlags;                \textcolor{comment}{// Flags for client config (DVCLIENTCONFIG\_...)}}
+\DoxyCodeLine{388     LONG    lRecordVolume;          \textcolor{comment}{// Recording volume }}
+\DoxyCodeLine{389     LONG    lPlaybackVolume;        \textcolor{comment}{// Playback volume}}
+\DoxyCodeLine{390     DWORD   dwThreshold;          \textcolor{comment}{// Voice Activation Threshold}}
+\DoxyCodeLine{391     DWORD   dwBufferQuality;        \textcolor{comment}{// Buffer quality}}
+\DoxyCodeLine{392     DWORD   dwBufferAggressiveness; \textcolor{comment}{// Buffer aggressiveness}}
+\DoxyCodeLine{393     DWORD   dwNotifyPeriod;         \textcolor{comment}{// Period of notification messages (ms)}}
+\DoxyCodeLine{394 \} \mbox{\hyperlink{struct_d_v_c_l_i_e_n_t_c_o_n_f_i_g}{DVCLIENTCONFIG}}, *\mbox{\hyperlink{struct_d_v_c_l_i_e_n_t_c_o_n_f_i_g}{LPDVCLIENTCONFIG}}, *\mbox{\hyperlink{struct_d_v_c_l_i_e_n_t_c_o_n_f_i_g}{PDVCLIENTCONFIG}};}
+\DoxyCodeLine{395 }
+\DoxyCodeLine{396 \textcolor{comment}{//}}
+\DoxyCodeLine{397 \textcolor{comment}{// DirectPlayVoice Compression Type Information}}
+\DoxyCodeLine{398 \textcolor{comment}{// (GetCompressionTypes)}}
+\DoxyCodeLine{399 \textcolor{comment}{//}}
+\DoxyCodeLine{400 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{401 \{}
+\DoxyCodeLine{402     DWORD   dwSize;                 \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{403     GUID    guidType;               \textcolor{comment}{// GUID that identifies this compression type}}
+\DoxyCodeLine{404     LPWSTR  lpszName;               \textcolor{comment}{// String name of this compression type}}
+\DoxyCodeLine{405     LPWSTR  lpszDescription;        \textcolor{comment}{// Description for this compression type}}
+\DoxyCodeLine{406     DWORD   dwFlags;                \textcolor{comment}{// Flags for this compression type}}
+\DoxyCodeLine{407     DWORD   dwMaxBitsPerSecond;     \textcolor{comment}{// Maximum \# of bit/s this compression type uses}}
+\DoxyCodeLine{408 \} \mbox{\hyperlink{struct_d_v_c_o_m_p_r_e_s_s_i_o_n_i_n_f_o}{DVCOMPRESSIONINFO}}, *\mbox{\hyperlink{struct_d_v_c_o_m_p_r_e_s_s_i_o_n_i_n_f_o}{LPDVCOMPRESSIONINFO}}, *\mbox{\hyperlink{struct_d_v_c_o_m_p_r_e_s_s_i_o_n_i_n_f_o}{PDVCOMPRESSIONINFO}};}
+\DoxyCodeLine{409 }
+\DoxyCodeLine{410 \textcolor{comment}{//}}
+\DoxyCodeLine{411 \textcolor{comment}{// DirectPlayVoice Session Description}}
+\DoxyCodeLine{412 \textcolor{comment}{// (Host / GetSessionDesc)}}
+\DoxyCodeLine{413 \textcolor{comment}{//}}
+\DoxyCodeLine{414 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{415 \{}
+\DoxyCodeLine{416     DWORD   dwSize;                 \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{417     DWORD   dwFlags;                \textcolor{comment}{// Session flags (DVSESSION\_...)}}
+\DoxyCodeLine{418     DWORD   dwSessionType;          \textcolor{comment}{// Session type (DVSESSIONTYPE\_...)}}
+\DoxyCodeLine{419     GUID    guidCT;                 \textcolor{comment}{// Compression Type to use}}
+\DoxyCodeLine{420     DWORD   dwBufferQuality;        \textcolor{comment}{// Buffer quality}}
+\DoxyCodeLine{421     DWORD   dwBufferAggressiveness; \textcolor{comment}{// Buffer aggresiveness}}
+\DoxyCodeLine{422 \} \mbox{\hyperlink{struct_d_v_s_e_s_s_i_o_n_d_e_s_c}{DVSESSIONDESC}}, *\mbox{\hyperlink{struct_d_v_s_e_s_s_i_o_n_d_e_s_c}{LPDVSESSIONDESC}}, *\mbox{\hyperlink{struct_d_v_s_e_s_s_i_o_n_d_e_s_c}{PDVSESSIONDESC}};}
+\DoxyCodeLine{423 }
+\DoxyCodeLine{424 \textcolor{comment}{// }}
+\DoxyCodeLine{425 \textcolor{comment}{// DirectPlayVoice Client Sound Device Configuration}}
+\DoxyCodeLine{426 \textcolor{comment}{// (Connect / GetSoundDeviceConfig)}}
+\DoxyCodeLine{427 \textcolor{comment}{//}}
+\DoxyCodeLine{428 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{429 \{}
+\DoxyCodeLine{430     DWORD                   dwSize;                 \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{431     DWORD                   dwFlags;                \textcolor{comment}{// Flags for sound config (DVSOUNDCONFIG\_...)}}
+\DoxyCodeLine{432     GUID                    guidPlaybackDevice;     \textcolor{comment}{// GUID of the playback device to use}}
+\DoxyCodeLine{433     LPDIRECTSOUND           lpdsPlaybackDevice;     \textcolor{comment}{// DirectSound Object to use (optional)}}
+\DoxyCodeLine{434     GUID                    guidCaptureDevice;      \textcolor{comment}{// GUID of the capture device to use}}
+\DoxyCodeLine{435     LPDIRECTSOUNDCAPTURE    lpdsCaptureDevice;      \textcolor{comment}{// DirectSoundCapture Object to use (optional)}}
+\DoxyCodeLine{436     HWND                    hwndAppWindow;          \textcolor{comment}{// HWND of your application's top-\/level window}}
+\DoxyCodeLine{437     LPDIRECTSOUNDBUFFER     lpdsMainBuffer;         \textcolor{comment}{// DirectSoundBuffer to use for playback (optional)}}
+\DoxyCodeLine{438     DWORD                   dwMainBufferFlags;      \textcolor{comment}{// Flags to pass to Play() on the main buffer}}
+\DoxyCodeLine{439     DWORD                   dwMainBufferPriority;   \textcolor{comment}{// Priority to set when calling Play() on the main buffer}}
+\DoxyCodeLine{440 \} \mbox{\hyperlink{struct_d_v_s_o_u_n_d_d_e_v_i_c_e_c_o_n_f_i_g}{DVSOUNDDEVICECONFIG}}, *\mbox{\hyperlink{struct_d_v_s_o_u_n_d_d_e_v_i_c_e_c_o_n_f_i_g}{LPDVSOUNDDEVICECONFIG}}, *\mbox{\hyperlink{struct_d_v_s_o_u_n_d_d_e_v_i_c_e_c_o_n_f_i_g}{PDVSOUNDDEVICECONFIG}};}
+\DoxyCodeLine{441 }
+\DoxyCodeLine{442 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{443 \textcolor{comment}{ *}}
+\DoxyCodeLine{444 \textcolor{comment}{ * DirectPlayVoice message handler call back structures}}
+\DoxyCodeLine{445 \textcolor{comment}{ *}}
+\DoxyCodeLine{446 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{447 }
+\DoxyCodeLine{448 \textcolor{comment}{//}}
+\DoxyCodeLine{449 \textcolor{comment}{// Result of the Connect() call.  (If it wasn't called Async)}}
+\DoxyCodeLine{450 \textcolor{comment}{// (DVMSGID\_CONNECTRESULT)}}
+\DoxyCodeLine{451 \textcolor{comment}{//}}
+\DoxyCodeLine{452 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{453 \{}
+\DoxyCodeLine{454     DWORD   dwSize;                         \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{455     HRESULT hrResult;                       \textcolor{comment}{// Result of the Connect() call}}
+\DoxyCodeLine{456 \} \mbox{\hyperlink{struct_d_v_m_s_g___c_o_n_n_e_c_t_r_e_s_u_l_t}{DVMSG\_CONNECTRESULT}}, *\mbox{\hyperlink{struct_d_v_m_s_g___c_o_n_n_e_c_t_r_e_s_u_l_t}{LPDVMSG\_CONNECTRESULT}}, *\mbox{\hyperlink{struct_d_v_m_s_g___c_o_n_n_e_c_t_r_e_s_u_l_t}{PDVMSG\_CONNECTRESULT}};}
+\DoxyCodeLine{457 }
+\DoxyCodeLine{458 \textcolor{comment}{//}}
+\DoxyCodeLine{459 \textcolor{comment}{// A new player has entered the voice session}}
+\DoxyCodeLine{460 \textcolor{comment}{// (DVMSGID\_CREATEVOICEPLAYER)}}
+\DoxyCodeLine{461 \textcolor{comment}{// }}
+\DoxyCodeLine{462 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{463 \{}
+\DoxyCodeLine{464     DWORD   dwSize;                         \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{465     DVID    dvidPlayer;                     \textcolor{comment}{// DVID of the player who joined}}
+\DoxyCodeLine{466     DWORD   dwFlags;                        \textcolor{comment}{// Player flags (DVPLAYERCAPS\_...)}}
+\DoxyCodeLine{467     PVOID   pvPlayerContext;                \textcolor{comment}{// Context value for this player (user set)}}
+\DoxyCodeLine{468 \} \mbox{\hyperlink{struct_d_v_m_s_g___c_r_e_a_t_e_v_o_i_c_e_p_l_a_y_e_r}{DVMSG\_CREATEVOICEPLAYER}}, *\mbox{\hyperlink{struct_d_v_m_s_g___c_r_e_a_t_e_v_o_i_c_e_p_l_a_y_e_r}{LPDVMSG\_CREATEVOICEPLAYER}}, *\mbox{\hyperlink{struct_d_v_m_s_g___c_r_e_a_t_e_v_o_i_c_e_p_l_a_y_e_r}{PDVMSG\_CREATEVOICEPLAYER}};}
+\DoxyCodeLine{469 }
+\DoxyCodeLine{470 \textcolor{comment}{//}}
+\DoxyCodeLine{471 \textcolor{comment}{// A player has left the voice session}}
+\DoxyCodeLine{472 \textcolor{comment}{// (DVMSGID\_DELETEVOICEPLAYER)}}
+\DoxyCodeLine{473 \textcolor{comment}{//}}
+\DoxyCodeLine{474 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{475 \{}
+\DoxyCodeLine{476     DWORD   dwSize;                         \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{477     DVID    dvidPlayer;                     \textcolor{comment}{// DVID of the player who left}}
+\DoxyCodeLine{478     PVOID   pvPlayerContext;                \textcolor{comment}{// Context value for the player}}
+\DoxyCodeLine{479 \} \mbox{\hyperlink{struct_d_v_m_s_g___d_e_l_e_t_e_v_o_i_c_e_p_l_a_y_e_r}{DVMSG\_DELETEVOICEPLAYER}}, *\mbox{\hyperlink{struct_d_v_m_s_g___d_e_l_e_t_e_v_o_i_c_e_p_l_a_y_e_r}{LPDVMSG\_DELETEVOICEPLAYER}}, *\mbox{\hyperlink{struct_d_v_m_s_g___d_e_l_e_t_e_v_o_i_c_e_p_l_a_y_e_r}{PDVMSG\_DELETEVOICEPLAYER}};}
+\DoxyCodeLine{480 }
+\DoxyCodeLine{481 \textcolor{comment}{//}}
+\DoxyCodeLine{482 \textcolor{comment}{// Result of the Disconnect() call.  (If it wasn't called Async)}}
+\DoxyCodeLine{483 \textcolor{comment}{// (DVMSGID\_DISCONNECTRESULT)}}
+\DoxyCodeLine{484 \textcolor{comment}{//}}
+\DoxyCodeLine{485 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{486 \{}
+\DoxyCodeLine{487     DWORD   dwSize;                         \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{488     HRESULT hrResult;                       \textcolor{comment}{// Result of the Disconnect() call}}
+\DoxyCodeLine{489 \} \mbox{\hyperlink{struct_d_v_m_s_g___d_i_s_c_o_n_n_e_c_t_r_e_s_u_l_t}{DVMSG\_DISCONNECTRESULT}}, *\mbox{\hyperlink{struct_d_v_m_s_g___d_i_s_c_o_n_n_e_c_t_r_e_s_u_l_t}{LPDVMSG\_DISCONNECTRESULT}}, *\mbox{\hyperlink{struct_d_v_m_s_g___d_i_s_c_o_n_n_e_c_t_r_e_s_u_l_t}{PDVMSG\_DISCONNECTRESULT}};}
+\DoxyCodeLine{490 }
+\DoxyCodeLine{491 \textcolor{comment}{// }}
+\DoxyCodeLine{492 \textcolor{comment}{// The voice session host has migrated.}}
+\DoxyCodeLine{493 \textcolor{comment}{// (DVMSGID\_HOSTMIGRATED) }}
+\DoxyCodeLine{494 \textcolor{comment}{//}}
+\DoxyCodeLine{495 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{496 \{}
+\DoxyCodeLine{497     DWORD                   dwSize;         \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{498     DVID                    dvidNewHostID;  \textcolor{comment}{// DVID of the player who is now the host}}
+\DoxyCodeLine{499     LPDIRECTPLAYVOICESERVER pdvServerInterface;}
+\DoxyCodeLine{500                                             \textcolor{comment}{// Pointer to the new host object (if local player is now host)}}
+\DoxyCodeLine{501 \} \mbox{\hyperlink{struct_d_v_m_s_g___h_o_s_t_m_i_g_r_a_t_e_d}{DVMSG\_HOSTMIGRATED}}, *\mbox{\hyperlink{struct_d_v_m_s_g___h_o_s_t_m_i_g_r_a_t_e_d}{LPDVMSG\_HOSTMIGRATED}}, *\mbox{\hyperlink{struct_d_v_m_s_g___h_o_s_t_m_i_g_r_a_t_e_d}{PDVMSG\_HOSTMIGRATED}};}
+\DoxyCodeLine{502 }
+\DoxyCodeLine{503 \textcolor{comment}{//}}
+\DoxyCodeLine{504 \textcolor{comment}{// The current input level / recording volume on the local machine}}
+\DoxyCodeLine{505 \textcolor{comment}{// (DVMSGID\_INPUTLEVEL)}}
+\DoxyCodeLine{506 \textcolor{comment}{//}}
+\DoxyCodeLine{507 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{508 \{}
+\DoxyCodeLine{509     DWORD   dwSize;                         \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{510     DWORD   dwPeakLevel;                    \textcolor{comment}{// Current peak level of the audio}}
+\DoxyCodeLine{511     LONG    lRecordVolume;                  \textcolor{comment}{// Current recording volume}}
+\DoxyCodeLine{512     PVOID   pvLocalPlayerContext;           \textcolor{comment}{// Context value for the local player}}
+\DoxyCodeLine{513 \} \mbox{\hyperlink{struct_d_v_m_s_g___i_n_p_u_t_l_e_v_e_l}{DVMSG\_INPUTLEVEL}}, *\mbox{\hyperlink{struct_d_v_m_s_g___i_n_p_u_t_l_e_v_e_l}{LPDVMSG\_INPUTLEVEL}}, *\mbox{\hyperlink{struct_d_v_m_s_g___i_n_p_u_t_l_e_v_e_l}{PDVMSG\_INPUTLEVEL}};}
+\DoxyCodeLine{514 }
+\DoxyCodeLine{515 \textcolor{comment}{//}}
+\DoxyCodeLine{516 \textcolor{comment}{// The local client is about to become the new host}}
+\DoxyCodeLine{517 \textcolor{comment}{// (DVMSGID\_LOCALHOSTSETUP)}}
+\DoxyCodeLine{518 \textcolor{comment}{//}}
+\DoxyCodeLine{519 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{520 \{}
+\DoxyCodeLine{521     DWORD               dwSize;             \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{522     PVOID               pvContext;          \textcolor{comment}{// Context value to be passed to Initialize() of new host object}}
+\DoxyCodeLine{523     PDVMESSAGEHANDLER   pMessageHandler;    \textcolor{comment}{// Message handler to be used by new host object}}
+\DoxyCodeLine{524 \} \mbox{\hyperlink{struct_d_v_m_s_g___l_o_c_a_l_h_o_s_t_s_e_t_u_p}{DVMSG\_LOCALHOSTSETUP}}, *\mbox{\hyperlink{struct_d_v_m_s_g___l_o_c_a_l_h_o_s_t_s_e_t_u_p}{LPDVMSG\_LOCALHOSTSETUP}}, *\mbox{\hyperlink{struct_d_v_m_s_g___l_o_c_a_l_h_o_s_t_s_e_t_u_p}{PDVMSG\_LOCALHOSTSETUP}};}
+\DoxyCodeLine{525 }
+\DoxyCodeLine{526 \textcolor{comment}{//}}
+\DoxyCodeLine{527 \textcolor{comment}{// The current output level for the combined output of all incoming streams.}}
+\DoxyCodeLine{528 \textcolor{comment}{// (DVMSGID\_OUTPUTLEVEL)}}
+\DoxyCodeLine{529 \textcolor{comment}{//}}
+\DoxyCodeLine{530 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{531 \{}
+\DoxyCodeLine{532     DWORD   dwSize;                         \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{533     DWORD   dwPeakLevel;                    \textcolor{comment}{// Current peak level of the output}}
+\DoxyCodeLine{534     LONG    lOutputVolume;                  \textcolor{comment}{// Current playback volume}}
+\DoxyCodeLine{535     PVOID   pvLocalPlayerContext;           \textcolor{comment}{// Context value for the local player}}
+\DoxyCodeLine{536 \} \mbox{\hyperlink{struct_d_v_m_s_g___o_u_t_p_u_t_l_e_v_e_l}{DVMSG\_OUTPUTLEVEL}}, *\mbox{\hyperlink{struct_d_v_m_s_g___o_u_t_p_u_t_l_e_v_e_l}{LPDVMSG\_OUTPUTLEVEL}}, *\mbox{\hyperlink{struct_d_v_m_s_g___o_u_t_p_u_t_l_e_v_e_l}{PDVMSG\_OUTPUTLEVEL}};}
+\DoxyCodeLine{537 }
+\DoxyCodeLine{538 \textcolor{comment}{//}}
+\DoxyCodeLine{539 \textcolor{comment}{// The current peak level of an individual player's incoming audio stream as it is}}
+\DoxyCodeLine{540 \textcolor{comment}{// being played back.}}
+\DoxyCodeLine{541 \textcolor{comment}{// (DVMSGID\_PLAYEROUTPUTLEVEL)}}
+\DoxyCodeLine{542 \textcolor{comment}{//}}
+\DoxyCodeLine{543 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{544 \{}
+\DoxyCodeLine{545     DWORD   dwSize;                         \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{546     DVID    dvidSourcePlayerID;                   \textcolor{comment}{// DVID of the player}}
+\DoxyCodeLine{547     DWORD   dwPeakLevel;                    \textcolor{comment}{// Peak level of the player's stream}}
+\DoxyCodeLine{548     PVOID   pvPlayerContext;                \textcolor{comment}{// Context value for the player}}
+\DoxyCodeLine{549 \} \mbox{\hyperlink{struct_d_v_m_s_g___p_l_a_y_e_r_o_u_t_p_u_t_l_e_v_e_l}{DVMSG\_PLAYEROUTPUTLEVEL}}, *\mbox{\hyperlink{struct_d_v_m_s_g___p_l_a_y_e_r_o_u_t_p_u_t_l_e_v_e_l}{LPDVMSG\_PLAYEROUTPUTLEVEL}}, *\mbox{\hyperlink{struct_d_v_m_s_g___p_l_a_y_e_r_o_u_t_p_u_t_l_e_v_e_l}{PDVMSG\_PLAYEROUTPUTLEVEL}};}
+\DoxyCodeLine{550 }
+\DoxyCodeLine{551 \textcolor{comment}{// }}
+\DoxyCodeLine{552 \textcolor{comment}{// An audio stream from the specified player has started playing back on the local client.}}
+\DoxyCodeLine{553 \textcolor{comment}{// (DVMSGID\_PLAYERVOICESTART).}}
+\DoxyCodeLine{554 \textcolor{comment}{//}}
+\DoxyCodeLine{555 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{556 \{}
+\DoxyCodeLine{557     DWORD   dwSize;                         \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{558     DVID    dvidSourcePlayerID;             \textcolor{comment}{// DVID of the Player }}
+\DoxyCodeLine{559     PVOID   pvPlayerContext;                \textcolor{comment}{// Context value for this player}}
+\DoxyCodeLine{560 \} \mbox{\hyperlink{struct_d_v_m_s_g___p_l_a_y_e_r_v_o_i_c_e_s_t_a_r_t}{DVMSG\_PLAYERVOICESTART}}, *\mbox{\hyperlink{struct_d_v_m_s_g___p_l_a_y_e_r_v_o_i_c_e_s_t_a_r_t}{LPDVMSG\_PLAYERVOICESTART}}, *\mbox{\hyperlink{struct_d_v_m_s_g___p_l_a_y_e_r_v_o_i_c_e_s_t_a_r_t}{PDVMSG\_PLAYERVOICESTART}};}
+\DoxyCodeLine{561 }
+\DoxyCodeLine{562 \textcolor{comment}{//}}
+\DoxyCodeLine{563 \textcolor{comment}{// The audio stream from the specified player has stopped playing back on the local client.}}
+\DoxyCodeLine{564 \textcolor{comment}{// (DVMSGID\_PLAYERVOICESTOP)}}
+\DoxyCodeLine{565 \textcolor{comment}{//}}
+\DoxyCodeLine{566 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{567 \{}
+\DoxyCodeLine{568     DWORD   dwSize;                         \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{569     DVID    dvidSourcePlayerID;             \textcolor{comment}{// DVID of the player}}
+\DoxyCodeLine{570     PVOID   pvPlayerContext;                \textcolor{comment}{// Context value for this player}}
+\DoxyCodeLine{571 \} \mbox{\hyperlink{struct_d_v_m_s_g___p_l_a_y_e_r_v_o_i_c_e_s_t_o_p}{DVMSG\_PLAYERVOICESTOP}}, *\mbox{\hyperlink{struct_d_v_m_s_g___p_l_a_y_e_r_v_o_i_c_e_s_t_o_p}{LPDVMSG\_PLAYERVOICESTOP}}, *\mbox{\hyperlink{struct_d_v_m_s_g___p_l_a_y_e_r_v_o_i_c_e_s_t_o_p}{PDVMSG\_PLAYERVOICESTOP}};}
+\DoxyCodeLine{572 }
+\DoxyCodeLine{573 \textcolor{comment}{// }}
+\DoxyCodeLine{574 \textcolor{comment}{// Transmission has started on the local machine}}
+\DoxyCodeLine{575 \textcolor{comment}{// (DVMSGID\_RECORDSTART)}}
+\DoxyCodeLine{576 \textcolor{comment}{//}}
+\DoxyCodeLine{577 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{578 \{}
+\DoxyCodeLine{579     DWORD   dwSize;                         \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{580     DWORD   dwPeakLevel;                    \textcolor{comment}{// Peak level that caused transmission to start}}
+\DoxyCodeLine{581     PVOID   pvLocalPlayerContext;           \textcolor{comment}{// Context value for the local player}}
+\DoxyCodeLine{582 \} \mbox{\hyperlink{struct_d_v_m_s_g___r_e_c_o_r_d_s_t_a_r_t}{DVMSG\_RECORDSTART}}, *\mbox{\hyperlink{struct_d_v_m_s_g___r_e_c_o_r_d_s_t_a_r_t}{LPDVMSG\_RECORDSTART}}, *\mbox{\hyperlink{struct_d_v_m_s_g___r_e_c_o_r_d_s_t_a_r_t}{PDVMSG\_RECORDSTART}};}
+\DoxyCodeLine{583 }
+\DoxyCodeLine{584 \textcolor{comment}{// }}
+\DoxyCodeLine{585 \textcolor{comment}{// Transmission has stopped on the local machine}}
+\DoxyCodeLine{586 \textcolor{comment}{// (DVMSGID\_RECORDSTOP)}}
+\DoxyCodeLine{587 \textcolor{comment}{// }}
+\DoxyCodeLine{588 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{589 \{}
+\DoxyCodeLine{590     DWORD   dwSize;                         \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{591     DWORD   dwPeakLevel;                    \textcolor{comment}{// Peak level that caused transmission to stop}}
+\DoxyCodeLine{592     PVOID   pvLocalPlayerContext;           \textcolor{comment}{// Context value for the local player}}
+\DoxyCodeLine{593 \} \mbox{\hyperlink{struct_d_v_m_s_g___r_e_c_o_r_d_s_t_o_p}{DVMSG\_RECORDSTOP}}, *\mbox{\hyperlink{struct_d_v_m_s_g___r_e_c_o_r_d_s_t_o_p}{LPDVMSG\_RECORDSTOP}}, *\mbox{\hyperlink{struct_d_v_m_s_g___r_e_c_o_r_d_s_t_o_p}{PDVMSG\_RECORDSTOP}};}
+\DoxyCodeLine{594 }
+\DoxyCodeLine{595 \textcolor{comment}{// }}
+\DoxyCodeLine{596 \textcolor{comment}{// The voice session has been lost}}
+\DoxyCodeLine{597 \textcolor{comment}{// (DVMSGID\_SESSIONLOST)}}
+\DoxyCodeLine{598 \textcolor{comment}{//}}
+\DoxyCodeLine{599 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{600 \{}
+\DoxyCodeLine{601     DWORD   dwSize;                         \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{602     HRESULT hrResult;                       \textcolor{comment}{// Reason the session was disconnected}}
+\DoxyCodeLine{603 \} \mbox{\hyperlink{struct_d_v_m_s_g___s_e_s_s_i_o_n_l_o_s_t}{DVMSG\_SESSIONLOST}}, *\mbox{\hyperlink{struct_d_v_m_s_g___s_e_s_s_i_o_n_l_o_s_t}{LPDVMSG\_SESSIONLOST}}, *\mbox{\hyperlink{struct_d_v_m_s_g___s_e_s_s_i_o_n_l_o_s_t}{PDVMSG\_SESSIONLOST}};}
+\DoxyCodeLine{604 }
+\DoxyCodeLine{605 \textcolor{comment}{//}}
+\DoxyCodeLine{606 \textcolor{comment}{// The target list has been updated for the local client}}
+\DoxyCodeLine{607 \textcolor{comment}{// (DVMSGID\_SETTARGETS)}}
+\DoxyCodeLine{608 \textcolor{comment}{//}}
+\DoxyCodeLine{609 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{610 \{}
+\DoxyCodeLine{611     DWORD   dwSize;                         \textcolor{comment}{// Size of this structure}}
+\DoxyCodeLine{612     DWORD   dwNumTargets;                   \textcolor{comment}{// \# of targets }}
+\DoxyCodeLine{613     PDVID   pdvidTargets;                   \textcolor{comment}{// An array of DVIDs specifying the current targets}}
+\DoxyCodeLine{614 \} \mbox{\hyperlink{struct_d_v_m_s_g___s_e_t_t_a_r_g_e_t_s}{DVMSG\_SETTARGETS}}, *\mbox{\hyperlink{struct_d_v_m_s_g___s_e_t_t_a_r_g_e_t_s}{LPDVMSG\_SETTARGETS}}, *\mbox{\hyperlink{struct_d_v_m_s_g___s_e_t_t_a_r_g_e_t_s}{PDVMSG\_SETTARGETS}};}
+\DoxyCodeLine{615 }
+\DoxyCodeLine{616 }
+\DoxyCodeLine{617 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{618 \textcolor{comment}{ *}}
+\DoxyCodeLine{619 \textcolor{comment}{ * DirectPlayVoice Functions}}
+\DoxyCodeLine{620 \textcolor{comment}{ *}}
+\DoxyCodeLine{621 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{622 }
+\DoxyCodeLine{623 \textcolor{comment}{/*}}
+\DoxyCodeLine{624 \textcolor{comment}{ * }}
+\DoxyCodeLine{625 \textcolor{comment}{ * This function is no longer supported.  It is recommended that CoCreateInstance be used to create }}
+\DoxyCodeLine{626 \textcolor{comment}{ * DirectPlay voice objects.  }}
+\DoxyCodeLine{627 \textcolor{comment}{ *}}
+\DoxyCodeLine{628 \textcolor{comment}{ * extern HRESULT WINAPI DirectPlayVoiceCreate( const GUID * pcIID, void **ppvInterface, IUnknown *pUnknown); }}
+\DoxyCodeLine{629 \textcolor{comment}{ *}}
+\DoxyCodeLine{630 \textcolor{comment}{ */}}
+\DoxyCodeLine{631 }
+\DoxyCodeLine{632 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{633 \textcolor{comment}{ *}}
+\DoxyCodeLine{634 \textcolor{comment}{ * DirectPlay8 Application Interfaces}}
+\DoxyCodeLine{635 \textcolor{comment}{ *}}
+\DoxyCodeLine{636 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{637 }
+\DoxyCodeLine{638 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{639 \textcolor{preprocessor}{\#define INTERFACE IDirectPlayVoiceClient}}
+\DoxyCodeLine{640 DECLARE\_INTERFACE\_( IDirectPlayVoiceClient, IUnknown )}
+\DoxyCodeLine{641 \{}
+\DoxyCodeLine{642 \textcolor{comment}{    /*** IUnknown methods ***/}}
+\DoxyCodeLine{643     STDMETHOD(QueryInterface)(THIS\_ REFIID riid, PVOID *ppvObj) PURE;}
+\DoxyCodeLine{644     STDMETHOD\_(ULONG,AddRef)(THIS) PURE;}
+\DoxyCodeLine{645     STDMETHOD\_(ULONG,Release)(THIS) PURE;}
+\DoxyCodeLine{646 \textcolor{comment}{    /*** IDirectPlayVoiceClient methods ***/}}
+\DoxyCodeLine{647     STDMETHOD\_(HRESULT, Initialize)   (THIS\_ LPUNKNOWN, PDVMESSAGEHANDLER, PVOID, PDWORD, DWORD ) PURE;}
+\DoxyCodeLine{648     STDMETHOD\_(HRESULT, Connect)      (THIS\_ \mbox{\hyperlink{struct_d_v_s_o_u_n_d_d_e_v_i_c_e_c_o_n_f_i_g}{PDVSOUNDDEVICECONFIG}}, \mbox{\hyperlink{struct_d_v_c_l_i_e_n_t_c_o_n_f_i_g}{PDVCLIENTCONFIG}}, DWORD ) PURE;}
+\DoxyCodeLine{649     STDMETHOD\_(HRESULT, Disconnect)   (THIS\_ DWORD ) PURE;}
+\DoxyCodeLine{650     STDMETHOD\_(HRESULT, GetSessionDesc)(THIS\_ \mbox{\hyperlink{struct_d_v_s_e_s_s_i_o_n_d_e_s_c}{PDVSESSIONDESC}} ) PURE;}
+\DoxyCodeLine{651     STDMETHOD\_(HRESULT, GetClientConfig)(THIS\_ \mbox{\hyperlink{struct_d_v_c_l_i_e_n_t_c_o_n_f_i_g}{PDVCLIENTCONFIG}} ) PURE;}
+\DoxyCodeLine{652     STDMETHOD\_(HRESULT, SetClientConfig)(THIS\_ \mbox{\hyperlink{struct_d_v_c_l_i_e_n_t_c_o_n_f_i_g}{PDVCLIENTCONFIG}} ) PURE;}
+\DoxyCodeLine{653     STDMETHOD\_(HRESULT, GetCaps)        (THIS\_ \mbox{\hyperlink{struct_d_v_c_a_p_s}{PDVCAPS}} ) PURE;}
+\DoxyCodeLine{654     STDMETHOD\_(HRESULT, GetCompressionTypes)( THIS\_ PVOID, PDWORD, PDWORD, DWORD ) PURE;}
+\DoxyCodeLine{655     STDMETHOD\_(HRESULT, SetTransmitTargets)( THIS\_ PDVID, DWORD, DWORD ) PURE;}
+\DoxyCodeLine{656     STDMETHOD\_(HRESULT, GetTransmitTargets)( THIS\_ PDVID, PDWORD, DWORD ) PURE;}
+\DoxyCodeLine{657     STDMETHOD\_(HRESULT, Create3DSoundBuffer)( THIS\_ DVID, LPDIRECTSOUNDBUFFER, DWORD, DWORD, LPDIRECTSOUND3DBUFFER * ) PURE;}
+\DoxyCodeLine{658     STDMETHOD\_(HRESULT, Delete3DSoundBuffer)( THIS\_ DVID, LPDIRECTSOUND3DBUFFER * ) PURE;}
+\DoxyCodeLine{659     STDMETHOD\_(HRESULT, SetNotifyMask)( THIS\_ PDWORD, DWORD ) PURE;}
+\DoxyCodeLine{660     STDMETHOD\_(HRESULT, GetSoundDeviceConfig)( THIS\_ \mbox{\hyperlink{struct_d_v_s_o_u_n_d_d_e_v_i_c_e_c_o_n_f_i_g}{PDVSOUNDDEVICECONFIG}}, PDWORD ) PURE;}
+\DoxyCodeLine{661 \};}
+\DoxyCodeLine{662 }
+\DoxyCodeLine{663 }
+\DoxyCodeLine{664 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{665 \textcolor{preprocessor}{\#define INTERFACE IDirectPlayVoiceServer}}
+\DoxyCodeLine{666 DECLARE\_INTERFACE\_( IDirectPlayVoiceServer, IUnknown )}
+\DoxyCodeLine{667 \{}
+\DoxyCodeLine{668 \textcolor{comment}{    /*** IUnknown methods ***/}}
+\DoxyCodeLine{669     STDMETHOD(QueryInterface)       (THIS\_ REFIID riid, LPVOID * ppvObj) PURE;}
+\DoxyCodeLine{670     STDMETHOD\_(ULONG,AddRef)        (THIS) PURE;}
+\DoxyCodeLine{671     STDMETHOD\_(ULONG,Release)       (THIS) PURE;}
+\DoxyCodeLine{672 \textcolor{comment}{    /*** IDirectPlayVoiceServer methods ***/}}
+\DoxyCodeLine{673     STDMETHOD\_(HRESULT, Initialize)   (THIS\_ LPUNKNOWN, PDVMESSAGEHANDLER, PVOID, LPDWORD, DWORD ) PURE;}
+\DoxyCodeLine{674     STDMETHOD\_(HRESULT, StartSession)  (THIS\_ \mbox{\hyperlink{struct_d_v_s_e_s_s_i_o_n_d_e_s_c}{PDVSESSIONDESC}}, DWORD ) PURE;}
+\DoxyCodeLine{675     STDMETHOD\_(HRESULT, StopSession)   (THIS\_ DWORD ) PURE;}
+\DoxyCodeLine{676     STDMETHOD\_(HRESULT, GetSessionDesc)(THIS\_ \mbox{\hyperlink{struct_d_v_s_e_s_s_i_o_n_d_e_s_c}{PDVSESSIONDESC}} ) PURE;}
+\DoxyCodeLine{677     STDMETHOD\_(HRESULT, SetSessionDesc)(THIS\_ \mbox{\hyperlink{struct_d_v_s_e_s_s_i_o_n_d_e_s_c}{PDVSESSIONDESC}} ) PURE;}
+\DoxyCodeLine{678     STDMETHOD\_(HRESULT, GetCaps)        (THIS\_ \mbox{\hyperlink{struct_d_v_c_a_p_s}{PDVCAPS}} ) PURE;}
+\DoxyCodeLine{679     STDMETHOD\_(HRESULT, GetCompressionTypes)( THIS\_ PVOID, PDWORD, PDWORD, DWORD ) PURE;}
+\DoxyCodeLine{680     STDMETHOD\_(HRESULT, SetTransmitTargets)( THIS\_ DVID, PDVID, DWORD, DWORD ) PURE;}
+\DoxyCodeLine{681     STDMETHOD\_(HRESULT, GetTransmitTargets)( THIS\_ DVID, PDVID, PDWORD, DWORD ) PURE;}
+\DoxyCodeLine{682     STDMETHOD\_(HRESULT, SetNotifyMask)( THIS\_ PDWORD, DWORD ) PURE;}
+\DoxyCodeLine{683 \};}
+\DoxyCodeLine{684 }
+\DoxyCodeLine{685 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{686 \textcolor{preprocessor}{\#define INTERFACE IDirectPlayVoiceTest}}
+\DoxyCodeLine{687 DECLARE\_INTERFACE\_( IDirectPlayVoiceTest, IUnknown )}
+\DoxyCodeLine{688 \{}
+\DoxyCodeLine{689 \textcolor{comment}{    /*** IUnknown methods ***/}}
+\DoxyCodeLine{690     STDMETHOD(QueryInterface)       (THIS\_ REFIID riid, PVOID * ppvObj) PURE;}
+\DoxyCodeLine{691     STDMETHOD\_(ULONG,AddRef)        (THIS) PURE;}
+\DoxyCodeLine{692     STDMETHOD\_(ULONG,Release)       (THIS) PURE;}
+\DoxyCodeLine{693 \textcolor{comment}{    /*** IDirectPlayVoiceTest methods ***/}}
+\DoxyCodeLine{694     STDMETHOD\_(HRESULT, CheckAudioSetup) (THIS\_ \textcolor{keyword}{const} GUID *,  \textcolor{keyword}{const} GUID * , HWND, DWORD ) PURE;}
+\DoxyCodeLine{695 \};}
+\DoxyCodeLine{696 }
+\DoxyCodeLine{697 \textcolor{preprocessor}{\#if !defined(\_\_cplusplus) || defined(CINTERFACE)}}
+\DoxyCodeLine{698 }
+\DoxyCodeLine{699 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_QueryInterface(p,a,b)        (p)-\/>lpVtbl-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{700 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_AddRef(p)                    (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{701 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_Release(p)                   (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{702 }
+\DoxyCodeLine{703 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_Initialize(p,a,b,c,d,e)      (p)-\/>lpVtbl-\/>Initialize(p,a,b,c,d,e)}}
+\DoxyCodeLine{704 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_Connect(p,a,b,c)             (p)-\/>lpVtbl-\/>Connect(p,a,b,c)}}
+\DoxyCodeLine{705 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_Disconnect(p,a)              (p)-\/>lpVtbl-\/>Disconnect(p,a)}}
+\DoxyCodeLine{706 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_GetSessionDesc(p,a)          (p)-\/>lpVtbl-\/>GetSessionDesc(p,a)}}
+\DoxyCodeLine{707 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_GetClientConfig(p,a)         (p)-\/>lpVtbl-\/>GetClientConfig(p,a)}}
+\DoxyCodeLine{708 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_SetClientConfig(p,a)         (p)-\/>lpVtbl-\/>SetClientConfig(p,a)}}
+\DoxyCodeLine{709 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_GetCaps(p,a)                 (p)-\/>lpVtbl-\/>GetCaps(p,a)}}
+\DoxyCodeLine{710 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_GetCompressionTypes(p,a,b,c,d) (p)-\/>lpVtbl-\/>GetCompressionTypes(p,a,b,c,d)}}
+\DoxyCodeLine{711 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_SetTransmitTargets(p,a,b,c)  (p)-\/>lpVtbl-\/>SetTransmitTargets(p,a,b,c)}}
+\DoxyCodeLine{712 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_GetTransmitTargets(p,a,b,c)  (p)-\/>lpVtbl-\/>GetTransmitTargets(p,a,b,c)}}
+\DoxyCodeLine{713 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_Create3DSoundBuffer(p,a,b,c,d,e)   (p)-\/>lpVtbl-\/>Create3DSoundBuffer(p,a,b,c,d,e)}}
+\DoxyCodeLine{714 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_Delete3DSoundBuffer(p,a,b)   (p)-\/>lpVtbl-\/>Delete3DSoundBuffer(p,a,b)}}
+\DoxyCodeLine{715 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_SetNotifyMask(p,a,b)         (p)-\/>lpVtbl-\/>SetNotifyMask(p,a,b)}}
+\DoxyCodeLine{716 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_GetSoundDeviceConfig(p,a,b)  (p)-\/>lpVtbl-\/>GetSoundDeviceConfig(p,a,b)}}
+\DoxyCodeLine{717 }
+\DoxyCodeLine{718 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_QueryInterface(p,a,b)        (p)-\/>lpVtbl-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{719 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_AddRef(p)                    (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{720 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_Release(p)                   (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{721 }
+\DoxyCodeLine{722 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_Initialize(p,a,b,c,d,e)      (p)-\/>lpVtbl-\/>Initialize(p,a,b,c,d,e)}}
+\DoxyCodeLine{723 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_StartSession(p,a,b)          (p)-\/>lpVtbl-\/>StartSession(p,a,b)}}
+\DoxyCodeLine{724 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_StopSession(p,a)             (p)-\/>lpVtbl-\/>StopSession(p,a)}}
+\DoxyCodeLine{725 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_GetSessionDesc(p,a)          (p)-\/>lpVtbl-\/>GetSessionDesc(p,a)}}
+\DoxyCodeLine{726 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_SetSessionDesc(p,a)          (p)-\/>lpVtbl-\/>SetSessionDesc(p,a)}}
+\DoxyCodeLine{727 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_GetCaps(p,a)                 (p)-\/>lpVtbl-\/>GetCaps(p,a)}}
+\DoxyCodeLine{728 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_GetCompressionTypes(p,a,b,c,d) (p)-\/>lpVtbl-\/>GetCompressionTypes(p,a,b,c,d)}}
+\DoxyCodeLine{729 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_SetTransmitTargets(p,a,b,c,d)    (p)-\/>lpVtbl-\/>SetTransmitTargets(p,a,b,c,d)}}
+\DoxyCodeLine{730 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_GetTransmitTargets(p,a,b,c,d)    (p)-\/>lpVtbl-\/>GetTransmitTargets(p,a,b,c,d)}}
+\DoxyCodeLine{731 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_SetNotifyMask(p,a,b)         (p)-\/>lpVtbl-\/>SetNotifyMask(p,a,b)}}
+\DoxyCodeLine{732 \textcolor{preprocessor}{\#define IDirectPlayVoiceTest\_QueryInterface(p,a,b)          (p)-\/>lpVtbl-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{733 \textcolor{preprocessor}{\#define IDirectPlayVoiceTest\_AddRef(p)                      (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{734 \textcolor{preprocessor}{\#define IDirectPlayVoiceTest\_Release(p)                     (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{735 \textcolor{preprocessor}{\#define IDirectPlayVoiceTest\_CheckAudioSetup(p,a,b,c,d)     (p)-\/>lpVtbl-\/>CheckAudioSetup(p,a,b,c,d)}}
+\DoxyCodeLine{736 }
+\DoxyCodeLine{737 }
+\DoxyCodeLine{738 \textcolor{preprocessor}{\#else }\textcolor{comment}{/* C++ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{739 }
+\DoxyCodeLine{740 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_QueryInterface(p,a,b)        (p)-\/>QueryInterface(a,b)}}
+\DoxyCodeLine{741 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_AddRef(p)                    (p)-\/>AddRef()}}
+\DoxyCodeLine{742 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_Release(p)                   (p)-\/>Release()}}
+\DoxyCodeLine{743 }
+\DoxyCodeLine{744 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_Initialize(p,a,b,c,d,e)      (p)-\/>Initialize(a,b,c,d,e)}}
+\DoxyCodeLine{745 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_Connect(p,a,b,c)             (p)-\/>Connect(a,b,c)}}
+\DoxyCodeLine{746 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_Disconnect(p,a)              (p)-\/>Disconnect(a)}}
+\DoxyCodeLine{747 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_GetSessionDesc(p,a)          (p)-\/>GetSessionDesc(a)}}
+\DoxyCodeLine{748 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_GetClientConfig(p,a)         (p)-\/>GetClientConfig(a)}}
+\DoxyCodeLine{749 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_SetClientConfig(p,a)         (p)-\/>SetClientConfig(a)}}
+\DoxyCodeLine{750 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_GetCaps(p,a)                 (p)-\/>GetCaps(a)}}
+\DoxyCodeLine{751 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_GetCompressionTypes(p,a,b,c,d) (p)-\/>GetCompressionTypes(a,b,c,d)}}
+\DoxyCodeLine{752 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_SetTransmitTargets(p,a,b,c)  (p)-\/>SetTransmitTargets(a,b,c)}}
+\DoxyCodeLine{753 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_GetTransmitTargets(p,a,b,c)  (p)-\/>GetTransmitTargets(a,b,c)}}
+\DoxyCodeLine{754 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_Create3DSoundBuffer(p,a,b,c,d,e)   (p)-\/>Create3DSoundBuffer(a,b,c,d,e)}}
+\DoxyCodeLine{755 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_Delete3DSoundBuffer(p,a,b)   (p)-\/>Delete3DSoundBuffer(a,b)}}
+\DoxyCodeLine{756 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_SetNotifyMask(p,a,b)         (p)-\/>SetNotifyMask(a,b)}}
+\DoxyCodeLine{757 \textcolor{preprocessor}{\#define IDirectPlayVoiceClient\_GetSoundDeviceConfig(p,a,b)    (p)-\/>GetSoundDeviceConfig(a,b)}}
+\DoxyCodeLine{758 }
+\DoxyCodeLine{759 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_QueryInterface(p,a,b)        (p)-\/>QueryInterface(a,b)}}
+\DoxyCodeLine{760 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_AddRef(p)                    (p)-\/>AddRef()}}
+\DoxyCodeLine{761 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_Release(p)                   (p)-\/>Release()}}
+\DoxyCodeLine{762 }
+\DoxyCodeLine{763 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_Initialize(p,a,b,c,d,e)      (p)-\/>Initialize(a,b,c,d,e)}}
+\DoxyCodeLine{764 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_StartSession(p,a,b)          (p)-\/>StartSession(a,b)}}
+\DoxyCodeLine{765 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_StopSession(p,a)             (p)-\/>StopSession(a)}}
+\DoxyCodeLine{766 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_GetSessionDesc(p,a)            (p)-\/>GetSessionDesc(a)}}
+\DoxyCodeLine{767 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_SetSessionDesc(p,a)            (p)-\/>SetSessionDesc(a)}}
+\DoxyCodeLine{768 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_GetCaps(p,a)                 (p)-\/>GetCaps(a)}}
+\DoxyCodeLine{769 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_GetCompressionTypes(p,a,b,c,d) (p)-\/>GetCompressionTypes(a,b,c,d)}}
+\DoxyCodeLine{770 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_SetTransmitTargets(p,a,b,c,d) (p)-\/>SetTransmitTargets(a,b,c,d)}}
+\DoxyCodeLine{771 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_GetTransmitTargets(p,a,b,c,d) (p)-\/>GetTransmitTargets(a,b,c,d)}}
+\DoxyCodeLine{772 \textcolor{preprocessor}{\#define IDirectPlayVoiceServer\_SetNotifyMask(p,a,b)         (p)-\/>SetNotifyMask(a,b)}}
+\DoxyCodeLine{773 }
+\DoxyCodeLine{774 \textcolor{preprocessor}{\#define IDirectPlayVoiceTest\_QueryInterface(p,a,b)          (p)-\/>QueryInterface(a,b)}}
+\DoxyCodeLine{775 \textcolor{preprocessor}{\#define IDirectPlayVoiceTest\_AddRef(p)                      (p)-\/>AddRef()}}
+\DoxyCodeLine{776 \textcolor{preprocessor}{\#define IDirectPlayVoiceTest\_Release(p)                     (p)-\/>Release()}}
+\DoxyCodeLine{777 \textcolor{preprocessor}{\#define IDirectPlayVoiceTest\_CheckAudioSetup(p,a,b,c,d)     (p)-\/>CheckAudioSetup(a,b,c,d)}}
+\DoxyCodeLine{778 }
+\DoxyCodeLine{779 }
+\DoxyCodeLine{780 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{781 }
+\DoxyCodeLine{782 }
+\DoxyCodeLine{783 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{784 \textcolor{comment}{ *}}
+\DoxyCodeLine{785 \textcolor{comment}{ * DIRECTPLAYVOICE ERRORS}}
+\DoxyCodeLine{786 \textcolor{comment}{ *}}
+\DoxyCodeLine{787 \textcolor{comment}{ * Errors are represented by negative values and cannot be combined.}}
+\DoxyCodeLine{788 \textcolor{comment}{ *}}
+\DoxyCodeLine{789 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{790 }
+\DoxyCodeLine{791 \textcolor{preprocessor}{\#define \_FACDPV  0x15}}
+\DoxyCodeLine{792 \textcolor{preprocessor}{\#define MAKE\_DVHRESULT( code )          MAKE\_HRESULT( 1, \_FACDPV, code )}}
+\DoxyCodeLine{793 }
+\DoxyCodeLine{794 \textcolor{preprocessor}{\#define DV\_OK                           S\_OK}}
+\DoxyCodeLine{795 \textcolor{preprocessor}{\#define DV\_FULLDUPLEX                   MAKE\_HRESULT( 0, \_FACDPV,  0x0005 )}}
+\DoxyCodeLine{796 \textcolor{preprocessor}{\#define DV\_HALFDUPLEX                   MAKE\_HRESULT( 0, \_FACDPV,  0x000A )}}
+\DoxyCodeLine{797 \textcolor{preprocessor}{\#define DV\_PENDING                      MAKE\_HRESULT( 0, \_FACDPV,  0x0010 )}}
+\DoxyCodeLine{798 }
+\DoxyCodeLine{799 \textcolor{preprocessor}{\#define DVERR\_BUFFERTOOSMALL            MAKE\_DVHRESULT(  0x001E )}}
+\DoxyCodeLine{800 \textcolor{preprocessor}{\#define DVERR\_EXCEPTION                 MAKE\_DVHRESULT(  0x004A )}}
+\DoxyCodeLine{801 \textcolor{preprocessor}{\#define DVERR\_GENERIC                   E\_FAIL}}
+\DoxyCodeLine{802 \textcolor{preprocessor}{\#define DVERR\_INVALIDFLAGS              MAKE\_DVHRESULT( 0x0078 )}}
+\DoxyCodeLine{803 \textcolor{preprocessor}{\#define DVERR\_INVALIDOBJECT             MAKE\_DVHRESULT( 0x0082 )}}
+\DoxyCodeLine{804 \textcolor{preprocessor}{\#define DVERR\_INVALIDPARAM              E\_INVALIDARG}}
+\DoxyCodeLine{805 \textcolor{preprocessor}{\#define DVERR\_INVALIDPLAYER             MAKE\_DVHRESULT( 0x0087 )}}
+\DoxyCodeLine{806 \textcolor{preprocessor}{\#define DVERR\_INVALIDGROUP              MAKE\_DVHRESULT( 0x0091 )}}
+\DoxyCodeLine{807 \textcolor{preprocessor}{\#define DVERR\_INVALIDHANDLE             MAKE\_DVHRESULT( 0x0096 )}}
+\DoxyCodeLine{808 \textcolor{preprocessor}{\#define DVERR\_OUTOFMEMORY               E\_OUTOFMEMORY}}
+\DoxyCodeLine{809 \textcolor{preprocessor}{\#define DVERR\_PENDING                   DV\_PENDING}}
+\DoxyCodeLine{810 \textcolor{preprocessor}{\#define DVERR\_NOTSUPPORTED              E\_NOTIMPL}}
+\DoxyCodeLine{811 \textcolor{preprocessor}{\#define DVERR\_NOINTERFACE               E\_NOINTERFACE}}
+\DoxyCodeLine{812 \textcolor{preprocessor}{\#define DVERR\_SESSIONLOST               MAKE\_DVHRESULT( 0x012C )}}
+\DoxyCodeLine{813 \textcolor{preprocessor}{\#define DVERR\_NOVOICESESSION            MAKE\_DVHRESULT( 0x012E )}}
+\DoxyCodeLine{814 \textcolor{preprocessor}{\#define DVERR\_CONNECTIONLOST            MAKE\_DVHRESULT( 0x0168 )}}
+\DoxyCodeLine{815 \textcolor{preprocessor}{\#define DVERR\_NOTINITIALIZED            MAKE\_DVHRESULT( 0x0169 )}}
+\DoxyCodeLine{816 \textcolor{preprocessor}{\#define DVERR\_CONNECTED                 MAKE\_DVHRESULT( 0x016A )}}
+\DoxyCodeLine{817 \textcolor{preprocessor}{\#define DVERR\_NOTCONNECTED              MAKE\_DVHRESULT( 0x016B )}}
+\DoxyCodeLine{818 \textcolor{preprocessor}{\#define DVERR\_CONNECTABORTING           MAKE\_DVHRESULT( 0x016E )}}
+\DoxyCodeLine{819 \textcolor{preprocessor}{\#define DVERR\_NOTALLOWED                MAKE\_DVHRESULT( 0x016F )}}
+\DoxyCodeLine{820 \textcolor{preprocessor}{\#define DVERR\_INVALIDTARGET             MAKE\_DVHRESULT( 0x0170 )}}
+\DoxyCodeLine{821 \textcolor{preprocessor}{\#define DVERR\_TRANSPORTNOTHOST          MAKE\_DVHRESULT( 0x0171 )}}
+\DoxyCodeLine{822 \textcolor{preprocessor}{\#define DVERR\_COMPRESSIONNOTSUPPORTED   MAKE\_DVHRESULT( 0x0172 )}}
+\DoxyCodeLine{823 \textcolor{preprocessor}{\#define DVERR\_ALREADYPENDING            MAKE\_DVHRESULT( 0x0173 )}}
+\DoxyCodeLine{824 \textcolor{preprocessor}{\#define DVERR\_SOUNDINITFAILURE          MAKE\_DVHRESULT( 0x0174 )}}
+\DoxyCodeLine{825 \textcolor{preprocessor}{\#define DVERR\_TIMEOUT                   MAKE\_DVHRESULT( 0x0175 )}}
+\DoxyCodeLine{826 \textcolor{preprocessor}{\#define DVERR\_CONNECTABORTED            MAKE\_DVHRESULT( 0x0176 )}}
+\DoxyCodeLine{827 \textcolor{preprocessor}{\#define DVERR\_NO3DSOUND                 MAKE\_DVHRESULT( 0x0177 )}}
+\DoxyCodeLine{828 \textcolor{preprocessor}{\#define DVERR\_ALREADYBUFFERED           MAKE\_DVHRESULT( 0x0178 )}}
+\DoxyCodeLine{829 \textcolor{preprocessor}{\#define DVERR\_NOTBUFFERED               MAKE\_DVHRESULT( 0x0179 )}}
+\DoxyCodeLine{830 \textcolor{preprocessor}{\#define DVERR\_HOSTING                   MAKE\_DVHRESULT( 0x017A )}}
+\DoxyCodeLine{831 \textcolor{preprocessor}{\#define DVERR\_NOTHOSTING                MAKE\_DVHRESULT( 0x017B )}}
+\DoxyCodeLine{832 \textcolor{preprocessor}{\#define DVERR\_INVALIDDEVICE             MAKE\_DVHRESULT( 0x017C )}}
+\DoxyCodeLine{833 \textcolor{preprocessor}{\#define DVERR\_RECORDSYSTEMERROR         MAKE\_DVHRESULT( 0x017D )}}
+\DoxyCodeLine{834 \textcolor{preprocessor}{\#define DVERR\_PLAYBACKSYSTEMERROR       MAKE\_DVHRESULT( 0x017E )}}
+\DoxyCodeLine{835 \textcolor{preprocessor}{\#define DVERR\_SENDERROR                 MAKE\_DVHRESULT( 0x017F )}}
+\DoxyCodeLine{836 \textcolor{preprocessor}{\#define DVERR\_USERCANCEL                MAKE\_DVHRESULT( 0x0180 )}}
+\DoxyCodeLine{837 \textcolor{preprocessor}{\#define DVERR\_RUNSETUP                  MAKE\_DVHRESULT( 0x0183 )}}
+\DoxyCodeLine{838 \textcolor{preprocessor}{\#define DVERR\_INCOMPATIBLEVERSION       MAKE\_DVHRESULT( 0x0184 )}}
+\DoxyCodeLine{839 \textcolor{preprocessor}{\#define DVERR\_INITIALIZED               MAKE\_DVHRESULT( 0x0187 )}}
+\DoxyCodeLine{840 \textcolor{preprocessor}{\#define DVERR\_INVALIDPOINTER            E\_POINTER}}
+\DoxyCodeLine{841 \textcolor{preprocessor}{\#define DVERR\_NOTRANSPORT               MAKE\_DVHRESULT( 0x0188 )}}
+\DoxyCodeLine{842 \textcolor{preprocessor}{\#define DVERR\_NOCALLBACK                MAKE\_DVHRESULT( 0x0189 )}}
+\DoxyCodeLine{843 \textcolor{preprocessor}{\#define DVERR\_TRANSPORTNOTINIT          MAKE\_DVHRESULT( 0x018A )}}
+\DoxyCodeLine{844 \textcolor{preprocessor}{\#define DVERR\_TRANSPORTNOSESSION        MAKE\_DVHRESULT( 0x018B )}}
+\DoxyCodeLine{845 \textcolor{preprocessor}{\#define DVERR\_TRANSPORTNOPLAYER         MAKE\_DVHRESULT( 0x018C )}}
+\DoxyCodeLine{846 \textcolor{preprocessor}{\#define DVERR\_USERBACK                  MAKE\_DVHRESULT( 0x018D )}}
+\DoxyCodeLine{847 \textcolor{preprocessor}{\#define DVERR\_NORECVOLAVAILABLE         MAKE\_DVHRESULT( 0x018E )}}
+\DoxyCodeLine{848 \textcolor{preprocessor}{\#define DVERR\_INVALIDBUFFER             MAKE\_DVHRESULT( 0x018F )}}
+\DoxyCodeLine{849 \textcolor{preprocessor}{\#define DVERR\_LOCKEDBUFFER              MAKE\_DVHRESULT( 0x0190 )}}
+\DoxyCodeLine{850 }
+\DoxyCodeLine{851 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{852 \}}
+\DoxyCodeLine{853 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{854 }
+\DoxyCodeLine{855 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{856 }
+\DoxyCodeLine{857 }
+
+\end{DoxyCode}

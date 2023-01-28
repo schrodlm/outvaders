@@ -1,0 +1,172 @@
+\hypertarget{dmksctrl_8h_source}{}\doxysection{dmksctrl.\+h}
+\label{dmksctrl_8h_source}\index{src/lib/dx/Include/dmksctrl.h@{src/lib/dx/Include/dmksctrl.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/************************************************************************}}
+\DoxyCodeLine{2 \textcolor{comment}{*                                                                       *}}
+\DoxyCodeLine{3 \textcolor{comment}{*   dmksctrl.h -\/-\/ Definition of IKsControl                              *}}
+\DoxyCodeLine{4 \textcolor{comment}{*                                                                       *}}
+\DoxyCodeLine{5 \textcolor{comment}{*   Copyright (c) Microsoft Corporation.  All rights reserved.          *}}
+\DoxyCodeLine{6 \textcolor{comment}{*                                                                       *}}
+\DoxyCodeLine{7 \textcolor{comment}{*   This header file contains the definition of IKsControl, which       *}}
+\DoxyCodeLine{8 \textcolor{comment}{*   duplicates definitions from ks.h and ksproxy.h. Your code should    *}}
+\DoxyCodeLine{9 \textcolor{comment}{*   include ks.h and ksproxy.h directly if you have them (they are      *}}
+\DoxyCodeLine{10 \textcolor{comment}{*   provided in the Windows 98 DDK and will be in the Windows NT 5      *}}
+\DoxyCodeLine{11 \textcolor{comment}{*   SDK).                                                               *}}
+\DoxyCodeLine{12 \textcolor{comment}{*                                                                       *}}
+\DoxyCodeLine{13 \textcolor{comment}{************************************************************************/}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#ifndef \_DMKSCTRL\_}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#define \_DMKSCTRL\_}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#if \_MSC\_VER >= 1200}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#pragma warning(push)}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#pragma warning(disable:4201)   }\textcolor{comment}{/* Disable warnings on anonymous unions */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#include <pshpack8.h>}}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#include <objbase.h>}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#if !defined(\_NTRTL\_)}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{    \#ifndef DEFINE\_GUIDEX}}
+\DoxyCodeLine{29 \textcolor{preprocessor}{        \#define DEFINE\_GUIDEX(name) EXTERN\_C const CDECL GUID name}}
+\DoxyCodeLine{30 \textcolor{preprocessor}{    \#endif }\textcolor{comment}{/* !defined(DEFINE\_GUIDEX) */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{preprocessor}{    \#ifndef STATICGUIDOF}}
+\DoxyCodeLine{33 \textcolor{preprocessor}{        \#define STATICGUIDOF(guid) STATIC\_\#\#guid}}
+\DoxyCodeLine{34 \textcolor{preprocessor}{    \#endif }\textcolor{comment}{/* !defined(STATICGUIDOF) */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* !defined(\_NTRTL\_) */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#ifndef STATIC\_IID\_IKsControl}}
+\DoxyCodeLine{38 \textcolor{preprocessor}{\#define STATIC\_IID\_IKsControl\(\backslash\)}}
+\DoxyCodeLine{39 \textcolor{preprocessor}{    0x28F54685L, 0x06FD, 0x11D2, 0xB2, 0x7A, 0x00, 0xA0, 0xC9, 0x22, 0x31, 0x96}}
+\DoxyCodeLine{40 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* STATIC\_IID\_IKsControl */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 \textcolor{comment}{/* }}
+\DoxyCodeLine{43 \textcolor{comment}{ * Warning: This will prevent the rest of ks.h from being pulled in if ks.h is }}
+\DoxyCodeLine{44 \textcolor{comment}{ * included after dmksctrl.h. Make sure you do not include both headers in}}
+\DoxyCodeLine{45 \textcolor{comment}{ * the same source file.}}
+\DoxyCodeLine{46 \textcolor{comment}{ */}}
+\DoxyCodeLine{47 \textcolor{preprocessor}{\#ifndef \_KS\_}}
+\DoxyCodeLine{48 \textcolor{preprocessor}{\#define \_KS\_}}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50 \textcolor{preprocessor}{\#if (defined(\_MSC\_EXTENSIONS) || defined(\_\_cplusplus)) \&\& !defined(CINTERFACE)}}
+\DoxyCodeLine{51 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{52     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{53         \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{54             GUID    Set;}
+\DoxyCodeLine{55             ULONG   Id;}
+\DoxyCodeLine{56             ULONG   Flags;}
+\DoxyCodeLine{57         \};}
+\DoxyCodeLine{58         LONGLONG    Alignment;}
+\DoxyCodeLine{59     \};}
+\DoxyCodeLine{60 \} \mbox{\hyperlink{struct_k_s_i_d_e_n_t_i_f_i_e_r}{KSIDENTIFIER}}, *\mbox{\hyperlink{struct_k_s_i_d_e_n_t_i_f_i_e_r}{PKSIDENTIFIER}};}
+\DoxyCodeLine{61 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{62 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{63     \textcolor{keyword}{union }\{}
+\DoxyCodeLine{64         \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{65             GUID    Set;}
+\DoxyCodeLine{66             ULONG   Id;}
+\DoxyCodeLine{67             ULONG   Flags;}
+\DoxyCodeLine{68         \} Data;}
+\DoxyCodeLine{69         LONGLONG    Alignment;}
+\DoxyCodeLine{70     \};}
+\DoxyCodeLine{71 \} \mbox{\hyperlink{struct_k_s_i_d_e_n_t_i_f_i_e_r}{KSIDENTIFIER}}, *\mbox{\hyperlink{struct_k_s_i_d_e_n_t_i_f_i_e_r}{PKSIDENTIFIER}};}
+\DoxyCodeLine{72 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74 \textcolor{keyword}{typedef} \mbox{\hyperlink{struct_k_s_i_d_e_n_t_i_f_i_e_r}{KSIDENTIFIER}} \mbox{\hyperlink{struct_k_s_i_d_e_n_t_i_f_i_e_r}{KSPROPERTY}}, *\mbox{\hyperlink{struct_k_s_i_d_e_n_t_i_f_i_e_r}{PKSPROPERTY}}, \mbox{\hyperlink{struct_k_s_i_d_e_n_t_i_f_i_e_r}{KSMETHOD}}, *\mbox{\hyperlink{struct_k_s_i_d_e_n_t_i_f_i_e_r}{PKSMETHOD}}, \mbox{\hyperlink{struct_k_s_i_d_e_n_t_i_f_i_e_r}{KSEVENT}}, *\mbox{\hyperlink{struct_k_s_i_d_e_n_t_i_f_i_e_r}{PKSEVENT}};}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{76 \textcolor{preprocessor}{\#define KSMETHOD\_TYPE\_NONE                  0x00000000}}
+\DoxyCodeLine{77 \textcolor{preprocessor}{\#define KSMETHOD\_TYPE\_READ                  0x00000001}}
+\DoxyCodeLine{78 \textcolor{preprocessor}{\#define KSMETHOD\_TYPE\_WRITE                 0x00000002}}
+\DoxyCodeLine{79 \textcolor{preprocessor}{\#define KSMETHOD\_TYPE\_MODIFY                0x00000003}}
+\DoxyCodeLine{80 \textcolor{preprocessor}{\#define KSMETHOD\_TYPE\_SOURCE                0x00000004}}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{82 \textcolor{preprocessor}{\#define KSMETHOD\_TYPE\_SEND                  0x00000001}}
+\DoxyCodeLine{83 \textcolor{preprocessor}{\#define KSMETHOD\_TYPE\_SETSUPPORT            0x00000100}}
+\DoxyCodeLine{84 \textcolor{preprocessor}{\#define KSMETHOD\_TYPE\_BASICSUPPORT          0x00000200}}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86 \textcolor{preprocessor}{\#define KSPROPERTY\_TYPE\_GET                 0x00000001}}
+\DoxyCodeLine{87 \textcolor{preprocessor}{\#define KSPROPERTY\_TYPE\_SET                 0x00000002}}
+\DoxyCodeLine{88 \textcolor{preprocessor}{\#define KSPROPERTY\_TYPE\_SETSUPPORT          0x00000100}}
+\DoxyCodeLine{89 \textcolor{preprocessor}{\#define KSPROPERTY\_TYPE\_BASICSUPPORT        0x00000200}}
+\DoxyCodeLine{90 \textcolor{preprocessor}{\#define KSPROPERTY\_TYPE\_RELATIONS           0x00000400}}
+\DoxyCodeLine{91 \textcolor{preprocessor}{\#define KSPROPERTY\_TYPE\_SERIALIZESET        0x00000800}}
+\DoxyCodeLine{92 \textcolor{preprocessor}{\#define KSPROPERTY\_TYPE\_UNSERIALIZESET      0x00001000}}
+\DoxyCodeLine{93 \textcolor{preprocessor}{\#define KSPROPERTY\_TYPE\_SERIALIZERAW        0x00002000}}
+\DoxyCodeLine{94 \textcolor{preprocessor}{\#define KSPROPERTY\_TYPE\_UNSERIALIZERAW      0x00004000}}
+\DoxyCodeLine{95 \textcolor{preprocessor}{\#define KSPROPERTY\_TYPE\_SERIALIZESIZE       0x00008000}}
+\DoxyCodeLine{96 \textcolor{preprocessor}{\#define KSPROPERTY\_TYPE\_DEFAULTVALUES       0x00010000}}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{98 \textcolor{preprocessor}{\#define KSPROPERTY\_TYPE\_TOPOLOGY            0x10000000}}
+\DoxyCodeLine{99 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{/* \_KS\_ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101 \textcolor{preprocessor}{\#ifndef \_IKsControl\_}}
+\DoxyCodeLine{102 \textcolor{preprocessor}{\#define \_IKsControl\_}}
+\DoxyCodeLine{103 }
+\DoxyCodeLine{104 \textcolor{preprocessor}{\#ifdef DECLARE\_INTERFACE\_}}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{108 \textcolor{preprocessor}{\#define INTERFACE IKsControl}}
+\DoxyCodeLine{109 DECLARE\_INTERFACE\_(IKsControl, IUnknown)}
+\DoxyCodeLine{110 \{}
+\DoxyCodeLine{111      \textcolor{comment}{/* IUnknown */}}
+\DoxyCodeLine{112     STDMETHOD(QueryInterface)       (THIS\_ REFIID, LPVOID FAR *) PURE;}
+\DoxyCodeLine{113     STDMETHOD\_(ULONG,AddRef)        (THIS) PURE;}
+\DoxyCodeLine{114     STDMETHOD\_(ULONG,Release)       (THIS) PURE;}
+\DoxyCodeLine{115 }
+\DoxyCodeLine{116     \textcolor{comment}{/*IKsControl*/}}
+\DoxyCodeLine{117     STDMETHOD(KsProperty)(}
+\DoxyCodeLine{118         THIS\_}
+\DoxyCodeLine{119         IN \mbox{\hyperlink{struct_k_s_i_d_e_n_t_i_f_i_e_r}{PKSPROPERTY}} Property,}
+\DoxyCodeLine{120         IN ULONG PropertyLength,}
+\DoxyCodeLine{121         IN OUT LPVOID PropertyData,}
+\DoxyCodeLine{122         IN ULONG DataLength,}
+\DoxyCodeLine{123         OUT ULONG* BytesReturned}
+\DoxyCodeLine{124     ) PURE;}
+\DoxyCodeLine{125     STDMETHOD(KsMethod)(}
+\DoxyCodeLine{126         THIS\_}
+\DoxyCodeLine{127         IN \mbox{\hyperlink{struct_k_s_i_d_e_n_t_i_f_i_e_r}{PKSMETHOD}} Method,}
+\DoxyCodeLine{128         IN ULONG MethodLength,}
+\DoxyCodeLine{129         IN OUT LPVOID MethodData,}
+\DoxyCodeLine{130         IN ULONG DataLength,}
+\DoxyCodeLine{131         OUT ULONG* BytesReturned}
+\DoxyCodeLine{132     ) PURE;}
+\DoxyCodeLine{133     STDMETHOD(KsEvent)(}
+\DoxyCodeLine{134         THIS\_}
+\DoxyCodeLine{135         IN \mbox{\hyperlink{struct_k_s_i_d_e_n_t_i_f_i_e_r}{PKSEVENT}} Event OPTIONAL,}
+\DoxyCodeLine{136         IN ULONG EventLength,}
+\DoxyCodeLine{137         IN OUT LPVOID EventData,}
+\DoxyCodeLine{138         IN ULONG DataLength,}
+\DoxyCodeLine{139         OUT ULONG* BytesReturned}
+\DoxyCodeLine{140     ) PURE;}
+\DoxyCodeLine{141 \};}
+\DoxyCodeLine{142 }
+\DoxyCodeLine{143 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* DECLARE\_INTERFACE\_ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{144 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* \_IKsControl\_ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{145 }
+\DoxyCodeLine{146 \textcolor{preprocessor}{\#include <poppack.h>}}
+\DoxyCodeLine{147 }
+\DoxyCodeLine{148 DEFINE\_GUID(IID\_IKsControl, 0x28F54685, 0x06FD, 0x11D2, 0xB2, 0x7A, 0x00, 0xA0, 0xC9, 0x22, 0x31, 0x96);}
+\DoxyCodeLine{149 }
+\DoxyCodeLine{150 \textcolor{comment}{/* These formats are in ksmedia.h}}
+\DoxyCodeLine{151 \textcolor{comment}{ */}}
+\DoxyCodeLine{152 \textcolor{preprocessor}{\#ifndef \_KSMEDIA\_}}
+\DoxyCodeLine{153 }
+\DoxyCodeLine{154 DEFINE\_GUID(KSDATAFORMAT\_SUBTYPE\_MIDI, 0x1D262760L, 0xE957, 0x11CF, 0xA5, 0xD6, 0x28, 0xDB, 0x04, 0xC1, 0x00, 0x00);}
+\DoxyCodeLine{155 DEFINE\_GUID(KSDATAFORMAT\_SUBTYPE\_DIRECTMUSIC, 0x1a82f8bc,  0x3f8b, 0x11d2, 0xb7, 0x74, 0x00, 0x60, 0x08, 0x33, 0x16, 0xc1);}
+\DoxyCodeLine{156 }
+\DoxyCodeLine{157 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{158 }
+\DoxyCodeLine{159 \textcolor{preprocessor}{\#if \_MSC\_VER >= 1200}}
+\DoxyCodeLine{160 \textcolor{preprocessor}{\#pragma warning(pop)}}
+\DoxyCodeLine{161 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{162 }
+\DoxyCodeLine{163 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* \_DMKSCTRL */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{164 }
+\DoxyCodeLine{165 }
+\DoxyCodeLine{166 }
+
+\end{DoxyCode}

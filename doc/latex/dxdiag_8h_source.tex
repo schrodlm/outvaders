@@ -1,0 +1,193 @@
+\hypertarget{dxdiag_8h_source}{}\doxysection{dxdiag.\+h}
+\label{dxdiag_8h_source}\index{src/lib/dx/Include/dxdiag.h@{src/lib/dx/Include/dxdiag.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*==========================================================================;}}
+\DoxyCodeLine{2 \textcolor{comment}{ *}}
+\DoxyCodeLine{3 \textcolor{comment}{ *  Copyright (C) Microsoft Corporation.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{ *}}
+\DoxyCodeLine{5 \textcolor{comment}{ *  File:       dxdiag.h}}
+\DoxyCodeLine{6 \textcolor{comment}{ *  Content:    DirectX Diagnostic Tool include file}}
+\DoxyCodeLine{7 \textcolor{comment}{ *}}
+\DoxyCodeLine{8 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#ifndef \_DXDIAG\_H\_}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define \_DXDIAG\_H\_}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <ole2.h>}      \textcolor{comment}{// for DECLARE\_INTERFACE\_ and HRESULT}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{comment}{// This identifier is passed to IDxDiagProvider::Initialize in order to ensure that an}}
+\DoxyCodeLine{16 \textcolor{comment}{// application was built against the correct header files. This number is}}
+\DoxyCodeLine{17 \textcolor{comment}{// incremented whenever a header (or other) change would require applications}}
+\DoxyCodeLine{18 \textcolor{comment}{// to be rebuilt. If the version doesn't match, IDxDiagProvider::Initialize will fail.}}
+\DoxyCodeLine{19 \textcolor{comment}{// (The number itself has no meaning.)}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#define DXDIAG\_DX9\_SDK\_VERSION 111}}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{23 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{28 \textcolor{comment}{ *}}
+\DoxyCodeLine{29 \textcolor{comment}{ * DxDiag Errors}}
+\DoxyCodeLine{30 \textcolor{comment}{ *}}
+\DoxyCodeLine{31 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#define DXDIAG\_E\_INSUFFICIENT\_BUFFER       ((HRESULT)0x8007007AL)  }\textcolor{comment}{// HRESULT\_FROM\_WIN32(ERROR\_INSUFFICIENT\_BUFFER)}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{36 \textcolor{comment}{ *}}
+\DoxyCodeLine{37 \textcolor{comment}{ * DxDiag CLSIDs}}
+\DoxyCodeLine{38 \textcolor{comment}{ *}}
+\DoxyCodeLine{39 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41 \textcolor{comment}{// \{A65B8071-\/3BFE-\/4213-\/9A5B-\/491DA4461CA7\}}}
+\DoxyCodeLine{42 DEFINE\_GUID(CLSID\_DxDiagProvider,}
+\DoxyCodeLine{43 0xA65B8071, 0x3BFE, 0x4213, 0x9A, 0x5B, 0x49, 0x1D, 0xA4, 0x46, 0x1C, 0xA7);}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{47 \textcolor{comment}{ *}}
+\DoxyCodeLine{48 \textcolor{comment}{ * DxDiag Interface IIDs}}
+\DoxyCodeLine{49 \textcolor{comment}{ *}}
+\DoxyCodeLine{50 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52 \textcolor{comment}{// \{9C6B4CB0-\/23F8-\/49CC-\/A3ED-\/45A55000A6D2\}}}
+\DoxyCodeLine{53 DEFINE\_GUID(IID\_IDxDiagProvider,}
+\DoxyCodeLine{54 0x9C6B4CB0, 0x23F8, 0x49CC, 0xA3, 0xED, 0x45, 0xA5, 0x50, 0x00, 0xA6, 0xD2);}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56 \textcolor{comment}{// \{0x7D0F462F-\/0x4064-\/0x4862-\/BC7F-\/933E5058C10F\}}}
+\DoxyCodeLine{57 DEFINE\_GUID(IID\_IDxDiagContainer,}
+\DoxyCodeLine{58 0x7D0F462F, 0x4064, 0x4862, 0xBC, 0x7F, 0x93, 0x3E, 0x50, 0x58, 0xC1, 0x0F);}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{62 \textcolor{comment}{ *}}
+\DoxyCodeLine{63 \textcolor{comment}{ * DxDiag Interface Pointer definitions}}
+\DoxyCodeLine{64 \textcolor{comment}{ *}}
+\DoxyCodeLine{65 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDxDiagProvider *LPDXDIAGPROVIDER, *PDXDIAGPROVIDER;}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }IDxDiagContainer *LPDXDIAGCONTAINER, *PDXDIAGCONTAINER;}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{73 \textcolor{comment}{ *}}
+\DoxyCodeLine{74 \textcolor{comment}{ * DxDiag Structures}}
+\DoxyCodeLine{75 \textcolor{comment}{ *}}
+\DoxyCodeLine{76 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d_x_d_i_a_g___i_n_i_t___p_a_r_a_m_s}{\_DXDIAG\_INIT\_PARAMS}}}
+\DoxyCodeLine{79 \{}
+\DoxyCodeLine{80     DWORD   dwSize;                 \textcolor{comment}{// Size of this structure. }}
+\DoxyCodeLine{81     DWORD   dwDxDiagHeaderVersion;  \textcolor{comment}{// Pass in DXDIAG\_DX9\_SDK\_VERSION.  This verifies }}
+\DoxyCodeLine{82                                     \textcolor{comment}{// the header and dll are correctly matched.}}
+\DoxyCodeLine{83     BOOL    bAllowWHQLChecks;       \textcolor{comment}{// If true, allow dxdiag to check if drivers are }}
+\DoxyCodeLine{84                                     \textcolor{comment}{// digital signed as logo'd by WHQL which may }}
+\DoxyCodeLine{85                                     \textcolor{comment}{// connect via internet to update WHQL certificates.}}
+\DoxyCodeLine{86     VOID*   pReserved;              \textcolor{comment}{// Reserved. Must be NULL. }}
+\DoxyCodeLine{87 \} \mbox{\hyperlink{struct___d_x_d_i_a_g___i_n_i_t___p_a_r_a_m_s}{DXDIAG\_INIT\_PARAMS}};}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{89 }
+\DoxyCodeLine{90 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{91 \textcolor{comment}{ *}}
+\DoxyCodeLine{92 \textcolor{comment}{ * DxDiag Application Interfaces}}
+\DoxyCodeLine{93 \textcolor{comment}{ *}}
+\DoxyCodeLine{94 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{95 }
+\DoxyCodeLine{96 \textcolor{comment}{//}}
+\DoxyCodeLine{97 \textcolor{comment}{// COM definition for IDxDiagProvider}}
+\DoxyCodeLine{98 \textcolor{comment}{//}}
+\DoxyCodeLine{99 \textcolor{preprocessor}{\#undef INTERFACE                }\textcolor{comment}{// External COM Implementation}}
+\DoxyCodeLine{100 \textcolor{preprocessor}{\#define INTERFACE IDxDiagProvider}}
+\DoxyCodeLine{101 DECLARE\_INTERFACE\_(IDxDiagProvider,IUnknown)}
+\DoxyCodeLine{102 \{}
+\DoxyCodeLine{103 \textcolor{comment}{    /*** IUnknown methods ***/}}
+\DoxyCodeLine{104     STDMETHOD(QueryInterface)               (THIS\_ REFIID riid, LPVOID *ppvObj) PURE;}
+\DoxyCodeLine{105     STDMETHOD\_(ULONG,AddRef)                (THIS) PURE;}
+\DoxyCodeLine{106     STDMETHOD\_(ULONG,Release)               (THIS) PURE;}
+\DoxyCodeLine{107     }
+\DoxyCodeLine{108 \textcolor{comment}{    /*** IDxDiagProvider methods ***/}}
+\DoxyCodeLine{109     STDMETHOD(Initialize)                   (THIS\_ \mbox{\hyperlink{struct___d_x_d_i_a_g___i_n_i_t___p_a_r_a_m_s}{DXDIAG\_INIT\_PARAMS}}* pParams) PURE; }
+\DoxyCodeLine{110     STDMETHOD(GetRootContainer)             (THIS\_ IDxDiagContainer **ppInstance) PURE;}
+\DoxyCodeLine{111 \};}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113 }
+\DoxyCodeLine{114 \textcolor{comment}{//}}
+\DoxyCodeLine{115 \textcolor{comment}{// COM definition for IDxDiagContainer}}
+\DoxyCodeLine{116 \textcolor{comment}{//}}
+\DoxyCodeLine{117 \textcolor{preprocessor}{\#undef INTERFACE                }\textcolor{comment}{// External COM Implementation}}
+\DoxyCodeLine{118 \textcolor{preprocessor}{\#define INTERFACE IDxDiagContainer}}
+\DoxyCodeLine{119 DECLARE\_INTERFACE\_(IDxDiagContainer,IUnknown)}
+\DoxyCodeLine{120 \{}
+\DoxyCodeLine{121 \textcolor{comment}{    /*** IUnknown methods ***/}}
+\DoxyCodeLine{122     STDMETHOD(QueryInterface)               (THIS\_ REFIID riid, LPVOID *ppvObj) PURE;}
+\DoxyCodeLine{123     STDMETHOD\_(ULONG,AddRef)                (THIS) PURE;}
+\DoxyCodeLine{124     STDMETHOD\_(ULONG,Release)               (THIS) PURE;}
+\DoxyCodeLine{125     }
+\DoxyCodeLine{126 \textcolor{comment}{    /*** IDxDiagContainer methods ***/}}
+\DoxyCodeLine{127     STDMETHOD(GetNumberOfChildContainers)   (THIS\_ DWORD *pdwCount) PURE;}
+\DoxyCodeLine{128     STDMETHOD(EnumChildContainerNames)      (THIS\_ DWORD dwIndex, LPWSTR pwszContainer, DWORD cchContainer) PURE;}
+\DoxyCodeLine{129     STDMETHOD(GetChildContainer)            (THIS\_ LPCWSTR pwszContainer, IDxDiagContainer **ppInstance) PURE;  }
+\DoxyCodeLine{130     STDMETHOD(GetNumberOfProps)             (THIS\_ DWORD *pdwCount) PURE;}
+\DoxyCodeLine{131     STDMETHOD(EnumPropNames)                (THIS\_ DWORD dwIndex, LPWSTR pwszPropName, DWORD cchPropName) PURE;}
+\DoxyCodeLine{132     STDMETHOD(GetProp)                      (THIS\_ LPCWSTR pwszPropName, VARIANT *pvarProp) PURE;}
+\DoxyCodeLine{133 \};}
+\DoxyCodeLine{134 }
+\DoxyCodeLine{135 }
+\DoxyCodeLine{136 \textcolor{comment}{/****************************************************************************}}
+\DoxyCodeLine{137 \textcolor{comment}{ *}}
+\DoxyCodeLine{138 \textcolor{comment}{ * DxDiag application interface macros}}
+\DoxyCodeLine{139 \textcolor{comment}{ *}}
+\DoxyCodeLine{140 \textcolor{comment}{ ****************************************************************************/}}
+\DoxyCodeLine{141 }
+\DoxyCodeLine{142 \textcolor{preprocessor}{\#if !defined(\_\_cplusplus) || defined(CINTERFACE)}}
+\DoxyCodeLine{143 }
+\DoxyCodeLine{144 \textcolor{preprocessor}{\#define IDxDiagProvider\_QueryInterface(p,a,b)                   (p)-\/>lpVtbl-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{145 \textcolor{preprocessor}{\#define IDxDiagProvider\_AddRef(p)                               (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{146 \textcolor{preprocessor}{\#define IDxDiagProvider\_Release(p)                              (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{147 \textcolor{preprocessor}{\#define IDxDiagProvider\_Initialize(p,a,b)                       (p)-\/>lpVtbl-\/>Initialize(p,a,b)}}
+\DoxyCodeLine{148 \textcolor{preprocessor}{\#define IDxDiagProvider\_GetRootContainer(p,a)                   (p)-\/>lpVtbl-\/>GetRootContainer(p,a)}}
+\DoxyCodeLine{149 }
+\DoxyCodeLine{150 \textcolor{preprocessor}{\#define IDxDiagContainer\_QueryInterface(p,a,b)                  (p)-\/>lpVtbl-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{151 \textcolor{preprocessor}{\#define IDxDiagContainer\_AddRef(p)                              (p)-\/>lpVtbl-\/>AddRef(p)}}
+\DoxyCodeLine{152 \textcolor{preprocessor}{\#define IDxDiagContainer\_Release(p)                             (p)-\/>lpVtbl-\/>Release(p)}}
+\DoxyCodeLine{153 \textcolor{preprocessor}{\#define IDxDiagContainer\_GetNumberOfChildContainers(p,a)        (p)-\/>lpVtbl-\/>GetNumberOfChildContainers(p,a)}}
+\DoxyCodeLine{154 \textcolor{preprocessor}{\#define IDxDiagContainer\_EnumChildContainerNames(p,a,b,c)       (p)-\/>lpVtbl-\/>EnumChildContainerNames(p,a,b,c)}}
+\DoxyCodeLine{155 \textcolor{preprocessor}{\#define IDxDiagContainer\_GetChildContainer(p,a,b)               (p)-\/>lpVtbl-\/>GetChildContainer(p,a,b)}}
+\DoxyCodeLine{156 \textcolor{preprocessor}{\#define IDxDiagContainer\_GetNumberOfProps(p,a)                  (p)-\/>lpVtbl-\/>GetNumberOfProps(p,a)}}
+\DoxyCodeLine{157 \textcolor{preprocessor}{\#define IDxDiagContainer\_EnumProps(p,a,b)                       (p)-\/>lpVtbl-\/>EnumProps(p,a,b,c)}}
+\DoxyCodeLine{158 \textcolor{preprocessor}{\#define IDxDiagContainer\_GetProp(p,a,b)                         (p)-\/>lpVtbl-\/>GetProp(p,a,b)}}
+\DoxyCodeLine{159 }
+\DoxyCodeLine{160 \textcolor{preprocessor}{\#else }\textcolor{comment}{/* C++ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{161 }
+\DoxyCodeLine{162 \textcolor{preprocessor}{\#define IDxDiagProvider\_QueryInterface(p,a,b)                   (p)-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{163 \textcolor{preprocessor}{\#define IDxDiagProvider\_AddRef(p)                               (p)-\/>AddRef(p)}}
+\DoxyCodeLine{164 \textcolor{preprocessor}{\#define IDxDiagProvider\_Release(p)                              (p)-\/>Release(p)}}
+\DoxyCodeLine{165 \textcolor{preprocessor}{\#define IDxDiagProvider\_Initialize(p,a,b)                       (p)-\/>Initialize(p,a,b)}}
+\DoxyCodeLine{166 \textcolor{preprocessor}{\#define IDxDiagProvider\_GetRootContainer(p,a)                   (p)-\/>GetRootContainer(p,a)}}
+\DoxyCodeLine{167 }
+\DoxyCodeLine{168 \textcolor{preprocessor}{\#define IDxDiagContainer\_QueryInterface(p,a,b)                  (p)-\/>QueryInterface(p,a,b)}}
+\DoxyCodeLine{169 \textcolor{preprocessor}{\#define IDxDiagContainer\_AddRef(p)                              (p)-\/>AddRef(p)}}
+\DoxyCodeLine{170 \textcolor{preprocessor}{\#define IDxDiagContainer\_Release(p)                             (p)-\/>Release(p)}}
+\DoxyCodeLine{171 \textcolor{preprocessor}{\#define IDxDiagContainer\_GetNumberOfChildContainers(p,a)        (p)-\/>GetNumberOfChildContainers(p,a)}}
+\DoxyCodeLine{172 \textcolor{preprocessor}{\#define IDxDiagContainer\_EnumChildContainerNames(p,a,b,c)       (p)-\/>EnumChildContainerNames(p,a,b,c)}}
+\DoxyCodeLine{173 \textcolor{preprocessor}{\#define IDxDiagContainer\_GetChildContainer(p,a,b)               (p)-\/>GetChildContainer(p,a,b)}}
+\DoxyCodeLine{174 \textcolor{preprocessor}{\#define IDxDiagContainer\_GetNumberOfProps(p,a)                  (p)-\/>GetNumberOfProps(p,a)}}
+\DoxyCodeLine{175 \textcolor{preprocessor}{\#define IDxDiagContainer\_EnumProps(p,a,b)                       (p)-\/>EnumProps(p,a,b,c)}}
+\DoxyCodeLine{176 \textcolor{preprocessor}{\#define IDxDiagContainer\_GetProp(p,a,b)                         (p)-\/>GetProp(p,a,b)}}
+\DoxyCodeLine{177 }
+\DoxyCodeLine{178 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{179 }
+\DoxyCodeLine{180 }
+\DoxyCodeLine{181 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{182 \}}
+\DoxyCodeLine{183 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{184 }
+\DoxyCodeLine{185 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* \_DXDIAG\_H\_ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{186 }
+\DoxyCodeLine{187 }
+
+\end{DoxyCode}

@@ -1,0 +1,366 @@
+\hypertarget{_d_x_g_i_type_8h_source}{}\doxysection{DXGIType.\+h}
+\label{_d_x_g_i_type_8h_source}\index{src/lib/dx/Include/DXGIType.h@{src/lib/dx/Include/DXGIType.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{2 }
+\DoxyCodeLine{3 \textcolor{comment}{/* this ALWAYS GENERATED file contains the definitions for the interfaces */}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6  \textcolor{comment}{/* File created by MIDL compiler version 7.00.0480 */}}
+\DoxyCodeLine{7 \textcolor{comment}{/* Compiler settings for dxgitype.idl:}}
+\DoxyCodeLine{8 \textcolor{comment}{    Oicf, W1, Zp8, env=Win32 (32b run)}}
+\DoxyCodeLine{9 \textcolor{comment}{    protocol : dce , ms\_ext, c\_ext, robust}}
+\DoxyCodeLine{10 \textcolor{comment}{    error checks: allocation ref bounds\_check enum stub\_data }}
+\DoxyCodeLine{11 \textcolor{comment}{    VC \_\_declspec() decoration level: }}
+\DoxyCodeLine{12 \textcolor{comment}{         \_\_declspec(uuid()), \_\_declspec(selectany), \_\_declspec(novtable)}}
+\DoxyCodeLine{13 \textcolor{comment}{         DECLSPEC\_UUID(), MIDL\_INTERFACE()}}
+\DoxyCodeLine{14 \textcolor{comment}{*/}}
+\DoxyCodeLine{15 \textcolor{comment}{//@@MIDL\_FILE\_HEADING(  )}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#pragma warning( disable: 4049 )  }\textcolor{comment}{/* more than 64k source lines */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{comment}{/* verify that the <rpcndr.h> version is high enough to compile this file*/}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#ifndef \_\_REQUIRED\_RPCNDR\_H\_VERSION\_\_}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#define \_\_REQUIRED\_RPCNDR\_H\_VERSION\_\_ 475}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{comment}{/* verify that the <rpcsal.h> version is high enough to compile this file*/}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#ifndef \_\_REQUIRED\_RPCSAL\_H\_VERSION\_\_}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#define \_\_REQUIRED\_RPCSAL\_H\_VERSION\_\_ 100}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#include "{}rpc.h"{}}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#include "{}rpcndr.h"{}}}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33 \textcolor{preprocessor}{\#ifndef \_\_RPCNDR\_H\_VERSION\_\_}}
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#error this stub requires an updated version of <rpcndr.h>}}
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// \_\_RPCNDR\_H\_VERSION\_\_}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 \textcolor{preprocessor}{\#ifndef \_\_dxgitype\_h\_\_}}
+\DoxyCodeLine{39 \textcolor{preprocessor}{\#define \_\_dxgitype\_h\_\_}}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41 \textcolor{preprocessor}{\#if defined(\_MSC\_VER) \&\& (\_MSC\_VER >= 1020)}}
+\DoxyCodeLine{42 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{43 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45 \textcolor{comment}{/* Forward Declarations */} }
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 \textcolor{comment}{/* header files for imported files */}}
+\DoxyCodeLine{48 \textcolor{preprocessor}{\#include "{}oaidl.h"{}}}
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#include "{}ocidl.h"{}}}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{52 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}}\{}
+\DoxyCodeLine{53 \textcolor{preprocessor}{\#endif }}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56 \textcolor{comment}{/* interface \_\_MIDL\_itf\_dxgitype\_0000\_0000 */}}
+\DoxyCodeLine{57 \textcolor{comment}{/* [local] */} }
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59 \textcolor{preprocessor}{\#define \_FACDXGI    0x87a}}
+\DoxyCodeLine{60 \textcolor{preprocessor}{\#define MAKE\_DXGI\_HRESULT( code )    MAKE\_HRESULT( 1, \_FACDXGI, code )}}
+\DoxyCodeLine{61 \textcolor{preprocessor}{\#define MAKE\_DXGI\_STATUS( code )    MAKE\_HRESULT( 0, \_FACDXGI, code )}}
+\DoxyCodeLine{62 \textcolor{preprocessor}{\#define DXGI\_STATUS\_OCCLUDED    MAKE\_DXGI\_STATUS(1 )}}
+\DoxyCodeLine{63 \textcolor{preprocessor}{\#define DXGI\_STATUS\_CLIPPED    MAKE\_DXGI\_STATUS(2 )}}
+\DoxyCodeLine{64 \textcolor{preprocessor}{\#define DXGI\_STATUS\_NO\_REDIRECTION    MAKE\_DXGI\_STATUS(4 )}}
+\DoxyCodeLine{65 \textcolor{preprocessor}{\#define DXGI\_ERROR\_INVALID\_CALL    MAKE\_DXGI\_HRESULT( 1 )}}
+\DoxyCodeLine{66 \textcolor{preprocessor}{\#define DXGI\_ERROR\_NOT\_FOUND    MAKE\_DXGI\_HRESULT( 2 )}}
+\DoxyCodeLine{67 \textcolor{preprocessor}{\#define DXGI\_ERROR\_MORE\_DATA    MAKE\_DXGI\_HRESULT( 3 )}}
+\DoxyCodeLine{68 \textcolor{preprocessor}{\#define DXGI\_ERROR\_UNSUPPORTED    MAKE\_DXGI\_HRESULT( 4 )}}
+\DoxyCodeLine{69 \textcolor{preprocessor}{\#define DXGI\_ERROR\_DEVICE\_REMOVED    MAKE\_DXGI\_HRESULT( 5 )}}
+\DoxyCodeLine{70 \textcolor{preprocessor}{\#define DXGI\_ERROR\_DEVICE\_HUNG    MAKE\_DXGI\_HRESULT( 6 )}}
+\DoxyCodeLine{71 \textcolor{preprocessor}{\#define DXGI\_ERROR\_DEVICE\_RESET    MAKE\_DXGI\_HRESULT( 7 )}}
+\DoxyCodeLine{72 \textcolor{preprocessor}{\#define DXGI\_ERROR\_WAS\_STILL\_DRAWING    MAKE\_DXGI\_HRESULT( 10 )}}
+\DoxyCodeLine{73 \textcolor{preprocessor}{\#define DXGI\_ERROR\_DRIVER\_INTERNAL\_ERROR    MAKE\_DXGI\_HRESULT( 32 )}}
+\DoxyCodeLine{74 \textcolor{preprocessor}{\#define DXGI\_ERROR\_NONEXCLUSIVE    MAKE\_DXGI\_HRESULT( 33 )}}
+\DoxyCodeLine{75 \textcolor{preprocessor}{\#define DXGI\_CPU\_ACCESS\_NONE    ( 1 )}}
+\DoxyCodeLine{76 \textcolor{preprocessor}{\#define DXGI\_CPU\_ACCESS\_INVARIANT    ( 2 )}}
+\DoxyCodeLine{77 \textcolor{preprocessor}{\#define DXGI\_CPU\_ACCESS\_STATIC    ( 3 )}}
+\DoxyCodeLine{78 \textcolor{preprocessor}{\#define DXGI\_CPU\_ACCESS\_DYNAMIC    ( 4 )}}
+\DoxyCodeLine{79 \textcolor{preprocessor}{\#define DXGI\_CPU\_ACCESS\_READ\_WRITE    ( 5 )}}
+\DoxyCodeLine{80 \textcolor{preprocessor}{\#define DXGI\_CPU\_ACCESS\_SCRATCH    ( 6 )}}
+\DoxyCodeLine{81 \textcolor{preprocessor}{\#define DXGI\_USAGE\_SHADER\_INPUT    ( 1L << (0 + 4) )}}
+\DoxyCodeLine{82 \textcolor{preprocessor}{\#define DXGI\_USAGE\_RENDER\_TARGET\_OUTPUT    ( 1L << (1 + 4) )}}
+\DoxyCodeLine{83 \textcolor{preprocessor}{\#define DXGI\_USAGE\_BACK\_BUFFER    ( 1L << (2 + 4) )}}
+\DoxyCodeLine{84 \textcolor{preprocessor}{\#define DXGI\_USAGE\_SHARED    ( 1L << (3 + 4) )}}
+\DoxyCodeLine{85 \textcolor{preprocessor}{\#define DXGI\_USAGE\_PRIMARY    ( 1L << (4 + 4) )}}
+\DoxyCodeLine{86 \textcolor{keyword}{typedef} UINT DXGI\_USAGE;}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{88 \textcolor{keyword}{typedef} }
+\DoxyCodeLine{89 \textcolor{keyword}{enum} DXGI\_FORMAT}
+\DoxyCodeLine{90     \{   DXGI\_FORMAT\_UNKNOWN = 0,}
+\DoxyCodeLine{91     DXGI\_FORMAT\_R32G32B32A32\_TYPELESS   = 1,}
+\DoxyCodeLine{92     DXGI\_FORMAT\_R32G32B32A32\_FLOAT  = 2,}
+\DoxyCodeLine{93     DXGI\_FORMAT\_R32G32B32A32\_UINT   = 3,}
+\DoxyCodeLine{94     DXGI\_FORMAT\_R32G32B32A32\_SINT   = 4,}
+\DoxyCodeLine{95     DXGI\_FORMAT\_R32G32B32\_TYPELESS  = 5,}
+\DoxyCodeLine{96     DXGI\_FORMAT\_R32G32B32\_FLOAT = 6,}
+\DoxyCodeLine{97     DXGI\_FORMAT\_R32G32B32\_UINT  = 7,}
+\DoxyCodeLine{98     DXGI\_FORMAT\_R32G32B32\_SINT  = 8,}
+\DoxyCodeLine{99     DXGI\_FORMAT\_R16G16B16A16\_TYPELESS   = 9,}
+\DoxyCodeLine{100     DXGI\_FORMAT\_R16G16B16A16\_FLOAT  = 10,}
+\DoxyCodeLine{101     DXGI\_FORMAT\_R16G16B16A16\_UNORM  = 11,}
+\DoxyCodeLine{102     DXGI\_FORMAT\_R16G16B16A16\_UINT   = 12,}
+\DoxyCodeLine{103     DXGI\_FORMAT\_R16G16B16A16\_SNORM  = 13,}
+\DoxyCodeLine{104     DXGI\_FORMAT\_R16G16B16A16\_SINT   = 14,}
+\DoxyCodeLine{105     DXGI\_FORMAT\_R32G32\_TYPELESS = 15,}
+\DoxyCodeLine{106     DXGI\_FORMAT\_R32G32\_FLOAT    = 16,}
+\DoxyCodeLine{107     DXGI\_FORMAT\_R32G32\_UINT = 17,}
+\DoxyCodeLine{108     DXGI\_FORMAT\_R32G32\_SINT = 18,}
+\DoxyCodeLine{109     DXGI\_FORMAT\_R32G8X24\_TYPELESS   = 19,}
+\DoxyCodeLine{110     DXGI\_FORMAT\_D32\_FLOAT\_S8X24\_UINT    = 20,}
+\DoxyCodeLine{111     DXGI\_FORMAT\_R32\_FLOAT\_X8X24\_TYPELESS    = 21,}
+\DoxyCodeLine{112     DXGI\_FORMAT\_X32\_TYPELESS\_G8X24\_UINT = 22,}
+\DoxyCodeLine{113     DXGI\_FORMAT\_R10G10B10A2\_TYPELESS    = 23,}
+\DoxyCodeLine{114     DXGI\_FORMAT\_R10G10B10A2\_UNORM   = 24,}
+\DoxyCodeLine{115     DXGI\_FORMAT\_R10G10B10A2\_UINT    = 25,}
+\DoxyCodeLine{116     DXGI\_FORMAT\_R11G11B10\_FLOAT = 26,}
+\DoxyCodeLine{117     DXGI\_FORMAT\_R8G8B8A8\_TYPELESS   = 27,}
+\DoxyCodeLine{118     DXGI\_FORMAT\_R8G8B8A8\_UNORM  = 28,}
+\DoxyCodeLine{119     DXGI\_FORMAT\_R8G8B8A8\_UNORM\_SRGB = 29,}
+\DoxyCodeLine{120     DXGI\_FORMAT\_R8G8B8A8\_UINT   = 30,}
+\DoxyCodeLine{121     DXGI\_FORMAT\_R8G8B8A8\_SNORM  = 31,}
+\DoxyCodeLine{122     DXGI\_FORMAT\_R8G8B8A8\_SINT   = 32,}
+\DoxyCodeLine{123     DXGI\_FORMAT\_R16G16\_TYPELESS = 33,}
+\DoxyCodeLine{124     DXGI\_FORMAT\_R16G16\_FLOAT    = 34,}
+\DoxyCodeLine{125     DXGI\_FORMAT\_R16G16\_UNORM    = 35,}
+\DoxyCodeLine{126     DXGI\_FORMAT\_R16G16\_UINT = 36,}
+\DoxyCodeLine{127     DXGI\_FORMAT\_R16G16\_SNORM    = 37,}
+\DoxyCodeLine{128     DXGI\_FORMAT\_R16G16\_SINT = 38,}
+\DoxyCodeLine{129     DXGI\_FORMAT\_R32\_TYPELESS    = 39,}
+\DoxyCodeLine{130     DXGI\_FORMAT\_D32\_FLOAT   = 40,}
+\DoxyCodeLine{131     DXGI\_FORMAT\_R32\_FLOAT   = 41,}
+\DoxyCodeLine{132     DXGI\_FORMAT\_R32\_UINT    = 42,}
+\DoxyCodeLine{133     DXGI\_FORMAT\_R32\_SINT    = 43,}
+\DoxyCodeLine{134     DXGI\_FORMAT\_R24G8\_TYPELESS  = 44,}
+\DoxyCodeLine{135     DXGI\_FORMAT\_D24\_UNORM\_S8\_UINT   = 45,}
+\DoxyCodeLine{136     DXGI\_FORMAT\_R24\_UNORM\_X8\_TYPELESS   = 46,}
+\DoxyCodeLine{137     DXGI\_FORMAT\_X24\_TYPELESS\_G8\_UINT    = 47,}
+\DoxyCodeLine{138     DXGI\_FORMAT\_R8G8\_TYPELESS   = 48,}
+\DoxyCodeLine{139     DXGI\_FORMAT\_R8G8\_UNORM  = 49,}
+\DoxyCodeLine{140     DXGI\_FORMAT\_R8G8\_UINT   = 50,}
+\DoxyCodeLine{141     DXGI\_FORMAT\_R8G8\_SNORM  = 51,}
+\DoxyCodeLine{142     DXGI\_FORMAT\_R8G8\_SINT   = 52,}
+\DoxyCodeLine{143     DXGI\_FORMAT\_R16\_TYPELESS    = 53,}
+\DoxyCodeLine{144     DXGI\_FORMAT\_R16\_FLOAT   = 54,}
+\DoxyCodeLine{145     DXGI\_FORMAT\_D16\_UNORM   = 55,}
+\DoxyCodeLine{146     DXGI\_FORMAT\_R16\_UNORM   = 56,}
+\DoxyCodeLine{147     DXGI\_FORMAT\_R16\_UINT    = 57,}
+\DoxyCodeLine{148     DXGI\_FORMAT\_R16\_SNORM   = 58,}
+\DoxyCodeLine{149     DXGI\_FORMAT\_R16\_SINT    = 59,}
+\DoxyCodeLine{150     DXGI\_FORMAT\_R8\_TYPELESS = 60,}
+\DoxyCodeLine{151     DXGI\_FORMAT\_R8\_UNORM    = 61,}
+\DoxyCodeLine{152     DXGI\_FORMAT\_R8\_UINT = 62,}
+\DoxyCodeLine{153     DXGI\_FORMAT\_R8\_SNORM    = 63,}
+\DoxyCodeLine{154     DXGI\_FORMAT\_R8\_SINT = 64,}
+\DoxyCodeLine{155     DXGI\_FORMAT\_A8\_UNORM    = 65,}
+\DoxyCodeLine{156     DXGI\_FORMAT\_R1\_UNORM    = 66,}
+\DoxyCodeLine{157     DXGI\_FORMAT\_R9G9B9E5\_SHAREDEXP  = 67,}
+\DoxyCodeLine{158     DXGI\_FORMAT\_R8G8\_B8G8\_UNORM = 68,}
+\DoxyCodeLine{159     DXGI\_FORMAT\_G8R8\_G8B8\_UNORM = 69,}
+\DoxyCodeLine{160     DXGI\_FORMAT\_BC1\_TYPELESS    = 70,}
+\DoxyCodeLine{161     DXGI\_FORMAT\_BC1\_UNORM   = 71,}
+\DoxyCodeLine{162     DXGI\_FORMAT\_BC1\_UNORM\_SRGB  = 72,}
+\DoxyCodeLine{163     DXGI\_FORMAT\_BC2\_TYPELESS    = 73,}
+\DoxyCodeLine{164     DXGI\_FORMAT\_BC2\_UNORM   = 74,}
+\DoxyCodeLine{165     DXGI\_FORMAT\_BC2\_UNORM\_SRGB  = 75,}
+\DoxyCodeLine{166     DXGI\_FORMAT\_BC3\_TYPELESS    = 76,}
+\DoxyCodeLine{167     DXGI\_FORMAT\_BC3\_UNORM   = 77,}
+\DoxyCodeLine{168     DXGI\_FORMAT\_BC3\_UNORM\_SRGB  = 78,}
+\DoxyCodeLine{169     DXGI\_FORMAT\_BC4\_TYPELESS    = 79,}
+\DoxyCodeLine{170     DXGI\_FORMAT\_BC4\_UNORM   = 80,}
+\DoxyCodeLine{171     DXGI\_FORMAT\_BC4\_SNORM   = 81,}
+\DoxyCodeLine{172     DXGI\_FORMAT\_BC5\_TYPELESS    = 82,}
+\DoxyCodeLine{173     DXGI\_FORMAT\_BC5\_UNORM   = 83,}
+\DoxyCodeLine{174     DXGI\_FORMAT\_BC5\_SNORM   = 84,}
+\DoxyCodeLine{175     DXGI\_FORMAT\_B5G6R5\_UNORM    = 85,}
+\DoxyCodeLine{176     DXGI\_FORMAT\_B5G5R5A1\_UNORM  = 86,}
+\DoxyCodeLine{177     DXGI\_FORMAT\_B8G8R8A8\_UNORM  = 87,}
+\DoxyCodeLine{178     DXGI\_FORMAT\_B8G8R8X8\_UNORM  = 88,}
+\DoxyCodeLine{179     DXGI\_FORMAT\_FORCE\_UINT  = 0xffffffffUL}
+\DoxyCodeLine{180     \}   DXGI\_FORMAT;}
+\DoxyCodeLine{181 }
+\DoxyCodeLine{182 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d_x_g_i___r_g_b}{DXGI\_RGB}}}
+\DoxyCodeLine{183     \{}
+\DoxyCodeLine{184     \textcolor{keywordtype}{float} Red;}
+\DoxyCodeLine{185     \textcolor{keywordtype}{float} Green;}
+\DoxyCodeLine{186     \textcolor{keywordtype}{float} Blue;}
+\DoxyCodeLine{187     \}   \mbox{\hyperlink{struct_d_x_g_i___r_g_b}{DXGI\_RGB}};}
+\DoxyCodeLine{188 }
+\DoxyCodeLine{189 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d_x_g_i___g_a_m_m_a___c_o_n_t_r_o_l}{DXGI\_GAMMA\_CONTROL}}}
+\DoxyCodeLine{190     \{}
+\DoxyCodeLine{191     \mbox{\hyperlink{struct_d_x_g_i___r_g_b}{DXGI\_RGB}} Scale;}
+\DoxyCodeLine{192     \mbox{\hyperlink{struct_d_x_g_i___r_g_b}{DXGI\_RGB}} Offset;}
+\DoxyCodeLine{193     \mbox{\hyperlink{struct_d_x_g_i___r_g_b}{DXGI\_RGB}} GammaCurve[ 1025 ];}
+\DoxyCodeLine{194     \}   \mbox{\hyperlink{struct_d_x_g_i___g_a_m_m_a___c_o_n_t_r_o_l}{DXGI\_GAMMA\_CONTROL}};}
+\DoxyCodeLine{195 }
+\DoxyCodeLine{196 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d_x_g_i___g_a_m_m_a___c_o_n_t_r_o_l___c_a_p_a_b_i_l_i_i_t_e_s}{DXGI\_GAMMA\_CONTROL\_CAPABILIITES}}}
+\DoxyCodeLine{197     \{}
+\DoxyCodeLine{198     BOOL ScaleAndOffsetSupported;}
+\DoxyCodeLine{199     \textcolor{keywordtype}{float} MaxConvertedValue;}
+\DoxyCodeLine{200     \textcolor{keywordtype}{float} MinConvertedValue;}
+\DoxyCodeLine{201     UINT NumGammaControlPoints;}
+\DoxyCodeLine{202     \textcolor{keywordtype}{float} ControlPointPositions[ 1025 ];}
+\DoxyCodeLine{203     \}   \mbox{\hyperlink{struct_d_x_g_i___g_a_m_m_a___c_o_n_t_r_o_l___c_a_p_a_b_i_l_i_i_t_e_s}{DXGI\_GAMMA\_CONTROL\_CAPABILIITES}};}
+\DoxyCodeLine{204 }
+\DoxyCodeLine{205 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d_x_g_i___f_r_a_m_e___s_t_a_t_i_s_t_i_c_s}{DXGI\_FRAME\_STATISTICS}}}
+\DoxyCodeLine{206     \{}
+\DoxyCodeLine{207     UINT PresentCount;}
+\DoxyCodeLine{208     UINT PresentRefreshCount;}
+\DoxyCodeLine{209     UINT SyncRefreshCount;}
+\DoxyCodeLine{210     LARGE\_INTEGER SyncQPCTime;}
+\DoxyCodeLine{211     LARGE\_INTEGER SyncGPUTime;}
+\DoxyCodeLine{212     \}   \mbox{\hyperlink{struct_d_x_g_i___f_r_a_m_e___s_t_a_t_i_s_t_i_c_s}{DXGI\_FRAME\_STATISTICS}};}
+\DoxyCodeLine{213 }
+\DoxyCodeLine{214 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d_x_g_i___r_a_t_i_o_n_a_l}{DXGI\_RATIONAL}}}
+\DoxyCodeLine{215     \{}
+\DoxyCodeLine{216     UINT Numerator;}
+\DoxyCodeLine{217     UINT Denominator;}
+\DoxyCodeLine{218     \}   \mbox{\hyperlink{struct_d_x_g_i___r_a_t_i_o_n_a_l}{DXGI\_RATIONAL}};}
+\DoxyCodeLine{219 }
+\DoxyCodeLine{220 \textcolor{keyword}{typedef} }
+\DoxyCodeLine{221 \textcolor{keyword}{enum} DXGI\_MODE\_SCANLINE\_ORDER}
+\DoxyCodeLine{222     \{   DXGI\_MODE\_SCANLINE\_ORDER\_UNSPECIFIED    = 0,}
+\DoxyCodeLine{223     DXGI\_MODE\_SCANLINE\_ORDER\_PROGRESSIVE    = 1,}
+\DoxyCodeLine{224     DXGI\_MODE\_SCANLINE\_ORDER\_UPPER\_FIELD\_FIRST  = 2,}
+\DoxyCodeLine{225     DXGI\_MODE\_SCANLINE\_ORDER\_LOWER\_FIELD\_FIRST  = 3}
+\DoxyCodeLine{226     \}   DXGI\_MODE\_SCANLINE\_ORDER;}
+\DoxyCodeLine{227 }
+\DoxyCodeLine{228 \textcolor{keyword}{typedef} }
+\DoxyCodeLine{229 \textcolor{keyword}{enum} DXGI\_MODE\_SCALING}
+\DoxyCodeLine{230     \{   DXGI\_MODE\_SCALING\_UNSPECIFIED   = 0,}
+\DoxyCodeLine{231     DXGI\_MODE\_SCALING\_CENTERED  = 1,}
+\DoxyCodeLine{232     DXGI\_MODE\_SCALING\_STRETCHED = 2}
+\DoxyCodeLine{233     \}   DXGI\_MODE\_SCALING;}
+\DoxyCodeLine{234 }
+\DoxyCodeLine{235 \textcolor{keyword}{typedef} }
+\DoxyCodeLine{236 \textcolor{keyword}{enum} DXGI\_MODE\_ROTATION}
+\DoxyCodeLine{237     \{   DXGI\_MODE\_ROTATION\_UNSPECIFIED  = 0,}
+\DoxyCodeLine{238     DXGI\_MODE\_ROTATION\_IDENTITY = 1,}
+\DoxyCodeLine{239     DXGI\_MODE\_ROTATION\_ROTATE90 = 2,}
+\DoxyCodeLine{240     DXGI\_MODE\_ROTATION\_ROTATE180    = 3,}
+\DoxyCodeLine{241     DXGI\_MODE\_ROTATION\_ROTATE270    = 4}
+\DoxyCodeLine{242     \}   DXGI\_MODE\_ROTATION;}
+\DoxyCodeLine{243 }
+\DoxyCodeLine{244 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d_x_g_i___m_o_d_e___d_e_s_c}{DXGI\_MODE\_DESC}}}
+\DoxyCodeLine{245     \{}
+\DoxyCodeLine{246     UINT Width;}
+\DoxyCodeLine{247     UINT Height;}
+\DoxyCodeLine{248     \mbox{\hyperlink{struct_d_x_g_i___r_a_t_i_o_n_a_l}{DXGI\_RATIONAL}} RefreshRate;}
+\DoxyCodeLine{249     DXGI\_FORMAT Format;}
+\DoxyCodeLine{250     DXGI\_MODE\_SCANLINE\_ORDER ScanlineOrdering;}
+\DoxyCodeLine{251     DXGI\_MODE\_SCALING Scaling;}
+\DoxyCodeLine{252     \}   \mbox{\hyperlink{struct_d_x_g_i___m_o_d_e___d_e_s_c}{DXGI\_MODE\_DESC}};}
+\DoxyCodeLine{253 }
+\DoxyCodeLine{254 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d_x_g_i___l_o_c_k_e_d___r_e_c_t}{DXGI\_LOCKED\_RECT}}}
+\DoxyCodeLine{255     \{}
+\DoxyCodeLine{256     INT Pitch;}
+\DoxyCodeLine{257     BYTE *pBits;}
+\DoxyCodeLine{258     \}   \mbox{\hyperlink{struct_d_x_g_i___l_o_c_k_e_d___r_e_c_t}{DXGI\_LOCKED\_RECT}};}
+\DoxyCodeLine{259 }
+\DoxyCodeLine{260 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d_x_g_i___a_d_a_p_t_e_r___d_e_s_c}{DXGI\_ADAPTER\_DESC}}}
+\DoxyCodeLine{261     \{}
+\DoxyCodeLine{262     WCHAR Description[ 128 ];}
+\DoxyCodeLine{263     UINT VendorId;}
+\DoxyCodeLine{264     UINT DeviceId;}
+\DoxyCodeLine{265     UINT SubSysId;}
+\DoxyCodeLine{266     UINT Revision;}
+\DoxyCodeLine{267     SIZE\_T DedicatedVideoMemory;}
+\DoxyCodeLine{268     SIZE\_T SharedVideoMemory;}
+\DoxyCodeLine{269     \}   \mbox{\hyperlink{struct_d_x_g_i___a_d_a_p_t_e_r___d_e_s_c}{DXGI\_ADAPTER\_DESC}};}
+\DoxyCodeLine{270 }
+\DoxyCodeLine{271 \textcolor{preprocessor}{\#if !defined(HMONITOR\_DECLARED) \&\& !defined(HMONITOR) \&\& (WINVER < 0x0500)}}
+\DoxyCodeLine{272 \textcolor{preprocessor}{\#define HMONITOR\_DECLARED}}
+\DoxyCodeLine{273 \textcolor{preprocessor}{\#if 0}}
+\DoxyCodeLine{274 \textcolor{keyword}{typedef} HANDLE HMONITOR;}
+\DoxyCodeLine{275 }
+\DoxyCodeLine{276 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{277 DECLARE\_HANDLE(HMONITOR);}
+\DoxyCodeLine{278 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{279 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d_x_g_i___o_u_t_p_u_t___d_e_s_c}{DXGI\_OUTPUT\_DESC}}}
+\DoxyCodeLine{280     \{}
+\DoxyCodeLine{281     WCHAR DeviceName[ 32 ];}
+\DoxyCodeLine{282     RECT DesktopCoordinates;}
+\DoxyCodeLine{283     BOOL AttachedToDesktop;}
+\DoxyCodeLine{284     DXGI\_MODE\_ROTATION Rotation;}
+\DoxyCodeLine{285     HMONITOR Monitor;}
+\DoxyCodeLine{286     \}   \mbox{\hyperlink{struct_d_x_g_i___o_u_t_p_u_t___d_e_s_c}{DXGI\_OUTPUT\_DESC}};}
+\DoxyCodeLine{287 }
+\DoxyCodeLine{288 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d_x_g_i___s_a_m_p_l_e___d_e_s_c}{DXGI\_SAMPLE\_DESC}}}
+\DoxyCodeLine{289     \{}
+\DoxyCodeLine{290     UINT Count;}
+\DoxyCodeLine{291     UINT Quality;}
+\DoxyCodeLine{292     \}   \mbox{\hyperlink{struct_d_x_g_i___s_a_m_p_l_e___d_e_s_c}{DXGI\_SAMPLE\_DESC}};}
+\DoxyCodeLine{293 }
+\DoxyCodeLine{294 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d_x_g_i___s_h_a_r_e_d___r_e_s_o_u_r_c_e}{DXGI\_SHARED\_RESOURCE}}}
+\DoxyCodeLine{295     \{}
+\DoxyCodeLine{296     HANDLE Handle;}
+\DoxyCodeLine{297     DXGI\_USAGE OpenUsage;}
+\DoxyCodeLine{298     \}   \mbox{\hyperlink{struct_d_x_g_i___s_h_a_r_e_d___r_e_s_o_u_r_c_e}{DXGI\_SHARED\_RESOURCE}};}
+\DoxyCodeLine{299 }
+\DoxyCodeLine{300 \textcolor{preprocessor}{\#define DXGI\_RESOURCE\_PRIORITY\_MINIMUM  ( 0x28000000 )}}
+\DoxyCodeLine{301 }
+\DoxyCodeLine{302 \textcolor{preprocessor}{\#define DXGI\_RESOURCE\_PRIORITY\_LOW  ( 0x50000000 )}}
+\DoxyCodeLine{303 }
+\DoxyCodeLine{304 \textcolor{preprocessor}{\#define DXGI\_RESOURCE\_PRIORITY\_NORMAL   ( 0x78000000 )}}
+\DoxyCodeLine{305 }
+\DoxyCodeLine{306 \textcolor{preprocessor}{\#define DXGI\_RESOURCE\_PRIORITY\_HIGH ( 0xa0000000 )}}
+\DoxyCodeLine{307 }
+\DoxyCodeLine{308 \textcolor{preprocessor}{\#define DXGI\_RESOURCE\_PRIORITY\_MAXIMUM  ( 0xc8000000 )}}
+\DoxyCodeLine{309 }
+\DoxyCodeLine{310 \textcolor{keyword}{typedef} }
+\DoxyCodeLine{311 \textcolor{keyword}{enum} DXGI\_RESIDENCY}
+\DoxyCodeLine{312     \{   DXGI\_RESIDENCY\_FULLY\_RESIDENT   = 1,}
+\DoxyCodeLine{313     DXGI\_RESIDENCY\_RESIDENT\_IN\_SHARED\_MEMORY    = 2,}
+\DoxyCodeLine{314     DXGI\_RESIDENCY\_EVICTED\_TO\_DISK  = 3}
+\DoxyCodeLine{315     \}   DXGI\_RESIDENCY;}
+\DoxyCodeLine{316 }
+\DoxyCodeLine{317 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d_x_g_i___s_u_r_f_a_c_e___d_e_s_c}{DXGI\_SURFACE\_DESC}}}
+\DoxyCodeLine{318     \{}
+\DoxyCodeLine{319     UINT Width;}
+\DoxyCodeLine{320     UINT Height;}
+\DoxyCodeLine{321     DXGI\_FORMAT Format;}
+\DoxyCodeLine{322     \mbox{\hyperlink{struct_d_x_g_i___s_a_m_p_l_e___d_e_s_c}{DXGI\_SAMPLE\_DESC}} SampleDesc;}
+\DoxyCodeLine{323     \}   \mbox{\hyperlink{struct_d_x_g_i___s_u_r_f_a_c_e___d_e_s_c}{DXGI\_SURFACE\_DESC}};}
+\DoxyCodeLine{324 }
+\DoxyCodeLine{325 \textcolor{keyword}{typedef} }
+\DoxyCodeLine{326 \textcolor{keyword}{enum} DXGI\_SWAP\_EFFECT}
+\DoxyCodeLine{327     \{   DXGI\_SWAP\_EFFECT\_DISCARD    = 0,}
+\DoxyCodeLine{328     DXGI\_SWAP\_EFFECT\_COPY   = 1}
+\DoxyCodeLine{329     \}   DXGI\_SWAP\_EFFECT;}
+\DoxyCodeLine{330 }
+\DoxyCodeLine{331 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_d_x_g_i___s_w_a_p___c_h_a_i_n___d_e_s_c}{DXGI\_SWAP\_CHAIN\_DESC}}}
+\DoxyCodeLine{332     \{}
+\DoxyCodeLine{333     \mbox{\hyperlink{struct_d_x_g_i___m_o_d_e___d_e_s_c}{DXGI\_MODE\_DESC}} BackBufferDesc;}
+\DoxyCodeLine{334     \mbox{\hyperlink{struct_d_x_g_i___s_a_m_p_l_e___d_e_s_c}{DXGI\_SAMPLE\_DESC}} SampleDesc;}
+\DoxyCodeLine{335     \mbox{\hyperlink{struct_d_x_g_i___s_h_a_r_e_d___r_e_s_o_u_r_c_e}{DXGI\_SHARED\_RESOURCE}} Sharing;}
+\DoxyCodeLine{336     DXGI\_USAGE BackBufferUsage;}
+\DoxyCodeLine{337     UINT BackBufferCount;}
+\DoxyCodeLine{338     UINT MaxFrameLatency;}
+\DoxyCodeLine{339     HWND OutputWindow;}
+\DoxyCodeLine{340     BOOL Windowed;}
+\DoxyCodeLine{341     DXGI\_SWAP\_EFFECT SwapEffect;}
+\DoxyCodeLine{342     DXGI\_MODE\_ROTATION BackBufferRotation;}
+\DoxyCodeLine{343     \}   \mbox{\hyperlink{struct_d_x_g_i___s_w_a_p___c_h_a_i_n___d_e_s_c}{DXGI\_SWAP\_CHAIN\_DESC}};}
+\DoxyCodeLine{344 }
+\DoxyCodeLine{345 }
+\DoxyCodeLine{346 }
+\DoxyCodeLine{347 \textcolor{keyword}{extern} RPC\_IF\_HANDLE \_\_MIDL\_itf\_dxgitype\_0000\_0000\_v0\_0\_c\_ifspec;}
+\DoxyCodeLine{348 \textcolor{keyword}{extern} RPC\_IF\_HANDLE \_\_MIDL\_itf\_dxgitype\_0000\_0000\_v0\_0\_s\_ifspec;}
+\DoxyCodeLine{349 }
+\DoxyCodeLine{350 \textcolor{comment}{/* Additional Prototypes for ALL interfaces */}}
+\DoxyCodeLine{351 }
+\DoxyCodeLine{352 \textcolor{comment}{/* end of Additional Prototypes */}}
+\DoxyCodeLine{353 }
+\DoxyCodeLine{354 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{355 \}}
+\DoxyCodeLine{356 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{357 }
+\DoxyCodeLine{358 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{359 }
+\DoxyCodeLine{360 }
+
+\end{DoxyCode}

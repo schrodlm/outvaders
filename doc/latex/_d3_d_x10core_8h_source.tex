@@ -1,0 +1,418 @@
+\hypertarget{_d3_d_x10core_8h_source}{}\doxysection{D3\+DX10core.\+h}
+\label{_d3_d_x10core_8h_source}\index{src/lib/dx/Include/D3DX10core.h@{src/lib/dx/Include/D3DX10core.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{2 \textcolor{comment}{//}}
+\DoxyCodeLine{3 \textcolor{comment}{//  Copyright (C) Microsoft Corporation.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{//}}
+\DoxyCodeLine{5 \textcolor{comment}{//  File:       d3dx10core.h}}
+\DoxyCodeLine{6 \textcolor{comment}{//  Content:    D3DX10 core types and functions}}
+\DoxyCodeLine{7 \textcolor{comment}{//}}
+\DoxyCodeLine{9 \textcolor{comment}{}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}d3dx10.h"{}}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#ifndef \_\_D3DX10CORE\_H\_\_}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#define \_\_D3DX10CORE\_H\_\_}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{comment}{// Current name of the DLL shipped in the same SDK as this header.}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#define D3DX10\_DLL\_W L"{}d3dx10.dll"{}}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#define D3DX10\_DLL\_A "{}d3dx10.dll"{}}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{    \#define D3DX10\_DLL D3DX10\_DLL\_W }}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{    \#define D3DX10\_DLL D3DX10\_DLL\_A}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{26 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{30 \textcolor{comment}{// D3DX10\_SDK\_VERSION:}}
+\DoxyCodeLine{31 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{32 \textcolor{comment}{// This identifier is passed to D3DX10CheckVersion in order to ensure that an}}
+\DoxyCodeLine{33 \textcolor{comment}{// application was built against the correct header files and lib files. }}
+\DoxyCodeLine{34 \textcolor{comment}{// This number is incremented whenever a header (or other) change would }}
+\DoxyCodeLine{35 \textcolor{comment}{// require applications to be rebuilt. If the version doesn't match, }}
+\DoxyCodeLine{36 \textcolor{comment}{// D3DX10CreateVersion will return FALSE. (The number itself has no meaning.)}}
+\DoxyCodeLine{38 \textcolor{comment}{}}
+\DoxyCodeLine{39 \textcolor{preprocessor}{\#define D3DX10\_VERSION 0x1002}}
+\DoxyCodeLine{40 \textcolor{preprocessor}{\#define D3DX10\_SDK\_VERSION 1000}}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 HRESULT WINAPI D3DX10CheckVersion(UINT D3DSdkVersion, UINT D3DX10SdkVersion);}
+\DoxyCodeLine{43 UINT WINAPI D3DX10GetDriverLevel(ID3D10Device *pDevice);}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{46 \}}
+\DoxyCodeLine{47 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{50 \textcolor{comment}{// D3DX10SPRITE flags:}}
+\DoxyCodeLine{51 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{52 \textcolor{comment}{// D3DX10SPRITE\_DONOTSAVESTATE}}
+\DoxyCodeLine{53 \textcolor{comment}{//   Specifies device state is not to be saved and restored in Begin/End.}}
+\DoxyCodeLine{54 \textcolor{comment}{// D3DX10SPRITE\_DONOTMODIFY\_RENDERSTATE}}
+\DoxyCodeLine{55 \textcolor{comment}{//   Specifies device render state is not to be changed in Begin.  The device}}
+\DoxyCodeLine{56 \textcolor{comment}{//   is assumed to be in a valid state to draw vertices containing POSITION0, }}
+\DoxyCodeLine{57 \textcolor{comment}{//   TEXCOORD0, and COLOR0 data.}}
+\DoxyCodeLine{58 \textcolor{comment}{// D3DX10SPRITE\_OBJECTSPACE}}
+\DoxyCodeLine{59 \textcolor{comment}{//   The WORLD, VIEW, and PROJECTION transforms are NOT modified.  The }}
+\DoxyCodeLine{60 \textcolor{comment}{//   transforms currently set to the device are used to transform the sprites }}
+\DoxyCodeLine{61 \textcolor{comment}{//   when the batch is drawn (at Flush or End).  If this is not specified, }}
+\DoxyCodeLine{62 \textcolor{comment}{//   WORLD, VIEW, and PROJECTION transforms are modified so that sprites are }}
+\DoxyCodeLine{63 \textcolor{comment}{//   drawn in screenspace coordinates.}}
+\DoxyCodeLine{64 \textcolor{comment}{// D3DX10SPRITE\_BILLBOARD}}
+\DoxyCodeLine{65 \textcolor{comment}{//   Rotates each sprite about its center so that it is facing the viewer.}}
+\DoxyCodeLine{66 \textcolor{comment}{// D3DX10SPRITE\_BLEND}}
+\DoxyCodeLine{67 \textcolor{comment}{//   Enables BLEND(SRCALPHA, INVSRCALPHA) and ALPHATEST(alpha > 0).}}
+\DoxyCodeLine{68 \textcolor{comment}{//   ID3DX10Font expects this to be set when drawing text.}}
+\DoxyCodeLine{69 \textcolor{comment}{// D3DX10SPRITE\_SORT\_TEXTURE}}
+\DoxyCodeLine{70 \textcolor{comment}{//   Sprites are sorted by texture prior to drawing.  This is recommended when}}
+\DoxyCodeLine{71 \textcolor{comment}{//   drawing non-\/overlapping sprites of uniform depth.  For example, drawing}}
+\DoxyCodeLine{72 \textcolor{comment}{//   screen-\/aligned text with ID3DX10Font.}}
+\DoxyCodeLine{73 \textcolor{comment}{// D3DX10SPRITE\_SORT\_DEPTH\_FRONTTOBACK}}
+\DoxyCodeLine{74 \textcolor{comment}{//   Sprites are sorted by depth front-\/to-\/back prior to drawing.  This is }}
+\DoxyCodeLine{75 \textcolor{comment}{//   recommended when drawing opaque sprites of varying depths.}}
+\DoxyCodeLine{76 \textcolor{comment}{// D3DX10SPRITE\_SORT\_DEPTH\_BACKTOFRONT}}
+\DoxyCodeLine{77 \textcolor{comment}{//   Sprites are sorted by depth back-\/to-\/front prior to drawing.  This is }}
+\DoxyCodeLine{78 \textcolor{comment}{//   recommended when drawing transparent sprites of varying depths.}}
+\DoxyCodeLine{80 \textcolor{comment}{}}
+\DoxyCodeLine{81 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} D3DX10SPRITE\_FLAG}
+\DoxyCodeLine{82 \{}
+\DoxyCodeLine{83     D3DX10SPRITE\_DONOTSAVESTATE              =    (1 << 0),}
+\DoxyCodeLine{84     D3DX10SPRITE\_DONOTMODIFY\_RENDERSTATE     =    (1 << 1),}
+\DoxyCodeLine{85     D3DX10SPRITE\_OBJECTSPACE                 =    (1 << 2),}
+\DoxyCodeLine{86     D3DX10SPRITE\_BILLBOARD                   =    (1 << 3),}
+\DoxyCodeLine{87     D3DX10SPRITE\_BLEND                       =    (1 << 4),}
+\DoxyCodeLine{88     D3DX10SPRITE\_SORT\_TEXTURE                =    (1 << 5),}
+\DoxyCodeLine{89     D3DX10SPRITE\_SORT\_DEPTH\_FRONTTOBACK      =    (1 << 6),}
+\DoxyCodeLine{90     D3DX10SPRITE\_SORT\_DEPTH\_BACKTOFRONT      =    (1 << 7),}
+\DoxyCodeLine{91 \} D3DX10SPRITE\_FLAG;}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{93 }
+\DoxyCodeLine{95 \textcolor{comment}{// ID3DX10Sprite:}}
+\DoxyCodeLine{96 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{97 \textcolor{comment}{// This object intends to provide an easy way to drawing sprites using D3D.}}
+\DoxyCodeLine{98 \textcolor{comment}{//}}
+\DoxyCodeLine{99 \textcolor{comment}{// Begin -\/ }}
+\DoxyCodeLine{100 \textcolor{comment}{//    Prepares device for drawing sprites.}}
+\DoxyCodeLine{101 \textcolor{comment}{//}}
+\DoxyCodeLine{102 \textcolor{comment}{// Draw -\/}}
+\DoxyCodeLine{103 \textcolor{comment}{//    Draws a sprite.  Before transformation, the sprite is the size of }}
+\DoxyCodeLine{104 \textcolor{comment}{//    SrcRect, with its top-\/left corner specified by Position.  The color }}
+\DoxyCodeLine{105 \textcolor{comment}{//    and alpha channels are modulated by Color. Center is used to determine}}
+\DoxyCodeLine{106 \textcolor{comment}{//    the point of rotation of the sprite in texels from its upper left (NULL}}
+\DoxyCodeLine{107 \textcolor{comment}{//    means to use 0,0 which is the upper left).}}
+\DoxyCodeLine{108 \textcolor{comment}{//}}
+\DoxyCodeLine{109 \textcolor{comment}{// Flush -\/}}
+\DoxyCodeLine{110 \textcolor{comment}{//    Forces all batched sprites to submitted to the device.}}
+\DoxyCodeLine{111 \textcolor{comment}{//}}
+\DoxyCodeLine{112 \textcolor{comment}{// End -\/ }}
+\DoxyCodeLine{113 \textcolor{comment}{//    Restores device state to how it was when Begin was called.}}
+\DoxyCodeLine{114 \textcolor{comment}{//}}
+\DoxyCodeLine{116 \textcolor{comment}{}}
+\DoxyCodeLine{117 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DX10Sprite ID3DX10Sprite;}
+\DoxyCodeLine{118 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DX10Sprite *LPD3DX10SPRITE;}
+\DoxyCodeLine{119 }
+\DoxyCodeLine{120 }
+\DoxyCodeLine{121 \textcolor{comment}{// \{BA0B762D-\/7D28-\/43ec-\/B9DC-\/2F84443B0614\}}}
+\DoxyCodeLine{122 DEFINE\_GUID(IID\_ID3DX10Sprite, }
+\DoxyCodeLine{123 0xba0b762d, 0x7d28, 0x43ec, 0xb9, 0xdc, 0x2f, 0x84, 0x44, 0x3b, 0x6, 0x14);}
+\DoxyCodeLine{124 }
+\DoxyCodeLine{125 }
+\DoxyCodeLine{126 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{127 \textcolor{preprocessor}{\#define INTERFACE ID3DX10Sprite}}
+\DoxyCodeLine{128 }
+\DoxyCodeLine{129 DECLARE\_INTERFACE\_(ID3DX10Sprite, IUnknown)}
+\DoxyCodeLine{130 \{}
+\DoxyCodeLine{131     \textcolor{comment}{// IUnknown}}
+\DoxyCodeLine{132     STDMETHOD(QueryInterface)(THIS\_ REFIID iid, LPVOID *ppv) PURE;}
+\DoxyCodeLine{133     STDMETHOD\_(ULONG, AddRef)(THIS) PURE;}
+\DoxyCodeLine{134     STDMETHOD\_(ULONG, Release)(THIS) PURE;}
+\DoxyCodeLine{135 }
+\DoxyCodeLine{136     \textcolor{comment}{// ID3DX10Sprite}}
+\DoxyCodeLine{137     STDMETHOD(GetDevice)(THIS\_ ID3D10Device** ppDevice) PURE;}
+\DoxyCodeLine{138 }
+\DoxyCodeLine{139     STDMETHOD(GetTransform)(THIS\_ \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pTransform) PURE;}
+\DoxyCodeLine{140     STDMETHOD(SetTransform)(THIS\_ CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pTransform) PURE;}
+\DoxyCodeLine{141     }
+\DoxyCodeLine{142     STDMETHOD(SetWorldViewRH)(THIS\_ CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pWorld, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pView) PURE;}
+\DoxyCodeLine{143     STDMETHOD(SetWorldViewLH)(THIS\_ CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pWorld, CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pView) PURE;}
+\DoxyCodeLine{144     }
+\DoxyCodeLine{145     STDMETHOD(GetProjection)(THIS\_ \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pProjection) PURE;}
+\DoxyCodeLine{146     STDMETHOD(SetProjection)(THIS\_ CONST \mbox{\hyperlink{struct___d3_d_m_a_t_r_i_x}{D3DXMATRIX}} *pProjection) PURE;}
+\DoxyCodeLine{147 }
+\DoxyCodeLine{148     STDMETHOD(Begin)(THIS\_ UINT Flags) PURE;}
+\DoxyCodeLine{149     STDMETHOD(Draw)(THIS\_ ID3D10ShaderResourceView* pTexture, CONST RECT *pSrcRect, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pCenter, CONST \mbox{\hyperlink{struct___d3_d_v_e_c_t_o_r}{D3DXVECTOR3}} *pPosition, \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} Color) PURE;}
+\DoxyCodeLine{150     STDMETHOD(Flush)(THIS) PURE;}
+\DoxyCodeLine{151     STDMETHOD(End)(THIS) PURE;}
+\DoxyCodeLine{152 \};}
+\DoxyCodeLine{153 }
+\DoxyCodeLine{154 }
+\DoxyCodeLine{155 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{156 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{157 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{158 }
+\DoxyCodeLine{159 HRESULT WINAPI }
+\DoxyCodeLine{160     D3DX10CreateSprite( }
+\DoxyCodeLine{161         ID3D10Device*         pDevice, }
+\DoxyCodeLine{162         LPD3DX10SPRITE*       ppSprite);}
+\DoxyCodeLine{163 }
+\DoxyCodeLine{164 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{165 \}}
+\DoxyCodeLine{166 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{167 }
+\DoxyCodeLine{168 }
+\DoxyCodeLine{170 \textcolor{comment}{// ID3DX10ThreadPump:}}
+\DoxyCodeLine{172 \textcolor{comment}{}}
+\DoxyCodeLine{173 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{174 \textcolor{preprocessor}{\#define INTERFACE ID3DX10DataLoader}}
+\DoxyCodeLine{175 }
+\DoxyCodeLine{176 DECLARE\_INTERFACE(ID3DX10DataLoader)}
+\DoxyCodeLine{177 \{}
+\DoxyCodeLine{178     STDMETHOD(Load)(THIS) PURE;}
+\DoxyCodeLine{179     STDMETHOD(Decompress)(THIS\_ \textcolor{keywordtype}{void} **ppData, SIZE\_T *pcBytes) PURE;}
+\DoxyCodeLine{180     STDMETHOD(Destroy)(THIS) PURE;}
+\DoxyCodeLine{181 \};}
+\DoxyCodeLine{182 }
+\DoxyCodeLine{183 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{184 \textcolor{preprocessor}{\#define INTERFACE ID3DX10DataProcessor}}
+\DoxyCodeLine{185 }
+\DoxyCodeLine{186 DECLARE\_INTERFACE(ID3DX10DataProcessor)}
+\DoxyCodeLine{187 \{}
+\DoxyCodeLine{188     STDMETHOD(Process)(THIS\_ \textcolor{keywordtype}{void} *pData, SIZE\_T cBytes) PURE;}
+\DoxyCodeLine{189     STDMETHOD(CreateDeviceObject)(THIS\_ \textcolor{keywordtype}{void} **ppDataObject) PURE;}
+\DoxyCodeLine{190     STDMETHOD(Destroy)(THIS) PURE;}
+\DoxyCodeLine{191 \};}
+\DoxyCodeLine{192 }
+\DoxyCodeLine{193 \textcolor{comment}{// \{C93FECFA-\/6967-\/478a-\/ABBC-\/402D90621FCB\}}}
+\DoxyCodeLine{194 DEFINE\_GUID(IID\_ID3DX10ThreadPump, }
+\DoxyCodeLine{195 0xc93fecfa, 0x6967, 0x478a, 0xab, 0xbc, 0x40, 0x2d, 0x90, 0x62, 0x1f, 0xcb);}
+\DoxyCodeLine{196 }
+\DoxyCodeLine{197 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{198 \textcolor{preprocessor}{\#define INTERFACE ID3DX10ThreadPump}}
+\DoxyCodeLine{199 }
+\DoxyCodeLine{200 DECLARE\_INTERFACE\_(ID3DX10ThreadPump, IUnknown)}
+\DoxyCodeLine{201 \{}
+\DoxyCodeLine{202     \textcolor{comment}{// IUnknown}}
+\DoxyCodeLine{203     STDMETHOD(QueryInterface)(THIS\_ REFIID iid, LPVOID *ppv) PURE;}
+\DoxyCodeLine{204     STDMETHOD\_(ULONG, AddRef)(THIS) PURE;}
+\DoxyCodeLine{205     STDMETHOD\_(ULONG, Release)(THIS) PURE;}
+\DoxyCodeLine{206 }
+\DoxyCodeLine{207     \textcolor{comment}{// ID3DX10ThreadPump}}
+\DoxyCodeLine{208     STDMETHOD(AddWorkItem)(THIS\_ ID3DX10DataLoader *pDataLoader, ID3DX10DataProcessor *pDataProcessor, HRESULT *pHResult, \textcolor{keywordtype}{void} **ppDeviceObject) PURE;}
+\DoxyCodeLine{209     STDMETHOD\_(UINT, GetWorkItemCount)(THIS) PURE;}
+\DoxyCodeLine{210 }
+\DoxyCodeLine{211     STDMETHOD(WaitForAllItems)(THIS) PURE;}
+\DoxyCodeLine{212     STDMETHOD(ProcessDeviceObjectCreation)(THIS\_ UINT iWorkItemCount);}
+\DoxyCodeLine{213 }
+\DoxyCodeLine{214     STDMETHOD(PurgeAllItems)(THIS) PURE;}
+\DoxyCodeLine{215     STDMETHOD(GetQueueStatus)(THIS\_ UINT *pIoQueue, UINT *pProcessQueue, UINT *pDeviceQueue) PURE;}
+\DoxyCodeLine{216     }
+\DoxyCodeLine{217 \};}
+\DoxyCodeLine{218 }
+\DoxyCodeLine{219 HRESULT WINAPI D3DX10CreateThreadPump(ID3DX10ThreadPump **ppThreadPump, UINT cIoThreads, UINT cProcThreads, UINT cDeviceThreads);}
+\DoxyCodeLine{220 }
+\DoxyCodeLine{221 }
+\DoxyCodeLine{223 \textcolor{comment}{// ID3DX10Font:}}
+\DoxyCodeLine{224 \textcolor{comment}{// -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{225 \textcolor{comment}{// Font objects contain the textures and resources needed to render a specific }}
+\DoxyCodeLine{226 \textcolor{comment}{// font on a specific device.}}
+\DoxyCodeLine{227 \textcolor{comment}{//}}
+\DoxyCodeLine{228 \textcolor{comment}{// GetGlyphData -\/}}
+\DoxyCodeLine{229 \textcolor{comment}{//    Returns glyph cache data, for a given glyph.}}
+\DoxyCodeLine{230 \textcolor{comment}{//}}
+\DoxyCodeLine{231 \textcolor{comment}{// PreloadCharacters/PreloadGlyphs/PreloadText -\/}}
+\DoxyCodeLine{232 \textcolor{comment}{//    Preloads glyphs into the glyph cache textures.}}
+\DoxyCodeLine{233 \textcolor{comment}{//}}
+\DoxyCodeLine{234 \textcolor{comment}{// DrawText -\/}}
+\DoxyCodeLine{235 \textcolor{comment}{//    Draws formatted text on a D3D device.  Some parameters are }}
+\DoxyCodeLine{236 \textcolor{comment}{//    surprisingly similar to those of GDI's DrawText function.  See GDI }}
+\DoxyCodeLine{237 \textcolor{comment}{//    documentation for a detailed description of these parameters.}}
+\DoxyCodeLine{238 \textcolor{comment}{//    If pSprite is NULL, an internal sprite object will be used.}}
+\DoxyCodeLine{239 \textcolor{comment}{//}}
+\DoxyCodeLine{241 \textcolor{comment}{}}
+\DoxyCodeLine{242 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x10_f_o_n_t___d_e_s_c_a}{\_D3DX10FONT\_DESCA}}}
+\DoxyCodeLine{243 \{}
+\DoxyCodeLine{244     INT Height;}
+\DoxyCodeLine{245     UINT Width;}
+\DoxyCodeLine{246     UINT Weight;}
+\DoxyCodeLine{247     UINT MipLevels;}
+\DoxyCodeLine{248     BOOL Italic;}
+\DoxyCodeLine{249     BYTE CharSet;}
+\DoxyCodeLine{250     BYTE OutputPrecision;}
+\DoxyCodeLine{251     BYTE Quality;}
+\DoxyCodeLine{252     BYTE PitchAndFamily;}
+\DoxyCodeLine{253     CHAR FaceName[LF\_FACESIZE];}
+\DoxyCodeLine{254 }
+\DoxyCodeLine{255 \} \mbox{\hyperlink{struct___d3_d_x10_f_o_n_t___d_e_s_c_a}{D3DX10FONT\_DESCA}}, *\mbox{\hyperlink{struct___d3_d_x10_f_o_n_t___d_e_s_c_a}{LPD3DX10FONT\_DESCA}};}
+\DoxyCodeLine{256 }
+\DoxyCodeLine{257 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct___d3_d_x10_f_o_n_t___d_e_s_c_w}{\_D3DX10FONT\_DESCW}}}
+\DoxyCodeLine{258 \{}
+\DoxyCodeLine{259     INT Height;}
+\DoxyCodeLine{260     UINT Width;}
+\DoxyCodeLine{261     UINT Weight;}
+\DoxyCodeLine{262     UINT MipLevels;}
+\DoxyCodeLine{263     BOOL Italic;}
+\DoxyCodeLine{264     BYTE CharSet;}
+\DoxyCodeLine{265     BYTE OutputPrecision;}
+\DoxyCodeLine{266     BYTE Quality;}
+\DoxyCodeLine{267     BYTE PitchAndFamily;}
+\DoxyCodeLine{268     WCHAR FaceName[LF\_FACESIZE];}
+\DoxyCodeLine{269 }
+\DoxyCodeLine{270 \} \mbox{\hyperlink{struct___d3_d_x10_f_o_n_t___d_e_s_c_w}{D3DX10FONT\_DESCW}}, *\mbox{\hyperlink{struct___d3_d_x10_f_o_n_t___d_e_s_c_w}{LPD3DX10FONT\_DESCW}};}
+\DoxyCodeLine{271 }
+\DoxyCodeLine{272 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{273 \textcolor{keyword}{typedef} \mbox{\hyperlink{struct___d3_d_x10_f_o_n_t___d_e_s_c_w}{D3DX10FONT\_DESCW}} \mbox{\hyperlink{struct___d3_d_x10_f_o_n_t___d_e_s_c_a}{D3DX10FONT\_DESC}};}
+\DoxyCodeLine{274 \textcolor{keyword}{typedef} \mbox{\hyperlink{struct___d3_d_x10_f_o_n_t___d_e_s_c_w}{LPD3DX10FONT\_DESCW}} \mbox{\hyperlink{struct___d3_d_x10_f_o_n_t___d_e_s_c_a}{LPD3DX10FONT\_DESC}};}
+\DoxyCodeLine{275 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{276 \textcolor{keyword}{typedef} \mbox{\hyperlink{struct___d3_d_x10_f_o_n_t___d_e_s_c_a}{D3DX10FONT\_DESCA}} \mbox{\hyperlink{struct___d3_d_x10_f_o_n_t___d_e_s_c_a}{D3DX10FONT\_DESC}};}
+\DoxyCodeLine{277 \textcolor{keyword}{typedef} \mbox{\hyperlink{struct___d3_d_x10_f_o_n_t___d_e_s_c_a}{LPD3DX10FONT\_DESCA}} \mbox{\hyperlink{struct___d3_d_x10_f_o_n_t___d_e_s_c_a}{LPD3DX10FONT\_DESC}};}
+\DoxyCodeLine{278 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{279 }
+\DoxyCodeLine{280 }
+\DoxyCodeLine{281 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DX10Font ID3DX10Font;}
+\DoxyCodeLine{282 \textcolor{keyword}{typedef} \textcolor{keyword}{interface }ID3DX10Font *LPD3DX10FONT;}
+\DoxyCodeLine{283 }
+\DoxyCodeLine{284 }
+\DoxyCodeLine{285 \textcolor{comment}{// \{D79DBB70-\/5F21-\/4d36-\/BBC2-\/FF525C213CDC\}}}
+\DoxyCodeLine{286 DEFINE\_GUID(IID\_ID3DX10Font, }
+\DoxyCodeLine{287 0xd79dbb70, 0x5f21, 0x4d36, 0xbb, 0xc2, 0xff, 0x52, 0x5c, 0x21, 0x3c, 0xdc);}
+\DoxyCodeLine{288 }
+\DoxyCodeLine{289 }
+\DoxyCodeLine{290 \textcolor{preprocessor}{\#undef INTERFACE}}
+\DoxyCodeLine{291 \textcolor{preprocessor}{\#define INTERFACE ID3DX10Font}}
+\DoxyCodeLine{292 }
+\DoxyCodeLine{293 DECLARE\_INTERFACE\_(ID3DX10Font, IUnknown)}
+\DoxyCodeLine{294 \{}
+\DoxyCodeLine{295     \textcolor{comment}{// IUnknown}}
+\DoxyCodeLine{296     STDMETHOD(QueryInterface)(THIS\_ REFIID iid, LPVOID *ppv) PURE;}
+\DoxyCodeLine{297     STDMETHOD\_(ULONG, AddRef)(THIS) PURE;}
+\DoxyCodeLine{298     STDMETHOD\_(ULONG, Release)(THIS) PURE;}
+\DoxyCodeLine{299 }
+\DoxyCodeLine{300     \textcolor{comment}{// ID3DX10Font}}
+\DoxyCodeLine{301     STDMETHOD(GetDevice)(THIS\_ ID3D10Device** ppDevice) PURE;}
+\DoxyCodeLine{302     STDMETHOD(GetDescA)(THIS\_ \mbox{\hyperlink{struct___d3_d_x10_f_o_n_t___d_e_s_c_a}{D3DX10FONT\_DESCA}} *pDesc) PURE;}
+\DoxyCodeLine{303     STDMETHOD(GetDescW)(THIS\_ \mbox{\hyperlink{struct___d3_d_x10_f_o_n_t___d_e_s_c_w}{D3DX10FONT\_DESCW}} *pDesc) PURE;}
+\DoxyCodeLine{304     STDMETHOD\_(BOOL, GetTextMetricsA)(THIS\_ TEXTMETRICA *pTextMetrics) PURE;}
+\DoxyCodeLine{305     STDMETHOD\_(BOOL, GetTextMetricsW)(THIS\_ TEXTMETRICW *pTextMetrics) PURE;}
+\DoxyCodeLine{306 }
+\DoxyCodeLine{307     STDMETHOD\_(HDC, GetDC)(THIS) PURE;}
+\DoxyCodeLine{308     STDMETHOD(GetGlyphData)(THIS\_ UINT Glyph, ID3D10ShaderResourceView** ppTexture, RECT *pBlackBox, POINT *pCellInc) PURE;}
+\DoxyCodeLine{309 }
+\DoxyCodeLine{310     STDMETHOD(PreloadCharacters)(THIS\_ UINT First, UINT Last) PURE;}
+\DoxyCodeLine{311     STDMETHOD(PreloadGlyphs)(THIS\_ UINT First, UINT Last) PURE;}
+\DoxyCodeLine{312     STDMETHOD(PreloadTextA)(THIS\_ LPCSTR pString, INT Count) PURE;}
+\DoxyCodeLine{313     STDMETHOD(PreloadTextW)(THIS\_ LPCWSTR pString, INT Count) PURE;}
+\DoxyCodeLine{314 }
+\DoxyCodeLine{315     STDMETHOD\_(INT, DrawTextA)(THIS\_ LPD3DX10SPRITE pSprite, LPCSTR pString, INT Count, LPRECT pRect, UINT Format, \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} Color) PURE;}
+\DoxyCodeLine{316     STDMETHOD\_(INT, DrawTextW)(THIS\_ LPD3DX10SPRITE pSprite, LPCWSTR pString, INT Count, LPRECT pRect, UINT Format, \mbox{\hyperlink{struct_d3_d_x_c_o_l_o_r}{D3DXCOLOR}} Color) PURE;}
+\DoxyCodeLine{317 }
+\DoxyCodeLine{318 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{319 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{320     HRESULT GetDesc(\mbox{\hyperlink{struct___d3_d_x10_f_o_n_t___d_e_s_c_w}{D3DX10FONT\_DESCW}} *pDesc) \{ \textcolor{keywordflow}{return} GetDescW(pDesc); \}}
+\DoxyCodeLine{321     HRESULT PreloadText(LPCWSTR pString, INT Count) \{ \textcolor{keywordflow}{return} PreloadTextW(pString, Count); \}}
+\DoxyCodeLine{322 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{323     HRESULT GetDesc(\mbox{\hyperlink{struct___d3_d_x10_f_o_n_t___d_e_s_c_a}{D3DX10FONT\_DESCA}} *pDesc) \{ \textcolor{keywordflow}{return} GetDescA(pDesc); \}}
+\DoxyCodeLine{324     HRESULT PreloadText(LPCSTR pString, INT Count) \{ \textcolor{keywordflow}{return} PreloadTextA(pString, Count); \}}
+\DoxyCodeLine{325 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{326 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{327 \};}
+\DoxyCodeLine{328 }
+\DoxyCodeLine{329 \textcolor{preprocessor}{\#ifndef GetTextMetrics}}
+\DoxyCodeLine{330 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{331 \textcolor{preprocessor}{\#define GetTextMetrics GetTextMetricsW}}
+\DoxyCodeLine{332 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{333 \textcolor{preprocessor}{\#define GetTextMetrics GetTextMetricsA}}
+\DoxyCodeLine{334 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{335 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{336 }
+\DoxyCodeLine{337 \textcolor{preprocessor}{\#ifndef DrawText}}
+\DoxyCodeLine{338 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{339 \textcolor{preprocessor}{\#define DrawText DrawTextW}}
+\DoxyCodeLine{340 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{341 \textcolor{preprocessor}{\#define DrawText DrawTextA}}
+\DoxyCodeLine{342 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{343 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{344 }
+\DoxyCodeLine{345 }
+\DoxyCodeLine{346 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{347 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{348 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{349 }
+\DoxyCodeLine{350 }
+\DoxyCodeLine{351 HRESULT WINAPI }
+\DoxyCodeLine{352     D3DX10CreateFontA(}
+\DoxyCodeLine{353         ID3D10Device*           pDevice,  }
+\DoxyCodeLine{354         INT                     Height,}
+\DoxyCodeLine{355         UINT                    Width,}
+\DoxyCodeLine{356         UINT                    Weight,}
+\DoxyCodeLine{357         UINT                    MipLevels,}
+\DoxyCodeLine{358         BOOL                    Italic,}
+\DoxyCodeLine{359         UINT                    CharSet,}
+\DoxyCodeLine{360         UINT                    OutputPrecision,}
+\DoxyCodeLine{361         UINT                    Quality,}
+\DoxyCodeLine{362         UINT                    PitchAndFamily,}
+\DoxyCodeLine{363         LPCSTR                  pFaceName,}
+\DoxyCodeLine{364         LPD3DX10FONT*           ppFont);}
+\DoxyCodeLine{365 }
+\DoxyCodeLine{366 HRESULT WINAPI }
+\DoxyCodeLine{367     D3DX10CreateFontW(}
+\DoxyCodeLine{368         ID3D10Device*           pDevice,  }
+\DoxyCodeLine{369         INT                     Height,}
+\DoxyCodeLine{370         UINT                    Width,}
+\DoxyCodeLine{371         UINT                    Weight,}
+\DoxyCodeLine{372         UINT                    MipLevels,}
+\DoxyCodeLine{373         BOOL                    Italic,}
+\DoxyCodeLine{374         UINT                    CharSet,}
+\DoxyCodeLine{375         UINT                    OutputPrecision,}
+\DoxyCodeLine{376         UINT                    Quality,}
+\DoxyCodeLine{377         UINT                    PitchAndFamily,}
+\DoxyCodeLine{378         LPCWSTR                 pFaceName,}
+\DoxyCodeLine{379         LPD3DX10FONT*           ppFont);}
+\DoxyCodeLine{380 }
+\DoxyCodeLine{381 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{382 \textcolor{preprocessor}{\#define D3DX10CreateFont D3DX10CreateFontW}}
+\DoxyCodeLine{383 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{384 \textcolor{preprocessor}{\#define D3DX10CreateFont D3DX10CreateFontA}}
+\DoxyCodeLine{385 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{386 }
+\DoxyCodeLine{387 }
+\DoxyCodeLine{388 HRESULT WINAPI }
+\DoxyCodeLine{389     D3DX10CreateFontIndirectA( }
+\DoxyCodeLine{390         ID3D10Device*             pDevice,  }
+\DoxyCodeLine{391         CONST \mbox{\hyperlink{struct___d3_d_x10_f_o_n_t___d_e_s_c_a}{D3DX10FONT\_DESCA}}*   pDesc, }
+\DoxyCodeLine{392         LPD3DX10FONT*             ppFont);}
+\DoxyCodeLine{393 }
+\DoxyCodeLine{394 HRESULT WINAPI }
+\DoxyCodeLine{395     D3DX10CreateFontIndirectW( }
+\DoxyCodeLine{396         ID3D10Device*             pDevice,  }
+\DoxyCodeLine{397         CONST \mbox{\hyperlink{struct___d3_d_x10_f_o_n_t___d_e_s_c_w}{D3DX10FONT\_DESCW}}*   pDesc, }
+\DoxyCodeLine{398         LPD3DX10FONT*             ppFont);}
+\DoxyCodeLine{399 }
+\DoxyCodeLine{400 \textcolor{preprocessor}{\#ifdef UNICODE}}
+\DoxyCodeLine{401 \textcolor{preprocessor}{\#define D3DX10CreateFontIndirect D3DX10CreateFontIndirectW}}
+\DoxyCodeLine{402 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{403 \textcolor{preprocessor}{\#define D3DX10CreateFontIndirect D3DX10CreateFontIndirectA}}
+\DoxyCodeLine{404 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{405 }
+\DoxyCodeLine{406 HRESULT WINAPI D3DX10UnsetAllDeviceObjects(ID3D10Device *pDevice);}
+\DoxyCodeLine{407 }
+\DoxyCodeLine{408 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{409 \}}
+\DoxyCodeLine{410 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_cplusplus}}
+\DoxyCodeLine{411 }
+\DoxyCodeLine{413 \textcolor{comment}{//}}
+\DoxyCodeLine{414 \textcolor{comment}{// TODO: move these to a central error header file}}
+\DoxyCodeLine{415 \textcolor{comment}{// }}
+\DoxyCodeLine{416 \textcolor{preprocessor}{\#define \_FACD3D  0x876}}
+\DoxyCodeLine{417 \textcolor{preprocessor}{\#define MAKE\_D3DHRESULT( code )  MAKE\_HRESULT( 1, \_FACD3D, code )}}
+\DoxyCodeLine{418 \textcolor{preprocessor}{\#define MAKE\_D3DSTATUS( code )  MAKE\_HRESULT( 0, \_FACD3D, code )}}
+\DoxyCodeLine{419 }
+\DoxyCodeLine{420 \textcolor{preprocessor}{\#define D3DERR\_INVALIDCALL                      MAKE\_D3DHRESULT(2156)}}
+\DoxyCodeLine{421 \textcolor{preprocessor}{\#define D3DERR\_WASSTILLDRAWING                  MAKE\_D3DHRESULT(540)}}
+\DoxyCodeLine{422 }
+\DoxyCodeLine{423 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//\_\_D3DX10CORE\_H\_\_}}
+\DoxyCodeLine{424 }
+
+\end{DoxyCode}
