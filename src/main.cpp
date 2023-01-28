@@ -8,13 +8,8 @@ int x[50];
 int y[50];
 int elapsed_time = 0;
 
-struct bullet
-{
-	float BX, BY, BA;
-	bullet() { BX = BY = BA = 0; }
-};
 
-bullet bullets[10];
+
 
 /**
  * @fn	void Game()
@@ -25,11 +20,13 @@ bullet bullets[10];
  * @date	30.10.2022
  */
 
+bool checkCollision(Entity& obj1, Entity& obj2);
+void DrawTxt(std::string text, int x, int y, void* Text[]);
 
- /*
-	 - names of sprites often include " " which is generally a bad practice
+/*
+	- names of sprites often include " " which is generally a bad practice
 
- */
+*/
 
 void Game()
 {
@@ -42,20 +39,32 @@ void Game()
 
 	void* Text[] =
 	{
-		LoadSprite("gfx/slet.png"),
-		LoadSprite("gfx/plet.png"),
 		LoadSprite("gfx/alet.png"),
+		LoadSprite("gfx/blet.png"),
 		LoadSprite("gfx/clet.png"),
-		LoadSprite("gfx/elet.png"),
-		0,
-		LoadSprite("gfx/ilet.png"),
-		LoadSprite("gfx/nlet.png"),
-		LoadSprite("gfx/vlet.png"),
-		LoadSprite("gfx/alet.png"),
 		LoadSprite("gfx/dlet.png"),
 		LoadSprite("gfx/elet.png"),
+		LoadSprite("gfx/flet.png"),
+		LoadSprite("gfx/glet.png"),
+		LoadSprite("gfx/hlet.png"),
+		LoadSprite("gfx/ilet.png"),
+		LoadSprite("gfx/jlet.png"),
+		LoadSprite("gfx/klet.png"),
+		LoadSprite("gfx/llet.png"),
+		LoadSprite("gfx/mlet.png"),
+		LoadSprite("gfx/nlet.png"),
+		LoadSprite("gfx/olet.png"),
+		LoadSprite("gfx/plet.png"),
+		LoadSprite("gfx/qlet.png"),
 		LoadSprite("gfx/rlet.png"),
-		LoadSprite("gfx/slet.png")
+		LoadSprite("gfx/slet.png"),
+		LoadSprite("gfx/tlet.png"),
+		LoadSprite("gfx/ulet.png"),
+		LoadSprite("gfx/vlet.png"),
+		LoadSprite("gfx/wlet.png"),
+		LoadSprite("gfx/xlet.png"),
+		LoadSprite("gfx/ylet.png"),
+		LoadSprite("gfx/zlet.png"),
 	};
 
 	// SETUP
@@ -64,7 +73,7 @@ void Game()
 	//void* Enemy = LoadSprite((Path + "Little Invader.png").c_str());
 
 	std::vector<Enemy> enemies(55);
-
+	std::vector<Bullet> bullets;
 	void* U = LoadSprite("gfx/Big Invader.png");
 	void* bull = LoadSprite("gfx/bullet.png");
 
@@ -74,6 +83,7 @@ void Game()
 	{
 		enemies[i].BX = (i % 11) * 50 + 120;
 		enemies[i].BY = (i / 11) * 60 + 70;
+		enemies[i].setBoundingBox(enemies[i].BX, enemies[i].BY);
 	}
 
 	//game loop -> realized by goto
@@ -93,8 +103,11 @@ end:
 		//if (((n1 >> 6) & 0x7) == 0x7)xo += (1 - cos((n1 & 0x7f) / 64.0f * 2.f * 3.141592)) * (20 + ((n * n) % 9));
 		//if (((n1 >> 6) & 0x7) == 0x7)yo += (sin((n1 & 0x7f) / 64.0f * 2.f * 3.141592)) * (20 + ((n * n) % 9));
 		//if (((n2 >> 8) & 0xf) == 0xf)yo += (1 - cos((n2 & 0xff) / 256.0f * 2.f * 3.141592)) * (150 + ((n * n) % 9));
-		DrawSprite(enemy.sprite, enemy.BX + xo, enemy.BY + yo, 20, 20, 0, 0xffffffff);
+		if (enemy.getState() == 0) continue;
+		DrawSprite(enemy.sprite, enemy.BX + xo, enemy.BY + yo, enemy.getXSize(), enemy.getYSize(), sin(elapsed_time * 0.1) * 0.1, 0xffffffff);
 	}
+
+
 
 
 
@@ -107,26 +120,79 @@ end:
 	static int count = 0;
 	if (count) --count;
 	if (!IsKeyDown(VK_SPACE)) count = 0;
-	if (IsKeyDown(VK_SPACE) && count == 0) { bullets[b].BX = UX; bullets[b].BY = UY; b = (b + 1) % 10; count = 15; }
+	if (IsKeyDown(VK_SPACE) && count == 0) { Bullet B;  B.BX = UX; B.BY = UY; count = 15;  bullets.push_back(B); }
 
 
 	//drawing bullet sprites -> we also add angle to them so they rotate?
 	// -> also hardcoded loop with n < 10, size of the bullets is hardcoded 
-	for (int n = 0; n < 10; ++n)
+	for (int n = 0; n < bullets.size(); ++n)
 	{
 		DrawSprite(bull, bullets[n].BX, bullets[n].BY -= 4, 10, 10, bullets[n].BA += 0.1f, 0xffffffff);
+		//set new bounding boxes for each bullet
+		bullets[n].setBoundingBox(bullets[n].BX, bullets[n].BY);
 	}
+
+	//Collision checking
+	for (auto& bullet : bullets)
+	{
+		for (auto& enemy : enemies)
+		{
+			if (checkCollision(bullet, enemy))
+			{
+				enemy.setState(0);
+				bullet.setState(0);
+			}
+		}
+	}
+
+	//removing bullets that hit enemies and dead enemies
+	bullets.erase(std::remove_if(bullets.begin(), bullets.end(), [](Bullet& b) { return (b.getState() == 0); }), bullets.end());
+	enemies.erase(std::remove_if(enemies.begin(), enemies.end(), [](Enemy& e) { return (e.getState() == 0); }), enemies.end());
+
+
+	//all enemies dead -> game won 
+	if (enemies.empty())
+		return;
+
 
 	//draws space invaders letters sprite on the screen 
 	// - hardcoded loop 
 	// - also for some reason angle change is dependent on the index of the sprite, so first letter will not be rotating and last will be rotating much more than others
-	for (int n = 0; n < strlen("space invaders"); ++n) if (n != 5)DrawSprite(Text[n], n * 40 + 150, 30, 20, 20, sin(elapsed_time * 0.1) * n * 0.01);
-
+	//for (int n = 0; n < strlen("space invaders"); ++n) if (n != 5)DrawSprite(Text[n], n * 40 + 150, 30, 20, 20, sin(elapsed_time * 0.1) * n * 0.01);
+	DrawTxt("podrazka od bot", 40, 40, Text);
 	//rendering provided by the lib
 	Flip();
 
 	goto end;
 }
+
+
+//checks collision between two entities
+bool checkCollision(Entity& obj1, Entity& obj2)
+{
+	RECT bb1 = obj1.getBoundingBox();
+	RECT bb2 = obj2.getBoundingBox();
+
+	return (bb1.left <= bb2.right &&
+		bb1.right >= bb2.left &&
+		bb1.top <= bb2.bottom &&
+		bb1.bottom >= bb2.top);
+}
+
+/*
+	Creates any text with provided sprites
+*/
+void DrawTxt(std::string text, int x, int y, void* Text[]) {
+	int i = 0;
+	for (auto c : text) {
+		if (c != ' ') {
+			DrawSprite(Text[c - 'a'], x + i * 40, y, 20, 20, sin(elapsed_time * 0.1) * i * 0.01);
+		}
+		i++;
+	}
+}
+
+
 
 /**
  * @fn	void OldGame()
