@@ -54,6 +54,15 @@ public:
 	void* sprite = LoadSprite("../gfx/Bullet.png");
 };
 
+class EnemyBullet : public Entity
+{
+public:
+	virtual ~EnemyBullet() {};
+
+	EnemyBullet() : Entity(80, 80) {};
+	void* sprite = LoadSprite("../gfx/enemy_bullet.png");
+};
+
 
 class Player : public Entity
 {

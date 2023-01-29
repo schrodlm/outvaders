@@ -3,9 +3,12 @@
 #include <math.h>
 #include <iostream>
 #include <vector>
+#include <random>
+#include <chrono>
 
-
-
+//randomness
+std::mt19937 rng(std::chrono::steady_clock::now().time_since_epoch().count());
+std::uniform_int_distribution<int> distribution(0, 10000);
 
 
 int elapsed_time = 0;
@@ -70,6 +73,7 @@ void Game()
 
 	std::vector<Enemy> enemies(55);
 	std::vector<Bullet> bullets;
+	std::vector<EnemyBullet> enemyBullets;
 	Player player;
 	player.BX = 400;
 	player.BY = 550;
@@ -100,10 +104,22 @@ end:
 	for (auto& enemy : enemies)
 	{
 		DrawSprite(enemy.sprite, enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, 0xffffffff);
-		if (elapsed_time % 50 == 0)
+		if (elapsed_time % 10 == 0)
 			(direction) ? enemy.BX += 10 : enemy.BX -= 10;
 
 		enemy.updateBoundingBox();
+
+		//creating enemy bullets -> max 3 on the screen at any time
+		if (enemyBullets.size() < 3)
+		{
+			//shot in one movement with probability (not yet calculated)
+			int random = distribution(rng);
+			if (random == 1)
+			{
+				EnemyBullet B;  B.BX = enemy.BX; B.BY = enemy.BY; enemyBullets.push_back(B);
+			}
+
+		}
 
 		most_right = max(most_right, enemy.getBoundingBox().right);
 		most_left = min(most_left, enemy.getBoundingBox().left);
@@ -112,12 +128,12 @@ end:
 	}
 
 	//setting direction for enemies
-	if (most_right >= 800)
+	if (most_right + 10 >= 800 && direction)
 	{
 		direction = false;
 		for (auto& enemy : enemies) enemy.BY += 20, enemy.updateBoundingBox();
 	}
-	if (most_left <= 0)
+	if (most_left - 10 <= 0 && !direction)
 	{
 		direction = true;
 		for (auto& enemy : enemies) enemy.BY += 20, enemy.updateBoundingBox();
@@ -145,14 +161,34 @@ end:
 	for (int n = 0; n < bullets.size(); ++n)
 	{
 		DrawSprite(bullets[n].sprite, bullets[n].BX, bullets[n].BY -= 4, bullets[n].getXSize(), bullets[n].getYSize(), bullets[n].BA += 0.1f, 0xffffffff);
-		//set new bounding boxes for each bullet
-		//bullets[n].setBoundingBox(bullets[n].BX, bullets[n].BY);
+
 		bullets[n].updateBoundingBox();
 	}
+
+	//drawing enemy bullet sprites
+	for (int n = 0; n < enemyBullets.size(); ++n)
+	{
+		DrawSprite(enemyBullets[n].sprite, enemyBullets[n].BX, enemyBullets[n].BY += 4, enemyBullets[n].getXSize(), enemyBullets[n].getYSize(), 0, 0xffffffff);
+
+		enemyBullets[n].updateBoundingBox();
+		//if bullet is out of map -> delete it
+		if (enemyBullets[n].getBoundingBox().bottom > 640) enemyBullets[n].setState(0);
+	}
+
+	//removing bullets out of bounds
+	enemyBullets.erase(std::remove_if(enemyBullets.begin(), enemyBullets.end(), [](EnemyBullet& e) { return (e.getState() == 0); }), enemyBullets.end());
+
+
 
 	//Collision checking
 	for (auto& bullet : bullets)
 	{
+		//bullet is out of bounds
+		if (bullet.getBoundingBox().top < 0)
+		{
+			bullet.setState(0);
+			continue;
+		}
 		for (auto& enemy : enemies)
 		{
 			if (checkCollision(bullet, enemy))
