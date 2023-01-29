@@ -17,7 +17,8 @@ public:
 	//	void* getSprite() { return this->sprite; }
 	void setBoundingBox(RECT _boundingBox) { boundingBox = _boundingBox; }
 	RECT getBoundingBox() { return this->boundingBox; }
-	void setBoundingBox(long x, long y) { boundingBox = { x,y, x + this->xSize, y + this->ySize }; }
+	void setBoundingBox(long x, long y) { boundingBox = { x,y, x + this->xSize, y - this->ySize }; }
+	void updateBoundingBox() { boundingBox = { (int)BX,(int)BY, (int)BX + xSize, (int)BY - ySize }; }
 	void setState(int _state) { state = _state; }
 	int getState() { return state; }
 	uint64_t getXSize() { return this->xSize; }
@@ -28,8 +29,8 @@ protected:
 	Entity(int xSize, int ySize) { boundingBox = { 0,0,0,0 }; this->xSize = xSize; this->ySize = ySize; }
 
 	RECT boundingBox;
-	long xSize = 20;
-	long ySize = 20;
+	long xSize;
+	long ySize;
 	int state = 1;
 };
 
@@ -38,7 +39,7 @@ class Enemy : public Entity
 public:
 	virtual  ~Enemy() {};
 
-	Enemy() : Entity(20, 20) {};
+	Enemy() : Entity(30, 30) {};
 	void* sprite = LoadSprite("../gfx/Little Invader.png");
 
 };
@@ -49,8 +50,17 @@ class Bullet : public Entity
 public:
 	virtual ~Bullet() {};
 
-	Bullet() : Entity(10, 10) {};
+	Bullet() : Entity(20, 10) {};
 	void* sprite = LoadSprite("../gfx/Bullet.png");
 };
 
 
+class Player : public Entity
+{
+public:
+	virtual ~Player() {};
+
+	Player() : Entity(60, 60) {};
+	void* sprite = LoadSprite("../gfx/Big Invader.png");
+	int lives = 3;
+};

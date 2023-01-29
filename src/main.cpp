@@ -4,12 +4,11 @@
 #include <iostream>
 #include <vector>
 
-int x[50];
-int y[50];
+
+
+
+
 int elapsed_time = 0;
-
-
-
 
 /**
  * @fn	void Game()
@@ -69,12 +68,11 @@ void Game()
 
 	// SETUP
 
-	int UX = 400, UY = 550;
-	//void* Enemy = LoadSprite((Path + "Little Invader.png").c_str());
-
 	std::vector<Enemy> enemies(55);
 	std::vector<Bullet> bullets;
-	void* U = LoadSprite("gfx/Big Invader.png");
+	Player player;
+	player.BX = 400;
+	player.BY = 550;
 	void* bull = LoadSprite("gfx/bullet.png");
 
 
@@ -83,7 +81,8 @@ void Game()
 	{
 		enemies[i].BX = (i % 11) * 50 + 120;
 		enemies[i].BY = (i / 11) * 60 + 70;
-		enemies[i].setBoundingBox(enemies[i].BX, enemies[i].BY);
+		//enemies[i].setBoundingBox(enemies[i].BX, enemies[i].BY);
+		enemies[i].updateBoundingBox();
 	}
 
 	//game loop -> realized by goto
@@ -111,7 +110,7 @@ end:
 
 
 
-	DrawSprite(U, UX += IsKeyDown(VK_LEFT) ? -7 : IsKeyDown(VK_RIGHT) ? 7 : 0, UY, 50, 50, 3.141592 + sin(elapsed_time * 0.1) * 0.1, 0xffffffff);
+	DrawSprite(player.sprite, player.BX += IsKeyDown(VK_LEFT) ? -7 : IsKeyDown(VK_RIGHT) ? 7 : 0, player.BY, player.getXSize(), player.getYSize(), 3.141592 + sin(elapsed_time * 0.1) * 0.1, 0xffffffff);
 
 	// FIRE
 	//can show only 10 bullets at once on a screen -> size of bullets[]
@@ -120,16 +119,17 @@ end:
 	static int count = 0;
 	if (count) --count;
 	if (!IsKeyDown(VK_SPACE)) count = 0;
-	if (IsKeyDown(VK_SPACE) && count == 0) { Bullet B;  B.BX = UX; B.BY = UY; count = 15;  bullets.push_back(B); }
+	if (IsKeyDown(VK_SPACE) && count == 0) { Bullet B;  B.BX = player.BX; B.BY = player.BY; count = 15;  bullets.push_back(B); }
 
 
 	//drawing bullet sprites -> we also add angle to them so they rotate?
 	// -> also hardcoded loop with n < 10, size of the bullets is hardcoded 
 	for (int n = 0; n < bullets.size(); ++n)
 	{
-		DrawSprite(bull, bullets[n].BX, bullets[n].BY -= 4, 10, 10, bullets[n].BA += 0.1f, 0xffffffff);
+		DrawSprite(bull, bullets[n].BX, bullets[n].BY -= 4, bullets[n].getXSize(), bullets[n].getYSize(), bullets[n].BA += 0.1f, 0xffffffff);
 		//set new bounding boxes for each bullet
-		bullets[n].setBoundingBox(bullets[n].BX, bullets[n].BY);
+		//bullets[n].setBoundingBox(bullets[n].BX, bullets[n].BY);
+		bullets[n].updateBoundingBox();
 	}
 
 	//Collision checking
@@ -175,9 +175,10 @@ bool checkCollision(Entity& obj1, Entity& obj2)
 
 	return (bb1.left <= bb2.right &&
 		bb1.right >= bb2.left &&
-		bb1.top <= bb2.bottom &&
-		bb1.bottom >= bb2.top);
+		bb1.top >= bb2.bottom &&
+		bb1.bottom <= bb2.top);
 }
+
 
 /*
 	Creates any text with provided sprites
