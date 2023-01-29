@@ -73,7 +73,6 @@ void Game()
 	Player player;
 	player.BX = 400;
 	player.BY = 550;
-	void* bull = LoadSprite("gfx/bullet.png");
 
 
 
@@ -86,24 +85,43 @@ void Game()
 	}
 
 	//game loop -> realized by goto
+	bool direction = true;
+
+
 end:
 
 	++elapsed_time;
 	if (WantQuit()) return;
 	if (IsKeyDown(VK_ESCAPE)) return;
 
-
+	int most_right = INT_MIN;
+	int most_left = INT_MAX;
 	//drawing enemies on the screen
 	for (auto& enemy : enemies)
 	{
-		int xo = 0, yo = 0;
-		//int n1 = elapsed_time;
-		//int n2 = elapsed_time;
-		//if (((n1 >> 6) & 0x7) == 0x7)xo += (1 - cos((n1 & 0x7f) / 64.0f * 2.f * 3.141592)) * (20 + ((n * n) % 9));
-		//if (((n1 >> 6) & 0x7) == 0x7)yo += (sin((n1 & 0x7f) / 64.0f * 2.f * 3.141592)) * (20 + ((n * n) % 9));
-		//if (((n2 >> 8) & 0xf) == 0xf)yo += (1 - cos((n2 & 0xff) / 256.0f * 2.f * 3.141592)) * (150 + ((n * n) % 9));
-		if (enemy.getState() == 0) continue;
-		DrawSprite(enemy.sprite, enemy.BX + xo, enemy.BY + yo, enemy.getXSize(), enemy.getYSize(), sin(elapsed_time * 0.1) * 0.1, 0xffffffff);
+		DrawSprite(enemy.sprite, enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, 0xffffffff);
+		if (elapsed_time % 50 == 0)
+			(direction) ? enemy.BX += 10 : enemy.BX -= 10;
+
+		enemy.updateBoundingBox();
+
+		most_right = max(most_right, enemy.getBoundingBox().right);
+		most_left = min(most_left, enemy.getBoundingBox().left);
+
+
+	}
+
+	//setting direction for enemies
+	if (most_right >= 800)
+	{
+		direction = false;
+		for (auto& enemy : enemies) enemy.BY += 20, enemy.updateBoundingBox();
+	}
+	if (most_left <= 0)
+	{
+		direction = true;
+		for (auto& enemy : enemies) enemy.BY += 20, enemy.updateBoundingBox();
+
 	}
 
 
@@ -118,15 +136,15 @@ end:
 	static int b = 0;
 	static int count = 0;
 	if (count) --count;
-	if (!IsKeyDown(VK_SPACE)) count = 0;
-	if (IsKeyDown(VK_SPACE) && count == 0) { Bullet B;  B.BX = player.BX; B.BY = player.BY; count = 15;  bullets.push_back(B); }
+	//if (!IsKeyDown(VK_SPACE)) count = 0;
+	if (IsKeyDown(VK_SPACE) && count == 0) { Bullet B;  B.BX = player.BX; B.BY = player.BY; count = 40;  bullets.push_back(B); }
 
 
 	//drawing bullet sprites -> we also add angle to them so they rotate?
 	// -> also hardcoded loop with n < 10, size of the bullets is hardcoded 
 	for (int n = 0; n < bullets.size(); ++n)
 	{
-		DrawSprite(bull, bullets[n].BX, bullets[n].BY -= 4, bullets[n].getXSize(), bullets[n].getYSize(), bullets[n].BA += 0.1f, 0xffffffff);
+		DrawSprite(bullets[n].sprite, bullets[n].BX, bullets[n].BY -= 4, bullets[n].getXSize(), bullets[n].getYSize(), bullets[n].BA += 0.1f, 0xffffffff);
 		//set new bounding boxes for each bullet
 		//bullets[n].setBoundingBox(bullets[n].BX, bullets[n].BY);
 		bullets[n].updateBoundingBox();
@@ -159,7 +177,7 @@ end:
 	// - hardcoded loop 
 	// - also for some reason angle change is dependent on the index of the sprite, so first letter will not be rotating and last will be rotating much more than others
 	//for (int n = 0; n < strlen("space invaders"); ++n) if (n != 5)DrawSprite(Text[n], n * 40 + 150, 30, 20, 20, sin(elapsed_time * 0.1) * n * 0.01);
-	DrawTxt("podrazka od bot", 40, 40, Text);
+	DrawTxt("hello world", 40, 40, Text);
 	//rendering provided by the lib
 	Flip();
 
@@ -178,6 +196,7 @@ bool checkCollision(Entity& obj1, Entity& obj2)
 		bb1.top >= bb2.bottom &&
 		bb1.bottom <= bb2.top);
 }
+
 
 
 /*
