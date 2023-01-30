@@ -127,12 +127,10 @@ end:
 					EnemyBullet B; B.BX = enemy.BX; B.BY = enemy.BY; enemyBullets.push_back(B);
 				}
 			}
-
-			most_right = max(most_right, enemy.getBoundingBox().right);
-			most_left = min(most_left, enemy.getBoundingBox().left);
-
 		}
 	}
+	most_right = enemies.back()[0].BX;
+	most_left = enemies.front()[0].BX;
 
 	//setting direction for enemies
 	if (most_right + 10 >= 800 && direction)
@@ -152,19 +150,19 @@ end:
 
 
 	DrawSprite(player.getSprite(), player.BX += IsKeyDown(VK_LEFT) ? -7 : IsKeyDown(VK_RIGHT) ? 7 : 0, player.BY, player.getXSize(), player.getYSize(), 3.141592 + sin(elapsed_time * 0.1) * 0.1, 0xffffffff);
+	player.updateBoundingBox();
+
 
 	// FIRE
 	//can show only 10 bullets at once on a screen -> size of bullets[]
 	// as it is right now -> we dont have any time limit for shooting bullets, count doesnt work sínce it is instantly nullified by !keyDown check
-	static int b = 0;
-	static int count = 0;
-	if (count) --count;
+	static int playerFireCooldown = 0;
+	if (playerFireCooldown) --playerFireCooldown;
 	//if (!IsKeyDown(VK_SPACE)) count = 0;
-	if (IsKeyDown(VK_SPACE) && count == 0) { Bullet B;  B.BX = player.BX; B.BY = player.BY; count = 40;  bullets.push_back(B); }
+	if (IsKeyDown(VK_SPACE) && playerFireCooldown == 0) { Bullet B;  B.BX = player.BX; B.BY = player.BY; playerFireCooldown = 40;  bullets.push_back(B); }
 
 
 	//drawing bullet sprites -> we also add angle to them so they rotate?
-	// -> also hardcoded loop with n < 10, size of the bullets is hardcoded 
 	for (int n = 0; n < bullets.size(); ++n)
 	{
 		DrawSprite(bullets[n].getSprite(), bullets[n].BX, bullets[n].BY -= 4, bullets[n].getXSize(), bullets[n].getYSize(), bullets[n].BA += 0.1f, 0xffffffff);
@@ -183,11 +181,26 @@ end:
 	}
 
 	//removing bullets out of bounds
-	enemyBullets.erase(std::remove_if(enemyBullets.begin(), enemyBullets.end(), [](EnemyBullet& e) { return (e.getState() == 0); }), enemyBullets.end());
+
+
+	//Collision checking -> enemy bullets : player
+	for (auto& enemyBullet : enemyBullets)
+	{
+		if (checkCollision(enemyBullet, player))
+		{
+			enemyBullet.setState(0);
+
+			if (player.lives > 0) player.lives--;
 
 
 
-	//Collision checking
+		}
+	}
+	if (player.lives == 0)
+		DrawTxt("died", 40, 310, Text);
+
+
+	//Collision checking -> player bullets : enemies
 	for (auto& bullet : bullets)
 	{
 		//bullet is out of bounds
@@ -207,8 +220,10 @@ end:
 		}
 	}
 
-	//removing bullets that hit enemies and dead enemies
+	//removing bullets that hit enemies or are out of bounds
 	bullets.erase(std::remove_if(bullets.begin(), bullets.end(), [](Bullet& b) { return (b.getState() == 0); }), bullets.end());
+	enemyBullets.erase(std::remove_if(enemyBullets.begin(), enemyBullets.end(), [](EnemyBullet& e) { return (e.getState() == 0); }), enemyBullets.end());
+
 	for (auto& col : enemies) col.erase(std::remove_if(col.begin(), col.end(), [](Enemy& e) { return (e.getState() == 0); }), col.end());
 	enemies.erase(std::remove_if(enemies.begin(), enemies.end(), [](std::vector<Enemy>& e) { return e.empty(); }), enemies.end());
 
