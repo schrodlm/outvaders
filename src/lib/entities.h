@@ -60,7 +60,7 @@ public:
 	virtual ~EnemyBullet() {};
 
 	EnemyBullet() : Entity(80, 80) {};
-	void* sprite = LoadSprite("../gfx/enemy_bullet.png");
+	void* sprite;
 };
 
 

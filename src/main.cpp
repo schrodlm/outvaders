@@ -8,11 +8,10 @@
 
 //randomness
 std::mt19937 rng(std::chrono::steady_clock::now().time_since_epoch().count());
-std::uniform_int_distribution<int> distribution(0, 10000);
+std::uniform_int_distribution<int> distribution(0, 100);
 
 
 int elapsed_time = 0;
-
 /**
  * @fn	void Game()
  *
@@ -68,10 +67,11 @@ void Game()
 		LoadSprite("gfx/ylet.png"),
 		LoadSprite("gfx/zlet.png"),
 	};
+	void* enemy_bullet_sprite = LoadSprite("gfx/zlet.png");
 
 	// SETUP
 
-	std::vector<Enemy> enemies(55);
+	std::vector<std::vector<Enemy>> enemies(5, std::vector<Enemy>(11));
 	std::vector<Bullet> bullets;
 	std::vector<EnemyBullet> enemyBullets;
 	Player player;
@@ -82,10 +82,12 @@ void Game()
 
 	for (int i = 0; i < enemies.size(); i++)
 	{
-		enemies[i].BX = (i % 11) * 50 + 120;
-		enemies[i].BY = (i / 11) * 60 + 70;
-		//enemies[i].setBoundingBox(enemies[i].BX, enemies[i].BY);
-		enemies[i].updateBoundingBox();
+		for (int j = 0; j < enemies[0].size(); j++)
+		{
+			enemies[i][j].BX = (j % 11) * 50 + 120;
+			enemies[i][j].BY = i * 60 + 70;
+			enemies[i][j].updateBoundingBox();
+		}
 	}
 
 	//game loop -> realized by goto
@@ -101,42 +103,44 @@ end:
 	int most_right = INT_MIN;
 	int most_left = INT_MAX;
 	//drawing enemies on the screen
-	for (auto& enemy : enemies)
+	for (auto& col : enemies)
 	{
-		DrawSprite(enemy.sprite, enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, 0xffffffff);
-		if (elapsed_time % 10 == 0)
-			(direction) ? enemy.BX += 10 : enemy.BX -= 10;
-
-		enemy.updateBoundingBox();
-
-		//creating enemy bullets -> max 3 on the screen at any time
-		if (enemyBullets.size() < 3)
+		for (auto& enemy : col)
 		{
-			//shot in one movement with probability (not yet calculated)
-			int random = distribution(rng);
-			if (random == 1)
+			DrawSprite(enemy.sprite, enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, 0xffffffff);
+			if (elapsed_time % 10 == 0)
+				(direction) ? enemy.BX += 10 : enemy.BX -= 10;
+
+			enemy.updateBoundingBox();
+
+			//creating enemy bullets -> max 3 on the screen at any time
+			if (enemyBullets.size() < 3)
 			{
-				EnemyBullet B;  B.BX = enemy.BX; B.BY = enemy.BY; enemyBullets.push_back(B);
+				//shot in one movement with probability (not yet calculated)
+				//int random = distribution(rng);
+				//if (random == 1)
+				//{
+				EnemyBullet B; B.sprite = enemy_bullet_sprite; B.BX = enemy.BX; B.BY = enemy.BY; enemyBullets.push_back(B);
+				//}
+
 			}
 
+			most_right = max(most_right, enemy.getBoundingBox().right);
+			most_left = min(most_left, enemy.getBoundingBox().left);
+
 		}
-
-		most_right = max(most_right, enemy.getBoundingBox().right);
-		most_left = min(most_left, enemy.getBoundingBox().left);
-
-
 	}
 
 	//setting direction for enemies
 	if (most_right + 10 >= 800 && direction)
 	{
 		direction = false;
-		for (auto& enemy : enemies) enemy.BY += 20, enemy.updateBoundingBox();
+		for (auto& col : enemies) for (auto& enemy : col) enemy.BY += 20, enemy.updateBoundingBox();
 	}
 	if (most_left - 10 <= 0 && !direction)
 	{
 		direction = true;
-		for (auto& enemy : enemies) enemy.BY += 20, enemy.updateBoundingBox();
+		for (auto& col : enemies)for (auto& enemy : col) enemy.BY += 20, enemy.updateBoundingBox();
 
 	}
 
@@ -189,20 +193,21 @@ end:
 			bullet.setState(0);
 			continue;
 		}
-		for (auto& enemy : enemies)
+		for (auto& col : enemies)
 		{
-			if (checkCollision(bullet, enemy))
-			{
-				enemy.setState(0);
-				bullet.setState(0);
-			}
+			for (auto& enemy : col)
+				if (checkCollision(bullet, enemy))
+				{
+					enemy.setState(0);
+					bullet.setState(0);
+				}
 		}
 	}
 
 	//removing bullets that hit enemies and dead enemies
 	bullets.erase(std::remove_if(bullets.begin(), bullets.end(), [](Bullet& b) { return (b.getState() == 0); }), bullets.end());
-	enemies.erase(std::remove_if(enemies.begin(), enemies.end(), [](Enemy& e) { return (e.getState() == 0); }), enemies.end());
-
+	for (auto& col : enemies) col.erase(std::remove_if(col.begin(), col.end(), [](Enemy& e) { return (e.getState() == 0); }), col.end());
+	enemies.erase(std::remove_if(enemies.begin(), enemies.end(), [](std::vector<Enemy>& e) { return e.empty(); }), enemies.end());
 
 	//all enemies dead -> game won 
 	if (enemies.empty())
