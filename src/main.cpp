@@ -8,10 +8,11 @@
 
 //randomness
 std::mt19937 rng(std::chrono::steady_clock::now().time_since_epoch().count());
-std::uniform_int_distribution<int> distribution(0, 100);
+std::uniform_int_distribution<int> distribution(0, 10000);
 
 
 int elapsed_time = 0;
+
 /**
  * @fn	void Game()
  *
@@ -67,14 +68,17 @@ void Game()
 		LoadSprite("gfx/ylet.png"),
 		LoadSprite("gfx/zlet.png"),
 	};
-	void* enemy_bullet_sprite = LoadSprite("gfx/zlet.png");
+
+
+
 
 	// SETUP
 
-	std::vector<std::vector<Enemy>> enemies(5, std::vector<Enemy>(11));
+	SpriteManager spriteManager;
+	std::vector<std::vector<Enemy>> enemies(5, std::vector<Enemy>(11, Enemy(spriteManager)));
 	std::vector<Bullet> bullets;
 	std::vector<EnemyBullet> enemyBullets;
-	Player player;
+	Player player(spriteManager);
 	player.BX = 400;
 	player.BY = 550;
 
@@ -117,12 +121,11 @@ end:
 			if (enemyBullets.size() < 3)
 			{
 				//shot in one movement with probability (not yet calculated)
-				//int random = distribution(rng);
-				//if (random == 1)
-				//{
-				EnemyBullet B; B.sprite = enemy_bullet_sprite; B.BX = enemy.BX; B.BY = enemy.BY; enemyBullets.push_back(B);
-				//}
-
+				int random = distribution(rng);
+				if (random == 1)
+				{
+					EnemyBullet B(spriteManager); B.BX = enemy.BX; B.BY = enemy.BY; enemyBullets.push_back(B);
+				}
 			}
 
 			most_right = max(most_right, enemy.getBoundingBox().right);
@@ -157,7 +160,7 @@ end:
 	static int count = 0;
 	if (count) --count;
 	//if (!IsKeyDown(VK_SPACE)) count = 0;
-	if (IsKeyDown(VK_SPACE) && count == 0) { Bullet B;  B.BX = player.BX; B.BY = player.BY; count = 40;  bullets.push_back(B); }
+	if (IsKeyDown(VK_SPACE) && count == 0) { Bullet B(spriteManager);  B.BX = player.BX; B.BY = player.BY; count = 40;  bullets.push_back(B); }
 
 
 	//drawing bullet sprites -> we also add angle to them so they rotate?

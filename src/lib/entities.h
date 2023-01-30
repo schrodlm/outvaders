@@ -2,8 +2,33 @@
 
 #include <string>
 #include "leetlib.h"
+#include <map>
 
 const std::string Path = "../gfx/";
+
+class SpriteManager
+{
+public:
+	SpriteManager() {}
+
+	void LoadSpriteImpl(const char* path)
+	{
+		if (sprites.count(path) == 0)
+		{
+			void* sprite = LoadSprite(path);
+			sprites[path] = sprite;
+		}
+	}
+
+	void* GetSprite(const std::string& path)
+	{
+		return sprites[path];
+	}
+
+private:
+	std::map<std::string, void*> sprites;
+};
+
 
 class Entity
 {
@@ -24,9 +49,22 @@ public:
 	uint64_t getXSize() { return this->xSize; }
 	uint64_t getYSize() { return this->ySize; }
 
+	const char* spritePath;
+	void* sprite;
+
 
 protected:
-	Entity(int xSize, int ySize) { boundingBox = { 0,0,0,0 }; this->xSize = xSize; this->ySize = ySize; }
+	Entity(int xSize, int ySize, const char* _spritePath, SpriteManager& manager)
+	{
+		this->xSize = xSize;
+		this->ySize = ySize;
+
+
+		this->spritePath = _spritePath;
+		//saving and loading sprite of a specific entity
+		manager.LoadSpriteImpl(spritePath);
+		sprite = manager.GetSprite(spritePath);
+	}
 
 	RECT boundingBox;
 	long xSize;
@@ -39,8 +77,7 @@ class Enemy : public Entity
 public:
 	virtual  ~Enemy() {};
 
-	Enemy() : Entity(30, 30) {};
-	void* sprite = LoadSprite("../gfx/Little Invader.png");
+	Enemy(SpriteManager& manager) : Entity(30, 30, "gfx/Little Invader.png", manager) {};
 
 };
 
@@ -50,26 +87,30 @@ class Bullet : public Entity
 public:
 	virtual ~Bullet() {};
 
-	Bullet() : Entity(20, 10) {};
-	void* sprite = LoadSprite("../gfx/Bullet.png");
+	Bullet(SpriteManager& manager) : Entity(30, 30, "gfx/Bullet.png", manager) {};
+	Bullet(SpriteManager& manager, const char* spritePath) : Entity(30, 30, spritePath, manager) {};
 };
 
-class EnemyBullet : public Entity
+class EnemyBullet : public Bullet
 {
 public:
 	virtual ~EnemyBullet() {};
 
-	EnemyBullet() : Entity(80, 80) {};
-	void* sprite;
-};
+	EnemyBullet(SpriteManager& manager) : Bullet(manager, "gfx/zlet.png")
+	{};
 
+};
 
 class Player : public Entity
 {
 public:
 	virtual ~Player() {};
 
-	Player() : Entity(60, 60) {};
-	void* sprite = LoadSprite("../gfx/Big Invader.png");
+	Player(SpriteManager& manager) : Entity(60, 60, "gfx/Big Invader.png", manager) {}
+
+
 	int lives = 3;
 };
+
+
+
