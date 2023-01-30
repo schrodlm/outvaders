@@ -8,7 +8,7 @@
 
 //randomness
 std::mt19937 rng(std::chrono::steady_clock::now().time_since_epoch().count());
-std::uniform_int_distribution<int> distribution(0, 10000);
+std::uniform_int_distribution<int> distribution(0, 100);
 
 
 int elapsed_time = 0;
@@ -74,11 +74,11 @@ void Game()
 
 	// SETUP
 
-	SpriteManager spriteManager;
-	std::vector<std::vector<Enemy>> enemies(5, std::vector<Enemy>(11, Enemy(spriteManager)));
+
+	std::vector<std::vector<Enemy>> enemies(11, std::vector<Enemy>(5));
 	std::vector<Bullet> bullets;
 	std::vector<EnemyBullet> enemyBullets;
-	Player player(spriteManager);
+	Player player;
 	player.BX = 400;
 	player.BY = 550;
 
@@ -88,8 +88,8 @@ void Game()
 	{
 		for (int j = 0; j < enemies[0].size(); j++)
 		{
-			enemies[i][j].BX = (j % 11) * 50 + 120;
-			enemies[i][j].BY = i * 60 + 70;
+			enemies[i][j].BX = (i % 11) * 50 + 120;
+			enemies[i][j].BY = j * 60 + 70;
 			enemies[i][j].updateBoundingBox();
 		}
 	}
@@ -111,7 +111,7 @@ end:
 	{
 		for (auto& enemy : col)
 		{
-			DrawSprite(enemy.sprite, enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, 0xffffffff);
+			DrawSprite(enemy.getSprite(), enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, 0xffffffff);
 			if (elapsed_time % 10 == 0)
 				(direction) ? enemy.BX += 10 : enemy.BX -= 10;
 
@@ -122,9 +122,9 @@ end:
 			{
 				//shot in one movement with probability (not yet calculated)
 				int random = distribution(rng);
-				if (random == 1)
+				if (&enemy == &col.back() && random == 1)
 				{
-					EnemyBullet B(spriteManager); B.BX = enemy.BX; B.BY = enemy.BY; enemyBullets.push_back(B);
+					EnemyBullet B; B.BX = enemy.BX; B.BY = enemy.BY; enemyBullets.push_back(B);
 				}
 			}
 
@@ -151,7 +151,7 @@ end:
 
 
 
-	DrawSprite(player.sprite, player.BX += IsKeyDown(VK_LEFT) ? -7 : IsKeyDown(VK_RIGHT) ? 7 : 0, player.BY, player.getXSize(), player.getYSize(), 3.141592 + sin(elapsed_time * 0.1) * 0.1, 0xffffffff);
+	DrawSprite(player.getSprite(), player.BX += IsKeyDown(VK_LEFT) ? -7 : IsKeyDown(VK_RIGHT) ? 7 : 0, player.BY, player.getXSize(), player.getYSize(), 3.141592 + sin(elapsed_time * 0.1) * 0.1, 0xffffffff);
 
 	// FIRE
 	//can show only 10 bullets at once on a screen -> size of bullets[]
@@ -160,14 +160,14 @@ end:
 	static int count = 0;
 	if (count) --count;
 	//if (!IsKeyDown(VK_SPACE)) count = 0;
-	if (IsKeyDown(VK_SPACE) && count == 0) { Bullet B(spriteManager);  B.BX = player.BX; B.BY = player.BY; count = 40;  bullets.push_back(B); }
+	if (IsKeyDown(VK_SPACE) && count == 0) { Bullet B;  B.BX = player.BX; B.BY = player.BY; count = 40;  bullets.push_back(B); }
 
 
 	//drawing bullet sprites -> we also add angle to them so they rotate?
 	// -> also hardcoded loop with n < 10, size of the bullets is hardcoded 
 	for (int n = 0; n < bullets.size(); ++n)
 	{
-		DrawSprite(bullets[n].sprite, bullets[n].BX, bullets[n].BY -= 4, bullets[n].getXSize(), bullets[n].getYSize(), bullets[n].BA += 0.1f, 0xffffffff);
+		DrawSprite(bullets[n].getSprite(), bullets[n].BX, bullets[n].BY -= 4, bullets[n].getXSize(), bullets[n].getYSize(), bullets[n].BA += 0.1f, 0xffffffff);
 
 		bullets[n].updateBoundingBox();
 	}
@@ -175,7 +175,7 @@ end:
 	//drawing enemy bullet sprites
 	for (int n = 0; n < enemyBullets.size(); ++n)
 	{
-		DrawSprite(enemyBullets[n].sprite, enemyBullets[n].BX, enemyBullets[n].BY += 4, enemyBullets[n].getXSize(), enemyBullets[n].getYSize(), 0, 0xffffffff);
+		DrawSprite(enemyBullets[n].getSprite(), enemyBullets[n].BX, enemyBullets[n].BY += 4, enemyBullets[n].getXSize(), enemyBullets[n].getYSize(), 0, 0xffffffff);
 
 		enemyBullets[n].updateBoundingBox();
 		//if bullet is out of map -> delete it

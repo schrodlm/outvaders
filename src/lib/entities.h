@@ -30,46 +30,38 @@ private:
 };
 
 
+
 class Entity
 {
 public:
 
-	//void operator=(const Entity&) = delete;
 	virtual ~Entity() {};
 
 	float BX = 0, BY = 0, BA = 0;
 
-	//	void* getSprite() { return this->sprite; }
-	void setBoundingBox(RECT _boundingBox) { boundingBox = _boundingBox; }
+	void* getSprite() { return this->sprite; }
 	RECT getBoundingBox() { return this->boundingBox; }
-	void setBoundingBox(long x, long y) { boundingBox = { x,y, x + this->xSize, y - this->ySize }; }
-	void updateBoundingBox() { boundingBox = { (int)BX,(int)BY, (int)BX + xSize, (int)BY - ySize }; }
-	void setState(int _state) { state = _state; }
 	int getState() { return state; }
-	uint64_t getXSize() { return this->xSize; }
 	uint64_t getYSize() { return this->ySize; }
+	uint64_t getXSize() { return this->xSize; }
 
-	const char* spritePath;
-	void* sprite;
+	void setBoundingBox(long x, long y) { boundingBox = { x,y, x + this->xSize, y - this->ySize }; }
+	void setState(int _state) { state = _state; }
+
+	void updateBoundingBox() { boundingBox = { (int)BX,(int)BY, (int)BX + xSize, (int)BY - ySize }; }
 
 
 protected:
-	Entity(int xSize, int ySize, const char* _spritePath, SpriteManager& manager)
-	{
-		this->xSize = xSize;
-		this->ySize = ySize;
 
+	Entity(int xSize, int ySize, const char* _spritePath);
 
-		this->spritePath = _spritePath;
-		//saving and loading sprite of a specific entity
-		manager.LoadSpriteImpl(spritePath);
-		sprite = manager.GetSprite(spritePath);
-	}
 
 	RECT boundingBox;
 	long xSize;
 	long ySize;
 	int state = 1;
+	const char* spritePath;
+	void* sprite;
 };
 
 class Enemy : public Entity
@@ -77,7 +69,7 @@ class Enemy : public Entity
 public:
 	virtual  ~Enemy() {};
 
-	Enemy(SpriteManager& manager) : Entity(30, 30, "gfx/Little Invader.png", manager) {};
+	Enemy() : Entity(30, 30, "gfx/Little Invader.png") {};
 
 };
 
@@ -87,8 +79,8 @@ class Bullet : public Entity
 public:
 	virtual ~Bullet() {};
 
-	Bullet(SpriteManager& manager) : Entity(30, 30, "gfx/Bullet.png", manager) {};
-	Bullet(SpriteManager& manager, const char* spritePath) : Entity(30, 30, spritePath, manager) {};
+	Bullet() : Entity(30, 30, "gfx/Bullet.png") {};
+	Bullet(const char* spritePath) : Entity(30, 30, spritePath) {};
 };
 
 class EnemyBullet : public Bullet
@@ -96,7 +88,7 @@ class EnemyBullet : public Bullet
 public:
 	virtual ~EnemyBullet() {};
 
-	EnemyBullet(SpriteManager& manager) : Bullet(manager, "gfx/zlet.png")
+	EnemyBullet() : Bullet("gfx/zlet.png")
 	{};
 
 };
@@ -106,7 +98,7 @@ class Player : public Entity
 public:
 	virtual ~Player() {};
 
-	Player(SpriteManager& manager) : Entity(60, 60, "gfx/Big Invader.png", manager) {}
+	Player() : Entity(60, 60, "gfx/Big Invader.png") {}
 
 
 	int lives = 3;
