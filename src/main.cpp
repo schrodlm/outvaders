@@ -39,6 +39,8 @@ void Game()
 	* - random integer 0 ->that is representing " "
 	*/
 
+
+
 	void* Text[] =
 	{
 		LoadSprite("gfx/alet.png"),
@@ -74,6 +76,7 @@ void Game()
 
 	// SETUP
 
+	void* background = LoadSprite("../bitmap1.bmp");
 
 	std::vector<std::vector<Enemy>> enemies(11, std::vector<Enemy>(5));
 	std::vector<Bullet> bullets;
@@ -94,15 +97,21 @@ void Game()
 		}
 	}
 
-	//game loop -> realized by goto
+
+	//enemy direction
 	bool direction = true;
 
 
+
 end:
+	startFlip();
 
 	++elapsed_time;
 	if (WantQuit()) return;
 	if (IsKeyDown(VK_ESCAPE)) return;
+
+	DrawSprite(background, 400, 300, 800, 600, 0, 0xffffffff);
+
 
 	int most_right = INT_MIN;
 	int most_left = INT_MAX;
@@ -129,6 +138,7 @@ end:
 			}
 		}
 	}
+
 	most_right = enemies.back()[0].BX;
 	most_left = enemies.front()[0].BX;
 
@@ -146,16 +156,11 @@ end:
 	}
 
 
-
-
-
 	DrawSprite(player.getSprite(), player.BX += IsKeyDown(VK_LEFT) ? -7 : IsKeyDown(VK_RIGHT) ? 7 : 0, player.BY, player.getXSize(), player.getYSize(), 3.141592 + sin(elapsed_time * 0.1) * 0.1, 0xffffffff);
 	player.updateBoundingBox();
 
 
 	// FIRE
-	//can show only 10 bullets at once on a screen -> size of bullets[]
-	// as it is right now -> we dont have any time limit for shooting bullets, count doesnt work sínce it is instantly nullified by !keyDown check
 	static int playerFireCooldown = 0;
 	if (playerFireCooldown) --playerFireCooldown;
 	//if (!IsKeyDown(VK_SPACE)) count = 0;
@@ -179,8 +184,6 @@ end:
 		//if bullet is out of map -> delete it
 		if (enemyBullets[n].getBoundingBox().bottom > 640) enemyBullets[n].setState(0);
 	}
-
-	//removing bullets out of bounds
 
 
 	//Collision checking -> enemy bullets : player
@@ -227,16 +230,20 @@ end:
 	for (auto& col : enemies) col.erase(std::remove_if(col.begin(), col.end(), [](Enemy& e) { return (e.getState() == 0); }), col.end());
 	enemies.erase(std::remove_if(enemies.begin(), enemies.end(), [](std::vector<Enemy>& e) { return e.empty(); }), enemies.end());
 
-	//all enemies dead -> game won 
-	if (enemies.empty())
-		return;
-
 
 	//draws space invaders letters sprite on the screen 
 	// - hardcoded loop 
 	// - also for some reason angle change is dependent on the index of the sprite, so first letter will not be rotating and last will be rotating much more than others
 	//for (int n = 0; n < strlen("space invaders"); ++n) if (n != 5)DrawSprite(Text[n], n * 40 + 150, 30, 20, 20, sin(elapsed_time * 0.1) * n * 0.01);
 	DrawTxt("hello world", 40, 40, Text);
+	//DrawText(100, 100, 100, 100, false, "Hello World This is matej");
+
+	//Color format: 0xQQRRGGBB 
+	//  Q: opacity 
+	//  R: red
+	//  G: green
+	//  B: blue
+	DrawText(642, 514, 40, 0xffffffff, true, "Hello world");
 	//rendering provided by the lib
 	Flip();
 

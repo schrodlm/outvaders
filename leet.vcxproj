@@ -16,8 +16,15 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="src\lib\entities.h" />
     <ClInclude Include="src\lib\leetlib.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="leet.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="bitmap1.bmp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

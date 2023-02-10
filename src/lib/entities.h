@@ -45,10 +45,10 @@ public:
 	uint64_t getYSize() { return this->ySize; }
 	uint64_t getXSize() { return this->xSize; }
 
-	void setBoundingBox(long x, long y) { boundingBox = { x,y, x + this->xSize, y - this->ySize }; }
+	void setBoundingBox(long x, long y) { boundingBox = { x - (xSize / 2) ,y + (ySize / 2), x + (xSize / 2), y - (ySize / 2) }; }
 	void setState(int _state) { state = _state; }
 
-	void updateBoundingBox() { boundingBox = { (int)BX,(int)BY, (int)BX + xSize, (int)BY - ySize }; }
+	void updateBoundingBox() { boundingBox = { (int)BX - (xSize / 2) ,(int)BY + (ySize / 2), (int)BX + (xSize / 2), (int)BY - (ySize / 2) }; }
 
 
 protected:
@@ -69,7 +69,7 @@ class Enemy : public Entity
 public:
 	virtual  ~Enemy() {};
 
-	Enemy() : Entity(30, 30, "gfx/Little Invader.png") {};
+	Enemy() : Entity(30, 30, "gfx/enemy1.png") {};
 
 };
 
@@ -79,7 +79,7 @@ class Bullet : public Entity
 public:
 	virtual ~Bullet() {};
 
-	Bullet() : Entity(30, 30, "gfx/Bullet.png") {};
+	Bullet() : Entity(5, 5, "gfx/Bullet.png") {};
 	Bullet(const char* spritePath) : Entity(30, 30, spritePath) {};
 };
 
