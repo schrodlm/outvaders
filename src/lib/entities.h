@@ -70,7 +70,7 @@ public:
 	virtual  ~Enemy() {};
 
 	Enemy() : Entity(30, 30, "gfx/enemy1.png") {};
-
+	int score = 40;
 };
 
 
@@ -100,7 +100,13 @@ public:
 
 	Player() : Entity(60, 60, "gfx/Big Invader.png") {}
 
+	int getScore() { return score; }
+	void updateScore(int toAdd) { score += toAdd; }
+	int getLives() { return lives; }
+	void setLives(int new_lives) { lives = new_lives; }
 
+protected:
+	int score = 0;
 	int lives = 3;
 };
 

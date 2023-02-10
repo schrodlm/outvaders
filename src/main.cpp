@@ -30,7 +30,7 @@ void DrawTxt(std::string text, int x, int y, void* Text[]);
 
 */
 
-void Game()
+void Game(int width, int heigth)
 {
 	/*
 	*
@@ -193,13 +193,13 @@ end:
 		{
 			enemyBullet.setState(0);
 
-			if (player.lives > 0) player.lives--;
+			if (player.getLives() > 0) player.setLives(player.getLives() - 1);
 
 
 
 		}
 	}
-	if (player.lives == 0)
+	if (player.getLives() == 0)
 		DrawTxt("died", 40, 310, Text);
 
 
@@ -219,6 +219,8 @@ end:
 				{
 					enemy.setState(0);
 					bullet.setState(0);
+					//adding score to the player
+					player.updateScore(enemy.score);
 				}
 		}
 	}
@@ -243,7 +245,13 @@ end:
 	//  R: red
 	//  G: green
 	//  B: blue
-	DrawText(642, 514, 40, 0xffffffff, true, "Hello world");
+
+	//Draw player score
+
+	DrawText(642, 514, 40, 0xffffffff, true, std::to_string(player.getScore()).c_str());
+
+
+
 	//rendering provided by the lib
 	Flip();
 

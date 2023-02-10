@@ -45,12 +45,14 @@ struct CUSTOMVERTEX
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZRHW|D3DFVF_DIFFUSE|D3DFVF_TEX1)
 
 
-
 // TEXT HANDLING
 
 
+//font manager
 std::map<int, LPD3DXFONT> fonts;
+//these are used in DrawText to show width and height of text to be drawn, could be useless?
 int lasttextwidth, lasttextheight;
+
 int intextbatch = 0;
 LPD3DXSPRITE fontsprite;
 #define MA_RELEASE(x) {int c=0;if (x) c=(x)->Release();x=NULL;}
@@ -595,7 +597,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 	// Register the window class
 	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, MsgProc, 0L, 0L,
 					  GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
-					  "crapcrap", NULL };
+					  "Space Outvaders", NULL };
 	RegisterClassEx(&wc);
 
 	/*
@@ -624,7 +626,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 	9. wc.hInstance:		A handle to the instance of the application that owns the window.
 	10. NULL:				A pointer to a value passed to the window during the creation process.
 	*/
-	hWnd = CreateWindow("crapcrap", "crap crap",
+	hWnd = CreateWindow("Space Outvaders", "Space Outvaders",
 		style, 0, 0, r.right - r.left, r.bottom - r.top,
 		GetDesktopWindow(), NULL, wc.hInstance, NULL);
 
@@ -673,12 +675,12 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 			UpdateWindow(hWnd);
 
 			//InitDirectInput( hWnd );			
-			Game();
+			Game(800, 600);
 
 		}
 	}
 
-	UnregisterClass("crapcrap", wc.hInstance);
+	UnregisterClass("Space Outvaders", wc.hInstance);
 	return 0;
 }
 

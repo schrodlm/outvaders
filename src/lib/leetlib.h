@@ -13,7 +13,7 @@ typedef unsigned long       DWORD;
 bool WantQuit(DWORD clearcolor = 0);
 void Flip(); // flips the screen, frame locked to 60 hz
 void startFlip();
-void Game(); // you write this :)
+void Game(int width, int height); // you write this :)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // input
