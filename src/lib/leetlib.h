@@ -13,7 +13,8 @@ typedef unsigned long       DWORD;
 bool WantQuit(DWORD clearcolor = 0);
 void Flip(); // flips the screen, frame locked to 60 hz
 void startFlip();
-void Game(int width, int height); // you write this :)
+//void Game(int width, int height); // you write this :)
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // input
@@ -27,6 +28,7 @@ void* LoadSprite(const char* fname);
 void DrawSprite(void* sprite, float xcentre, float ycentre, float xsize, float ysize, float rotate_angle_radians = 0, DWORD tint_col_argb = 0xffffffff);
 //void DrawSpriteFromCentre(void* sprite, float xcentre, float ycentre, float xsize, float ysize, float rotate_angle_radians = 0, DWORD tint_col_argb = 0xffffffff);
 int DrawText(int x, int y, int size, int col, bool centered, const char* pformat, ...);
+void DrawTextFromSprites(const char* text, int x, int y, void* Text[]);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // sound

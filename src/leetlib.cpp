@@ -2,6 +2,7 @@
 
 #pragma warning(disable:4995)
 #include "lib/leetlib.h"
+#include "../game.h"
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <strsafe.h>
@@ -673,9 +674,12 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 			// Show the window
 			ShowWindow(hWnd, SW_SHOWDEFAULT);
 			UpdateWindow(hWnd);
+			Game game;
+
+			game.gameLoop();
+
 
 			//InitDirectInput( hWnd );			
-			Game(800, 600);
 
 		}
 	}
@@ -993,4 +997,18 @@ void ChangeVolume(int handle, float volume)
 	if (volume <= 0) volume = 0;
 	if (volume > 1) volume = 1;
 	FSOUND_SetVolume(handle, (int)(volume * 255));
+}
+
+
+/*
+	Creates any text with provided sprites
+*/
+void DrawTextFromSprites(const char* text, int x, int y, void* Text[]) {
+	int i = 0;
+	for (int c = 0; c < strlen(text); c++) {
+		if (text[c] != ' ') {
+			DrawSprite(Text[text[c] - 'a'], x + i * 40, y, 20, 20, 0);
+		}
+		i++;
+	}
 }

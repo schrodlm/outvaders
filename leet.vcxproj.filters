@@ -19,6 +19,9 @@
     <ClCompile Include="src\entities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\lib\leetlib.h">
@@ -28,6 +31,9 @@
       <Filter>library</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="game.h">
+      <Filter>library</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="leet.rc" />

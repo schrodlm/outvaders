@@ -1,45 +1,9 @@
-#include "lib/leetlib.h"
-#include "lib/entities.h"
-#include <math.h>
-#include <iostream>
-#include <vector>
-#include <random>
-#include <chrono>
-
-//randomness
-std::mt19937 rng(std::chrono::steady_clock::now().time_since_epoch().count());
-std::uniform_int_distribution<int> distribution(0, 100);
+#include "game.h"
 
 
-int elapsed_time = 0;
 
-/**
- * @fn	void Game()
- *
- * @brief	Games this object
- *
- * @author	Schrodlm
- * @date	30.10.2022
- */
-
-bool checkCollision(Entity& obj1, Entity& obj2);
-void DrawTxt(std::string text, int x, int y, void* Text[]);
-
-/*
-	- names of sprites often include " " which is generally a bad practice
-
-*/
-
-void Game(int width, int heigth)
+void Game::gameLoop()
 {
-	/*
-	*
-	* saved sprites inside an array -> these sprites represent the name of the game - SPACE INVADERS
-	* - path are hardcoded
-	* - random integer 0 ->that is representing " "
-	*/
-
-
 
 	void* Text[] =
 	{
@@ -70,36 +34,11 @@ void Game(int width, int heigth)
 		LoadSprite("gfx/ylet.png"),
 		LoadSprite("gfx/zlet.png"),
 	};
+	//randomness
+	std::mt19937 rng(std::chrono::steady_clock::now().time_since_epoch().count());
+	std::uniform_int_distribution<int> distribution(0, 100);
 
-
-
-
-	// SETUP
-
-	void* background = LoadSprite("../bitmap1.bmp");
-
-	std::vector<std::vector<Enemy>> enemies(11, std::vector<Enemy>(5));
-	std::vector<Bullet> bullets;
-	std::vector<EnemyBullet> enemyBullets;
-	Player player;
-
-
-
-	for (int i = 0; i < enemies.size(); i++)
-	{
-		for (int j = 0; j < enemies[0].size(); j++)
-		{
-			enemies[i][j].BX = (i % 11) * 50 + 120;
-			enemies[i][j].BY = j * 60 + 70;
-			enemies[i][j].updateBoundingBox();
-		}
-	}
-
-
-	//enemy direction
-	bool direction = true;
-
-
+	bool spriteAnim = false;
 
 end:
 	startFlip();
@@ -118,9 +57,12 @@ end:
 	{
 		for (auto& enemy : col)
 		{
-			DrawSprite(enemy.getSprite(), enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, 0xffffffff);
-			if (elapsed_time % 10 == 0)
+			DrawSprite(spriteAnim ? enemy.sprite_1 : enemy.sprite_2, enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, 0xffffffff);
+			if (elapsed_time % 20 == 0)
+			{
 				(direction) ? enemy.BX += 10 : enemy.BX -= 10;
+				spriteAnim = !spriteAnim;
+			}
 
 			enemy.updateBoundingBox();
 
@@ -198,7 +140,7 @@ end:
 		}
 	}
 	if (player.getLives() == 0)
-		return;
+		Flip(), gameOverLoop();
 
 
 	//Collision checking -> player bullets : enemies
@@ -235,8 +177,8 @@ end:
 	// - hardcoded loop 
 	// - also for some reason angle change is dependent on the index of the sprite, so first letter will not be rotating and last will be rotating much more than others
 	//for (int n = 0; n < strlen("space invaders"); ++n) if (n != 5)DrawSprite(Text[n], n * 40 + 150, 30, 20, 20, sin(elapsed_time * 0.1) * n * 0.01);
-	//DrawTxt("hello world", 40, 40, Text);
-	//DrawText(100, 100, 100, 100, false, "Hello World This is matej");
+
+	//DrawTextFromSprites("hello world", 40, 40, Text);
 
 	//Color format: 0xQQRRGGBB 
 	//  Q: opacity 
@@ -247,6 +189,7 @@ end:
 	//Draw player score
 
 	DrawText(width - 100, 30, 40, 0xffffffff, true, ("SCORE:" + std::to_string(player.getScore())).c_str());
+	DrawText(width - 100, 55, 40, 0xffffffff, true, ("LIVES:" + std::to_string(player.getLives())).c_str());
 
 
 
@@ -256,9 +199,32 @@ end:
 	goto end;
 }
 
+//-----------------------------------------------------------------------------
+// Name: gameOverLoop()
+// Desc: Shows up when player lost all gis lifes
+// 
+// 
+//-----------------------------------------------------------------------------
+void Game::gameOverLoop()
+{
+	while (1)
+	{
+		startFlip();
+
+		if (WantQuit()) return;
+		if (IsKeyDown(VK_ESCAPE)) return;
+		DrawSprite(background, 400, 300, 800, 600, 0, 0xffffffff);
+		DrawText(width / 2, 200, 45, 0xffffffff, true, "GAME OVER");
+		DrawText(width / 2, height / 2, 40, 0xffffffff, true, ("SCORE:" + std::to_string(player.getScore())).c_str());
+
+		Flip();
+	}
+}
+
+
 
 //checks collision between two entities
-bool checkCollision(Entity& obj1, Entity& obj2)
+bool Game::checkCollision(Entity& obj1, Entity& obj2)
 {
 	RECT bb1 = obj1.getBoundingBox();
 	RECT bb2 = obj2.getBoundingBox();
@@ -267,52 +233,4 @@ bool checkCollision(Entity& obj1, Entity& obj2)
 		bb1.right >= bb2.left &&
 		bb1.top >= bb2.bottom &&
 		bb1.bottom <= bb2.top);
-}
-
-
-
-/*
-	Creates any text with provided sprites
-*/
-void DrawTxt(std::string text, int x, int y, void* Text[]) {
-	int i = 0;
-	for (auto c : text) {
-		if (c != ' ') {
-			DrawSprite(Text[c - 'a'], x + i * 40, y, 20, 20, sin(elapsed_time * 0.1) * i * 0.01);
-		}
-		i++;
-	}
-}
-
-
-
-/**
- * @fn	void OldGame()
- *
- * @brief	Old game
- *
- * @author	Schrodlm
- * @date	30.10.2022
- */
-
-void OldGame()
-{
-	void* sprite = LoadSprite("sprite.png");
-	float size = 10;
-	float angle = 0;
-	while (!WantQuit() && !IsKeyDown(VK_ESCAPE))
-	{
-		angle += 0.01f;
-		float mx, my;
-		GetMousePos(mx, my);
-		DWORD col = 0xffffffff; // white
-		if (IsKeyDown(VK_LBUTTON)) col = 0xffff0000; // solid red
-		if (IsKeyDown(VK_RBUTTON)) col = 0x8000ff00; // 50% transparent green
-		if (IsKeyDown(VK_UP)) size++;
-		if (IsKeyDown(VK_DOWN)) size--;
-
-		DrawSprite(sprite, 400, 300, 100, 100, angle);
-		DrawSprite(sprite, mx, my, size, size, 0, col);
-		Flip();
-	}
 }

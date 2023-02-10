@@ -54,7 +54,7 @@ public:
 protected:
 
 	Entity(int xSize, int ySize, const char* _spritePath);
-
+	Entity(int xSize, int ySize) : xSize(xSize), ySize(ySize) {};
 
 	RECT boundingBox;
 	long xSize;
@@ -67,12 +67,38 @@ protected:
 class Enemy : public Entity
 {
 public:
+	int score = 0;
+	void* sprite_1;
+	void* sprite_2;
+	void* sprite_death;
+
 	virtual  ~Enemy() {};
 
-	Enemy() : Entity(30, 30, "gfx/enemy1.png") {};
-	int score = 40;
+	Enemy(const char* spritePath1, const char* spritePath2, const char* spritePathDeath, int score);
+	Enemy() : Entity(30, 30, "gfx/enemy1_1.png") {};
+
 };
 
+class EnemyFront : public Enemy
+{
+public:
+	virtual ~EnemyFront() {};
+
+	EnemyFront() : Enemy("gfx/enemy1_1.png", "gfx/enemy1_2.png", "gfx/enemy1_death.png", 50) {};
+
+	//int score = 50;
+};
+
+
+class EnemyMiddle : public Enemy
+{
+public:
+	virtual ~EnemyMiddle() {};
+
+	EnemyMiddle() : Enemy("gfx/enemy2_1.png", "gfx/enemy2_2.png", "gfx/enemy1_death.png", 60) {};
+
+	//int score = 60;
+};
 
 class Bullet : public Entity
 {
@@ -98,7 +124,7 @@ class Player : public Entity
 public:
 	virtual ~Player() {};
 
-	Player() : Entity(60, 60, "gfx/Big Invader.png") {}
+	Player() : Entity(60, 60, "gfx/Big Invader.png") { this->BX = 400; this->BY = 550; }
 
 	int getScore() { return score; }
 	void updateScore(int toAdd) { score += toAdd; }
@@ -108,6 +134,7 @@ public:
 protected:
 	int score = 0;
 	int lives = 3;
+
 };
 
 
