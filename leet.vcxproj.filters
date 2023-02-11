@@ -34,6 +34,9 @@
     <ClInclude Include="game.h">
       <Filter>library</Filter>
     </ClInclude>
+    <ClInclude Include="menu.h">
+      <Filter>library</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="leet.rc" />
