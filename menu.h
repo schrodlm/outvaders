@@ -27,7 +27,7 @@ public:
 				if (vertical)
 					DrawText(x, y - i * size, size + 10, 0xffffffff, true, m_items[i].text);
 				else
-					DrawText(x + i * size, y, size + 10, 0xffffffff, true, m_items[i].text);
+					DrawText(x + i * size * 6, y, size + 10, 0xffffffff, true, m_items[i].text);
 
 				continue;
 
@@ -36,7 +36,7 @@ public:
 			if (vertical)
 				DrawText(x, y - i * size, size, 0xffffffff, true, m_items[i].text);
 			else
-				DrawText(x + i * strlen(m_items[i].text), y, size, 0xffffffff, true, m_items[i].text);
+				DrawText(x + i * size * 6, y, size, 0xffffffff, true, m_items[i].text);
 
 			/* your text drawing code here */
 
@@ -47,13 +47,13 @@ public:
 	// Handles input for the menu
 	void HandleInput(/* your input code here */) {
 		// Check for up/down arrow key presses to change the selected item
-		if (IsKeyDown(VK_UP)) {
+		if (KeyPressed(VK_UP)) {
 			m_selectedIndex = max(0, m_selectedIndex - 1);
 		}
-		else if (IsKeyDown(VK_DOWN)) {
+		else if (KeyPressed(VK_DOWN)) {
 			m_selectedIndex = min((int)m_items.size() - 1, m_selectedIndex + 1);
 		}
-		else if (IsKeyDown(VK_RETURN) && m_selectedIndex != -1) {
+		else if (KeyPressed(VK_RETURN) && m_selectedIndex != -1) {
 			// Trigger the event handler for the selected item
 			m_items[m_selectedIndex].eventHandler();
 		}

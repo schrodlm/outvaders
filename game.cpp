@@ -217,8 +217,10 @@ end:
 void Game::gameOverLoop()
 {
 	Menu menu(false);
-	menu.AddItem("Menu Item 1", [] {});
-	menu.AddItem("Menu Item 2", [] {});
+	menu.AddItem("Play Again", [] {});
+	menu.AddItem("Highscores", [] {});
+	menu.AddItem("Quit", [] {});
+
 	while (1)
 	{
 		startFlip();
@@ -228,7 +230,7 @@ void Game::gameOverLoop()
 		DrawSprite(background, 400, 300, 800, 600, 0, 0xffffffff);
 		DrawText(width / 2, 200, 45, 0xffffffff, true, "GAME OVER");
 		DrawText(width / 2, height / 2, 40, 0xffffffff, true, ("SCORE:" + std::to_string(player.getScore())).c_str());
-		menu.Draw(width / 2, 300, 40);
+		menu.Draw(width / 4, 400, 40);
 		menu.HandleInput();
 		Flip();
 	}

@@ -148,7 +148,7 @@ int DrawText(int x, int y, int size, int col, bool centered, const char* pformat
 	m_pfont->DrawText(intextbatch ? fontsprite : NULL, debugtext, -1, &r, DT_TOP | DT_LEFT, col);
 	lasttextheight = r.bottom - r.top;
 	lasttextwidth = r.right - r.left;
-	return lasttextheight;
+	return lasttextwidth;
 
 
 }
@@ -789,6 +789,12 @@ void GetMousePos(float& x, float& y) // 0,0 is top left; 800,600 is bottom right
 	ScreenToClient(hWnd, &p);
 	x = p.x;
 	y = p.y;
+}
+
+bool KeyPressed(int key)
+{
+	return g_keyhit[key & 255];
+
 }
 
 bool IsKeyDown(int key) // use windows VK_ codes for special keys, eg VK_LEFT; use capital chars for letter keys eg 'A', '0'
