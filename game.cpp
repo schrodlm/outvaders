@@ -1,5 +1,92 @@
 #include "game.h"
 #include "menu.h"
+#include <fstream>
+#include <iostream>
+
+
+
+//not necessery to be a game object -> it can be used also by other objects (menu etc.) 
+// -> would make mroe sense if i later placed it in some utility_funcions.h or something
+std::vector<std::string> readHighscore()
+{
+	//if file doesnt exist this will create it
+	//could later create createFile() function for it to be more readable
+	std::ofstream existCheck("highscores.txt", std::ios::out | std::ios::app);
+	existCheck.close();
+
+
+	std::ifstream file("highscores.txt");
+
+	std::vector<std::string> highscores;
+	if (file.good()) {
+		//HighScore score;
+		std::string score;
+		while(file >> score)
+			highscores.push_back(score);
+	}
+
+	file.close();
+
+	return highscores;
+}
+
+
+void showHighscore()
+{
+
+	//check if highscore was set
+	std::vector<std::string> highscores = readHighscore();
+
+	while (1)
+	{
+		startFlip();
+
+		if (WantQuit()) return;
+		if (IsKeyDown(VK_ESCAPE)) return;
+		//DrawSprite(background, 400, 300, 800, 600, 0, 0xffffffff);
+		for (int i = 0; i < highscores.size(); i++)
+		{
+			DrawText(800 / 2, 200 + i * 40, 45, 0xffffffff, true, highscores[i].c_str());
+
+		}
+		Flip();
+	}
+}
+
+int updateHighscore(int score)
+{
+	// -1 means it is not a highscore
+	int new_highscore_place = -1;
+	std::vector<std::string> highscores = readHighscore();
+
+	for (int i = 0; i < highscores.size(); i++)
+	{
+		if (std::stoi(highscores[i]) < score)
+		{
+			new_highscore_place = i;
+			break;
+		}
+	}
+	//new highscore was set so we need to set the new one and push all lower highscores one to the right in the vector
+	if (new_highscore_place != -1)
+	{
+		std::string prev = std::to_string(score);
+		for (int i = new_highscore_place; i < highscores.size(); i++)
+		{
+			std::swap(prev, highscores[i]);
+		}
+	}
+
+	std::ofstream file("highscores.txt");
+
+	for (std::string highscore : highscores) {
+		file << highscore << std::endl;
+	}
+
+	file.close();
+
+	return new_highscore_place;
+}
 
 
 Game::Game()
@@ -241,23 +328,50 @@ end:
 //-----------------------------------------------------------------------------
 void Game::gameOverLoop()
 {
+	//check if highscore was set
+	int new_highscore_place = updateHighscore(player.getScore());
+
+
+
+
 	Menu menu;
 	menu.AddItem("Play Again", [] {return 1; });
 	menu.AddItem("Highscores", [] {return 2; });
 	menu.AddItem("Quit", [] {return 3; });
 
+	int menu_option = -1;
+
 	while (1)
 	{
+		elapsed_time++;
 		startFlip();
 
 		if (WantQuit()) return;
 		if (IsKeyDown(VK_ESCAPE)) return;
 		DrawSprite(background, 400, 300, 800, 600, 0, 0xffffffff);
+
+		//new highscore set
+		if (new_highscore_place != -1)
+			DrawText(width / 2, 100, 45, elapsed_time % 60 <= 30 ? 0xff5d8aa8 : 0xffffffff, true, ("! NEW HIGHSCORE FOR PLACE " + std::to_string(new_highscore_place + 1) + " SET !").c_str());
+
 		DrawText(width / 2, 200, 45, 0xffffffff, true, "GAME OVER");
 		DrawText(width / 2, height / 2, 40, 0xffffffff, true, ("SCORE:" + std::to_string(player.getScore())).c_str());
 		menu.Draw(width / 2, 400, 40);
-		menu.HandleInput();
+		menu_option = menu.HandleInput();
 		Flip();
+
+		if (menu_option != -1) break;
+	}
+
+	switch (menu_option)
+	{
+	case 1:
+		break;
+	case 2:
+		showHighscore();
+		break;
+	case 3:
+		break;
 	}
 }
 
@@ -274,3 +388,4 @@ bool Game::checkCollision(Entity& obj1, Entity& obj2)
 		bb1.top >= bb2.bottom &&
 		bb1.bottom <= bb2.top);
 }
+

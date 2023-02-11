@@ -17,6 +17,7 @@ public:
 	void gameLoop();
 	void gameOverLoop();
 	void highscoreLoop() {};
+	//void readHighscore();
 	//void menu();
 
 	bool checkCollision(Entity& obj1, Entity& obj2);

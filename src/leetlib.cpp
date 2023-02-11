@@ -676,17 +676,18 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 			ShowWindow(hWnd, SW_SHOWDEFAULT);
 			UpdateWindow(hWnd);
 
-			int option = 0;
+			int menu_option = 0;
+			int game_option = 0;
 			Game game;
 			Menu mainMenu;
 			mainMenu.AddItem("Start Game", [] {return 1; });
 			mainMenu.AddItem("Highscores", [] {return 2; });
 			mainMenu.AddItem("Quit", [] {return 3; });
 
-			option = mainMenu.Loop();
+			menu_option = mainMenu.Loop();
 
 			//option handler
-			switch (option)
+			switch (menu_option)
 			{
 			case 1:
 				game.gameLoop();
