@@ -2,6 +2,31 @@
 #include "menu.h"
 
 
+Game::Game()
+{
+	//enemy vector
+	std::vector<Enemy> column;
+	for (int i = 0; i < 2; i++)
+		column.push_back(EnemyFront());
+	for (int i = 0; i < 2; i++)
+		column.push_back(EnemyMiddle());
+	column.push_back(EnemyBack());
+	enemies.resize(11, column);
+
+
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		for (int j = 0; j < enemies[0].size(); j++)
+		{
+			enemies[i][j].BX = (i % 11) * 50 + 120;
+			enemies[i][j].BY = j * 60 + 70;
+			enemies[i][j].updateBoundingBox();
+		}
+	}
+	this->height = 600;
+	this->width = 800;
+}
+
 void Game::gameLoop()
 {
 
@@ -217,9 +242,9 @@ end:
 void Game::gameOverLoop()
 {
 	Menu menu;
-	menu.AddItem("Play Again", [] {});
-	menu.AddItem("Highscores", [] {});
-	menu.AddItem("Quit", [] {});
+	menu.AddItem("Play Again", [] {return 1; });
+	menu.AddItem("Highscores", [] {return 2; });
+	menu.AddItem("Quit", [] {return 3; });
 
 	while (1)
 	{

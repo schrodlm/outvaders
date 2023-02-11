@@ -2,6 +2,7 @@
 
 SpriteManager manager;
 
+
 Entity::Entity(int xSize, int ySize, const char* _spritePath)
 {
 	this->xSize = xSize;

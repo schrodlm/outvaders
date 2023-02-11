@@ -3,6 +3,7 @@
 #pragma warning(disable:4995)
 #include "lib/leetlib.h"
 #include "../game.h"
+#include "../menu.h"
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <strsafe.h>
@@ -674,9 +675,36 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 			// Show the window
 			ShowWindow(hWnd, SW_SHOWDEFAULT);
 			UpdateWindow(hWnd);
-			Game game;
 
-			game.gameLoop();
+			int option = 0;
+			Game game;
+			Menu mainMenu;
+			mainMenu.AddItem("Start Game", [] {return 1; });
+			mainMenu.AddItem("Highscores", [] {return 2; });
+			mainMenu.AddItem("Quit", [] {return 3; });
+
+			option = mainMenu.Loop();
+
+			//option handler
+			switch (option)
+			{
+			case 1:
+				game.gameLoop();
+				break;
+
+			case 2:
+				game.highscoreLoop();
+				break;
+
+			case 3:
+				break;
+
+
+			}
+
+			//Game game;
+
+			//game.gameLoop();
 
 
 			//InitDirectInput( hWnd );			
