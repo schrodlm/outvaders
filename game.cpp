@@ -62,7 +62,6 @@ end:
 			if (elapsed_time % 20 == 0)
 			{
 				(direction) ? enemy.BX += 10 : enemy.BX -= 10;
-				spriteAnim = !spriteAnim;
 			}
 
 			enemy.updateBoundingBox();
@@ -78,6 +77,10 @@ end:
 				}
 			}
 		}
+	}
+	if (elapsed_time % 20 == 0)
+	{
+		spriteAnim = !spriteAnim;
 	}
 
 	most_right = enemies.back()[0].BX;

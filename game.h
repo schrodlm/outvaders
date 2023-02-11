@@ -17,11 +17,11 @@ public:
 
 		//enemy vector
 		std::vector<Enemy> column;
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 2; i++)
 			column.push_back(EnemyFront());
 		for (int i = 0; i < 2; i++)
 			column.push_back(EnemyMiddle());
-
+		column.push_back(EnemyBack());
 		enemies.resize(11, column);
 
 

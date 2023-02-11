@@ -72,7 +72,7 @@ public:
 	void* sprite_2;
 	void* sprite_death;
 
-	//countdown is used after enemy is killed, to draw enemy vector;
+	//countdown is used after enemy is killed, to draw enemy vector for specified number of frames;
 	int dead_countdown = 10;
 	int dead = false;
 
@@ -102,6 +102,14 @@ public:
 	EnemyMiddle() : Enemy("gfx/enemy2_1.png", "gfx/enemy2_2.png", "gfx/enemy1_death.png", 60) {};
 
 	//int score = 60;
+};
+
+class EnemyBack : public Enemy
+{
+public:
+	virtual ~EnemyBack() {};
+
+	EnemyBack() : Enemy("gfx/enemy3_1.png", "gfx/enemy3_2.png", "gfx/enemy1_death.png", 70) {};
 };
 
 
