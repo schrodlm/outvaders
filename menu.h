@@ -9,11 +9,12 @@
 
 class Menu {
 public:
-	Menu(bool vertical) : vertical(vertical) {}
+	Menu() {}
 
 	// Adds a menu item
 	void AddItem(const char* text, std::function<void()> eventHandler) {
-		m_items.push_back(MenuItem{ text, false, eventHandler });
+		m_items.push_back(MenuItem{ text, eventHandler });
+		//setting up first item as selected
 	}
 
 	// Draws the menu
@@ -21,22 +22,14 @@ public:
 		// Draw each menu item
 
 		for (int i = 0; i < m_items.size(); ++i) {
-
 			// Highlight the selected item
 			if (m_selectedIndex == i) {
-				if (vertical)
-					DrawText(x, y - i * size, size + 10, 0xffffffff, true, m_items[i].text);
-				else
-					DrawText(x + i * size * 6, y, size + 10, 0xffffffff, true, m_items[i].text);
-
+				DrawText(x, y + i * size, size + 5, 0xff5d8aa8, true, m_items[i].text);
 				continue;
 
 				/* your highlight drawing code here */
 			}
-			if (vertical)
-				DrawText(x, y - i * size, size, 0xffffffff, true, m_items[i].text);
-			else
-				DrawText(x + i * size * 6, y, size, 0xffffffff, true, m_items[i].text);
+			DrawText(x, y + i * size, size, 0xffffffff, true, m_items[i].text);
 
 			/* your text drawing code here */
 
@@ -62,12 +55,11 @@ public:
 private:
 	struct MenuItem {
 		const char* text;
-		bool selected;
 		std::function<void()> eventHandler;
 	};
-	bool vertical;
+
 
 
 	std::vector<MenuItem> m_items;
-	int m_selectedIndex = -1;
+	int m_selectedIndex = 0;
 };
