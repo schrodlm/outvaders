@@ -72,6 +72,10 @@ public:
 	void* sprite_2;
 	void* sprite_death;
 
+	//countdown is used after enemy is killed, to draw enemy vector;
+	int dead_countdown = 10;
+	int dead = false;
+
 	virtual  ~Enemy() {};
 
 	Enemy(const char* spritePath1, const char* spritePath2, const char* spritePathDeath, int score);
@@ -99,6 +103,7 @@ public:
 
 	//int score = 60;
 };
+
 
 class Bullet : public Entity
 {

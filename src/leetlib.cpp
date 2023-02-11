@@ -598,7 +598,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 	// Register the window class
 	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, MsgProc, 0L, 0L,
 					  GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
-					  "Space Outvaders", NULL };
+					  "crapcrap", NULL };
 	RegisterClassEx(&wc);
 
 	/*
@@ -627,7 +627,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 	9. wc.hInstance:		A handle to the instance of the application that owns the window.
 	10. NULL:				A pointer to a value passed to the window during the creation process.
 	*/
-	hWnd = CreateWindow("Space Outvaders", "Space Outvaders",
+	hWnd = CreateWindow("crapcrap", "crap crap",
 		style, 0, 0, r.right - r.left, r.bottom - r.top,
 		GetDesktopWindow(), NULL, wc.hInstance, NULL);
 
@@ -684,7 +684,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 		}
 	}
 
-	UnregisterClass("Space Outvaders", wc.hInstance);
+	UnregisterClass("crapcrap", wc.hInstance);
 	return 0;
 }
 

@@ -57,7 +57,8 @@ end:
 	{
 		for (auto& enemy : col)
 		{
-			DrawSprite(spriteAnim ? enemy.sprite_1 : enemy.sprite_2, enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, 0xffffffff);
+			if (enemy.dead) enemy.dead_countdown--;
+			DrawSprite(enemy.dead ? enemy.sprite_death : spriteAnim ? enemy.sprite_1 : enemy.sprite_2, enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, 0xffffffff);
 			if (elapsed_time % 20 == 0)
 			{
 				(direction) ? enemy.BX += 10 : enemy.BX -= 10;
@@ -140,7 +141,11 @@ end:
 		}
 	}
 	if (player.getLives() == 0)
-		Flip(), gameOverLoop();
+	{
+		Flip();
+		gameOverLoop();
+		return;
+	}
 
 
 	//Collision checking -> player bullets : enemies
@@ -157,10 +162,11 @@ end:
 			for (auto& enemy : col)
 				if (checkCollision(bullet, enemy))
 				{
-					enemy.setState(0);
+					enemy.dead = true;
 					bullet.setState(0);
 					//adding score to the player
 					player.updateScore(enemy.score);
+					//DrawSprite(enemy.sprite_death, enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, 0xffffffff);
 				}
 		}
 	}
@@ -169,7 +175,7 @@ end:
 	bullets.erase(std::remove_if(bullets.begin(), bullets.end(), [](Bullet& b) { return (b.getState() == 0); }), bullets.end());
 	enemyBullets.erase(std::remove_if(enemyBullets.begin(), enemyBullets.end(), [](EnemyBullet& e) { return (e.getState() == 0); }), enemyBullets.end());
 
-	for (auto& col : enemies) col.erase(std::remove_if(col.begin(), col.end(), [](Enemy& e) { return (e.getState() == 0); }), col.end());
+	for (auto& col : enemies) col.erase(std::remove_if(col.begin(), col.end(), [](Enemy& e) { return (e.dead_countdown <= 0); }), col.end());
 	enemies.erase(std::remove_if(enemies.begin(), enemies.end(), [](std::vector<Enemy>& e) { return e.empty(); }), enemies.end());
 
 
@@ -189,7 +195,7 @@ end:
 	//Draw player score
 
 	DrawText(width - 100, 30, 40, 0xffffffff, true, ("SCORE:" + std::to_string(player.getScore())).c_str());
-	DrawText(width - 100, 55, 40, 0xffffffff, true, ("LIVES:" + std::to_string(player.getLives())).c_str());
+	DrawText(width - 100, 55, 40, 0xffffffff, true, ("LIFES:" + std::to_string(player.getLives())).c_str());
 
 
 
