@@ -13,11 +13,7 @@ class Game
 public:
 	//play
 	Game();
-	~Game()
-	{
-		delete player;
-		delete background;
-	}
+	~Game() {};
 
 
 	int gameLoop();

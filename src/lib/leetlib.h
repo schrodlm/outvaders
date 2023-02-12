@@ -26,6 +26,7 @@ bool KeyPressed(int key);
 // output
 // 'sprite output' 
 void* LoadSprite(const char* fname);
+void FreeSprite(void* sprite);
 void DrawSprite(void* sprite, float xcentre, float ycentre, float xsize, float ysize, float rotate_angle_radians = 0, DWORD tint_col_argb = 0xffffffff);
 //void DrawSpriteFromCentre(void* sprite, float xcentre, float ycentre, float xsize, float ysize, float rotate_angle_radians = 0, DWORD tint_col_argb = 0xffffffff);
 int DrawText(int x, int y, int size, int col, bool centered, const char* pformat, ...);

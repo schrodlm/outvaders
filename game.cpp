@@ -121,7 +121,7 @@ Game::Game()
 	this->height = 600;
 	this->width = 800;
 
-	player = new Player();
+	player = new Player(400, 550, 0);
 }
 
 int Game::gameLoop()
@@ -195,7 +195,7 @@ end:
 				int random = distribution(rng);
 				if (&enemy == &col.back() && random == 1)
 				{
-					EnemyBullet B; B.BX = enemy.BX; B.BY = enemy.BY; enemyBullets.push_back(B);
+					enemyBullets.emplace_back(enemy.BX, enemy.BY, 0);
 				}
 			}
 		}
@@ -230,7 +230,7 @@ end:
 	static int playerFireCooldown = 0;
 	if (playerFireCooldown) --playerFireCooldown;
 	//if (!IsKeyDown(VK_SPACE)) count = 0;
-	if (IsKeyDown(VK_SPACE) && playerFireCooldown == 0) { Bullet B;  B.BX = player->BX; B.BY = player->BY; playerFireCooldown = 40;  bullets.push_back(B); }
+	if (IsKeyDown(VK_SPACE) && playerFireCooldown == 0) { playerFireCooldown = 40;  bullets.emplace_back(player->BX, player->BY, 0); }
 
 
 	//drawing bullet sprites -> we also add angle to them so they rotate?

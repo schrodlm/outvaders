@@ -3,16 +3,19 @@
 SpriteManager manager;
 
 
-Entity::Entity(int xSize, int ySize, const char* _spritePath)
+Entity::Entity(int BX, int BY, int BA, int xSize, int ySize, const char* _spritePath)
 {
 	this->xSize = xSize;
 	this->ySize = ySize;
 
+	this->BX = BX;
+	this->BY = BY;
+	this->BA = BA;
 
-	this->spritePath = _spritePath;
+	updateBoundingBox();
 	//saving and loading sprite of a specific entity
-	manager.LoadSpriteImpl(spritePath);
-	sprite = manager.GetSprite(spritePath);
+	manager.LoadSpriteImpl(_spritePath);
+	sprite = manager.GetSprite(_spritePath);
 }
 
 Enemy::Enemy(const char* spritePath1, const char* spritePath2, const char* spritePathDeath, int score) : Entity(30, 30)
