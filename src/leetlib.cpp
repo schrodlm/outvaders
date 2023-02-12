@@ -14,6 +14,9 @@
 #include "../resource.h"
 
 //#include "joypad.h"
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 
 
 #include "lib/fmod/api/inc/fmod.h"
@@ -739,6 +742,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 	}
 
 	UnregisterClass("crapcrap", wc.hInstance);
+	_CrtDumpMemoryLeaks();
 	return 0;
 }
 

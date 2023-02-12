@@ -6,11 +6,13 @@
 
 const std::string Path = "../gfx/";
 
+void deleteManager();
+
 class SpriteManager
 {
 public:
 	SpriteManager() {}
-
+	~SpriteManager();
 	void LoadSpriteImpl(const char* path)
 	{
 		if (sprites.count(path) == 0)
@@ -35,11 +37,7 @@ class Entity
 {
 public:
 
-	virtual ~Entity()
-	{
-		//if (sprite != nullptr)
-		//	FreeSprite(sprite);
-	};
+	virtual ~Entity() = default;
 
 	float BX = 0, BY = 0, BA = 0;
 
@@ -79,8 +77,7 @@ public:
 	int dead_countdown = 10;
 	int dead = false;
 
-	virtual  ~Enemy()
-	{};
+	virtual  ~Enemy() = default;
 
 	Enemy(const char* spritePath1, const char* spritePath2, const char* spritePathDeath, int score);
 	Enemy(int _BX, int _BY, int _BA) : Entity(_BX, _BY, _BA, 30, 30, "gfx/enemy1_1.png") {};
@@ -101,7 +98,7 @@ public:
 class EnemyMiddle : public Enemy
 {
 public:
-	~EnemyMiddle() {};
+	~EnemyMiddle() = default;
 
 	EnemyMiddle() : Enemy("gfx/enemy2_1.png", "gfx/enemy2_2.png", "gfx/enemy2_death.png", 60) {};
 
@@ -111,7 +108,7 @@ public:
 class EnemyBack : public Enemy
 {
 public:
-	~EnemyBack() {};
+	~EnemyBack() = default;
 
 	EnemyBack() : Enemy("gfx/enemy3_1.png", "gfx/enemy3_2.png", "gfx/enemy3_death.png", 70) {};
 };
@@ -120,7 +117,7 @@ public:
 class Bullet : public Entity
 {
 public:
-	virtual ~Bullet() {};
+	virtual ~Bullet() = default;
 
 	Bullet(int _BX, int _BY, int _BA) : Entity(_BX, _BY, _BA, 15, 15, "gfx/Bullet.png") {};
 	Bullet(int _BX, int _BY, int _BA, const char* spritePath) : Entity(_BX, _BY, _BA, 30, 30, spritePath) {};
@@ -129,7 +126,7 @@ public:
 class EnemyBullet : public Bullet
 {
 public:
-	virtual ~EnemyBullet() {};
+	~EnemyBullet() = default;
 
 	EnemyBullet(int _BX, int _BY, int _BA) : Bullet(_BX, _BY, _BA, "gfx/zlet.png")
 	{};
@@ -139,7 +136,7 @@ public:
 class Player : public Entity
 {
 public:
-	virtual ~Player() {};
+	virtual ~Player() = default;
 
 	Player(int _BX, int _BY, int _BA) : Entity(_BX, _BY, _BA, 60, 60, "gfx/Big Invader.png") {}
 
