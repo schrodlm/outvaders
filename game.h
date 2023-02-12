@@ -13,17 +13,24 @@ class Game
 public:
 	//play
 	Game();
+	~Game()
+	{
+		delete player;
+		delete background;
+	}
 
-	void gameLoop();
-	void gameOverLoop();
-	void highscoreLoop() {};
-	//void readHighscore();
-	//void menu();
+
+	int gameLoop();
+	int gameOverLoop();
+	void highscoreLoop();
+
+	//	void readHighscore();
+	//	void menu();
 
 	bool checkCollision(Entity& obj1, Entity& obj2);
 
 private:
-	Player player;
+	Player* player;
 
 	int elapsed_time = 0;
 	int width = 0;

@@ -21,7 +21,7 @@ std::vector<std::string> readHighscore()
 	if (file.good()) {
 		//HighScore score;
 		std::string score;
-		while(file >> score)
+		while (file >> score)
 			highscores.push_back(score);
 	}
 
@@ -33,10 +33,12 @@ std::vector<std::string> readHighscore()
 
 void showHighscore()
 {
+	Menu menu;
+	menu.AddItem("Back", [] {return 1; });
 
 	//check if highscore was set
 	std::vector<std::string> highscores = readHighscore();
-
+	int back = -1;
 	while (1)
 	{
 		startFlip();
@@ -49,7 +51,13 @@ void showHighscore()
 			DrawText(800 / 2, 200 + i * 40, 45, 0xffffffff, true, highscores[i].c_str());
 
 		}
+
+		menu.Draw(800 / 2, 500, 40);
+		back = menu.HandleInput();
+
 		Flip();
+		if (back == 1) return;
+
 	}
 }
 
@@ -112,9 +120,11 @@ Game::Game()
 	}
 	this->height = 600;
 	this->width = 800;
+
+	player = new Player();
 }
 
-void Game::gameLoop()
+int Game::gameLoop()
 {
 
 	void* Text[] =
@@ -156,8 +166,8 @@ end:
 	startFlip();
 
 	++elapsed_time;
-	if (WantQuit()) return;
-	if (IsKeyDown(VK_ESCAPE)) return;
+	if (WantQuit()) return -1;
+	if (IsKeyDown(VK_ESCAPE)) return -1;
 
 	DrawSprite(background, 400, 300, 800, 600, 0, 0xffffffff);
 
@@ -212,15 +222,15 @@ end:
 	}
 
 
-	DrawSprite(player.getSprite(), player.BX += IsKeyDown(VK_LEFT) ? -7 : IsKeyDown(VK_RIGHT) ? 7 : 0, player.BY, player.getXSize(), player.getYSize(), 3.141592 + sin(elapsed_time * 0.1) * 0.1, 0xffffffff);
-	player.updateBoundingBox();
+	DrawSprite(player->getSprite(), player->BX += IsKeyDown(VK_LEFT) ? -7 : IsKeyDown(VK_RIGHT) ? 7 : 0, player->BY, player->getXSize(), player->getYSize(), 3.141592 + sin(elapsed_time * 0.1) * 0.1, 0xffffffff);
+	player->updateBoundingBox();
 
 
 	// FIRE
 	static int playerFireCooldown = 0;
 	if (playerFireCooldown) --playerFireCooldown;
 	//if (!IsKeyDown(VK_SPACE)) count = 0;
-	if (IsKeyDown(VK_SPACE) && playerFireCooldown == 0) { Bullet B;  B.BX = player.BX; B.BY = player.BY; playerFireCooldown = 40;  bullets.push_back(B); }
+	if (IsKeyDown(VK_SPACE) && playerFireCooldown == 0) { Bullet B;  B.BX = player->BX; B.BY = player->BY; playerFireCooldown = 40;  bullets.push_back(B); }
 
 
 	//drawing bullet sprites -> we also add angle to them so they rotate?
@@ -245,21 +255,21 @@ end:
 	//Collision checking -> enemy bullets : player
 	for (auto& enemyBullet : enemyBullets)
 	{
-		if (checkCollision(enemyBullet, player))
+		if (checkCollision(enemyBullet, *player))
 		{
 			enemyBullet.setState(0);
 
-			if (player.getLives() > 0) player.setLives(player.getLives() - 1);
+			if (player->getLives() > 0) player->setLives(player->getLives() - 1);
 
 
 
 		}
 	}
-	if (player.getLives() == 0)
+	if (player->getLives() == 0)
 	{
 		Flip();
-		gameOverLoop();
-		return;
+		return gameOverLoop();
+
 	}
 
 
@@ -280,7 +290,7 @@ end:
 					enemy.dead = true;
 					bullet.setState(0);
 					//adding score to the player
-					player.updateScore(enemy.score);
+					player->updateScore(enemy.score);
 					//DrawSprite(enemy.sprite_death, enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, 0xffffffff);
 				}
 		}
@@ -309,8 +319,8 @@ end:
 
 	//Draw player score
 
-	DrawText(width - 100, 30, 40, 0xffffffff, true, ("SCORE:" + std::to_string(player.getScore())).c_str());
-	DrawText(width - 100, 55, 40, 0xffffffff, true, ("LIFES:" + std::to_string(player.getLives())).c_str());
+	DrawText(width - 100, 30, 40, 0xffffffff, true, ("SCORE:" + std::to_string(player->getScore())).c_str());
+	DrawText(width - 100, 55, 40, 0xffffffff, true, ("LIFES:" + std::to_string(player->getLives())).c_str());
 
 
 
@@ -326,10 +336,10 @@ end:
 // 
 // 
 //-----------------------------------------------------------------------------
-void Game::gameOverLoop()
+int Game::gameOverLoop()
 {
 	//check if highscore was set
-	int new_highscore_place = updateHighscore(player.getScore());
+	int new_highscore_place = updateHighscore(player->getScore());
 
 
 
@@ -346,8 +356,8 @@ void Game::gameOverLoop()
 		elapsed_time++;
 		startFlip();
 
-		if (WantQuit()) return;
-		if (IsKeyDown(VK_ESCAPE)) return;
+		if (WantQuit()) return -1;
+		if (IsKeyDown(VK_ESCAPE)) return -1;
 		DrawSprite(background, 400, 300, 800, 600, 0, 0xffffffff);
 
 		//new highscore set
@@ -355,23 +365,29 @@ void Game::gameOverLoop()
 			DrawText(width / 2, 100, 45, elapsed_time % 60 <= 30 ? 0xff5d8aa8 : 0xffffffff, true, ("! NEW HIGHSCORE FOR PLACE " + std::to_string(new_highscore_place + 1) + " SET !").c_str());
 
 		DrawText(width / 2, 200, 45, 0xffffffff, true, "GAME OVER");
-		DrawText(width / 2, height / 2, 40, 0xffffffff, true, ("SCORE:" + std::to_string(player.getScore())).c_str());
+		DrawText(width / 2, height / 2, 40, 0xffffffff, true, ("SCORE:" + std::to_string(player->getScore())).c_str());
 		menu.Draw(width / 2, 400, 40);
 		menu_option = menu.HandleInput();
 		Flip();
 
-		if (menu_option != -1) break;
-	}
 
-	switch (menu_option)
-	{
-	case 1:
-		break;
-	case 2:
-		showHighscore();
-		break;
-	case 3:
-		break;
+		switch (menu_option)
+		{
+		case -1:
+			break;
+		case 1:
+			//1 means players want to play a new game 
+			return 1;
+			break;
+		case 2:
+			highscoreLoop();
+			break;
+		case 3:
+			//2 means player want to quit
+			return 2;
+			break;
+		}
+
 	}
 }
 
@@ -389,3 +405,7 @@ bool Game::checkCollision(Entity& obj1, Entity& obj2)
 		bb1.bottom <= bb2.top);
 }
 
+void Game::highscoreLoop()
+{
+	showHighscore();
+}

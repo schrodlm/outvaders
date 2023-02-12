@@ -676,31 +676,56 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 			ShowWindow(hWnd, SW_SHOWDEFAULT);
 			UpdateWindow(hWnd);
 
-			int menu_option = 0;
-			int game_option = 0;
-			Game game;
+
 			Menu mainMenu;
 			mainMenu.AddItem("Start Game", [] {return 1; });
 			mainMenu.AddItem("Highscores", [] {return 2; });
 			mainMenu.AddItem("Quit", [] {return 3; });
+			bool quitGame = false;
+			int menu_option = 0;
+			int game_option = 0;
+			Game* game = new Game();
 
-			menu_option = mainMenu.Loop();
-
-			//option handler
-			switch (menu_option)
+			while (1)
 			{
-			case 1:
-				game.gameLoop();
-				break;
 
-			case 2:
-				game.highscoreLoop();
-				break;
+				menu_option = mainMenu.Loop();
 
-			case 3:
-				break;
+				//option handler
+				switch (menu_option)
+				{
+				case 1:
+					game_option = game->gameLoop();
+					//player want to quit
+					if (game_option == -1)
+					{
+						quitGame = true;
+					}
+					//player lost and wants to play a new game
+					if (game_option == 1)
+					{
+						delete game;
+						game = new Game();
+					}
+					// player advanced to new level
+					if (game_option == 2)
+					{
+						game_option = 0;
+					}
+					break;
+
+				case 2:
+					game->highscoreLoop();
+					break;
+
+				case 3:
+					quitGame = true;
+					break;
 
 
+				}
+
+				if (quitGame) break;
 			}
 
 			//Game game;
