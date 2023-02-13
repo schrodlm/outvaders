@@ -162,6 +162,8 @@ int Game::gameLoop()
 
 	bool spriteAnim = false;
 
+	EnemyRare* rare_enemy = nullptr;
+
 end:
 	startFlip();
 
@@ -221,8 +223,11 @@ end:
 
 	}
 
-
-	DrawSprite(player->getSprite(), player->BX += IsKeyDown(VK_LEFT) ? -7 : IsKeyDown(VK_RIGHT) ? 7 : 0, player->BY, player->getXSize(), player->getYSize(), 3.141592 + sin(elapsed_time * 0.1) * 0.1, 0xffffffff);
+	//player_angle makes the player stride to the side that he is moving in
+	int player_angle = 0;
+	if (IsKeyDown(VK_RIGHT)) player_angle = -1;
+	else if (IsKeyDown(VK_LEFT)) player_angle = 1;
+	DrawSprite(player->getSprite(), player->BX += IsKeyDown(VK_LEFT) ? -5 : IsKeyDown(VK_RIGHT) ? 5 : 0, player->BY, player->getXSize(), player->getYSize(), player_angle * 0.1, 0xffffffff);
 	player->updateBoundingBox();
 
 
@@ -230,13 +235,33 @@ end:
 	static int playerFireCooldown = 0;
 	if (playerFireCooldown) --playerFireCooldown;
 	//if (!IsKeyDown(VK_SPACE)) count = 0;
-	if (IsKeyDown(VK_SPACE) && playerFireCooldown == 0) { playerFireCooldown = 40;  bullets.emplace_back(player->BX, player->BY, 0); }
+	if (IsKeyDown(VK_SPACE) && playerFireCooldown == 0) { playerFireCooldown = 40; player->updateShotsFired(), bullets.emplace_back(player->BX, player->BY - player->getYSize() / 2, 0); }
+
+
+	//spawn rare enemy after player shot 23 shots
+	if (player->getShotsFired() % 5 == 0 && rare_enemy == nullptr)
+	{
+		rare_enemy = new EnemyRare();
+		rare_enemy->BX = -100;
+		rare_enemy->BY = 100;
+		rare_enemy->updateBoundingBox();
+	}
+	//if rare enemy exists, move it and check if it is out of bounds
+	if (rare_enemy)
+	{
+		//enemy is dead, we draw the death animation
+		if (rare_enemy->dead) rare_enemy->dead_countdown--, DrawSprite(rare_enemy->sprite_death, rare_enemy->BX, rare_enemy->BY, rare_enemy->getXSize(), rare_enemy->getYSize(), 0, 0xffffffff);
+		//enemy is alive, we draw it
+		else DrawSprite(rare_enemy->sprite_1, rare_enemy->BX += 4, rare_enemy->BY, rare_enemy->getXSize(), rare_enemy->getYSize(), 0, 0xffffffff);
+		rare_enemy->updateBoundingBox();
+		if (rare_enemy->dead_countdown <= 0 || rare_enemy->BX - (rare_enemy->getXSize() / 2) > 800) delete rare_enemy, rare_enemy = nullptr;
+	}
 
 
 	//drawing bullet sprites -> we also add angle to them so they rotate?
 	for (int n = 0; n < bullets.size(); ++n)
 	{
-		DrawSprite(bullets[n].getSprite(), bullets[n].BX, bullets[n].BY -= 4, bullets[n].getXSize(), bullets[n].getYSize(), bullets[n].BA += 0.1f, 0xffffffff);
+		DrawSprite(bullets[n].getSprite(), bullets[n].BX, bullets[n].BY -= 4, bullets[n].getXSize(), bullets[n].getYSize(), 0, 0xffffffff);
 
 		bullets[n].updateBoundingBox();
 	}
@@ -268,6 +293,9 @@ end:
 	if (player->getLives() == 0)
 	{
 		Flip();
+		delete player;
+		delete rare_enemy;
+
 		return gameOverLoop();
 
 	}
@@ -282,9 +310,11 @@ end:
 			bullet.setState(0);
 			continue;
 		}
+		//colision check for normal enemies and players bullets
 		for (auto& col : enemies)
 		{
 			for (auto& enemy : col)
+			{
 				if (checkCollision(bullet, enemy))
 				{
 					enemy.dead = true;
@@ -293,8 +323,18 @@ end:
 					player->updateScore(enemy.score);
 					//DrawSprite(enemy.sprite_death, enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, 0xffffffff);
 				}
+			}
+		}
+		//Collision check for rare_enemy and players bullets
+		if (rare_enemy && checkCollision(bullet, *rare_enemy))
+		{
+			rare_enemy->dead = true;
+			bullet.setState(0);
+			player->updateScore(rare_enemy->score);
 		}
 	}
+
+
 
 	//removing bullets that hit enemies or are out of bounds
 	bullets.erase(std::remove_if(bullets.begin(), bullets.end(), [](Bullet& b) { return (b.getState() == 0); }), bullets.end());

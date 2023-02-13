@@ -16,7 +16,6 @@ public:
 	~Game() {
 		FreeSprite(background);
 		deleteManager();
-
 	};
 
 

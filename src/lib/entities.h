@@ -11,7 +11,7 @@ void deleteManager();
 class SpriteManager
 {
 public:
-	SpriteManager() {}
+	SpriteManager() = default;
 	~SpriteManager();
 	void LoadSpriteImpl(const char* path)
 	{
@@ -69,9 +69,9 @@ class Enemy : public Entity
 {
 public:
 	int score = 0;
-	void* sprite_1;
-	void* sprite_2;
-	void* sprite_death;
+	void* sprite_1 = nullptr;
+	void* sprite_2 = nullptr;
+	void* sprite_death = nullptr;
 
 	//countdown is used after enemy is killed, to draw enemy vector for specified number of frames;
 	int dead_countdown = 10;
@@ -79,7 +79,7 @@ public:
 
 	virtual  ~Enemy() = default;
 
-	Enemy(const char* spritePath1, const char* spritePath2, const char* spritePathDeath, int score);
+	Enemy(int xSize, int ySize, const char* spritePath1, const char* spritePath2, const char* spritePathDeath, int score);
 	Enemy(int _BX, int _BY, int _BA) : Entity(_BX, _BY, _BA, 30, 30, "gfx/enemy1_1.png") {};
 
 };
@@ -87,30 +87,34 @@ public:
 class EnemyFront : public Enemy
 {
 public:
-	~EnemyFront() {};
+	virtual ~EnemyFront() {};
 
-	EnemyFront() : Enemy("gfx/enemy1_1.png", "gfx/enemy1_2.png", "gfx/enemy1_death.png", 50) {};
-
-	//int score = 50;
+	EnemyFront() : Enemy(25, 25, "gfx/enemy1_1.png", "gfx/enemy1_2.png", "gfx/enemy1_death.png", 50) {};
 };
 
 
 class EnemyMiddle : public Enemy
 {
 public:
-	~EnemyMiddle() = default;
+	virtual ~EnemyMiddle() = default;
 
-	EnemyMiddle() : Enemy("gfx/enemy2_1.png", "gfx/enemy2_2.png", "gfx/enemy2_death.png", 60) {};
-
-	//int score = 60;
+	EnemyMiddle() : Enemy(30, 30, "gfx/enemy2_1.png", "gfx/enemy2_2.png", "gfx/enemy2_death.png", 60) {};
 };
 
 class EnemyBack : public Enemy
 {
 public:
-	~EnemyBack() = default;
+	virtual ~EnemyBack() = default;
 
-	EnemyBack() : Enemy("gfx/enemy3_1.png", "gfx/enemy3_2.png", "gfx/enemy3_death.png", 70) {};
+	EnemyBack() : Enemy(30, 30, "gfx/enemy3_1.png", "gfx/enemy3_2.png", "gfx/enemy3_death.png", 70) {};
+};
+
+class EnemyRare : public Enemy
+{
+public:
+	virtual ~EnemyRare() = default;
+
+	EnemyRare() : Enemy(60, 60, "gfx/rare_enemy.png", "", "gfx/enemy3_death.png", 500) {};
 };
 
 
@@ -119,7 +123,7 @@ class Bullet : public Entity
 public:
 	virtual ~Bullet() = default;
 
-	Bullet(int _BX, int _BY, int _BA) : Entity(_BX, _BY, _BA, 15, 15, "gfx/Bullet.png") {};
+	Bullet(int _BX, int _BY, int _BA) : Entity(_BX, _BY, _BA, 10, 20, "gfx/Bullet.png") {};
 	Bullet(int _BX, int _BY, int _BA, const char* spritePath) : Entity(_BX, _BY, _BA, 30, 30, spritePath) {};
 };
 
@@ -128,7 +132,7 @@ class EnemyBullet : public Bullet
 public:
 	~EnemyBullet() = default;
 
-	EnemyBullet(int _BX, int _BY, int _BA) : Bullet(_BX, _BY, _BA, "gfx/zlet.png")
+	EnemyBullet(int _BX, int _BY, int _BA) : Bullet(_BX, _BY, _BA, "gfx/enemy_bullet1.png")
 	{};
 
 };
@@ -138,16 +142,19 @@ class Player : public Entity
 public:
 	virtual ~Player() = default;
 
-	Player(int _BX, int _BY, int _BA) : Entity(_BX, _BY, _BA, 60, 60, "gfx/Big Invader.png") {}
+	Player(int _BX, int _BY, int _BA) : Entity(_BX, _BY, _BA, 60, 60, "gfx/player.png") {}
 
 	int getScore() { return score; }
 	void updateScore(int toAdd) { score += toAdd; }
 	int getLives() { return lives; }
 	void setLives(int new_lives) { lives = new_lives; }
+	int getShotsFired() { return shots_fired; }
+	void updateShotsFired() { shots_fired++; }
 
 protected:
 	int score = 0;
 	int lives = 3;
+	int shots_fired = 1;
 
 };
 

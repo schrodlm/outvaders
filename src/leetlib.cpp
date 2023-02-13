@@ -742,6 +742,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 	}
 
 	UnregisterClass("crapcrap", wc.hInstance);
+
 	_CrtDumpMemoryLeaks();
 	return 0;
 }

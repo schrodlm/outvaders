@@ -34,7 +34,7 @@ Entity::Entity(int BX, int BY, int BA, int xSize, int ySize, const char* _sprite
 	sprite = manager->GetSprite(_spritePath);
 }
 
-Enemy::Enemy(const char* spritePath1, const char* spritePath2, const char* spritePathDeath, int score) : Entity(30, 30)
+Enemy::Enemy(int xSize, int ySize, const char* spritePath1, const char* spritePath2, const char* spritePathDeath, int score) : Entity(xSize, ySize)
 {
 
 	this->score = score;
@@ -42,9 +42,12 @@ Enemy::Enemy(const char* spritePath1, const char* spritePath2, const char* sprit
 	manager->LoadSpriteImpl(spritePath1);
 	sprite_1 = manager->GetSprite(spritePath1);
 
-	manager->LoadSpriteImpl(spritePath2);
-	sprite_2 = manager->GetSprite(spritePath2);
-
+	//it doesnt have to be exist for some enemies
+	if (spritePath2 != "")
+	{
+		manager->LoadSpriteImpl(spritePath2);
+		sprite_2 = manager->GetSprite(spritePath2);
+	}
 	manager->LoadSpriteImpl(spritePathDeath);
 	sprite_death = manager->GetSprite(spritePathDeath);
 
