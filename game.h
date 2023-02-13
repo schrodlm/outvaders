@@ -40,5 +40,6 @@ private:
 	std::vector<EnemyBullet> enemyBullets;
 
 	bool direction = true;
+	int difficulty;
 
 };

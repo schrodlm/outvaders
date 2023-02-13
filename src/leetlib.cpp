@@ -657,7 +657,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 
 		! FMOD is external library and is not part of DirectX !
 	*/
-	FSOUND_Init(44100, 42, 0);
+	//FSOUND_Init(44100, 42, 0);
 
 	/*
 		Both these functions are used to measure the time taken by a specific piece of code or process.
@@ -699,7 +699,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 				{
 				case 1:
 					game_option = game->gameLoop();
-					//player want to quit
+					//player wants to quit
 					if (game_option == -1)
 					{
 						quitGame = true;
@@ -713,7 +713,10 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 					// player advanced to new level
 					if (game_option == 2)
 					{
-						game_option = 0;
+						//Player p = game->getPlayer();
+						//int score = game->getScore();
+						//delete game;
+						//game = new Game(score, p, difficulty);
 					}
 					break;
 

@@ -202,6 +202,7 @@ end:
 			}
 		}
 	}
+	//changing moving animation on enemies
 	if (elapsed_time % 20 == 0)
 	{
 		spriteAnim = !spriteAnim;
@@ -210,7 +211,7 @@ end:
 	most_right = enemies.back()[0].BX;
 	most_left = enemies.front()[0].BX;
 
-	//setting direction for enemies
+	//setting direction for enemies based on position of most left and most right enemy
 	if (most_right + 10 >= 800 && direction)
 	{
 		direction = false;
@@ -293,7 +294,6 @@ end:
 	if (player->getLives() == 0)
 	{
 		Flip();
-		delete player;
 		delete rare_enemy;
 
 		return gameOverLoop();
@@ -334,6 +334,19 @@ end:
 		}
 	}
 
+	//check if enemies are below their lowest y -> if they are lower the game is over
+	for (auto& col : enemies)
+	{
+		if (col[0].getBoundingBox().bottom > 600)
+		{
+			Flip();
+			delete player;
+			delete rare_enemy;
+
+			return gameOverLoop();
+		}
+	}
+
 
 
 	//removing bullets that hit enemies or are out of bounds
@@ -342,6 +355,14 @@ end:
 
 	for (auto& col : enemies) col.erase(std::remove_if(col.begin(), col.end(), [](Enemy& e) { return (e.dead_countdown <= 0); }), col.end());
 	enemies.erase(std::remove_if(enemies.begin(), enemies.end(), [](std::vector<Enemy>& e) { return e.empty(); }), enemies.end());
+
+
+	//check if player won
+	if (enemies.empty())
+	{
+		//player advances
+		return 2;
+	}
 
 
 	//draws space invaders letters sprite on the screen 
