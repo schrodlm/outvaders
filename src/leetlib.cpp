@@ -357,6 +357,7 @@ HWND hWnd;
 //-----------------------------------------------------------------------------
 INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 {
+	HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));
 
 	// message box for a fullscreen
 	int id = MessageBox(NULL, "Run the game in fullscreen?", "Space Outvaders!", MB_YESNOCANCEL);
@@ -364,10 +365,12 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 	fullscreen = (id == IDYES);
 
 
+
 	// Register the window class
 	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, MsgProc, 0L, 0L,
 					  GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
 					  "crapcrap", NULL };
+	wc.hIcon = hIcon;
 	RegisterClassEx(&wc);
 
 	/*
