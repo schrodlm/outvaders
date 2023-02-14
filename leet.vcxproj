@@ -11,17 +11,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\warhorse_test\space_invaders_repair\space invaders\entities.cpp" />
+    <ClCompile Include="..\warhorse_test\space_invaders_repair\space invaders\leetlib.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="menu.cpp" />
-    <ClCompile Include="src\entities.cpp" />
-    <ClCompile Include="src\leetlib.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\warhorse_test\space_invaders_repair\space invaders\entities.h" />
+    <ClInclude Include="..\warhorse_test\space_invaders_repair\space invaders\leetlib.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="src\lib\entities.h" />
-    <ClInclude Include="src\lib\leetlib.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="leet.rc" />

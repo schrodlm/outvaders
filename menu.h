@@ -1,6 +1,6 @@
 #pragma once
 
-#include "src/lib/leetlib.h"
+#include "leetlib.h"
 //#include "src/lib/entities.h"
 #include <vector>
 #include <functional>

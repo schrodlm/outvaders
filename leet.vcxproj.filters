@@ -10,31 +10,31 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\leetlib.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\entities.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\warhorse_test\space_invaders_repair\space invaders\entities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\warhorse_test\space_invaders_repair\space invaders\leetlib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\lib\leetlib.h">
-      <Filter>library</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lib\entities.h">
-      <Filter>library</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="game.h">
       <Filter>library</Filter>
     </ClInclude>
     <ClInclude Include="menu.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\warhorse_test\space_invaders_repair\space invaders\leetlib.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\warhorse_test\space_invaders_repair\space invaders\entities.h">
       <Filter>library</Filter>
     </ClInclude>
   </ItemGroup>

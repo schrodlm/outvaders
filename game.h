@@ -1,7 +1,7 @@
 #pragma once
 
-#include "src/lib/leetlib.h"
-#include "src/lib/entities.h"
+#include "leetlib.h"
+#include "entities.h"
 #include <math.h>
 #include <iostream>
 #include <vector>
