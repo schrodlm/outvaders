@@ -37,7 +37,6 @@ LPDIRECT3DVERTEXBUFFER9 g_pVB = NULL; // Buffer to hold tea2
 
 bool fullscreen;
 
-void SetCurrentTexture(void* tex);
 
 // A structure for our custom vertex type
 struct CUSTOMVERTEX
@@ -56,20 +55,21 @@ struct CUSTOMVERTEX
 
 //font manager
 std::map<int, LPD3DXFONT> fonts;
-//these are used in DrawText to show width and height of text to be drawn, could be useless?
-int lasttextwidth, lasttextheight;
-
 int intextbatch = 0;
 LPD3DXSPRITE fontsprite;
 #define MA_RELEASE(x) {int c=0;if (x) c=(x)->Release();x=NULL;}
-void ReleaseFonts();
 typedef unsigned int u32;
 
+void ReleaseFonts();
+
 void StartTextBatch(int size = 0);
+void EndTextBatch();
+
+void SetCurrentTexture(void* tex);
+
 int DrawText(int x, int y, int size, u32 col, bool cenetered, const char* pFormat, ...);
 
 
-void EndTextBatch();
 
 LPD3DXFONT FindFont(int size)
 {
@@ -154,9 +154,7 @@ int DrawText(int x, int y, int size, int col, bool centered, const char* pformat
 	if (centered) r.left -= wid / 2;
 	if (centered) r.right -= wid / 2;
 	m_pfont->DrawText(intextbatch ? fontsprite : NULL, debugtext, -1, &r, DT_TOP | DT_LEFT, col);
-	lasttextheight = r.bottom - r.top;
-	lasttextwidth = r.right - r.left;
-	return lasttextwidth;
+	return r.right - r.left;
 
 
 }
@@ -618,39 +616,7 @@ void FreeSprite(void* sprite)
 }
 
 
-/*
-void DrawRectangle(float x1, float y1, float x2, float y2, DWORD col )
-{
-	CUSTOMVERTEX tea2[] =
-	{
-		{ x1, y1, 0.5f, 1.0f, col, 0,0, }, // x, y, z, rhw, color
-		{ x2, y1, 0.5f, 1.0f, col, 1,0, },
-		{ x1, y2, 0.5f, 1.0f, col, 0,1, },
-		{ x2, y2, 0.5f, 1.0f, col, 1,1, },
-	};
-	g_pd3dDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, tea2, sizeof(CUSTOMVERTEX));
 
-}
-*/
-//void DrawSpriteFromCentre(void* sprite, float xcentre, float ycentre, float xsize, float ysize, float angle, DWORD col)
-//{
-//	SetCurrentTexture(sprite);
-//	float c = cosf(angle);
-//	float s = sinf(angle);
-//
-//#define ROTATE(xx,yy) xcentre+(xx)*c+(yy)*s,ycentre+(yy)*c-(xx)*s 
-//	CUSTOMVERTEX tea2[] =
-//	{
-//
-//		///{ xcentre+xsize*c+ysize*s,ycentre+ysize*c-xsize*s , 0.5f, 1.0f, col, 0,0, }, // x, y, z, rhw, color
-//
-//		{ ROTATE(-xsize,-ysize), 0.5f, 1.0f, col, 0,0, }, // x, y, z, rhw, color
-//		{ ROTATE(xsize,-ysize), 0.5f, 1.0f, col, 1,0, },
-//		{ ROTATE(-xsize, ysize), 0.5f, 1.0f, col, 0,1, },
-//		{ ROTATE(xsize, ysize), 0.5f, 1.0f, col, 1,1, },
-//	};
-//	g_pd3dDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, tea2, sizeof(CUSTOMVERTEX));
-//}
 
 void DrawSprite(void* sprite, float x, float y, float xsize, float ysize, float angle, DWORD col)
 {

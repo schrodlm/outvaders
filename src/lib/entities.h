@@ -114,7 +114,7 @@ class EnemyRare : public Enemy
 public:
 	virtual ~EnemyRare() = default;
 
-	EnemyRare() : Enemy(60, 60, "gfx/rare_enemy.png", "", "gfx/enemy3_death.png", 500) {};
+	EnemyRare() : Enemy(65, 50, "gfx/rare_enemy.png", "", "gfx/enemy3_death.png", 500) {};
 };
 
 

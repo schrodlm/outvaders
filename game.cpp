@@ -292,22 +292,6 @@ end:
 
 		}
 	}
-	if (player->getLives() == 0)
-	{
-		Flip();
-		clearLevel();
-		switch (gameOverLoop())
-		{
-		case 1:
-			initializeNewPlayer();
-			goto start;
-			break;
-		case 2:
-			return;
-		}
-
-	}
-
 
 	//Collision checking -> player bullets : enemies
 	for (auto& bullet : bullets)
@@ -345,7 +329,8 @@ end:
 	//check if enemies are below their lowest y -> if they are lower the game is over
 	for (auto& col : enemies)
 	{
-		if (col[0].getBoundingBox().bottom > 600)
+
+		if (player->getLives() == 0 || (!col.empty() && col.back().BY > player->BY - player->getYSize() / 2 - 20))
 		{
 			Flip();
 			clearLevel();
@@ -441,8 +426,8 @@ int Game::gameOverLoop()
 		elapsed_time++;
 		startFlip();
 
-		if (WantQuit()) return -1;
-		if (IsKeyDown(VK_ESCAPE)) return -1;
+		if (WantQuit()) return 2;
+		if (IsKeyDown(VK_ESCAPE)) return 2;
 		DrawSprite(background, 400, 300, 800, 600, 0, WHITE);
 
 		//new highscore set
