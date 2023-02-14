@@ -13,12 +13,13 @@
 #include <malloc.h>
 #include "../resource.h"
 
-//#include "joypad.h"
+//debugging
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
 
 
+//sound
 #include "lib/fmod/api/inc/fmod.h"
 #pragma comment(lib,"lib/fmod/api/lib/fmodvc.lib")
 #pragma comment(lib,"d3d9.lib")
@@ -134,7 +135,10 @@ void EndTextBatch()
 }
 
 
-
+//-----------------------------------------------------------------------------
+// Name: DrawText()
+// Desc: Renders provided text on the screen
+//-----------------------------------------------------------------------------
 int DrawText(int x, int y, int size, int col, bool centered, const char* pformat, ...)
 {
 	char debugtext[8192];
@@ -157,6 +161,19 @@ int DrawText(int x, int y, int size, int col, bool centered, const char* pformat
 
 }
 
+//-----------------------------------------------------------------------------
+// Name: DrawTextFromSprites()
+// Desc: Renders text consisting of provided sprites
+//-----------------------------------------------------------------------------
+void DrawTextFromSprites(const char* text, int x, int y, void* Text[]) {
+	int i = 0;
+	for (int c = 0; c < strlen(text); c++) {
+		if (text[c] != ' ') {
+			DrawSprite(Text[text[c] - 'a'], x + i * 40, y, 20, 20, 0);
+		}
+		i++;
+	}
+}
 
 
 
@@ -248,258 +265,6 @@ VOID Cleanup()
 
 }
 
-
-
-
-//-----------------------------------------------------------------------------
-// Name: Render()
-// Desc: Draws the scene
-//-----------------------------------------------------------------------------
-
-/*
-float RotateU(float u, float v, float a)
-{
-	u=u-0.5;
-	v=v-0.5;
-	return u*cos(a)-v*sin(a)+0.5;
-}
-
-float RotateV(float u, float v, float a)
-{
-	u=u-0.5;
-	v=v-0.5;
-	return u*sin(a)+v*cos(a)+0.5;
-}
-
-void DrawQuad(float x1, float y1, float x2, float y2, DWORD col=0xffffffff, float a=0)
-{
-
-	CUSTOMVERTEX tea2[] =
-	{
-		{ x1, y1, 0.5f, 1.0f, col, RotateU(0,0,a), RotateV(0,0,a) }, // x, y, z, rhw, color
-		{ x2, y1, 0.5f, 1.0f, col, RotateU(1,0,a), RotateV(1,0,a)},
-		{ x1, y2, 0.5f, 1.0f, col, RotateU(0,1,a), RotateV(0,1,a)},
-		{ x2, y2, 0.5f, 1.0f, col, RotateU(1,1,a), RotateV(1,1,a)},
-	};
-
-	VOID* ptea2;
-	if( FAILED( g_pVB->Lock( 0, sizeof(tea2), (void**)&ptea2, D3DLOCK_DISCARD ) ) )
-		return ;
-	memcpy( ptea2, tea2, sizeof(tea2) );
-	g_pVB->Unlock();
-
-
-	g_pd3dDevice->DrawPrimitive( D3DPT_TRIANGLESTRIP, 0, 2 );
-}
-
-void DrawTri(float x1, float y1, float x2, float y2, float x3, float y3, DWORD col=0xffffffff)
-{
-	//OutputDebugString("triangle!");
-
-	CUSTOMVERTEX tea2[] =
-	{
-		{ x1, y1, 0.5f, 1.0f, col, 0,0 }, // x, y, z, rhw, color
-		{ x2, y2, 0.5f, 1.0f, col, 0,0},
-		{ x3, y3, 0.5f, 1.0f, col, 0,0},
-		{ x3, y3, 0.5f, 1.0f, col, 0,0},
-	};
-
-	VOID* ptea2=NULL;
-	if( FAILED( g_pVB->Lock( 0, sizeof(tea2), (void**)&ptea2, D3DLOCK_DISCARD ) ) )
-	{
-		OutputDebugString("lock failed");
-		return ;
-	}
-	memcpy( ptea2, tea2, sizeof(tea2) );
-	g_pVB->Unlock();
-
-
-	if (FAILED(g_pd3dDevice->DrawPrimitive( D3DPT_TRIANGLESTRIP, 0, 1 )))
-	{
-		OutputDebugString("draw failed");
-	}
-}
-
-
-
-/*
-VOID Render()
-{
-	// Clear the backbuffer to a blue color
-	g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(128,128,128), 1.0f, 0 );
-	g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE,true);
-
-	g_pd3dDevice->SetSamplerState(0,D3DSAMP_MAGFILTER,D3DTEXF_LINEAR);
-	g_pd3dDevice->SetSamplerState(0,D3DSAMP_MINFILTER,D3DTEXF_LINEAR);
-	g_pd3dDevice->SetTextureStageState(0,D3DTSS_COLORARG1,D3DTA_DIFFUSE);
-	g_pd3dDevice->SetTextureStageState(0,D3DTSS_COLORARG2,D3DTA_TEXTURE);
-	g_pd3dDevice->SetTextureStageState(0,D3DTSS_COLOROP,D3DTOP_MODULATE);
-
-	g_pd3dDevice->SetTextureStageState(0,D3DTSS_ALPHAARG1,D3DTA_DIFFUSE);
-	g_pd3dDevice->SetTextureStageState(0,D3DTSS_ALPHAARG2,D3DTA_TEXTURE);
-	g_pd3dDevice->SetTextureStageState(0,D3DTSS_ALPHAOP,D3DTOP_MODULATE);
-
-
-	static float spinpos=0;
-	static float spinv=0;
-	static bool spinning=false;
-	static bool nomorespin=false;
-	srand(GetTickCount());
-	// Begin the scene
-	if( SUCCEEDED( g_pd3dDevice->BeginScene() ) )
-	{
-		// Draw the triangles in the vertex buffer. This is broken into a few
-		// steps. We are passing the tea2 down a "stream", so first we need
-		// to specify the source of that stream, which is our vertex buffer. Then
-		// we need to let D3D know what vertex shader to use. Full, custom vertex
-		// shaders are an advanced topic, but in most cases the vertex shader is
-		// just the FVF, so that D3D knows what type of tea2 we are dealing
-		// with. Finally, we call DrawPrimitive() which does the actual rendering
-		// of our geometry (in this case, just one triangle).
-		g_pd3dDevice->SetStreamSource( 0, g_pVB, 0, sizeof(CUSTOMVERTEX) );
-		g_pd3dDevice->SetFVF( D3DFVF_CUSTOMVERTEX );
-
-		g_pd3dDevice->SetRenderState(D3DRS_SRCBLEND,D3DBLEND_SRCALPHA);
-		g_pd3dDevice->SetRenderState(D3DRS_DESTBLEND,D3DBLEND_INVSRCALPHA);
-		g_pd3dDevice->SetTexture(0,g_bgtex);
-		DrawQuad(0,0,1280,1024);
-
-
-
-		g_pd3dDevice->SetRenderState(D3DRS_SRCBLEND,D3DBLEND_DESTCOLOR);
-		g_pd3dDevice->SetRenderState(D3DRS_DESTBLEND,D3DBLEND_SRCCOLOR);
-		g_pd3dDevice->SetTexture(0,NULL);
-
-		float totw=0;
-		float temp[10];
-		for (int n=0;n<numpeople;n++)
-		{
-			// ratio weights:
-			if (GetAsyncKeyState('R')<0)
-			{
-				temp[n]= (1.f+teas[n].consumed) / (1.f+teas[n].madecups);
-			}
-			else
-			{
-				// dave weights
-				temp[n]= powf(1.2f, teas[n].consumed - teas[n].madecups - teas[n].maderounds);
-			}
-
-
-			totw+=temp[n];
-		}
-		angles[0]=0;
-		for (int n=0;n<numpeople;n++)
-		{
-			temp[n]=temp[n]/totw*PI*2;
-			angles[n+1]=angles[n]+temp[n];
-		}
-		angles[numpeople]=PI*2;
-
-		for (int n=0;n<numpeople;n++)
-		{
-			int red=sinf(n*PI*2/numpeople)*100+128;
-			int green=sinf(n*PI*2/numpeople+PI*2/3)*100+128;
-			int blue=sinf(n*PI*2/numpeople+PI*4/3)*100+128;
-			DWORD col=(red<<16)+(green<<8)+(blue);
-			float t1=0,t2=0;
-			for (int i=0;i<16;i++)
-			{
-				t1=(i/16.f)*temp[n]+angles[n];
-				t2=((i+1)/16.f)*temp[n]+angles[n];
-
-				DrawTri(640,512,640+500*sinf(t1),512-500*cosf(t1),640+500*sinf(t2),512-500*cosf(t2),col|0xff000000);
-
-			}
-		}
-
-		//exit(1);
-
-		g_pd3dDevice->SetRenderState(D3DRS_SRCBLEND,D3DBLEND_SRCALPHA);
-		g_pd3dDevice->SetRenderState(D3DRS_DESTBLEND,D3DBLEND_INVSRCALPHA);
-		g_pd3dDevice->SetTexture(0,g_arrow);
-
-		for (int n=0;n<numpeople;n++)
-		{
-			float t1=(0.5)*temp[n]+angles[n];
-			DrawText(642+300*sinf(t1),514-300*cosf(t1),40,0xcf000000,true,teas[n].name);
-			DrawText(640+300*sinf(t1),512-300*cosf(t1),40,0xffffffff,true,teas[n].name);
-		}
-		for (int c1=0;c1<64;c1++)
-		{
-			float arrowsize=384;
-			DrawQuad(640-arrowsize,512-arrowsize,640+arrowsize,512+arrowsize,0x08ffffff, -spinpos-spinv*c1/64.f);
-		}
-		//if (GetAsyncKeyState(VK_ESCAPE)&1) PostQuitMessage(0);
-		if (GetAsyncKeyState(VK_BACK)<0)
-		{
-			spinv*=0.8;
-		}
-		if (GetAsyncKeyState(VK_SPACE)<0)
-		{
-			if (nomorespin==false) spinv+=0.01+rand()/3276800.f;
-			if (spinv>0.2) spinning=true;
-		}
-		else if (spinning) nomorespin=true;
-		spinpos+=spinv;
-		spinv*=0.99f;
-		if (spinv<0.001f)
-		{
-			spinv=0;
-			if (spinning)
-			{
-				spinning=0;
-				while (spinpos<0) spinpos+=PI*2;
-				while (spinpos>=PI*2) spinpos-=PI*2;
-				int winner=0;
-				for (winner=0;winner<numpeople;winner++) if (spinpos>=angles[winner] && spinpos<angles[winner+1]) break;
-				winner=(winner%numpeople);
-
-
-
-				sprintf(winnerbuf,"%s is the winner! MAKE SOME TEA BITCH!",teas[winner].name);
-				if (DialogBox(GetModuleHandle(NULL),MAKEINTRESOURCE(IDD_DIALOG1),NULL,(DLGPROC)mydialogproc)==IDOK && numcups>0)
-
-				//if (MessageBox(GetForegroundWindow(),buf,"tea!",MB_ICONEXCLAMATION|MB_OKCANCEL)==IDOK)
-				{
-					teas[winner].maderounds++;
-					teas[winner].madecups+=numcups;
-					writetea();
-				}
-
-				nomorespin=false;
-			}
-		}
-		if (spinpos>PI*2) spinpos-=PI*2;
-
-		if (GetAsyncKeyState(VK_SHIFT)<0)
-		{
-			for (int c1=0;c1<numpeople;c1++)
-			{
-				char buf[1024];sprintf(buf,"%9s made %2d rounds, %3d cups, drank %3d cups",teas[c1].name,teas[c1].maderounds,teas[c1].madecups,teas[c1].consumed);
-				DrawText(2,2+c1*24,20,0x80000000,false,buf);
-				DrawText(0,0+c1*24,20,0xffffffff,false,buf);
-
-			}
-		}
-		else
-		{
-			DrawText(0, 0,20,0xffffffff,false,"Press SPACE to spin!");
-			DrawText(0,24,20,0xffffffff,false,"Press BACKSPACE to brake");
-			DrawText(0,48,20,0xffffffff,false,"Press SHIFT for stats");
-
-		}
-
-		// End the scene
-		g_pd3dDevice->EndScene();
-	}
-
-	// Present the backbuffer contents to the display
-	g_pd3dDevice->Present( NULL, NULL, NULL, NULL );
-	Sleep(10);
-}
-
-*/
 
 
 //-----------------------------------------------------------------------------
@@ -594,7 +359,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 {
 
 	// message box for a fullscreen
-	int id = MessageBox(NULL, "fullscreen?", "answer me!", MB_YESNOCANCEL);
+	int id = MessageBox(NULL, "Run the game in fullscreen?", "Space Outvaders!", MB_YESNOCANCEL);
 	if (id == IDCANCEL) return 0;
 	fullscreen = (id == IDYES);
 
@@ -920,80 +685,6 @@ void DrawSprite(void* sprite, float x, float y, float xsize, float ysize, float 
 }
 
 
-/*
-// 'flat colour' output
-void DrawLine(float x1, float y1, float x2, float y2, DWORD col ) // no texture
-{
-	IDirect3DBaseTexture9 *oldtex = NULL;
-	g_pd3dDevice->GetTexture(0, &oldtex);
-	g_pd3dDevice->SetTexture(0, NULL);
-	CUSTOMVERTEX tea2[] =
-	{
-		{ x1, y1, 0.5f, 1.0f, col, 0,0, }, // x, y, z, rhw, color
-		{ x2, y2, 0.5f, 1.0f, col, 1,0, }
-	};
-	g_pd3dDevice->DrawPrimitiveUP(D3DPT_LINELIST, 1, tea2, sizeof(CUSTOMVERTEX));
-
-	g_pd3dDevice->SetTexture(0, oldtex);
-}
-
-void DrawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, DWORD col ) // flat colored tri, no texture
-{
-	IDirect3DBaseTexture9 *oldtex = NULL;
-	g_pd3dDevice->GetTexture(0, &oldtex);
-	g_pd3dDevice->SetTexture(0, NULL);
-	CUSTOMVERTEX tea2[] =
-	{
-		{ x1, y1, 0.5f, 1.0f, col, 0,0, }, // x, y, z, rhw, color
-		{ x2, y2, 0.5f, 1.0f, col, 1,0, },
-		{ x3, y3, 0.5f, 1.0f, col, 1,0, }
-	};
-	g_pd3dDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 1, tea2, sizeof(CUSTOMVERTEX));
-
-	g_pd3dDevice->SetTexture(0, oldtex);
-}
-
-
-// 'advanced' output - for geeks only - for drawing arbitrarily textured triangles and line lists
-void DrawTriangleList(Vertex *verts, int numtris)
-{
-	CUSTOMVERTEX *vs = (CUSTOMVERTEX *)alloca(sizeof(CUSTOMVERTEX) * numtris * 3);
-	CUSTOMVERTEX *d=vs;
-	for (int n=0;n<numtris*3;n++)
-	{
-		d->x=verts->x;
-		d->y=verts->y;
-		d->z=0.5;
-		d->rhw=1;
-		d->color=verts->colour;
-		d->u=verts->u;
-		d->v=verts->v;
-		d++;
-		verts++;
-	}
-	g_pd3dDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST, numtris, vs, sizeof(CUSTOMVERTEX));
-}
-
-void DrawLineList(Vertex *verts, int numlines)
-{
-	CUSTOMVERTEX *vs = (CUSTOMVERTEX *)alloca(sizeof(CUSTOMVERTEX) * numlines * 2);
-	CUSTOMVERTEX *d=vs;
-	for (int n=0;n<numlines * 2;n++)
-	{
-		d->x=verts->x;
-		d->y=verts->y;
-		d->z=0.5;
-		d->rhw=1;
-		d->color=verts->colour;
-		d->u=verts->u;
-		d->v=verts->v;
-		d++;
-		verts++;
-	}
-	g_pd3dDevice->DrawPrimitiveUP(D3DPT_LINELIST, numlines, vs, sizeof(CUSTOMVERTEX));
-}
-*/
-
 FSOUND_STREAM* music;
 
 int PlayMusic(const char* fname, float volume)
@@ -1045,18 +736,4 @@ void ChangeVolume(int handle, float volume)
 	if (volume <= 0) volume = 0;
 	if (volume > 1) volume = 1;
 	FSOUND_SetVolume(handle, (int)(volume * 255));
-}
-
-
-/*
-	Creates any text with provided sprites
-*/
-void DrawTextFromSprites(const char* text, int x, int y, void* Text[]) {
-	int i = 0;
-	for (int c = 0; c < strlen(text); c++) {
-		if (text[c] != ' ') {
-			DrawSprite(Text[text[c] - 'a'], x + i * 40, y, 20, 20, 0);
-		}
-		i++;
-	}
 }

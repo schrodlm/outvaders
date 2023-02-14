@@ -9,14 +9,16 @@
 // -> would make mroe sense if i later placed it in some utility_funcions.h or something
 std::vector<std::string> readHighscore()
 {
-	//if file doesnt exist this will create it
-	//could later create createFile() function for it to be more readable
-	std::ofstream existCheck("highscores.txt", std::ios::out | std::ios::app);
-	existCheck.close();
 
+
+	std::ifstream test("highscores.txt");
+	if (test.fail() || test.peek() == std::ifstream::traits_type::eof()) {  // check if the file is empty
+		std::ofstream outfile("highscores.txt");
+		for (int i = 0; i < 5; i++) outfile << "0" << std::endl;
+		outfile.close();
+	}
 
 	std::ifstream file("highscores.txt");
-
 	std::vector<std::string> highscores;
 	if (file.good()) {
 		//HighScore score;
@@ -160,8 +162,8 @@ end:
 	DrawSprite(background, 400, 300, 800, 600, 0, WHITE);
 
 
-	int most_right = INT_MIN;
-	int most_left = INT_MAX;
+	int most_right_enemy = INT_MIN;
+	int most_left_enemy = INT_MAX;
 	//drawing enemies on the screen
 	for (auto& col : enemies)
 	{
@@ -194,16 +196,16 @@ end:
 		spriteAnim = !spriteAnim;
 	}
 
-	most_right = enemies.back()[0].BX;
-	most_left = enemies.front()[0].BX;
+	most_right_enemy = enemies.back()[0].BX;
+	most_left_enemy = enemies.front()[0].BX;
 
 	//setting direction for enemies based on position of most left and most right enemy
-	if (most_right + 10 >= 800 && direction)
+	if (most_right_enemy + 10 >= 800 && direction)
 	{
 		direction = false;
 		for (auto& col : enemies) for (auto& enemy : col) enemy.BY += 20, enemy.updateBoundingBox();
 	}
-	if (most_left - 10 <= 0 && !direction)
+	if (most_left_enemy - 10 <= 0 && !direction)
 	{
 		direction = true;
 		for (auto& col : enemies)for (auto& enemy : col) enemy.BY += 20, enemy.updateBoundingBox();
@@ -297,8 +299,7 @@ end:
 		switch (gameOverLoop())
 		{
 		case 1:
-			delete player;
-			player = new Player(400, 550, 0);
+			initializeNewPlayer();
 			goto start;
 			break;
 		case 2:
@@ -351,8 +352,7 @@ end:
 			switch (gameOverLoop())
 			{
 			case 1:
-				delete player;
-				player = new Player(400, 550, 0);
+				initializeNewPlayer();
 				goto start;
 				break;
 
@@ -537,4 +537,10 @@ void Game::levelIntro()
 	DrawText(width / 2, 300, 45, WHITE, true, ("LEVEL " + std::to_string(level)).c_str());
 	Flip();
 	Sleep(1000);
+}
+
+void Game::initializeNewPlayer()
+{
+	delete player;
+	player = new Player(400, 550, 0);
 }

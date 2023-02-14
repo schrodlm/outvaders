@@ -28,6 +28,7 @@ public:
 	void clearLevel();
 	void initializeLevel();
 	void levelIntro();
+	void initializeNewPlayer();
 	//	void readHighscore();
 	//	void menu();
 
