@@ -40,7 +40,7 @@ private:
 	int elapsed_time = 0;
 	int width = 0;
 	int height = 0;
-	void* background = LoadSprite("../bitmap1.bmp");
+	void* background = LoadSprite("bitmap1.bmp");
 	std::vector<std::vector<Enemy>> enemies;
 	std::vector<Bullet> bullets;
 	std::vector<EnemyBullet> enemyBullets;
