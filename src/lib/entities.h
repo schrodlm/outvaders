@@ -150,11 +150,17 @@ public:
 	void setLives(int new_lives) { lives = new_lives; }
 	int getShotsFired() { return shots_fired; }
 	void updateShotsFired() { shots_fired++; }
+	int getHit() { return hit; }
+	void setHit(int cooldown = 20) { hit = cooldown; }
+	void updateHit() { hit--; }
+
+
 
 protected:
 	int score = 0;
 	int lives = 3;
 	int shots_fired = 1;
+	int hit = 0;
 
 };
 

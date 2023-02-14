@@ -45,7 +45,7 @@ void showHighscore()
 
 		if (WantQuit()) return;
 		if (IsKeyDown(VK_ESCAPE)) return;
-		//DrawSprite(background, 400, 300, 800, 600, 0, 0xffffffff);
+
 		for (int i = 0; i < highscores.size(); i++)
 		{
 			DrawText(800 / 2, 200 + i * 40, 45, 0xffffffff, true, highscores[i].c_str());
@@ -144,31 +144,10 @@ void Game::gameLoop()
 	std::uniform_int_distribution<int> distribution(0, 100);
 
 start:
+	initializeLevel();
 	bool spriteAnim = false;
 
 	EnemyRare* rare_enemy = nullptr;
-
-	enemies.clear();
-
-	//enemy vector
-	std::vector<Enemy> column;
-	for (int i = 0; i < 2; i++)
-		column.push_back(EnemyFront());
-	for (int i = 0; i < 2; i++)
-		column.push_back(EnemyMiddle());
-	column.push_back(EnemyBack());
-	enemies.resize(11, column);
-
-
-	for (int i = 0; i < enemies.size(); i++)
-	{
-		for (int j = 0; j < enemies[0].size(); j++)
-		{
-			enemies[i][j].BX = (i % 11) * 50 + 120;
-			enemies[i][j].BY = j * 60 + 70;
-			enemies[i][j].updateBoundingBox();
-		}
-	}
 
 
 end:
@@ -235,8 +214,17 @@ end:
 	int player_angle = 0;
 	if (IsKeyDown(VK_RIGHT)) player_angle = -1;
 	else if (IsKeyDown(VK_LEFT)) player_angle = 1;
-	DrawSprite(player->getSprite(), player->BX += IsKeyDown(VK_LEFT) ? -5 : IsKeyDown(VK_RIGHT) ? 5 : 0, player->BY, player->getXSize(), player->getYSize(), player_angle * 0.1, 0xffffffff);
+
+	if (player->getHit() > 0)
+	{
+		DrawSprite(player->getSprite(), player->BX += IsKeyDown(VK_LEFT) ? -5 : IsKeyDown(VK_RIGHT) ? 5 : 0, player->BY, player->getXSize(), player->getYSize(), player_angle * 0.1, 0xffff0000);
+		player->updateHit();
+	}
+	else
+		DrawSprite(player->getSprite(), player->BX += IsKeyDown(VK_LEFT) ? -5 : IsKeyDown(VK_RIGHT) ? 5 : 0, player->BY, player->getXSize(), player->getYSize(), player_angle * 0.1, 0xffffffff);
+
 	player->updateBoundingBox();
+
 
 
 	// FIRE
@@ -292,7 +280,11 @@ end:
 		{
 			enemyBullet.setState(0);
 
-			if (player->getLives() > 0) player->setLives(player->getLives() - 1);
+			//players got git recently and cannot be hit again for some time
+			if (player->getHit() > 0) continue;
+
+
+			if (player->getLives() > 0) player->setLives(player->getLives() - 1), player->setHit();
 
 
 
@@ -302,7 +294,7 @@ end:
 	{
 		Flip();
 		delete rare_enemy;
-
+		clearLevel();
 		switch (gameOverLoop())
 		{
 		case 1:
@@ -356,12 +348,13 @@ end:
 		if (col[0].getBoundingBox().bottom > 600)
 		{
 			Flip();
-			//delete player;
 			//delete rare_enemy;
-
+			clearLevel();
 			switch (gameOverLoop())
 			{
 			case 1:
+				delete player;
+				player = new Player(400, 550, 0);
 				goto start;
 				break;
 
@@ -489,4 +482,35 @@ bool Game::checkCollision(Entity& obj1, Entity& obj2)
 void Game::highscoreLoop()
 {
 	showHighscore();
+}
+
+
+void Game::clearLevel()
+{
+	enemies.clear();
+	bullets.clear();
+	enemyBullets.clear();
+}
+
+void Game::initializeLevel()
+{
+	//enemy vector
+	std::vector<Enemy> column;
+	for (int i = 0; i < 2; i++)
+		column.push_back(EnemyFront());
+	for (int i = 0; i < 2; i++)
+		column.push_back(EnemyMiddle());
+	column.push_back(EnemyBack());
+	enemies.resize(11, column);
+
+
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		for (int j = 0; j < enemies[0].size(); j++)
+		{
+			enemies[i][j].BX = (i % 11) * 50 + 120;
+			enemies[i][j].BY = j * 60 + 70;
+			enemies[i][j].updateBoundingBox();
+		}
+	}
 }

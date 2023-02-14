@@ -22,7 +22,8 @@ public:
 	void gameLoop();
 	int gameOverLoop();
 	void highscoreLoop();
-
+	void clearLevel();
+	void initializeLevel();
 	//	void readHighscore();
 	//	void menu();
 
