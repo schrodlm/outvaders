@@ -217,11 +217,11 @@ end:
 
 	if (player->getHit() > 0)
 	{
-		DrawSprite(player->getSprite(), player->BX += IsKeyDown(VK_LEFT) ? -5 : IsKeyDown(VK_RIGHT) ? 5 : 0, player->BY, player->getXSize(), player->getYSize(), player_angle * 0.1, 0xffff0000);
+		DrawSprite(player->getSprite(), player->BX += IsKeyDown(VK_LEFT) ? -5 % width : IsKeyDown(VK_RIGHT) ? 5 : 0, player->BY, player->getXSize(), player->getYSize(), player_angle * 0.1, 0xffff0000);
 		player->updateHit();
 	}
 	else
-		DrawSprite(player->getSprite(), player->BX += IsKeyDown(VK_LEFT) ? -5 : IsKeyDown(VK_RIGHT) ? 5 : 0, player->BY, player->getXSize(), player->getYSize(), player_angle * 0.1, 0xffffffff);
+		DrawSprite(player->getSprite(), player->BX = IsKeyDown(VK_LEFT) ? max(player->BX - 5, 0) : IsKeyDown(VK_RIGHT) ? min(player->BX + 5, width) : player->BX, player->BY, player->getXSize(), player->getYSize(), player_angle * 0.1, 0xffffffff);
 
 	player->updateBoundingBox();
 
