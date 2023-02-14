@@ -48,7 +48,7 @@ void showHighscore()
 
 		for (int i = 0; i < highscores.size(); i++)
 		{
-			DrawText(800 / 2, 200 + i * 40, 45, 0xffffffff, true, highscores[i].c_str());
+			DrawText(800 / 2, 200 + i * 40, 45, WHITE, true, highscores[i].c_str());
 
 		}
 
@@ -157,7 +157,7 @@ end:
 	if (WantQuit()) return;
 	if (IsKeyDown(VK_ESCAPE)) return;
 
-	DrawSprite(background, 400, 300, 800, 600, 0, 0xffffffff);
+	DrawSprite(background, 400, 300, 800, 600, 0, WHITE);
 
 
 	int most_right = INT_MIN;
@@ -168,7 +168,7 @@ end:
 		for (auto& enemy : col)
 		{
 			if (enemy.dead) enemy.dead_countdown--;
-			DrawSprite(enemy.dead ? enemy.sprite_death : spriteAnim ? enemy.sprite_1 : enemy.sprite_2, enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, 0xffffffff);
+			DrawSprite(enemy.dead ? enemy.sprite_death : spriteAnim ? enemy.sprite_1 : enemy.sprite_2, enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, WHITE);
 			if (elapsed_time % 20 == 0)
 			{
 				(direction) ? enemy.BX += 10 + level * 5 : enemy.BX -= 10 + level * 5;
@@ -217,11 +217,11 @@ end:
 
 	if (player->getHit() > 0)
 	{
-		DrawSprite(player->getSprite(), player->BX += IsKeyDown(VK_LEFT) ? -5 % width : IsKeyDown(VK_RIGHT) ? 5 : 0, player->BY, player->getXSize(), player->getYSize(), player_angle * 0.1, 0xffff0000);
+		DrawSprite(player->getSprite(), player->BX += IsKeyDown(VK_LEFT) ? -5 % width : IsKeyDown(VK_RIGHT) ? 5 : 0, player->BY, player->getXSize(), player->getYSize(), player_angle * 0.1, RED);
 		player->updateHit();
 	}
 	else
-		DrawSprite(player->getSprite(), player->BX = IsKeyDown(VK_LEFT) ? max(player->BX - 5, 0) : IsKeyDown(VK_RIGHT) ? min(player->BX + 5, width) : player->BX, player->BY, player->getXSize(), player->getYSize(), player_angle * 0.1, 0xffffffff);
+		DrawSprite(player->getSprite(), player->BX = IsKeyDown(VK_LEFT) ? max(player->BX - 5, 0) : IsKeyDown(VK_RIGHT) ? min(player->BX + 5, width) : player->BX, player->BY, player->getXSize(), player->getYSize(), player_angle * 0.1, WHITE);
 
 	player->updateBoundingBox();
 
@@ -246,9 +246,9 @@ end:
 	if (rare_enemy)
 	{
 		//enemy is dead, we draw the death animation
-		if (rare_enemy->dead) rare_enemy->dead_countdown--, DrawSprite(rare_enemy->sprite_death, rare_enemy->BX, rare_enemy->BY, rare_enemy->getXSize(), rare_enemy->getYSize(), 0, 0xffffffff);
+		if (rare_enemy->dead) rare_enemy->dead_countdown--, DrawSprite(rare_enemy->sprite_death, rare_enemy->BX, rare_enemy->BY, rare_enemy->getXSize(), rare_enemy->getYSize(), 0, WHITE);
 		//enemy is alive, we draw it
-		else DrawSprite(rare_enemy->sprite_1, rare_enemy->BX += 4, rare_enemy->BY, rare_enemy->getXSize(), rare_enemy->getYSize(), 0, 0xffffffff);
+		else DrawSprite(rare_enemy->sprite_1, rare_enemy->BX += 4, rare_enemy->BY, rare_enemy->getXSize(), rare_enemy->getYSize(), 0, WHITE);
 		rare_enemy->updateBoundingBox();
 		if (rare_enemy->dead_countdown <= 0 || rare_enemy->BX - (rare_enemy->getXSize() / 2) > 800) delete rare_enemy, rare_enemy = nullptr;
 	}
@@ -257,7 +257,7 @@ end:
 	//drawing bullet sprites -> we also add angle to them so they rotate?
 	for (int n = 0; n < bullets.size(); ++n)
 	{
-		DrawSprite(bullets[n].getSprite(), bullets[n].BX, bullets[n].BY -= 4, bullets[n].getXSize(), bullets[n].getYSize(), 0, 0xffffffff);
+		DrawSprite(bullets[n].getSprite(), bullets[n].BX, bullets[n].BY -= 4, bullets[n].getXSize(), bullets[n].getYSize(), 0, WHITE);
 
 		bullets[n].updateBoundingBox();
 	}
@@ -265,7 +265,7 @@ end:
 	//drawing enemy bullet sprites
 	for (int n = 0; n < enemyBullets.size(); ++n)
 	{
-		DrawSprite(enemyBullets[n].getSprite(), enemyBullets[n].BX, enemyBullets[n].BY += 4 + level, enemyBullets[n].getXSize(), enemyBullets[n].getYSize(), 0, 0xffffffff);
+		DrawSprite(enemyBullets[n].getSprite(), enemyBullets[n].BX, enemyBullets[n].BY += 4 + level, enemyBullets[n].getXSize(), enemyBullets[n].getYSize(), 0, WHITE);
 
 		enemyBullets[n].updateBoundingBox();
 		//if bullet is out of map -> delete it
@@ -328,7 +328,7 @@ end:
 					bullet.setState(0);
 					//adding score to the player
 					player->updateScore(enemy.score);
-					//DrawSprite(enemy.sprite_death, enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, 0xffffffff);
+					//DrawSprite(enemy.sprite_death, enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, WHITE);
 				}
 			}
 		}
@@ -404,8 +404,8 @@ end:
 
 	//Draw player score
 
-	DrawText(width - 100, 30, 40, 0xffffffff, true, ("SCORE:" + std::to_string(player->getScore())).c_str());
-	DrawText(width - 100, 55, 40, 0xffffffff, true, ("LIFES:" + std::to_string(player->getLives())).c_str());
+	DrawText(width - 100, 30, 40, WHITE, true, ("SCORE:" + std::to_string(player->getScore())).c_str());
+	DrawText(width - 100, 55, 40, WHITE, true, ("LIFES:" + std::to_string(player->getLives())).c_str());
 
 
 
@@ -443,14 +443,14 @@ int Game::gameOverLoop()
 
 		if (WantQuit()) return -1;
 		if (IsKeyDown(VK_ESCAPE)) return -1;
-		DrawSprite(background, 400, 300, 800, 600, 0, 0xffffffff);
+		DrawSprite(background, 400, 300, 800, 600, 0, WHITE);
 
 		//new highscore set
 		if (new_highscore_place != -1)
-			DrawText(width / 2, 100, 45, elapsed_time % 60 <= 30 ? 0xff5d8aa8 : 0xffffffff, true, ("! NEW HIGHSCORE FOR PLACE " + std::to_string(new_highscore_place + 1) + " SET !").c_str());
+			DrawText(width / 2, 100, 45, elapsed_time % 60 <= 30 ? CYAN : WHITE, true, ("! NEW HIGHSCORE FOR PLACE " + std::to_string(new_highscore_place + 1) + " SET !").c_str());
 
-		DrawText(width / 2, 200, 45, 0xffffffff, true, "GAME OVER");
-		DrawText(width / 2, height / 2, 40, 0xffffffff, true, ("SCORE:" + std::to_string(player->getScore())).c_str());
+		DrawText(width / 2, 200, 45, WHITE, true, "GAME OVER");
+		DrawText(width / 2, height / 2, 40, WHITE, true, ("SCORE:" + std::to_string(player->getScore())).c_str());
 		menu.Draw(width / 2, 400, 40);
 		menu_option = menu.HandleInput();
 		Flip();
@@ -533,8 +533,8 @@ void Game::levelIntro()
 {
 
 	startFlip();
-	DrawSprite(background, 400, 300, 800, 600, 0, 0xffffffff);
-	DrawText(width / 2, 300, 45, 0xffffffff, true, ("LEVEL " + std::to_string(level)).c_str());
+	DrawSprite(background, 400, 300, 800, 600, 0, WHITE);
+	DrawText(width / 2, 300, 45, WHITE, true, ("LEVEL " + std::to_string(level)).c_str());
 	Flip();
 	Sleep(1000);
 }

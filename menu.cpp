@@ -13,12 +13,12 @@ void Menu::Draw(int x, int y, int size)
 	for (int i = 0; i < m_items.size(); ++i) {
 		// Highlight the selected item
 		if (m_selectedIndex == i) {
-			DrawText(x, y + i * size, size + 5, 0xff5d8aa8, true, m_items[i].text);
+			DrawText(x, y + i * size, size + 5, CYAN, true, m_items[i].text);
 			continue;
 
 			/* your highlight drawing code here */
 		}
-		DrawText(x, y + i * size, size, 0xffffffff, true, m_items[i].text);
+		DrawText(x, y + i * size, size, WHITE, true, m_items[i].text);
 
 		/* your text drawing code here */
 

@@ -6,6 +6,13 @@ typedef unsigned long       DWORD;
 
 #define PI ((float)3.1415926535)
 
+
+//COLOURS
+#define WHITE 0xffffffff
+#define CYAN 0xff5d8aa8
+#define RED 0xffff0000
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 'system' - screen is always 800 x 600
 // simply call StartFrame and Flip alternately to run the game; StartFrame returns false if the user is trying to quit
