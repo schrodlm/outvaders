@@ -99,33 +99,16 @@ int updateHighscore(int score)
 
 Game::Game()
 {
-	//enemy vector
-	std::vector<Enemy> column;
-	for (int i = 0; i < 2; i++)
-		column.push_back(EnemyFront());
-	for (int i = 0; i < 2; i++)
-		column.push_back(EnemyMiddle());
-	column.push_back(EnemyBack());
-	enemies.resize(11, column);
 
-
-	for (int i = 0; i < enemies.size(); i++)
-	{
-		for (int j = 0; j < enemies[0].size(); j++)
-		{
-			enemies[i][j].BX = (i % 11) * 50 + 120;
-			enemies[i][j].BY = j * 60 + 70;
-			enemies[i][j].updateBoundingBox();
-		}
-	}
 	this->height = 600;
 	this->width = 800;
 
 	player = new Player(400, 550, 0);
 }
 
-int Game::gameLoop()
+void Game::gameLoop()
 {
+
 
 	void* Text[] =
 	{
@@ -160,16 +143,40 @@ int Game::gameLoop()
 	std::mt19937 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 	std::uniform_int_distribution<int> distribution(0, 100);
 
+start:
 	bool spriteAnim = false;
 
 	EnemyRare* rare_enemy = nullptr;
+
+	enemies.clear();
+
+	//enemy vector
+	std::vector<Enemy> column;
+	for (int i = 0; i < 2; i++)
+		column.push_back(EnemyFront());
+	for (int i = 0; i < 2; i++)
+		column.push_back(EnemyMiddle());
+	column.push_back(EnemyBack());
+	enemies.resize(11, column);
+
+
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		for (int j = 0; j < enemies[0].size(); j++)
+		{
+			enemies[i][j].BX = (i % 11) * 50 + 120;
+			enemies[i][j].BY = j * 60 + 70;
+			enemies[i][j].updateBoundingBox();
+		}
+	}
+
 
 end:
 	startFlip();
 
 	++elapsed_time;
-	if (WantQuit()) return -1;
-	if (IsKeyDown(VK_ESCAPE)) return -1;
+	if (WantQuit()) return;
+	if (IsKeyDown(VK_ESCAPE)) return;
 
 	DrawSprite(background, 400, 300, 800, 600, 0, 0xffffffff);
 
@@ -296,7 +303,16 @@ end:
 		Flip();
 		delete rare_enemy;
 
-		return gameOverLoop();
+		switch (gameOverLoop())
+		{
+		case 1:
+			delete player;
+			player = new Player(400, 550, 0);
+			goto start;
+			break;
+		case 2:
+			return;
+		}
 
 	}
 
@@ -340,10 +356,20 @@ end:
 		if (col[0].getBoundingBox().bottom > 600)
 		{
 			Flip();
-			delete player;
-			delete rare_enemy;
+			//delete player;
+			//delete rare_enemy;
 
-			return gameOverLoop();
+			switch (gameOverLoop())
+			{
+			case 1:
+				goto start;
+				break;
+
+			case 2:
+				return;
+				break;
+
+			}
 		}
 	}
 
@@ -361,16 +387,10 @@ end:
 	if (enemies.empty())
 	{
 		//player advances
-		return 2;
+		difficulty++;
+		goto start;
 	}
 
-
-	//draws space invaders letters sprite on the screen 
-	// - hardcoded loop 
-	// - also for some reason angle change is dependent on the index of the sprite, so first letter will not be rotating and last will be rotating much more than others
-	//for (int n = 0; n < strlen("space invaders"); ++n) if (n != 5)DrawSprite(Text[n], n * 40 + 150, 30, 20, 20, sin(elapsed_time * 0.1) * n * 0.01);
-
-	//DrawTextFromSprites("hello world", 40, 40, Text);
 
 	//Color format: 0xQQRRGGBB 
 	//  Q: opacity 
@@ -437,7 +457,7 @@ int Game::gameOverLoop()
 		case -1:
 			break;
 		case 1:
-			//1 means players want to play a new game 
+			//1 means players want to play a new game
 			return 1;
 			break;
 		case 2:

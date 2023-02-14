@@ -19,7 +19,7 @@ public:
 	};
 
 
-	int gameLoop();
+	void gameLoop();
 	int gameOverLoop();
 	void highscoreLoop();
 
