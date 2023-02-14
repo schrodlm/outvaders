@@ -16,6 +16,9 @@ public:
 	~Game() {
 		FreeSprite(background);
 		deleteManager();
+		delete player;
+		clearLevel();
+
 	};
 
 
@@ -24,6 +27,7 @@ public:
 	void highscoreLoop();
 	void clearLevel();
 	void initializeLevel();
+	void levelIntro();
 	//	void readHighscore();
 	//	void menu();
 
@@ -39,8 +43,9 @@ private:
 	std::vector<std::vector<Enemy>> enemies;
 	std::vector<Bullet> bullets;
 	std::vector<EnemyBullet> enemyBullets;
+	EnemyRare* rare_enemy = nullptr;
 
 	bool direction = true;
-	int difficulty;
+	int level = 0;
 
 };

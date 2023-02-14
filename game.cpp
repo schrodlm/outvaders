@@ -147,8 +147,8 @@ start:
 	initializeLevel();
 	bool spriteAnim = false;
 
-	EnemyRare* rare_enemy = nullptr;
 
+	levelIntro();
 
 end:
 	startFlip();
@@ -171,7 +171,7 @@ end:
 			DrawSprite(enemy.dead ? enemy.sprite_death : spriteAnim ? enemy.sprite_1 : enemy.sprite_2, enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, 0xffffffff);
 			if (elapsed_time % 20 == 0)
 			{
-				(direction) ? enemy.BX += 10 : enemy.BX -= 10;
+				(direction) ? enemy.BX += 10 + level * 5 : enemy.BX -= 10 + level * 5;
 			}
 
 			enemy.updateBoundingBox();
@@ -265,7 +265,7 @@ end:
 	//drawing enemy bullet sprites
 	for (int n = 0; n < enemyBullets.size(); ++n)
 	{
-		DrawSprite(enemyBullets[n].getSprite(), enemyBullets[n].BX, enemyBullets[n].BY += 4, enemyBullets[n].getXSize(), enemyBullets[n].getYSize(), 0, 0xffffffff);
+		DrawSprite(enemyBullets[n].getSprite(), enemyBullets[n].BX, enemyBullets[n].BY += 4 + level, enemyBullets[n].getXSize(), enemyBullets[n].getYSize(), 0, 0xffffffff);
 
 		enemyBullets[n].updateBoundingBox();
 		//if bullet is out of map -> delete it
@@ -293,7 +293,6 @@ end:
 	if (player->getLives() == 0)
 	{
 		Flip();
-		delete rare_enemy;
 		clearLevel();
 		switch (gameOverLoop())
 		{
@@ -348,7 +347,6 @@ end:
 		if (col[0].getBoundingBox().bottom > 600)
 		{
 			Flip();
-			//delete rare_enemy;
 			clearLevel();
 			switch (gameOverLoop())
 			{
@@ -366,6 +364,18 @@ end:
 		}
 	}
 
+	//check if player bullet hit enemy bullet -> if yes delete player bullet
+	for (auto& enemyBullet : enemyBullets)
+	{
+		for (auto& playerBullet : bullets)
+		{
+			if (checkCollision(playerBullet, enemyBullet))
+			{
+				playerBullet.setState(0);
+			}
+
+		}
+	}
 
 
 	//removing bullets that hit enemies or are out of bounds
@@ -380,7 +390,8 @@ end:
 	if (enemies.empty())
 	{
 		//player advances
-		difficulty++;
+		clearLevel();
+		level++;
 		goto start;
 	}
 
@@ -487,6 +498,9 @@ void Game::highscoreLoop()
 
 void Game::clearLevel()
 {
+	if (rare_enemy)
+		delete rare_enemy, rare_enemy = nullptr;
+
 	enemies.clear();
 	bullets.clear();
 	enemyBullets.clear();
@@ -513,4 +527,14 @@ void Game::initializeLevel()
 			enemies[i][j].updateBoundingBox();
 		}
 	}
+}
+
+void Game::levelIntro()
+{
+
+	startFlip();
+	DrawSprite(background, 400, 300, 800, 600, 0, 0xffffffff);
+	DrawText(width / 2, 300, 45, 0xffffffff, true, ("LEVEL " + std::to_string(level)).c_str());
+	Flip();
+	Sleep(1000);
 }
