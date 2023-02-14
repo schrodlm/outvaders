@@ -57,7 +57,7 @@ int Menu::Loop()
 		startFlip();
 		Draw(400, 300, 40);
 		eventTriggered = HandleInput();
-		Flip();
+		EndFlip();
 
 		if (eventTriggered != -1) break;
 	}

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['oldgame_0',['OldGame',['../main_8cpp.html#aeb5898e3f322ed8cf167dab7157269f7',1,'main.cpp']]]
+  ['readhighscore_0',['readHighscore',['../game_8cpp.html#a7712ceeed483229dbf81b9ad7d24f5cd',1,'game.cpp']]]
 ];

@@ -1,12 +1,24 @@
+/*****************************************************************//**
+ * \file   game.cpp
+ * \brief
+ *
+ * \author schrodlm
+ * \date   February 2023
+ *********************************************************************/
+
+
+
 #include "game.h"
 #include "menu.h"
 #include <fstream>
 #include <iostream>
 
 
-
-//not necessery to be a game object -> it can be used also by other objects (menu etc.) 
-// -> would make mroe sense if i later placed it in some utility_funcions.h or something
+ /**
+  * Read highscores from a file "highscore.txt", if that file doesnt exist -> create it
+  *
+  * \return highscores in a vector<int>
+  */
 std::vector<std::string> readHighscore()
 {
 
@@ -32,7 +44,10 @@ std::vector<std::string> readHighscore()
 	return highscores;
 }
 
-
+/**
+ * Creates a
+ *
+ */
 void showHighscore()
 {
 	Menu menu;
@@ -57,7 +72,7 @@ void showHighscore()
 		menu.Draw(800 / 2, 500, 40);
 		back = menu.HandleInput();
 
-		Flip();
+		EndFlip();
 		if (back == 1) return;
 
 	}
@@ -332,7 +347,7 @@ end:
 
 		if (player->getLives() == 0 || (!col.empty() && col.back().BY > player->BY - player->getYSize() / 2 - 20))
 		{
-			Flip();
+			EndFlip();
 			clearLevel();
 			switch (gameOverLoop())
 			{
@@ -395,7 +410,7 @@ end:
 
 
 	//rendering provided by the lib
-	Flip();
+	EndFlip();
 
 	goto end;
 }
@@ -438,7 +453,7 @@ int Game::gameOverLoop()
 		DrawText(width / 2, height / 2, 40, WHITE, true, ("SCORE:" + std::to_string(player->getScore())).c_str());
 		menu.Draw(width / 2, 400, 40);
 		menu_option = menu.HandleInput();
-		Flip();
+		EndFlip();
 
 
 		switch (menu_option)
@@ -520,7 +535,7 @@ void Game::levelIntro()
 	startFlip();
 	DrawSprite(background, 400, 300, 800, 600, 0, WHITE);
 	DrawText(width / 2, 300, 45, WHITE, true, ("LEVEL " + std::to_string(level)).c_str());
-	Flip();
+	EndFlip();
 	Sleep(1000);
 }
 

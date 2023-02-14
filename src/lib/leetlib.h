@@ -18,7 +18,7 @@ typedef unsigned long       DWORD;
 // simply call StartFrame and Flip alternately to run the game; StartFrame returns false if the user is trying to quit
 
 bool WantQuit(DWORD clearcolor = 0);
-void Flip(); // flips the screen, frame locked to 60 hz
+void EndFlip(); // flips the screen, frame locked to 60 hz
 void startFlip();
 //void Game(int width, int height); // you write this :)
 
@@ -28,6 +28,7 @@ void startFlip();
 void GetMousePos(float& x, float& y); // 0,0 is top left; 800,600 is bottom right
 bool IsKeyDown(int key); // use windows VK_ codes for special keys, eg VK_LEFT; use capital chars for letter keys eg 'A', '0'. use VK_LBUTTON and VK_RBUTTON for mouse buttons. 
 bool KeyPressed(int key);
+bool IsKeyHitSinceLastFlip(int key);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // output

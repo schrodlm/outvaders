@@ -53,7 +53,7 @@ struct CUSTOMVERTEX
 // TEXT HANDLING
 
 
-//font manager
+// font manager
 std::map<int, LPD3DXFONT> fonts;
 int intextbatch = 0;
 LPD3DXSPRITE fontsprite;
@@ -539,7 +539,7 @@ void startFlip()
 
 }
 
-void Flip()
+void EndFlip()
 {
 
 	static int lastflip = 0;
@@ -585,11 +585,11 @@ bool IsKeyDown(int key) // use windows VK_ codes for special keys, eg VK_LEFT; u
 	return g_keydown[key & 255];
 }
 
-/*bool IsKeyHitSinceLastFlip(int key)
+bool IsKeyHitSinceLastFlip(int key)
 {
-	return g_keyhit[key&255] > 0;
+	return g_keyhit[key & 255] > 0;
 }
-*/
+
 
 
 

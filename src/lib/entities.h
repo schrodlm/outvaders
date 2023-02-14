@@ -8,10 +8,13 @@ const std::string Path = "../gfx/";
 
 void deleteManager();
 
+/// <summary>
+/// Name of the class
+/// </summary>
 class SpriteManager
 {
 public:
-	SpriteManager() = default;
+	SpriteManager() = default; /// Constructor
 	~SpriteManager();
 	void LoadSpriteImpl(const char* path)
 	{
@@ -30,7 +33,6 @@ public:
 private:
 	std::map<std::string, void*> sprites;
 };
-
 
 
 class Entity
@@ -123,8 +125,8 @@ class Bullet : public Entity
 public:
 	virtual ~Bullet() = default;
 
-	Bullet(int _BX, int _BY, int _BA) : Entity(_BX, _BY, _BA, 10, 20, "gfx/Bullet.png") {};
-	Bullet(int _BX, int _BY, int _BA, const char* spritePath) : Entity(_BX, _BY, _BA, 30, 30, spritePath) {};
+	Bullet(int _BX, int _BY, int _BA) : Entity(_BX, _BY, _BA, 10, 20, "gfx/bullet.png") {};
+	Bullet(int _BX, int _BY, int _BA, const char* spritePath) : Entity(_BX, _BY, _BA, 10, 20, spritePath) {};
 };
 
 class EnemyBullet : public Bullet
@@ -132,7 +134,7 @@ class EnemyBullet : public Bullet
 public:
 	~EnemyBullet() = default;
 
-	EnemyBullet(int _BX, int _BY, int _BA) : Bullet(_BX, _BY, _BA, "gfx/enemy_bullet1.png")
+	EnemyBullet(int _BX, int _BY, int _BA) : Bullet(_BX, _BY, _BA, "gfx/enemy_bullet.png")
 	{};
 
 };

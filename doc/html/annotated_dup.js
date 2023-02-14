@@ -1,4 +1,5 @@
 var annotated_dup =
 [
-    [ "bullet", "structbullet.html", "structbullet" ]
+    [ "Game", "class_game.html", null ],
+    [ "Menu", "class_menu.html", null ]
 ];
