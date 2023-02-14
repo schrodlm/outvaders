@@ -1,6 +1,6 @@
 /*****************************************************************//**
  * \file   game.cpp
- * \brief
+ * \brief  Implements method for game class and utility function for managing highscores of player.
  *
  * \author schrodlm
  * \date   February 2023
@@ -15,9 +15,9 @@
 
 
  /**
-  * Read highscores from a file "highscore.txt", if that file doesnt exist -> create it
+  * Read highscores from a file "highscore.txt", if that file doesnt exist it will be created
   *
-  * \return highscores in a vector<int>
+  * \return highscores in a std::vector<int>
   */
 std::vector<std::string> readHighscore()
 {
@@ -44,40 +44,15 @@ std::vector<std::string> readHighscore()
 	return highscores;
 }
 
+
+
+
 /**
- * Creates a
+ * Checks if parameter score is a new highscore (top 5) and if it is it will set it and write it into highscore text file.
  *
+ * \param score score to check
+ * \return place in the highscores that score was set as, if it will return -1 that means score was not a highscore
  */
-void showHighscore()
-{
-	Menu menu;
-	menu.AddItem("Back", [] {return 1; });
-
-	//check if highscore was set
-	std::vector<std::string> highscores = readHighscore();
-	int back = -1;
-	while (1)
-	{
-		startFlip();
-
-		if (WantQuit()) return;
-		if (IsKeyDown(VK_ESCAPE)) return;
-
-		for (int i = 0; i < highscores.size(); i++)
-		{
-			DrawText(800 / 2, 200 + i * 40, 45, WHITE, true, highscores[i].c_str());
-
-		}
-
-		menu.Draw(800 / 2, 500, 40);
-		back = menu.HandleInput();
-
-		EndFlip();
-		if (back == 1) return;
-
-	}
-}
-
 int updateHighscore(int score)
 {
 	// -1 means it is not a highscore
@@ -122,6 +97,15 @@ Game::Game()
 
 	player = new Player(400, 550, 0);
 }
+
+Game::~Game()
+{
+	FreeSprite(background);
+	deleteManager();
+	delete player;
+	clearLevel();
+}
+
 
 void Game::gameLoop()
 {
@@ -177,9 +161,10 @@ end:
 	DrawSprite(background, 400, 300, 800, 600, 0, WHITE);
 
 
+	//Managing enemies
+	//=============================================================
 	int most_right_enemy = INT_MIN;
 	int most_left_enemy = INT_MAX;
-	//drawing enemies on the screen
 	for (auto& col : enemies)
 	{
 		for (auto& enemy : col)
@@ -188,19 +173,19 @@ end:
 			DrawSprite(enemy.dead ? enemy.sprite_death : spriteAnim ? enemy.sprite_1 : enemy.sprite_2, enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, WHITE);
 			if (elapsed_time % 20 == 0)
 			{
-				(direction) ? enemy.BX += 10 + level * 5 : enemy.BX -= 10 + level * 5;
+				(enemy_direction) ? enemy.BX += 10 + level * 5 : enemy.BX -= 10 + level * 5;
 			}
 
 			enemy.updateBoundingBox();
 
 			//creating enemy bullets -> max 3 on the screen at any time
-			if (enemyBullets.size() < 3)
+			if (enemy_bullets.size() < 3)
 			{
 				//shot in one movement with probability (not yet calculated)
 				int random = distribution(rng);
 				if (&enemy == &col.back() && random == 1)
 				{
-					enemyBullets.emplace_back(enemy.BX, enemy.BY, 0);
+					enemy_bullets.emplace_back(enemy.BX, enemy.BY, 0);
 				}
 			}
 		}
@@ -215,20 +200,23 @@ end:
 	most_left_enemy = enemies.front()[0].BX;
 
 	//setting direction for enemies based on position of most left and most right enemy
-	if (most_right_enemy + 10 >= 800 && direction)
+	if (most_right_enemy + 10 >= 800 && enemy_direction)
 	{
-		direction = false;
+		enemy_direction = false;
 		for (auto& col : enemies) for (auto& enemy : col) enemy.BY += 20, enemy.updateBoundingBox();
 	}
-	if (most_left_enemy - 10 <= 0 && !direction)
+	if (most_left_enemy - 10 <= 0 && !enemy_direction)
 	{
-		direction = true;
+		enemy_direction = true;
 		for (auto& col : enemies)for (auto& enemy : col) enemy.BY += 20, enemy.updateBoundingBox();
 
 	}
 
-	//player_angle makes the player stride to the side that he is moving in
-	int player_angle = 0;
+
+	//Player management
+	//=============================================================
+
+	int player_angle = 0; // !< makes the player stride to the side that he is moving in
 	if (IsKeyDown(VK_RIGHT)) player_angle = -1;
 	else if (IsKeyDown(VK_LEFT)) player_angle = 1;
 
@@ -244,15 +232,19 @@ end:
 
 
 
-	// FIRE
-	static int playerFireCooldown = 0;
-	if (playerFireCooldown) --playerFireCooldown;
-	//if (!IsKeyDown(VK_SPACE)) count = 0;
-	if (IsKeyDown(VK_SPACE) && playerFireCooldown == 0) { playerFireCooldown = 40; player->updateShotsFired(), bullets.emplace_back(player->BX, player->BY - player->getYSize() / 2, 0); }
+	//Player bullet management
+	//=============================================================
 
+	static int playerFireCooldown = 0; // !< get set after player shoots a bullet, player cannot shoot while this > 0
+	if (playerFireCooldown) --playerFireCooldown;
+	if (IsKeyDown(VK_SPACE) && playerFireCooldown == 0) { playerFireCooldown = 40; player->updateShotsFired(), player_bullets.emplace_back(player->BX, player->BY - player->getYSize() / 2, 0); }
+
+
+	//Rare enemy management
+	//=============================================================
 
 	//spawn rare enemy after player shot 23 shots
-	if (player->getShotsFired() % 5 == 0 && rare_enemy == nullptr)
+	if (player->getShotsFired() % 23 == 0 && rare_enemy == nullptr)
 	{
 		rare_enemy = new EnemyRare();
 		rare_enemy->BX = -100;
@@ -270,28 +262,32 @@ end:
 		if (rare_enemy->dead_countdown <= 0 || rare_enemy->BX - (rare_enemy->getXSize() / 2) > 800) delete rare_enemy, rare_enemy = nullptr;
 	}
 
+	//Player bullet management
+	//=============================================================
 
-	//drawing bullet sprites -> we also add angle to them so they rotate?
-	for (int n = 0; n < bullets.size(); ++n)
+	//drawing bullet sprites
+	for (int n = 0; n < player_bullets.size(); ++n)
 	{
-		DrawSprite(bullets[n].getSprite(), bullets[n].BX, bullets[n].BY -= 4, bullets[n].getXSize(), bullets[n].getYSize(), 0, WHITE);
+		DrawSprite(player_bullets[n].getSprite(), player_bullets[n].BX, player_bullets[n].BY -= 4, player_bullets[n].getXSize(), player_bullets[n].getYSize(), 0, WHITE);
 
-		bullets[n].updateBoundingBox();
+		player_bullets[n].updateBoundingBox();
 	}
 
 	//drawing enemy bullet sprites
-	for (int n = 0; n < enemyBullets.size(); ++n)
+	for (int n = 0; n < enemy_bullets.size(); ++n)
 	{
-		DrawSprite(enemyBullets[n].getSprite(), enemyBullets[n].BX, enemyBullets[n].BY += 4 + level, enemyBullets[n].getXSize(), enemyBullets[n].getYSize(), 0, WHITE);
+		DrawSprite(enemy_bullets[n].getSprite(), enemy_bullets[n].BX, enemy_bullets[n].BY += 4 + level, enemy_bullets[n].getXSize(), enemy_bullets[n].getYSize(), 0, WHITE);
 
-		enemyBullets[n].updateBoundingBox();
+		enemy_bullets[n].updateBoundingBox();
 		//if bullet is out of map -> delete it
-		if (enemyBullets[n].getBoundingBox().bottom > 640) enemyBullets[n].setState(0);
+		if (enemy_bullets[n].getBoundingBox().bottom > 640) enemy_bullets[n].setState(0);
 	}
 
+	// Collision checking
+	//=============================================================
 
-	//Collision checking -> enemy bullets : player
-	for (auto& enemyBullet : enemyBullets)
+	//enemy bullet : player
+	for (auto& enemyBullet : enemy_bullets)
 	{
 		if (checkCollision(enemyBullet, *player))
 		{
@@ -308,8 +304,8 @@ end:
 		}
 	}
 
-	//Collision checking -> player bullets : enemies
-	for (auto& bullet : bullets)
+	//player bullets : enemies
+	for (auto& bullet : player_bullets)
 	{
 		//bullet is out of bounds
 		if (bullet.getBoundingBox().top < 0)
@@ -317,7 +313,7 @@ end:
 			bullet.setState(0);
 			continue;
 		}
-		//colision check for normal enemies and players bullets
+		//enemies : player bullets
 		for (auto& col : enemies)
 		{
 			for (auto& enemy : col)
@@ -328,11 +324,11 @@ end:
 					bullet.setState(0);
 					//adding score to the player
 					player->updateScore(enemy.score);
-					//DrawSprite(enemy.sprite_death, enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, WHITE);
 				}
 			}
 		}
-		//Collision check for rare_enemy and players bullets
+
+		//rare_enemy : players bullets
 		if (rare_enemy && checkCollision(bullet, *rare_enemy))
 		{
 			rare_enemy->dead = true;
@@ -341,7 +337,43 @@ end:
 		}
 	}
 
-	//check if enemies are below their lowest y -> if they are lower the game is over
+
+
+	//check if player bullet hit enemy bullet -> if yes delete player bullet
+	for (auto& enemyBullet : enemy_bullets)
+	{
+		for (auto& playerBullet : player_bullets)
+		{
+			if (checkCollision(playerBullet, enemyBullet))
+			{
+				playerBullet.setState(0);
+			}
+
+		}
+	}
+
+	//Removing entities
+	//=============================================================
+
+	//removing bullets that hit enemies or are out of bounds
+	player_bullets.erase(std::remove_if(player_bullets.begin(), player_bullets.end(), [](Bullet& b) { return (b.getState() == 0); }), player_bullets.end());
+	enemy_bullets.erase(std::remove_if(enemy_bullets.begin(), enemy_bullets.end(), [](EnemyBullet& e) { return (e.getState() == 0); }), enemy_bullets.end());
+
+	//removing killed enemies and their vector if it is empty
+	for (auto& col : enemies) col.erase(std::remove_if(col.begin(), col.end(), [](Enemy& e) { return (e.dead_countdown <= 0); }), col.end());
+	enemies.erase(std::remove_if(enemies.begin(), enemies.end(), [](std::vector<Enemy>& e) { return e.empty(); }), enemies.end());
+
+
+
+
+
+	//Draw game info
+	DrawText(width - 100, 30, 40, WHITE, true, ("SCORE:" + std::to_string(player->getScore())).c_str());
+	DrawText(width - 100, 55, 40, WHITE, true, ("LIFES:" + std::to_string(player->getLives())).c_str());
+
+	// Game Over checks
+	//=============================================================
+
 	for (auto& col : enemies)
 	{
 
@@ -363,29 +395,6 @@ end:
 			}
 		}
 	}
-
-	//check if player bullet hit enemy bullet -> if yes delete player bullet
-	for (auto& enemyBullet : enemyBullets)
-	{
-		for (auto& playerBullet : bullets)
-		{
-			if (checkCollision(playerBullet, enemyBullet))
-			{
-				playerBullet.setState(0);
-			}
-
-		}
-	}
-
-
-	//removing bullets that hit enemies or are out of bounds
-	bullets.erase(std::remove_if(bullets.begin(), bullets.end(), [](Bullet& b) { return (b.getState() == 0); }), bullets.end());
-	enemyBullets.erase(std::remove_if(enemyBullets.begin(), enemyBullets.end(), [](EnemyBullet& e) { return (e.getState() == 0); }), enemyBullets.end());
-
-	for (auto& col : enemies) col.erase(std::remove_if(col.begin(), col.end(), [](Enemy& e) { return (e.dead_countdown <= 0); }), col.end());
-	enemies.erase(std::remove_if(enemies.begin(), enemies.end(), [](std::vector<Enemy>& e) { return e.empty(); }), enemies.end());
-
-
 	//check if player won
 	if (enemies.empty())
 	{
@@ -395,39 +404,16 @@ end:
 		goto start;
 	}
 
-
-	//Color format: 0xQQRRGGBB 
-	//  Q: opacity 
-	//  R: red
-	//  G: green
-	//  B: blue
-
-	//Draw player score
-
-	DrawText(width - 100, 30, 40, WHITE, true, ("SCORE:" + std::to_string(player->getScore())).c_str());
-	DrawText(width - 100, 55, 40, WHITE, true, ("LIFES:" + std::to_string(player->getLives())).c_str());
-
-
-
-	//rendering provided by the lib
 	EndFlip();
 
 	goto end;
 }
 
-//-----------------------------------------------------------------------------
-// Name: gameOverLoop()
-// Desc: Shows up when player lost all gis lifes
-// 
-// 
-//-----------------------------------------------------------------------------
+
 int Game::gameOverLoop()
 {
 	//check if highscore was set
 	int new_highscore_place = updateHighscore(player->getScore());
-
-
-
 
 	Menu menu;
 	menu.AddItem("Play Again", [] {return 1; });
@@ -477,8 +463,6 @@ int Game::gameOverLoop()
 }
 
 
-
-//checks collision between two entities
 bool Game::checkCollision(Entity& obj1, Entity& obj2)
 {
 	RECT bb1 = obj1.getBoundingBox();
@@ -490,9 +474,36 @@ bool Game::checkCollision(Entity& obj1, Entity& obj2)
 		bb1.bottom <= bb2.top);
 }
 
+
+
 void Game::highscoreLoop()
 {
-	showHighscore();
+	Menu menu;
+	menu.AddItem("Back", [] {return 1; });
+
+	//check if highscore was set
+	std::vector<std::string> highscores = readHighscore();
+	int quitHighscoreScreen = -1;
+	while (1)
+	{
+		startFlip();
+
+		if (WantQuit()) return;
+		if (IsKeyDown(VK_ESCAPE)) return;
+
+		for (int i = 0; i < highscores.size(); i++)
+		{
+			DrawText(800 / 2, 200 + i * 40, 45, WHITE, true, highscores[i].c_str());
+
+		}
+
+		menu.Draw(800 / 2, 500, 40);
+		quitHighscoreScreen = menu.HandleInput();
+
+		EndFlip();
+		if (quitHighscoreScreen == 1) return;
+
+	}
 }
 
 
@@ -502,14 +513,15 @@ void Game::clearLevel()
 		delete rare_enemy, rare_enemy = nullptr;
 
 	enemies.clear();
-	bullets.clear();
-	enemyBullets.clear();
+	player_bullets.clear();
+	enemy_bullets.clear();
 }
+
 
 void Game::initializeLevel()
 {
 	//enemy vector
-	std::vector<Enemy> column;
+	std::vector<Enemy> column; // !< one column of enemies
 	for (int i = 0; i < 2; i++)
 		column.push_back(EnemyFront());
 	for (int i = 0; i < 2; i++)
@@ -517,7 +529,7 @@ void Game::initializeLevel()
 	column.push_back(EnemyBack());
 	enemies.resize(11, column);
 
-
+	//filling the enemy vector
 	for (int i = 0; i < enemies.size(); i++)
 	{
 		for (int j = 0; j < enemies[0].size(); j++)
@@ -529,6 +541,7 @@ void Game::initializeLevel()
 	}
 }
 
+
 void Game::levelIntro()
 {
 
@@ -538,6 +551,7 @@ void Game::levelIntro()
 	EndFlip();
 	Sleep(1000);
 }
+
 
 void Game::initializeNewPlayer()
 {

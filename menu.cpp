@@ -43,9 +43,6 @@ int Menu::HandleInput()
 	return -1;
 }
 
-
-
-
 int Menu::Loop()
 {
 	int eventTriggered = -1;
