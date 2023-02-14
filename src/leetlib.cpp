@@ -369,7 +369,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 	// Register the window class
 	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, MsgProc, 0L, 0L,
 					  GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
-					  "crapcrap", NULL };
+					  "SpaceOutvaders", NULL };
 	wc.hIcon = hIcon;
 	RegisterClassEx(&wc);
 
@@ -388,8 +388,8 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 	// Create the application's window
 	/*
 	The function takes in several parameters that define the characteristics of the window:
-	1. "crapcrap":			A string that represents the class name of the window. This value is used to identify the type of window being created.
-	2."crap crap":			A string that represents the window's title. This value appears in the title bar of the window.
+	1. "SpaceOutvaders":			A string that represents the class name of the window. This value is used to identify the type of window being created.
+	2."Space Outvaders":			A string that represents the window's title. This value appears in the title bar of the window.
 	3. style :				A DWORD value that specifies the window style. This is the same variable that was defined and modified earlier in the code.
 	4. 0, 0:				The x and y coordinates of the window's upper-left corner on the screen.
 	5. r.right - r.left:	The width of the window. This value is calculated by subtracting the left coordinate from the right coordinate of the RECT structure.
@@ -399,25 +399,10 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 	9. wc.hInstance:		A handle to the instance of the application that owns the window.
 	10. NULL:				A pointer to a value passed to the window during the creation process.
 	*/
-	hWnd = CreateWindow("crapcrap", "crap crap",
+	hWnd = CreateWindow("SpaceOutvaders", "Space Outvaders",
 		style, 0, 0, r.right - r.left, r.bottom - r.top,
 		GetDesktopWindow(), NULL, wc.hInstance, NULL);
 
-	PAINTSTRUCT ps;
-	HDC hdc = BeginPaint(hWnd, &ps);
-
-	HDC hMemDC = CreateCompatibleDC(hdc);
-	HBITMAP hBitmap = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP1));
-	HGDIOBJ hOld = SelectObject(hMemDC, hBitmap);
-
-	BITMAP bm;
-	GetObject(hBitmap, sizeof(bm), &bm);
-	StretchBlt(hdc, 0, 0, 800, 600, hMemDC, 0, 0, bm.bmWidth, bm.bmHeight, SRCCOPY);
-
-	SelectObject(hMemDC, hOld);
-	DeleteDC(hMemDC);
-	DeleteObject(hBitmap);
-	EndPaint(hWnd, &ps);
 
 	/*
 		function from FMOD library -> this library provides audio playback and mixing functionality
@@ -482,7 +467,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 		}
 	}
 
-	UnregisterClass("crapcrap", wc.hInstance);
+	UnregisterClass("SpaceOutvaders", wc.hInstance);
 
 	_CrtDumpMemoryLeaks();
 	return 0;
