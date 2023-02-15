@@ -344,8 +344,14 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
-LARGE_INTEGER starttime;
-LARGE_INTEGER freq;
+//Time management
+LARGE_INTEGER frequency;
+LARGE_INTEGER previousTime;
+LARGE_INTEGER currentTime;
+LARGE_INTEGER startTime;
+
+float deltaTime;
+
 extern HWND hWnd;
 HWND hWnd;
 
@@ -415,8 +421,10 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 			-> In our case it is the Game Loop
 	*/
 
-	QueryPerformanceCounter(&starttime);
-	QueryPerformanceFrequency(&freq);
+	QueryPerformanceCounter(&startTime);
+	startTime = previousTime;
+
+	QueryPerformanceFrequency(&frequency);
 	// Initialize Direct3D
 	if (SUCCEEDED(InitD3D(hWnd)))
 	{
@@ -472,6 +480,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 }
 
 
+
 bool WantQuit(DWORD clearcol)
 {
 	// Enter the message loop
@@ -520,7 +529,7 @@ int	GetTimeInMS() // ...since start of program
 {
 	LARGE_INTEGER arse;
 	QueryPerformanceCounter(&arse);
-	return ((arse.QuadPart - starttime.QuadPart) * 1000) / freq.QuadPart;
+	return ((arse.QuadPart - startTime.QuadPart) * 1000) / frequency.QuadPart;
 }
 
 
@@ -540,18 +549,22 @@ void StartFlip()
 
 void EndFlip()
 {
+	// Get the current time
 
-	static int lastflip = 0;
-	if (lastflip == 0) lastflip = GetTimeInMS();
+	QueryPerformanceCounter(&currentTime);
 
+	// Calculate the time elapsed since the last frame
+	deltaTime = (float)(currentTime.QuadPart - previousTime.QuadPart) / frequency.QuadPart;
 
+	// Limit the frame rate to 60 frames per second
+	if (deltaTime < 1.0f / 60.0f)
+	{
+		Sleep((DWORD)((1.0f / 60.0f - deltaTime) * 1000.0f));
+	}
 
 	g_pd3dDevice->EndScene();
 
 
-
-	//while (GetTimeInMS()<lastflip+1000/60) ;// Sleep(0); // clamp to max of 60hz
-	lastflip = GetTimeInMS();
 
 	// Present the backbuffer contents to the display
 	g_pd3dDevice->Present(NULL, NULL, NULL, NULL);
@@ -559,6 +572,7 @@ void EndFlip()
 	memset(g_keyhit, 0, sizeof(g_keyhit));
 	SetCursor(LoadCursor(NULL, IDC_ARROW));
 
+	previousTime = currentTime;
 }
 
 

@@ -172,22 +172,6 @@ end:
 	DrawSprite(background, 400, 300, 800, 600, 0, WHITE);
 
 
-	//Managing time
-	//=============================================================
-
-	// Get the current time
-	QueryPerformanceCounter(&currentTime);
-
-	// Calculate the time elapsed since the last frame
-	deltaTime = (float)(currentTime.QuadPart - previousTime.QuadPart) / frequency.QuadPart;
-
-	// Limit the frame rate to 60 frames per second
-	if (deltaTime < 1.0f / 60.0f)
-	{
-		Sleep((DWORD)((1.0f / 60.0f - deltaTime) * 1000.0f));
-	}
-
-
 	//Managing enemies
 	//=============================================================
 	for (auto& col : enemies)
