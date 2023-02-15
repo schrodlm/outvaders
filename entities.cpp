@@ -33,7 +33,7 @@ void SpriteManager::LoadSpriteImpl(const char* path)
 }
 
 
-Entity::Entity(int BX, int BY, int BA, int xSize, int ySize, const char* _spritePath)
+Entity::Entity(float BX, float BY, float BA, int xSize, int ySize, const char* _spritePath)
 {
 	this->xSize = xSize;
 	this->ySize = ySize;

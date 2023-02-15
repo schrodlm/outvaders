@@ -59,7 +59,7 @@ int updateHighscore(int score)
 	int new_highscore_place = -1;
 	std::vector<std::string> highscores = readHighscore();
 
-	for (int i = 0; i < highscores.size(); i++)
+	for (int i = 0; i < (int)highscores.size(); i++)
 	{
 		if (std::stoi(highscores[i]) < score)
 		{
@@ -71,7 +71,7 @@ int updateHighscore(int score)
 	if (new_highscore_place != -1)
 	{
 		std::string prev = std::to_string(score);
-		for (int i = new_highscore_place; i < highscores.size(); i++)
+		for (int i = new_highscore_place; i < (int)highscores.size(); i++)
 		{
 			std::swap(prev, highscores[i]);
 		}
@@ -141,15 +141,16 @@ void Game::gameLoop()
 		LoadSprite("gfx/ylet.png"),
 		LoadSprite("gfx/zlet.png"),
 	};
+
 	//randomness
-	std::mt19937 rng(std::chrono::steady_clock::now().time_since_epoch().count());
+	std::mt19937 rng(static_cast<std::mt19937::result_type>(std::chrono::steady_clock::now().time_since_epoch().count()));
 	std::uniform_int_distribution<int> distribution(0, 100);
 
 	//level loop
 start:
 	initializeLevel();
 	bool spriteAnim = false;
-	const int enemy_speed = 10 + level * 5;
+	const float enemy_speed = 10.0F + level * 5.0F;
 	int most_right_enemy = 0;
 	int most_left_enemy = 0;
 	bool enemy_direction = true;
@@ -175,7 +176,7 @@ end:
 		for (auto& enemy : col)
 		{
 			if (enemy.getDead()) enemy.updateCountdown();
-			DrawSprite(enemy.getDead() ? enemy.getDeathSprite() : spriteAnim ? enemy.getStillSprite() : enemy.getMovingSprite(), enemy.getBX(), enemy.getBY(), enemy.getXSize(), enemy.getYSize(), 0, WHITE);
+			DrawSprite(enemy.getDead() ? enemy.getDeathSprite() : spriteAnim ? enemy.getStillSprite() : enemy.getMovingSprite(), enemy.getBX(), enemy.getBY(), (float)enemy.getXSize(), (float)enemy.getYSize(), 0, WHITE);
 			// Moving enemies after 20 frames, to smooth movement otherwise
 			if (elapsed_time % 20 == 0)
 			{
@@ -191,7 +192,7 @@ end:
 				int random = distribution(rng);
 				if (&enemy == &col.back() && random == 1)
 				{
-					enemy_bullets.emplace_back(enemy.getBX(), enemy.getBY(), 0);
+					enemy_bullets.emplace_back(enemy.getBX(), enemy.getBY(), 0.0F);
 				}
 			}
 		}
@@ -202,8 +203,8 @@ end:
 		spriteAnim = !spriteAnim;
 	}
 
-	most_right_enemy = enemies.back()[0].getBX();
-	most_left_enemy = enemies.front()[0].getBX();
+	most_right_enemy = static_cast<int>(enemies.back()[0].getBX());
+	most_left_enemy = static_cast<int>(enemies.front()[0].getBX());
 
 	//setting direction for enemies based on position of most left and most right enemy
 	if (most_right_enemy + 10 >= 800 && enemy_direction)
@@ -228,11 +229,11 @@ end:
 
 	if (player->getHit() > 0)
 	{
-		DrawSprite(player->getSprite(), player->setBX(IsKeyDown(VK_LEFT) ? max(player->getBX() - 5, 0) : IsKeyDown(VK_RIGHT) ? min(player->getBX() + 5, width) : player->getBX()), player->getBY(), player->getXSize(), player->getYSize(), player_angle * 0.1, RED);
+		DrawSprite(player->getSprite(), player->setBX(IsKeyDown(VK_LEFT) ? max(player->getBX() - 5, 0) : IsKeyDown(VK_RIGHT) ? min(player->getBX() + 5, width) : player->getBX()), player->getBY(), static_cast<float>(player->getXSize()), static_cast<float>(player->getYSize()), player_angle * 0.1F, RED);
 		player->updateHitCooldown();
 	}
 	else
-		DrawSprite(player->getSprite(), player->setBX(IsKeyDown(VK_LEFT) ? max(player->getBX() - 5, 0) : IsKeyDown(VK_RIGHT) ? min(player->getBX() + 5, width) : player->getBX()), player->getBY(), player->getXSize(), player->getYSize(), player_angle * 0.1, WHITE);
+		DrawSprite(player->getSprite(), player->setBX(IsKeyDown(VK_LEFT) ? max(player->getBX() - 5, 0) : IsKeyDown(VK_RIGHT) ? min(player->getBX() + 5, width) : player->getBX()), player->getBY(), static_cast<float>(player->getXSize()), static_cast<float>(player->getYSize()), player_angle * 0.1F, WHITE);
 
 	player->updateBoundingBox();
 
@@ -243,7 +244,7 @@ end:
 
 	static int playerFireCooldown = 0; // !< get set after player shoots a bullet, player cannot shoot while this > 0
 	if (playerFireCooldown) --playerFireCooldown;
-	if (IsKeyDown(VK_SPACE) && playerFireCooldown == 0) { playerFireCooldown = 40; player->updateShotsFired(), player_bullets.emplace_back(player->getBX(), player->getBY() - player->getYSize() / 2, 0); }
+	if (IsKeyDown(VK_SPACE) && playerFireCooldown == 0) { playerFireCooldown = 40; player->updateShotsFired(), player_bullets.emplace_back(player->getBX(), player->getBY() - player->getYSize() / 2, 0.0F); }
 
 
 	//Rare enemy management
@@ -263,9 +264,9 @@ end:
 	if (rare_enemy)
 	{
 		//enemy is dead, we draw the death animation
-		if (rare_enemy->getDead()) rare_enemy->updateCountdown(), DrawSprite(rare_enemy->getDeathSprite(), rare_enemy->getBX(), rare_enemy->getBY(), rare_enemy->getXSize(), rare_enemy->getYSize(), 0, WHITE);
+		if (rare_enemy->getDead()) rare_enemy->updateCountdown(), DrawSprite(rare_enemy->getDeathSprite(), rare_enemy->getBX(), rare_enemy->getBY(), static_cast<float>(rare_enemy->getXSize()), static_cast<float>(rare_enemy->getYSize()), 0, WHITE);
 		//enemy is alive, we draw it
-		else DrawSprite(rare_enemy->getStillSprite(), rare_enemy->updateBX(4), rare_enemy->getBY(), rare_enemy->getXSize(), rare_enemy->getYSize(), 0, WHITE);
+		else DrawSprite(rare_enemy->getStillSprite(), rare_enemy->updateBX(4), rare_enemy->getBY(), static_cast<float>(rare_enemy->getXSize()), static_cast<float>(rare_enemy->getYSize()), 0, WHITE);
 		rare_enemy->updateBoundingBox();
 	}
 
@@ -273,17 +274,17 @@ end:
 	//=============================================================
 
 	//drawing bullet sprites
-	for (int n = 0; n < player_bullets.size(); ++n)
+	for (int n = 0; n < (int)player_bullets.size(); ++n)
 	{
-		DrawSprite(player_bullets[n].getSprite(), player_bullets[n].getBX(), player_bullets[n].updateBY(-4), player_bullets[n].getXSize(), player_bullets[n].getYSize(), 0, WHITE);
+		DrawSprite(player_bullets[n].getSprite(), player_bullets[n].getBX(), player_bullets[n].updateBY(-4), static_cast<float>(player_bullets[n].getXSize()), static_cast<float>(player_bullets[n].getYSize()), 0, WHITE);
 
 		player_bullets[n].updateBoundingBox();
 	}
 
 	//drawing enemy bullet sprites
-	for (int n = 0; n < enemy_bullets.size(); ++n)
+	for (int n = 0; n < (int)enemy_bullets.size(); ++n)
 	{
-		DrawSprite(enemy_bullets[n].getSprite(), enemy_bullets[n].getBX(), enemy_bullets[n].updateBY(4) + level, enemy_bullets[n].getXSize(), enemy_bullets[n].getYSize(), 0, WHITE);
+		DrawSprite(enemy_bullets[n].getSprite(), enemy_bullets[n].getBX(), enemy_bullets[n].updateBY(4) + level, static_cast<float>(enemy_bullets[n].getXSize()), static_cast<float>(enemy_bullets[n].getYSize()), 0, WHITE);
 
 		enemy_bullets[n].updateBoundingBox();
 		//if bullet is out of map -> delete it
@@ -506,7 +507,7 @@ void Game::highscoreLoop()
 		if (!StartFlip()) return;
 		if (IsKeyDown(VK_ESCAPE)) return;
 
-		for (int i = 0; i < highscores.size(); i++)
+		for (int i = 0; i < (int)highscores.size(); i++)
 		{
 			DrawText(800 / 2, 200 + i * 40, 45, WHITE, true, highscores[i].c_str());
 
@@ -545,12 +546,12 @@ void Game::initializeLevel()
 	enemies.resize(11, column);
 
 	//filling the enemy vector
-	for (int i = 0; i < enemies.size(); i++)
+	for (int i = 0; i < (int)enemies.size(); i++)
 	{
-		for (int j = 0; j < enemies[0].size(); j++)
+		for (int j = 0; j < (int)enemies[0].size(); j++)
 		{
-			enemies[i][j].setBX((i % 11) * 50 + 120);
-			enemies[i][j].setBY(j * 60 + 70);
+			enemies[i][j].setBX((i % 11) * 50.0F + 120.0F);
+			enemies[i][j].setBY(j * 60.0F + 70.0F);
 			enemies[i][j].updateBoundingBox();
 		}
 	}

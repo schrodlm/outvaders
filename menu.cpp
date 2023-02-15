@@ -10,7 +10,7 @@ void Menu::Draw(int x, int y, int size)
 {
 	// Draw each menu item
 
-	for (int i = 0; i < m_items.size(); ++i) {
+	for (int i = 0; i < (int)m_items.size(); ++i) {
 		// Highlight the selected item
 		if (m_selectedIndex == i) {
 			DrawText(x, y + i * size, size + 5, CYAN, true, m_items[i].text);

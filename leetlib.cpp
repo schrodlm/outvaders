@@ -172,7 +172,7 @@ int DrawText(int x, int y, int size, int col, bool centered, const char* pformat
 //-----------------------------------------------------------------------------
 void DrawTextFromSprites(const char* text, int x, int y, void* Text[]) {
 	int i = 0;
-	for (int c = 0; c < strlen(text); c++) {
+	for (int c = 0; c < (int)strlen(text); c++) {
 		if (text[c] != ' ') {
 			DrawSprite(Text[text[c] - 'a'], x + i * 40, y, 20, 20, 0);
 		}
@@ -472,6 +472,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 	_CrtDumpMemoryLeaks();
 	return 0;
 }
+
 
 
 

@@ -82,7 +82,7 @@ public:
 
 protected:
 
-	Entity(int BX, int BY, int BA, int xSize, int ySize, const char* _spritePath);
+	Entity(float BX, float BY, float BA, int xSize, int ySize, const char* _spritePath);
 	Entity(int xSize, int ySize) : xSize(xSize), ySize(ySize) { updateBoundingBox(); };
 
 	float BX = 0, BY = 0, BA = 0;
@@ -179,8 +179,8 @@ class Bullet : public Entity
 public:
 	virtual ~Bullet() = default;
 
-	Bullet(int _BX, int _BY, int _BA) : Entity(_BX, _BY, _BA, 10, 20, "gfx/bullet.png") {};
-	Bullet(int _BX, int _BY, int _BA, const char* spritePath) : Entity(_BX, _BY, _BA, 10, 20, spritePath) {};
+	Bullet(float _BX, float _BY, float _BA) : Entity(_BX, _BY, _BA, 10, 20, "gfx/bullet.png") {};
+	Bullet(float _BX, float _BY, float _BA, const char* spritePath) : Entity(_BX, _BY, _BA, 10, 20, spritePath) {};
 };
 
 /**
@@ -191,8 +191,7 @@ class EnemyBullet : public Bullet
 public:
 	~EnemyBullet() = default;
 
-	EnemyBullet(int _BX, int _BY, int _BA) : Bullet(_BX, _BY, _BA, "gfx/enemy_bullet.png")
-	{};
+	EnemyBullet(float _BX, float _BY, float _BA) : Bullet(_BX, _BY, _BA, "gfx/enemy_bullet.png") {};
 
 };
 
@@ -204,7 +203,7 @@ class Player : public Entity
 public:
 	virtual ~Player() = default;
 
-	Player(int _BX, int _BY, int _BA) : Entity(_BX, _BY, _BA, 60, 60, "gfx/player.png") {}
+	Player(float _BX, float _BY, float _BA) : Entity(_BX, _BY, _BA, 60, 60, "gfx/player.png") {}
 
 	//getters and setters
 
