@@ -389,20 +389,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 	style |= WS_VISIBLE;
 	AdjustWindowRect(&r, style, false);
 
-	// Create the application's window
-	/*
-	The function takes in several parameters that define the characteristics of the window:
-	1. "SpaceOutvaders":			A string that represents the class name of the window. This value is used to identify the type of window being created.
-	2."Space Outvaders":			A string that represents the window's title. This value appears in the title bar of the window.
-	3. style :				A DWORD value that specifies the window style. This is the same variable that was defined and modified earlier in the code.
-	4. 0, 0:				The x and y coordinates of the window's upper-left corner on the screen.
-	5. r.right - r.left:	The width of the window. This value is calculated by subtracting the left coordinate from the right coordinate of the RECT structure.
-	6. r.bottom - r.top:	The height of the window. This value is calculated by subtracting the top coordinate from the bottom coordinate of the RECT structure.
-	7. GetDesktopWindow():	A handle to the parent window. This value is set to the desktop window, which means that the window will be a top-level window and won't have any parent window.
-	8. NULL:				A handle to a menu. This value is set to NULL, which means that the window won't have a menu.
-	9. wc.hInstance:		A handle to the instance of the application that owns the window.
-	10. NULL:				A pointer to a value passed to the window during the creation process.
-	*/
+
 	hWnd = CreateWindow("SpaceOutvaders", "Space Outvaders",
 		style, 0, 0, r.right - r.left, r.bottom - r.top,
 		GetDesktopWindow(), NULL, wc.hInstance, NULL);
@@ -416,14 +403,11 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 	*/
 	//FSOUND_Init(44100, 42, 0);
 
-	/*
-		Both these functions are used to measure the time taken by a specific piece of code or process.
-			-> In our case it is the Game Loop
-	*/
-
+	// Get the current time
 	QueryPerformanceCounter(&startTime);
 	startTime = previousTime;
 
+	// Get the frequency of the performance counter
 	QueryPerformanceFrequency(&frequency);
 	// Initialize Direct3D
 	if (SUCCEEDED(InitD3D(hWnd)))

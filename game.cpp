@@ -91,11 +91,7 @@ int updateHighscore(int score)
 
 Game::Game()
 {
-	// Get the frequency of the performance counter
-	QueryPerformanceFrequency(&frequency);
 
-	// Get the current time
-	QueryPerformanceCounter(&previousTime);
 
 	this->height = 600;
 	this->width = 800;
@@ -424,7 +420,6 @@ end:
 		level++;
 		goto start;
 	}
-	previousTime = currentTime;
 	EndFlip();
 
 	goto end;
