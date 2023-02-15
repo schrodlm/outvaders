@@ -45,4 +45,7 @@
     <Image Include="background.bmp" />
     <Image Include="outvaders.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="CosmicAlien.ttf" />
+  </ItemGroup>
 </Project>
