@@ -11,15 +11,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\warhorse_test\space_invaders_repair\space invaders\entities.cpp" />
-    <ClCompile Include="..\warhorse_test\space_invaders_repair\space invaders\leetlib.cpp" />
+    <ClCompile Include="entities.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="leetlib.cpp" />
     <ClCompile Include="menu.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\warhorse_test\space_invaders_repair\space invaders\entities.h" />
-    <ClInclude Include="..\warhorse_test\space_invaders_repair\space invaders\leetlib.h" />
+    <ClInclude Include="entities.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="leetlib.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>

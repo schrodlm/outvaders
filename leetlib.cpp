@@ -1,9 +1,9 @@
 
 
 #pragma warning(disable:4995)
-#include "lib/leetlib.h"
-#include "../game.h"
-#include "../menu.h"
+#include "leetlib.h"
+#include "game.h"
+#include "menu.h"
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <strsafe.h>
@@ -11,7 +11,7 @@
 #include <map>
 #include <direct.h>
 #include <malloc.h>
-#include "../resource.h"
+#include "resource.h"
 
 //debugging
 #define _CRTDBG_MAP_ALLOC

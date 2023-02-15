@@ -1,4 +1,4 @@
-#include "lib/entities.h"
+#include "entities.h"
 
 SpriteManager* manager = new SpriteManager();
 
