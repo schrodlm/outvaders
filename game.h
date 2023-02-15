@@ -98,4 +98,10 @@ private:
 
 	int level = 0;
 
+	//Time management
+	LARGE_INTEGER frequency;
+	LARGE_INTEGER previousTime;
+	LARGE_INTEGER currentTime;
+	float deltaTime;
+
 };

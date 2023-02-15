@@ -91,6 +91,11 @@ int updateHighscore(int score)
 
 Game::Game()
 {
+	// Get the frequency of the performance counter
+	QueryPerformanceFrequency(&frequency);
+
+	// Get the current time
+	QueryPerformanceCounter(&previousTime);
 
 	this->height = 600;
 	this->width = 800;
@@ -165,6 +170,22 @@ end:
 	if (IsKeyDown(VK_ESCAPE)) return;
 
 	DrawSprite(background, 400, 300, 800, 600, 0, WHITE);
+
+
+	//Managing time
+	//=============================================================
+
+	// Get the current time
+	QueryPerformanceCounter(&currentTime);
+
+	// Calculate the time elapsed since the last frame
+	deltaTime = (float)(currentTime.QuadPart - previousTime.QuadPart) / frequency.QuadPart;
+
+	// Limit the frame rate to 60 frames per second
+	if (deltaTime < 1.0f / 60.0f)
+	{
+		Sleep((DWORD)((1.0f / 60.0f - deltaTime) * 1000.0f));
+	}
 
 
 	//Managing enemies
@@ -419,7 +440,7 @@ end:
 		level++;
 		goto start;
 	}
-
+	previousTime = currentTime;
 	EndFlip();
 
 	goto end;
@@ -607,3 +628,5 @@ void Game::pauseLoop()
 
 	return;
 }
+
+

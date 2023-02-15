@@ -471,7 +471,6 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 	return 0;
 }
 
-//////////////////////////////////
 
 bool WantQuit(DWORD clearcol)
 {
