@@ -92,6 +92,7 @@ private:
 	EnemyRare* rare_enemy = nullptr;
 
 
+
 	int level = 0;
 
 };

@@ -178,7 +178,7 @@ end:
 			// Moving enemies after 20 frames, to smooth movement otherwise
 			if (elapsed_time % 20 == 0)
 			{
-				(enemy_direction) ? enemy.updateBX(enemy_speed) : enemy.updateBX(enemy_speed);
+				(enemy_direction) ? enemy.updateBX(enemy_speed) : enemy.updateBX(-enemy_speed);
 			}
 
 			enemy.updateBoundingBox();
@@ -210,7 +210,7 @@ end:
 		enemy_direction = false;
 		for (auto& col : enemies) for (auto& enemy : col) enemy.updateBY(20), enemy.updateBoundingBox();
 	}
-	else if (most_left_enemy - 10 <= 0 && !enemy_direction)
+	if (most_left_enemy - 10 <= 0 && !enemy_direction)
 	{
 		enemy_direction = true;
 		for (auto& col : enemies)for (auto& enemy : col) enemy.updateBY(20), enemy.updateBoundingBox();
