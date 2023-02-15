@@ -1,6 +1,7 @@
 #pragma once
 
 #include <windows.h>
+#include "resource.h"
 
 typedef unsigned long       DWORD;
 
@@ -19,7 +20,7 @@ typedef unsigned long       DWORD;
 
 bool WantQuit(DWORD clearcolor = 0);
 void EndFlip(); // flips the screen, frame locked to 60 hz
-void startFlip();
+void StartFlip();
 //void Game(int width, int height); // you write this :)
 
 

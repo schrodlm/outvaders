@@ -47,6 +47,9 @@ public:
 	*/
 	void highscoreLoop();
 
+
+	void pauseLoop();
+
 	/**
 	* Clear entities used in a game loop.
 	*
@@ -85,7 +88,7 @@ private:
 	int elapsed_time = 0;
 	int width = 0; // !< screen width
 	int height = 0;// !< screen height
-	void* background = LoadSprite("bitmap1.bmp");
+	void* background = LoadSprite("background.bmp");
 	std::vector<std::vector<Enemy>> enemies;
 	std::vector<Bullet> player_bullets;
 	std::vector<EnemyBullet> enemy_bullets;

@@ -42,7 +42,7 @@
     <ResourceCompile Include="leet.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="bitmap1.bmp" />
+    <Image Include="background.bmp" />
     <Image Include="outvaders.ico" />
   </ItemGroup>
 </Project>

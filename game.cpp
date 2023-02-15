@@ -158,7 +158,7 @@ start:
 
 	//game loop
 end:
-	startFlip();
+	StartFlip();
 
 	++elapsed_time;
 	if (WantQuit()) return;
@@ -378,6 +378,15 @@ end:
 	DrawText(width - 100, 30, 40, WHITE, true, ("SCORE:" + std::to_string(player->getScore())).c_str());
 	DrawText(width - 100, 55, 40, WHITE, true, ("LIFES:" + std::to_string(player->getLives())).c_str());
 
+	//Pause
+	//=============================================================
+	if (KeyPressed(0x50))
+	{
+		EndFlip();
+		pauseLoop();
+	}
+
+
 	// Game Over checks
 	//=============================================================
 
@@ -432,7 +441,7 @@ int Game::gameOverLoop()
 	while (1)
 	{
 		elapsed_time++;
-		startFlip();
+		StartFlip();
 
 		if (WantQuit()) return 2;
 		if (IsKeyDown(VK_ESCAPE)) return 2;
@@ -493,7 +502,7 @@ void Game::highscoreLoop()
 	int quitHighscoreScreen = -1;
 	while (1)
 	{
-		startFlip();
+		StartFlip();
 
 		if (WantQuit()) return;
 		if (IsKeyDown(VK_ESCAPE)) return;
@@ -552,7 +561,7 @@ void Game::initializeLevel()
 void Game::levelIntro()
 {
 
-	startFlip();
+	StartFlip();
 	DrawSprite(background, 400, 300, 800, 600, 0, WHITE);
 	DrawText(width / 2, 300, 45, WHITE, true, ("LEVEL " + std::to_string(level)).c_str());
 	EndFlip();
@@ -564,4 +573,37 @@ void Game::initializeNewPlayer()
 {
 	delete player;
 	player = new Player(400, 550, 0);
+}
+
+void Game::pauseLoop()
+{
+	while (1)
+	{
+		StartFlip();
+
+		if (WantQuit()) return;
+		if (IsKeyDown(VK_ESCAPE)) return;
+
+		DrawText(800 / 2, 300, 60, WHITE, true, "PAUSE");
+
+		DrawText(800 / 2, 500, 45, WHITE, true, "Press 'P' to resume the game");
+
+		if (KeyPressed(0x50)) break;
+
+		EndFlip();
+	}
+	EndFlip();
+
+	for (int i = 3; i > 0; i--)
+	{
+		if (WantQuit()) return;
+		if (IsKeyDown(VK_ESCAPE)) return;
+		StartFlip();
+		DrawText(800 / 2, 300, 60, WHITE, true, ("Resuming in " + std::to_string(i) + "...").c_str());
+		EndFlip();
+		Sleep(1000);
+
+	}
+
+	return;
 }
