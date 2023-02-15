@@ -55,16 +55,16 @@ Enemy::Enemy(int xSize, int ySize, const char* spritePath1, const char* spritePa
 	this->score = score;
 
 	manager->LoadSpriteImpl(spritePath1);
-	sprite_1 = manager->GetSprite(spritePath1);
+	still_sprite = manager->GetSprite(spritePath1);
 
 	//it doesnt have to be exist for some enemies
 	if (spritePath2 != "")
 	{
 		manager->LoadSpriteImpl(spritePath2);
-		sprite_2 = manager->GetSprite(spritePath2);
+		moving_sprite = manager->GetSprite(spritePath2);
 	}
 	manager->LoadSpriteImpl(spritePathDeath);
-	sprite_death = manager->GetSprite(spritePathDeath);
+	death_sprite = manager->GetSprite(spritePathDeath);
 
 
 

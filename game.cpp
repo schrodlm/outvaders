@@ -174,8 +174,8 @@ end:
 	{
 		for (auto& enemy : col)
 		{
-			if (enemy.dead) enemy.dead_countdown--;
-			DrawSprite(enemy.dead ? enemy.sprite_death : spriteAnim ? enemy.sprite_1 : enemy.sprite_2, enemy.getBX(), enemy.getBY(), enemy.getXSize(), enemy.getYSize(), 0, WHITE);
+			if (enemy.getDead()) enemy.updateCountdown();
+			DrawSprite(enemy.getDead() ? enemy.getDeathSprite() : spriteAnim ? enemy.getStillSprite() : enemy.getMovingSprite(), enemy.getBX(), enemy.getBY(), enemy.getXSize(), enemy.getYSize(), 0, WHITE);
 			// Moving enemies after 20 frames, to smooth movement otherwise
 			if (elapsed_time % 20 == 0)
 			{
@@ -263,11 +263,10 @@ end:
 	if (rare_enemy)
 	{
 		//enemy is dead, we draw the death animation
-		if (rare_enemy->dead) rare_enemy->dead_countdown--, DrawSprite(rare_enemy->sprite_death, rare_enemy->getBX(), rare_enemy->getBY(), rare_enemy->getXSize(), rare_enemy->getYSize(), 0, WHITE);
+		if (rare_enemy->getDead()) rare_enemy->updateCountdown(), DrawSprite(rare_enemy->getDeathSprite(), rare_enemy->getBX(), rare_enemy->getBY(), rare_enemy->getXSize(), rare_enemy->getYSize(), 0, WHITE);
 		//enemy is alive, we draw it
-		else DrawSprite(rare_enemy->sprite_1, rare_enemy->updateBX(4), rare_enemy->getBY(), rare_enemy->getXSize(), rare_enemy->getYSize(), 0, WHITE);
+		else DrawSprite(rare_enemy->getStillSprite(), rare_enemy->updateBX(4), rare_enemy->getBY(), rare_enemy->getXSize(), rare_enemy->getYSize(), 0, WHITE);
 		rare_enemy->updateBoundingBox();
-		if (rare_enemy->dead_countdown <= 0 || rare_enemy->getBX() - (rare_enemy->getXSize() / 2) > 800) delete rare_enemy, rare_enemy = nullptr;
 	}
 
 	//Player bullet management
@@ -328,10 +327,10 @@ end:
 			{
 				if (checkCollision(bullet, enemy))
 				{
-					enemy.dead = true;
+					enemy.setDeath();
 					bullet.setState(0);
 					//adding score to the player
-					player->updateScore(enemy.score);
+					player->updateScore(enemy.getScore());
 				}
 			}
 		}
@@ -339,9 +338,9 @@ end:
 		//rare_enemy : players bullets
 		if (rare_enemy && checkCollision(bullet, *rare_enemy))
 		{
-			rare_enemy->dead = true;
+			rare_enemy->setDeath();
 			bullet.setState(0);
-			player->updateScore(rare_enemy->score);
+			player->updateScore(rare_enemy->getScore());
 		}
 	}
 
@@ -368,8 +367,10 @@ end:
 	enemy_bullets.erase(std::remove_if(enemy_bullets.begin(), enemy_bullets.end(), [](EnemyBullet& e) { return (e.getState() == 0); }), enemy_bullets.end());
 
 	//removing killed enemies and their vector if it is empty
-	for (auto& col : enemies) col.erase(std::remove_if(col.begin(), col.end(), [](Enemy& e) { return (e.dead_countdown <= 0); }), col.end());
+	for (auto& col : enemies) col.erase(std::remove_if(col.begin(), col.end(), [](Enemy& e) { return (e.getDeathCountdown() <= 0); }), col.end());
 	enemies.erase(std::remove_if(enemies.begin(), enemies.end(), [](std::vector<Enemy>& e) { return e.empty(); }), enemies.end());
+	if (rare_enemy)
+		if (rare_enemy->getDeathCountdown() <= 0 || rare_enemy->getBX() - (rare_enemy->getXSize() / 2) > 800) delete rare_enemy, rare_enemy = nullptr;
 
 
 

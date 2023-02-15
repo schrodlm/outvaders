@@ -94,23 +94,36 @@ protected:
 };
 
 /**
- * .
+ *  Abstract class for all enemies.
  */
 class Enemy : public Entity
 {
 public:
-	int score = 0;
-	void* sprite_1 = nullptr;
-	void* sprite_2 = nullptr;
-	void* sprite_death = nullptr;
-
-	//countdown is used after enemy is killed, to draw enemy vector for specified number of frames;
-	int dead_countdown = 10;
-	int dead = false;
-
 	virtual  ~Enemy() = default;
+
+
+	//getters and setters
+	int getScore() { return score; }
+	void* getStillSprite() { return still_sprite; }
+	void* getMovingSprite() { return moving_sprite; }
+	void* getDeathSprite() { return death_sprite; }
+	int getDeathCountdown() { return dead_countdown; }
+	int getDead() { return dead; }
+
+
+	void updateCountdown(int _death_countdown = -1) { dead_countdown += _death_countdown; }
+	void setDead(int _dead = true) { dead = _dead; }
+
 protected:
 	Enemy(int xSize, int ySize, const char* spritePath1, const char* spritePath2, const char* spritePathDeath, int score);
+	int score = 0; // !< how many points is enemy worth
+	void* still_sprite = nullptr;
+	void* moving_sprite = nullptr;
+	void* death_sprite = nullptr;
+
+
+	int dead_countdown = 10; // !< countdown is used after enemy is killed, to draw enemy vector for specified number of frames
+	int dead = false;
 
 };
 
