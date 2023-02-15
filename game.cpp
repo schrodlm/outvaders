@@ -89,12 +89,12 @@ int updateHighscore(int score)
 }
 
 
-Game::Game()
+Game::Game(int _width, int _height)
 {
 
 
-	this->height = 600;
-	this->width = 800;
+	height = _height;
+	width = _width;
 
 	player = new Player(400, 550, 0);
 }
@@ -159,10 +159,10 @@ start:
 
 	//game loop
 end:
-	StartFlip();
+
 
 	++elapsed_time;
-	if (WantQuit()) return;
+	if (!StartFlip()) return;
 	if (IsKeyDown(VK_ESCAPE)) return;
 
 	DrawSprite(background, 400, 300, 800, 600, 0, WHITE);
@@ -229,7 +229,7 @@ end:
 	if (player->getHit() > 0)
 	{
 		DrawSprite(player->getSprite(), player->setBX(IsKeyDown(VK_LEFT) ? max(player->getBX() - 5, 0) : IsKeyDown(VK_RIGHT) ? min(player->getBX() + 5, width) : player->getBX()), player->getBY(), player->getXSize(), player->getYSize(), player_angle * 0.1, RED);
-		player->updateHit();
+		player->updateHitCooldown();
 	}
 	else
 		DrawSprite(player->getSprite(), player->setBX(IsKeyDown(VK_LEFT) ? max(player->getBX() - 5, 0) : IsKeyDown(VK_RIGHT) ? min(player->getBX() + 5, width) : player->getBX()), player->getBY(), player->getXSize(), player->getYSize(), player_angle * 0.1, WHITE);
@@ -304,7 +304,7 @@ end:
 			if (player->getHit() > 0) continue;
 
 
-			if (player->getLives() > 0) player->setLives(player->getLives() - 1), player->setHit();
+			if (player->getLifes() > 0) player->updateLifes(), player->setHitCooldown();
 
 
 
@@ -327,7 +327,7 @@ end:
 			{
 				if (checkCollision(bullet, enemy))
 				{
-					enemy.setDeath();
+					enemy.setDead();
 					bullet.setState(0);
 					//adding score to the player
 					player->updateScore(enemy.getScore());
@@ -338,7 +338,7 @@ end:
 		//rare_enemy : players bullets
 		if (rare_enemy && checkCollision(bullet, *rare_enemy))
 		{
-			rare_enemy->setDeath();
+			rare_enemy->setDead();
 			bullet.setState(0);
 			player->updateScore(rare_enemy->getScore());
 		}
@@ -378,7 +378,7 @@ end:
 
 	//Draw game info
 	DrawText(width - 100, 30, 40, WHITE, true, ("SCORE:" + std::to_string(player->getScore())).c_str());
-	DrawText(width - 100, 55, 40, WHITE, true, ("LIFES:" + std::to_string(player->getLives())).c_str());
+	DrawText(width - 100, 55, 40, WHITE, true, ("LIFES:" + std::to_string(player->getLifes())).c_str());
 
 	//Pause
 	//=============================================================
@@ -395,7 +395,7 @@ end:
 	for (auto& col : enemies)
 	{
 
-		if (player->getLives() == 0 || (!col.empty() && col.back().getBY() > player->getBY() - player->getYSize() / 2 - 20))
+		if (player->getLifes() == 0 || (!col.empty() && col.back().getBY() > player->getBY() - player->getYSize() / 2 - 20))
 		{
 			EndFlip();
 			clearLevel();
@@ -403,6 +403,7 @@ end:
 			{
 			case 1:
 				initializeNewPlayer();
+				level = 0;
 				goto start;
 				break;
 
@@ -442,9 +443,8 @@ int Game::gameOverLoop()
 	while (1)
 	{
 		elapsed_time++;
-		StartFlip();
 
-		if (WantQuit()) return 2;
+		if (!StartFlip()) return 2;
 		if (IsKeyDown(VK_ESCAPE)) return 2;
 		DrawSprite(background, 400, 300, 800, 600, 0, WHITE);
 
@@ -503,9 +503,7 @@ void Game::highscoreLoop()
 	int quitHighscoreScreen = -1;
 	while (1)
 	{
-		StartFlip();
-
-		if (WantQuit()) return;
+		if (!StartFlip()) return;
 		if (IsKeyDown(VK_ESCAPE)) return;
 
 		for (int i = 0; i < highscores.size(); i++)
@@ -562,7 +560,7 @@ void Game::initializeLevel()
 void Game::levelIntro()
 {
 
-	StartFlip();
+	if (!StartFlip()) return;
 	DrawSprite(background, 400, 300, 800, 600, 0, WHITE);
 	DrawText(width / 2, 300, 45, WHITE, true, ("LEVEL " + std::to_string(level)).c_str());
 	EndFlip();
@@ -580,9 +578,7 @@ void Game::pauseLoop()
 {
 	while (1)
 	{
-		StartFlip();
-
-		if (WantQuit()) return;
+		if (!StartFlip()) return;
 		if (IsKeyDown(VK_ESCAPE)) return;
 
 		DrawText(800 / 2, 300, 60, WHITE, true, "PAUSE");
@@ -597,9 +593,8 @@ void Game::pauseLoop()
 
 	for (int i = 3; i > 0; i--)
 	{
-		if (WantQuit()) return;
+		if (!StartFlip()) return;
 		if (IsKeyDown(VK_ESCAPE)) return;
-		StartFlip();
 		DrawText(800 / 2, 300, 60, WHITE, true, ("Resuming in " + std::to_string(i) + "...").c_str());
 		EndFlip();
 		Sleep(1000);

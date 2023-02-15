@@ -127,6 +127,9 @@ protected:
 
 };
 
+/**
+ * Enemy located at the front of the pack. Worth the least out of pack enemies.
+ */
 class EnemyFront : public Enemy
 {
 public:
@@ -135,7 +138,9 @@ public:
 	EnemyFront() : Enemy(25, 25, "gfx/enemy1_1.png", "gfx/enemy1_2.png", "gfx/enemy1_death.png", 50) {};
 };
 
-
+/**
+ * Enemy located in the middle of the pack.
+ */
 class EnemyMiddle : public Enemy
 {
 public:
@@ -144,6 +149,9 @@ public:
 	EnemyMiddle() : Enemy(30, 30, "gfx/enemy2_1.png", "gfx/enemy2_2.png", "gfx/enemy2_death.png", 60) {};
 };
 
+/**
+ * Enemy located at the back of the pack. Worth the most out of pack enemies.
+ */
 class EnemyBack : public Enemy
 {
 public:
@@ -152,6 +160,9 @@ public:
 	EnemyBack() : Enemy(30, 30, "gfx/enemy3_1.png", "gfx/enemy3_2.png", "gfx/enemy3_death.png", 70) {};
 };
 
+/**
+ * Special enemy that spawns every 23rd shot of the the player. Cannot hurt the player. Worth the most points out of all enemies.
+ */
 class EnemyRare : public Enemy
 {
 public:
@@ -160,7 +171,9 @@ public:
 	EnemyRare() : Enemy(65, 50, "gfx/rare_enemy.png", "", "gfx/enemy3_death.png", 500) {};
 };
 
-
+/**
+ * Bullet class, this class is used as a player bullet and also a template for enemy bullets.
+ */
 class Bullet : public Entity
 {
 public:
@@ -170,6 +183,9 @@ public:
 	Bullet(int _BX, int _BY, int _BA, const char* spritePath) : Entity(_BX, _BY, _BA, 10, 20, spritePath) {};
 };
 
+/**
+ * Bullets of the pack enemies. Deals one damage to the player.
+ */
 class EnemyBullet : public Bullet
 {
 public:
@@ -180,6 +196,9 @@ public:
 
 };
 
+/**
+ * Class representing player and player information during the game.
+ */
 class Player : public Entity
 {
 public:
@@ -187,23 +206,25 @@ public:
 
 	Player(int _BX, int _BY, int _BA) : Entity(_BX, _BY, _BA, 60, 60, "gfx/player.png") {}
 
+	//getters and setters
+
 	int getScore() { return score; }
 	void updateScore(int toAdd) { score += toAdd; }
-	int getLives() { return lives; }
-	void setLives(int new_lives) { lives = new_lives; }
+	int getLifes() { return lifes; }
+	void updateLifes(int new_lives = -1) { lifes += new_lives; }
 	int getShotsFired() { return shots_fired; }
 	void updateShotsFired() { shots_fired++; }
-	int getHit() { return hit; }
-	void setHit(int cooldown = 20) { hit = cooldown; }
-	void updateHit() { hit--; }
+	int getHit() { return hit_cooldown; }
+	void setHitCooldown(int cooldown = 20) { hit_cooldown = cooldown; }
+	void updateHitCooldown() { hit_cooldown--; }
 
 
 
 protected:
 	int score = 0;
-	int lives = 3;
+	int lifes = 3;
 	int shots_fired = 1;
-	int hit = 0;
+	int hit_cooldown = 0; // !< after player gets hit, he cannot be hit for time specified by this variable
 
 };
 

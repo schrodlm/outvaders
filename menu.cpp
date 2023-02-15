@@ -49,9 +49,8 @@ int Menu::Loop()
 	while (1)
 	{
 
-		if (WantQuit()) return -1;
+		if (!StartFlip()) return -1;
 		if (IsKeyDown(VK_ESCAPE)) return -1;
-		StartFlip();
 		Draw(400, 300, 40);
 		eventTriggered = HandleInput();
 		EndFlip();

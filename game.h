@@ -16,7 +16,7 @@ public:
 	* Initialize player and width a height of the screen
 	*
 	*/
-	Game();
+	Game(int _width, int _height);
 
 	/**
 	 * Deletes heap memory usage of that class.

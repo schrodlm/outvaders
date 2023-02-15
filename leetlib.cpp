@@ -67,7 +67,6 @@ void EndTextBatch();
 
 void SetCurrentTexture(void* tex);
 
-int DrawText(int x, int y, int size, u32 col, bool cenetered, const char* pFormat, ...);
 
 
 
@@ -82,7 +81,7 @@ LPD3DXFONT FindFont(int size)
 
 
 		fit = fonts.insert(std::pair<int, LPD3DXFONT>(size, m_pFont)).first;
-		//if (intextbatch) fit->second->Begin();
+
 	}
 	if (fit != fonts.end())
 	{
@@ -91,6 +90,10 @@ LPD3DXFONT FindFont(int size)
 	else return NULL;
 }
 
+/**
+ * Release any fonts that have been created with Direct3D..
+ *
+ */
 void ReleaseFonts()
 {
 	if (intextbatch) EndTextBatch();
@@ -103,6 +106,11 @@ void ReleaseFonts()
 	intextbatch = 0;
 }
 
+/**
+ * Set up a Direct3D sprite object for rendering text..
+ *
+ * \param size font size
+ */
 void StartTextBatch(int size)
 {
 	if (intextbatch) EndTextBatch();
@@ -116,7 +124,6 @@ void StartTextBatch(int size)
 	{
 		fontsprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
 	}
-	//for (std::map<int, LPD3DXFONT>::iterator fit=fonts.begin();fit!=fonts.end();++fit) fit->second->Begin();
 
 
 }
@@ -407,6 +414,8 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 	QueryPerformanceCounter(&startTime);
 	startTime = previousTime;
 
+
+
 	// Get the frequency of the performance counter
 	QueryPerformanceFrequency(&frequency);
 	// Initialize Direct3D
@@ -415,8 +424,9 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 		// Create the vertex buffer
 		if (SUCCEEDED(InitVB()))
 		{
-			//SetWindowPos(hWnd,NULL,0,0,1024,768,SWP_NOZORDER|SWP_NOACTIVATE|SWP_NOMOVE|SWP_ASYNCWINDOWPOS);
-			SetCursor(LoadCursor(NULL, IDC_ARROW));
+			//Disable mouse
+			ShowCursor(false);
+			SetCapture(GetForegroundWindow());
 
 			// Show the window
 			ShowWindow(hWnd, SW_SHOWDEFAULT);
@@ -428,7 +438,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 			mainMenu.AddItem("Highscores", [] {return 2; });
 			mainMenu.AddItem("Quit", [] {return 3; });
 			int menu_option = 0;
-			Game* game = new Game();
+			Game* game = new Game(r.right - r.left, r.bottom - r.top);
 
 			while (menu_option != 3 && menu_option != 1)
 			{
@@ -451,7 +461,6 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 			}
 
 
-			//InitDirectInput( hWnd );	
 			delete game;
 
 		}
@@ -459,13 +468,14 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 
 	UnregisterClass("SpaceOutvaders", wc.hInstance);
 
+	//dumps out memory leaks 
 	_CrtDumpMemoryLeaks();
 	return 0;
 }
 
 
 
-bool WantQuit(DWORD clearcol)
+bool StartFlip(DWORD clearcol)
 {
 	// Enter the message loop
 	MSG msg;
@@ -474,7 +484,7 @@ bool WantQuit(DWORD clearcol)
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
-		if (msg.message == WM_QUIT) return true;
+		if (msg.message == WM_QUIT) return false;
 	}
 
 	g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, clearcol, 1.0f, 0);
@@ -507,28 +517,15 @@ bool WantQuit(DWORD clearcol)
 
 	//UpdateDirectInput();
 
-	return false;
+	return true;
 }
+
+
 int	GetTimeInMS() // ...since start of program
 {
 	LARGE_INTEGER arse;
 	QueryPerformanceCounter(&arse);
 	return ((arse.QuadPart - startTime.QuadPart) * 1000) / frequency.QuadPart;
-}
-
-
-void StartFlip()
-{
-	g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
-	// Begin the scene
-	g_pd3dDevice->BeginScene();
-
-
-	g_pd3dDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	g_pd3dDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-
-
-
 }
 
 void EndFlip()
