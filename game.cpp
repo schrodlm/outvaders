@@ -101,7 +101,7 @@ Game::Game()
 Game::~Game()
 {
 	FreeSprite(background);
-	deleteManager();
+	clearSpriteManager();
 	delete player;
 	clearLevel();
 }
@@ -144,13 +144,19 @@ void Game::gameLoop()
 	std::mt19937 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 	std::uniform_int_distribution<int> distribution(0, 100);
 
+	//level loop
 start:
 	initializeLevel();
 	bool spriteAnim = false;
-
+	const int enemy_speed = 10 + level * 5;
+	int most_right_enemy = 0;
+	int most_left_enemy = 0;
+	bool enemy_direction = true;
+	int player_angle = 0; // !< makes the player stride to the side that he is moving in
 
 	levelIntro();
 
+	//game loop
 end:
 	startFlip();
 
@@ -163,17 +169,16 @@ end:
 
 	//Managing enemies
 	//=============================================================
-	int most_right_enemy = INT_MIN;
-	int most_left_enemy = INT_MAX;
 	for (auto& col : enemies)
 	{
 		for (auto& enemy : col)
 		{
 			if (enemy.dead) enemy.dead_countdown--;
-			DrawSprite(enemy.dead ? enemy.sprite_death : spriteAnim ? enemy.sprite_1 : enemy.sprite_2, enemy.BX, enemy.BY, enemy.getXSize(), enemy.getYSize(), 0, WHITE);
+			DrawSprite(enemy.dead ? enemy.sprite_death : spriteAnim ? enemy.sprite_1 : enemy.sprite_2, enemy.getBX(), enemy.getBY(), enemy.getXSize(), enemy.getYSize(), 0, WHITE);
+			// Moving enemies after 20 frames, to smooth movement otherwise
 			if (elapsed_time % 20 == 0)
 			{
-				(enemy_direction) ? enemy.BX += 10 + level * 5 : enemy.BX -= 10 + level * 5;
+				(enemy_direction) ? enemy.updateBX(enemy_speed) : enemy.updateBX(enemy_speed);
 			}
 
 			enemy.updateBoundingBox();
@@ -185,7 +190,7 @@ end:
 				int random = distribution(rng);
 				if (&enemy == &col.back() && random == 1)
 				{
-					enemy_bullets.emplace_back(enemy.BX, enemy.BY, 0);
+					enemy_bullets.emplace_back(enemy.getBX(), enemy.getBY(), 0);
 				}
 			}
 		}
@@ -196,19 +201,19 @@ end:
 		spriteAnim = !spriteAnim;
 	}
 
-	most_right_enemy = enemies.back()[0].BX;
-	most_left_enemy = enemies.front()[0].BX;
+	most_right_enemy = enemies.back()[0].getBX();
+	most_left_enemy = enemies.front()[0].getBX();
 
 	//setting direction for enemies based on position of most left and most right enemy
 	if (most_right_enemy + 10 >= 800 && enemy_direction)
 	{
 		enemy_direction = false;
-		for (auto& col : enemies) for (auto& enemy : col) enemy.BY += 20, enemy.updateBoundingBox();
+		for (auto& col : enemies) for (auto& enemy : col) enemy.updateBY(20), enemy.updateBoundingBox();
 	}
-	if (most_left_enemy - 10 <= 0 && !enemy_direction)
+	else if (most_left_enemy - 10 <= 0 && !enemy_direction)
 	{
 		enemy_direction = true;
-		for (auto& col : enemies)for (auto& enemy : col) enemy.BY += 20, enemy.updateBoundingBox();
+		for (auto& col : enemies)for (auto& enemy : col) enemy.updateBY(20), enemy.updateBoundingBox();
 
 	}
 
@@ -216,17 +221,17 @@ end:
 	//Player management
 	//=============================================================
 
-	int player_angle = 0; // !< makes the player stride to the side that he is moving in
+	player_angle = 0;
 	if (IsKeyDown(VK_RIGHT)) player_angle = -1;
 	else if (IsKeyDown(VK_LEFT)) player_angle = 1;
 
 	if (player->getHit() > 0)
 	{
-		DrawSprite(player->getSprite(), player->BX += IsKeyDown(VK_LEFT) ? -5 % width : IsKeyDown(VK_RIGHT) ? 5 : 0, player->BY, player->getXSize(), player->getYSize(), player_angle * 0.1, RED);
+		DrawSprite(player->getSprite(), player->setBX(IsKeyDown(VK_LEFT) ? max(player->getBX() - 5, 0) : IsKeyDown(VK_RIGHT) ? min(player->getBX() + 5, width) : player->getBX()), player->getBY(), player->getXSize(), player->getYSize(), player_angle * 0.1, RED);
 		player->updateHit();
 	}
 	else
-		DrawSprite(player->getSprite(), player->BX = IsKeyDown(VK_LEFT) ? max(player->BX - 5, 0) : IsKeyDown(VK_RIGHT) ? min(player->BX + 5, width) : player->BX, player->BY, player->getXSize(), player->getYSize(), player_angle * 0.1, WHITE);
+		DrawSprite(player->getSprite(), player->setBX(IsKeyDown(VK_LEFT) ? max(player->getBX() - 5, 0) : IsKeyDown(VK_RIGHT) ? min(player->getBX() + 5, width) : player->getBX()), player->getBY(), player->getXSize(), player->getYSize(), player_angle * 0.1, WHITE);
 
 	player->updateBoundingBox();
 
@@ -237,7 +242,7 @@ end:
 
 	static int playerFireCooldown = 0; // !< get set after player shoots a bullet, player cannot shoot while this > 0
 	if (playerFireCooldown) --playerFireCooldown;
-	if (IsKeyDown(VK_SPACE) && playerFireCooldown == 0) { playerFireCooldown = 40; player->updateShotsFired(), player_bullets.emplace_back(player->BX, player->BY - player->getYSize() / 2, 0); }
+	if (IsKeyDown(VK_SPACE) && playerFireCooldown == 0) { playerFireCooldown = 40; player->updateShotsFired(), player_bullets.emplace_back(player->getBX(), player->getBY() - player->getYSize() / 2, 0); }
 
 
 	//Rare enemy management
@@ -246,20 +251,22 @@ end:
 	//spawn rare enemy after player shot 23 shots
 	if (player->getShotsFired() % 23 == 0 && rare_enemy == nullptr)
 	{
+
+		//TODO
 		rare_enemy = new EnemyRare();
-		rare_enemy->BX = -100;
-		rare_enemy->BY = 100;
+		rare_enemy->setBX(-100);
+		rare_enemy->setBY(100);
 		rare_enemy->updateBoundingBox();
 	}
 	//if rare enemy exists, move it and check if it is out of bounds
 	if (rare_enemy)
 	{
 		//enemy is dead, we draw the death animation
-		if (rare_enemy->dead) rare_enemy->dead_countdown--, DrawSprite(rare_enemy->sprite_death, rare_enemy->BX, rare_enemy->BY, rare_enemy->getXSize(), rare_enemy->getYSize(), 0, WHITE);
+		if (rare_enemy->dead) rare_enemy->dead_countdown--, DrawSprite(rare_enemy->sprite_death, rare_enemy->getBX(), rare_enemy->getBY(), rare_enemy->getXSize(), rare_enemy->getYSize(), 0, WHITE);
 		//enemy is alive, we draw it
-		else DrawSprite(rare_enemy->sprite_1, rare_enemy->BX += 4, rare_enemy->BY, rare_enemy->getXSize(), rare_enemy->getYSize(), 0, WHITE);
+		else DrawSprite(rare_enemy->sprite_1, rare_enemy->updateBX(4), rare_enemy->getBY(), rare_enemy->getXSize(), rare_enemy->getYSize(), 0, WHITE);
 		rare_enemy->updateBoundingBox();
-		if (rare_enemy->dead_countdown <= 0 || rare_enemy->BX - (rare_enemy->getXSize() / 2) > 800) delete rare_enemy, rare_enemy = nullptr;
+		if (rare_enemy->dead_countdown <= 0 || rare_enemy->getBX() - (rare_enemy->getXSize() / 2) > 800) delete rare_enemy, rare_enemy = nullptr;
 	}
 
 	//Player bullet management
@@ -268,7 +275,7 @@ end:
 	//drawing bullet sprites
 	for (int n = 0; n < player_bullets.size(); ++n)
 	{
-		DrawSprite(player_bullets[n].getSprite(), player_bullets[n].BX, player_bullets[n].BY -= 4, player_bullets[n].getXSize(), player_bullets[n].getYSize(), 0, WHITE);
+		DrawSprite(player_bullets[n].getSprite(), player_bullets[n].getBX(), player_bullets[n].updateBY(-4), player_bullets[n].getXSize(), player_bullets[n].getYSize(), 0, WHITE);
 
 		player_bullets[n].updateBoundingBox();
 	}
@@ -276,7 +283,7 @@ end:
 	//drawing enemy bullet sprites
 	for (int n = 0; n < enemy_bullets.size(); ++n)
 	{
-		DrawSprite(enemy_bullets[n].getSprite(), enemy_bullets[n].BX, enemy_bullets[n].BY += 4 + level, enemy_bullets[n].getXSize(), enemy_bullets[n].getYSize(), 0, WHITE);
+		DrawSprite(enemy_bullets[n].getSprite(), enemy_bullets[n].getBX(), enemy_bullets[n].updateBY(4) + level, enemy_bullets[n].getXSize(), enemy_bullets[n].getYSize(), 0, WHITE);
 
 		enemy_bullets[n].updateBoundingBox();
 		//if bullet is out of map -> delete it
@@ -377,7 +384,7 @@ end:
 	for (auto& col : enemies)
 	{
 
-		if (player->getLives() == 0 || (!col.empty() && col.back().BY > player->BY - player->getYSize() / 2 - 20))
+		if (player->getLives() == 0 || (!col.empty() && col.back().getBY() > player->getBY() - player->getYSize() / 2 - 20))
 		{
 			EndFlip();
 			clearLevel();
@@ -534,8 +541,8 @@ void Game::initializeLevel()
 	{
 		for (int j = 0; j < enemies[0].size(); j++)
 		{
-			enemies[i][j].BX = (i % 11) * 50 + 120;
-			enemies[i][j].BY = j * 60 + 70;
+			enemies[i][j].setBX((i % 11) * 50 + 120);
+			enemies[i][j].setBY(j * 60 + 70);
 			enemies[i][j].updateBoundingBox();
 		}
 	}

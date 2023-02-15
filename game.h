@@ -91,7 +91,7 @@ private:
 	std::vector<EnemyBullet> enemy_bullets;
 	EnemyRare* rare_enemy = nullptr;
 
-	bool enemy_direction = true;
+
 	int level = 0;
 
 };

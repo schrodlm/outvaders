@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   entities.h
+ * \brief  Defines entities used in the game or by the game.
+ *
+ * \author schrodlm
+ * \date   February 2023
+ *********************************************************************/
 #pragma once
 
 #include <string>
@@ -6,53 +13,71 @@
 
 const std::string Path = "../gfx/";
 
-void deleteManager();
+void clearSpriteManager();
 
-/// <summary>
-/// Name of the class
-/// </summary>
+/**
+ * Manages loading a retrieval of games sprites.
+ */
 class SpriteManager
 {
 public:
-	SpriteManager() = default; /// Constructor
+	SpriteManager() = default;
 	~SpriteManager();
-	void LoadSpriteImpl(const char* path)
-	{
-		if (sprites.count(path) == 0)
-		{
-			void* sprite = LoadSprite(path);
-			sprites[path] = sprite;
-		}
-	}
 
-	void* GetSprite(const std::string& path)
-	{
-		return sprites[path];
-	}
+	/**
+	 * Loads a sprite with the given path and adds it to the internal sprite map.
+	 *
+	 * \param path relative path to the sprite
+	 */
+	void LoadSpriteImpl(const char* path);
+
+	/**
+	 * Retrieves a sprite with the given path from the internal sprite map.
+	 *
+	 * \param path relative path to the sprite
+	 * \return pointer to the sprite
+	 */
+	void* GetSprite(const std::string& path) { return sprites[path]; }
 
 private:
 	std::map<std::string, void*> sprites;
 };
 
 
+/**
+ * Abstract class that is used by all entities in the game.
+ */
 class Entity
 {
 public:
 
 	virtual ~Entity() = default;
 
-	float BX = 0, BY = 0, BA = 0;
+	//Getters and setters
 
 	void* getSprite() { return this->sprite; }
-	RECT getBoundingBox() { return this->boundingBox; }
-	int getState() { return state; }
+
 	uint64_t getYSize() { return this->ySize; }
 	uint64_t getXSize() { return this->xSize; }
 
+	RECT getBoundingBox() { return this->boundingBox; }
 	void setBoundingBox(long x, long y) { boundingBox = { x - (xSize / 2) ,y + (ySize / 2), x + (xSize / 2), y - (ySize / 2) }; }
+	void updateBoundingBox() { boundingBox = { (int)BX - (xSize / 2) ,(int)BY + (ySize / 2), (int)BX + (xSize / 2), (int)BY - (ySize / 2) }; }
+
+	int getState() { return state; }
 	void setState(int _state) { state = _state; }
 
-	void updateBoundingBox() { boundingBox = { (int)BX - (xSize / 2) ,(int)BY + (ySize / 2), (int)BX + (xSize / 2), (int)BY - (ySize / 2) }; }
+	float getBX() { return BX; }
+	float getBY() { return BY; }
+	float getBA() { return BA; }
+	float setBX(float _BX) { BX = _BX; return BX; }
+	float setBY(float _BY) { BY = _BY; return BY; }
+	float setBA(float _BA) { BA = _BA; return BA; }
+	float updateBX(float toAdd) { BX += toAdd; return BX; }
+	float updateBY(float toAdd) { BY += toAdd; return BY; }
+	float updateBA(float toAdd) { BA += toAdd; return BA; }
+
+
 
 
 protected:
@@ -60,13 +85,17 @@ protected:
 	Entity(int BX, int BY, int BA, int xSize, int ySize, const char* _spritePath);
 	Entity(int xSize, int ySize) : xSize(xSize), ySize(ySize) { updateBoundingBox(); };
 
-	RECT boundingBox;
-	long xSize;
-	long ySize;
-	int state = 1;
+	float BX = 0, BY = 0, BA = 0;
+	RECT boundingBox; // <! hitbox
+	long xSize; // !< width of the entity
+	long ySize; // !< height of the entity
+	int state = 1; // !< current state - 0 means it is no longer needed in the game and is ready to be deleted
 	void* sprite = nullptr;
 };
 
+/**
+ * .
+ */
 class Enemy : public Entity
 {
 public:
@@ -80,9 +109,8 @@ public:
 	int dead = false;
 
 	virtual  ~Enemy() = default;
-
+protected:
 	Enemy(int xSize, int ySize, const char* spritePath1, const char* spritePath2, const char* spritePathDeath, int score);
-	Enemy(int _BX, int _BY, int _BA) : Entity(_BX, _BY, _BA, 30, 30, "gfx/enemy1_1.png") {};
 
 };
 

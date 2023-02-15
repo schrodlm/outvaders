@@ -2,7 +2,11 @@
 
 SpriteManager* manager = new SpriteManager();
 
-void deleteManager()
+/**
+ * Free current internal sprite manager data.
+ *
+ */
+void clearSpriteManager()
 {
 	delete manager;
 	manager = new SpriteManager();
@@ -19,6 +23,16 @@ SpriteManager::~SpriteManager()
 	sprites.clear();
 }
 
+void SpriteManager::LoadSpriteImpl(const char* path)
+{
+	if (sprites.count(path) == 0)
+	{
+		void* sprite = LoadSprite(path);
+		sprites[path] = sprite;
+	}
+}
+
+
 Entity::Entity(int BX, int BY, int BA, int xSize, int ySize, const char* _spritePath)
 {
 	this->xSize = xSize;
@@ -29,6 +43,7 @@ Entity::Entity(int BX, int BY, int BA, int xSize, int ySize, const char* _sprite
 	this->BA = BA;
 
 	updateBoundingBox();
+
 	//saving and loading sprite of a specific entity
 	manager->LoadSpriteImpl(_spritePath);
 	sprite = manager->GetSprite(_spritePath);
