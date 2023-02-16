@@ -19,7 +19,7 @@ This project includes Doxygen config file, to create documentation navigate to p
 
 ## What do I want to implement next
 
-If I will find a time throughtout my next semester I would like to add sound and two players mode for which I could'nt find time. Finish clearing out memory leaks.
+If I will find a time throughtout my next semester I would like to add sound, two players mode and finish clearing out memory leaks and bad practices.
 
 ## Debugging and some bad practices
 I left CRT debugger libraries and code in source code so you can clearly see some memory leaks I didn't manage to sort out, they don't affect the game in any way, but clearly leaving them in is a very bad practice, another bad practice I didn't have time to sort out are enum return values, in some handling function I am returning simply an integer, which works great, but sadly isn't that readable. I wanted to add enums, but again, time...
