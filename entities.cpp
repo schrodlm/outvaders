@@ -1,5 +1,9 @@
 #include "entities.h"
 
+// Manager
+//============================================================
+
+
 SpriteManager* manager = new SpriteManager();
 
 /**
@@ -31,6 +35,23 @@ void SpriteManager::LoadSpriteImpl(const char* path)
 	}
 }
 
+// Sprite path utilities
+//============================================================
+
+
+const std::string sprite_directory = "gfx/";
+
+/**
+ * Utility function to a path of a sprite.
+ *
+ * \param sprite_name sprite name in the sprites directory
+ * \return a full path to the sprite
+ */
+std::string spritePath(std::string sprite_name) { return sprite_directory + sprite_name; }
+
+// Entity
+//============================================================
+
 
 Entity::Entity(float BX, float BY, float BA, int xSize, int ySize, const char* _spritePath)
 {
@@ -47,6 +68,9 @@ Entity::Entity(float BX, float BY, float BA, int xSize, int ySize, const char* _
 	manager->LoadSpriteImpl(_spritePath);
 	sprite = manager->GetSprite(_spritePath);
 }
+
+// Enemy
+//============================================================
 
 Enemy::Enemy(int xSize, int ySize, const char* spritePath1, const char* spritePath2, const char* spritePathDeath, int score) : Entity(xSize, ySize)
 {

@@ -11,9 +11,11 @@
 #include "leetlib.h"
 #include <map>
 
-const std::string Path = "../gfx/";
+
+
 
 void clearSpriteManager();
+std::string spritePath(std::string sprite_name);
 
 /**
  * Manages loading a retrieval of games sprites.
@@ -135,7 +137,7 @@ class EnemyFront : public Enemy
 public:
 	virtual ~EnemyFront() {};
 
-	EnemyFront() : Enemy(25, 25, "gfx/enemy1_1.png", "gfx/enemy1_2.png", "gfx/enemy1_death.png", 50) {};
+	EnemyFront() : Enemy(25, 25, spritePath("enemy1_1.png").c_str(), spritePath("enemy1_2.png").c_str(), spritePath("enemy1_death.png").c_str(), 50) {};
 };
 
 /**
@@ -146,7 +148,7 @@ class EnemyMiddle : public Enemy
 public:
 	virtual ~EnemyMiddle() = default;
 
-	EnemyMiddle() : Enemy(30, 30, "gfx/enemy2_1.png", "gfx/enemy2_2.png", "gfx/enemy2_death.png", 60) {};
+	EnemyMiddle() : Enemy(30, 30, spritePath("enemy2_1.png").c_str(), spritePath("enemy2_2.png").c_str(), spritePath("enemy2_death.png").c_str(), 60) {};
 };
 
 /**
@@ -157,7 +159,7 @@ class EnemyBack : public Enemy
 public:
 	virtual ~EnemyBack() = default;
 
-	EnemyBack() : Enemy(30, 30, "gfx/enemy3_1.png", "gfx/enemy3_2.png", "gfx/enemy3_death.png", 70) {};
+	EnemyBack() : Enemy(30, 30, spritePath("enemy3_1.png").c_str(), spritePath("enemy3_2.png").c_str(), spritePath("enemy3_death.png").c_str(), 70) {};
 };
 
 /**
@@ -168,7 +170,7 @@ class EnemyRare : public Enemy
 public:
 	virtual ~EnemyRare() = default;
 
-	EnemyRare() : Enemy(65, 50, "gfx/rare_enemy.png", "", "gfx/enemy3_death.png", 500) {};
+	EnemyRare() : Enemy(65, 50, spritePath("rare_enemy.png").c_str(), "", spritePath("enemy3_death.png").c_str(), 500) {};
 };
 
 /**
@@ -179,7 +181,7 @@ class Bullet : public Entity
 public:
 	virtual ~Bullet() = default;
 
-	Bullet(float _BX, float _BY, float _BA) : Entity(_BX, _BY, _BA, 10, 20, "gfx/bullet.png") {};
+	Bullet(float _BX, float _BY, float _BA) : Entity(_BX, _BY, _BA, 10, 20, spritePath("bullet.png").c_str()) {};
 	Bullet(float _BX, float _BY, float _BA, const char* spritePath) : Entity(_BX, _BY, _BA, 10, 20, spritePath) {};
 };
 
@@ -191,7 +193,7 @@ class EnemyBullet : public Bullet
 public:
 	~EnemyBullet() = default;
 
-	EnemyBullet(float _BX, float _BY, float _BA) : Bullet(_BX, _BY, _BA, "gfx/enemy_bullet.png") {};
+	EnemyBullet(float _BX, float _BY, float _BA) : Bullet(_BX, _BY, _BA, spritePath("enemy_bullet.png").c_str()) {};
 
 };
 
@@ -203,14 +205,14 @@ class Player : public Entity
 public:
 	virtual ~Player() = default;
 
-	Player(float _BX, float _BY, float _BA) : Entity(_BX, _BY, _BA, 60, 60, "gfx/player.png") {}
+	Player(float _BX, float _BY, float _BA) : Entity(_BX, _BY, _BA, 60, 60, spritePath("player.png").c_str()) {}
 
 	//getters and setters
 
 	int getScore() { return score; }
 	void updateScore(int toAdd) { score += toAdd; }
-	int getLifes() { return lifes; }
-	void updateLifes(int new_lives = -1) { lifes += new_lives; }
+	int getLives() { return lives; }
+	void updateLives(int new_lives = -1) { lives += new_lives; }
 	int getShotsFired() { return shots_fired; }
 	void updateShotsFired() { shots_fired++; }
 	int getHit() { return hit_cooldown; }
@@ -221,7 +223,7 @@ public:
 
 protected:
 	int score = 0;
-	int lifes = 3;
+	int lives = 3;
 	int shots_fired = 1;
 	int hit_cooldown = 0; // !< after player gets hit, he cannot be hit for time specified by this variable
 

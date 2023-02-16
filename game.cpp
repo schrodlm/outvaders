@@ -14,6 +14,7 @@
 #include <iostream>
 
 
+
  /**
   * Read highscores from a file "highscore.txt", if that file doesnt exist it will be created
   *
@@ -276,7 +277,7 @@ end:
 			if (player->getHit() > 0) continue;
 
 
-			if (player->getLifes() > 0) player->updateLifes(), player->setHitCooldown();
+			if (player->getLives() > 0) player->updateLives(), player->setHitCooldown();
 
 
 
@@ -349,8 +350,8 @@ end:
 
 
 	//Draw game info
-	DrawText(0, 30, 40, WHITE, false, ("SCORE:" + std::to_string(player->getScore())).c_str());
-	DrawText(0, 55, 40, WHITE, false, ("LIFES:" + std::to_string(player->getLifes())).c_str());
+	DrawText(15, 10, 30, WHITE, false, ("SCORE:" + std::to_string(player->getScore())).c_str());
+	DrawText(15, 27, 30, WHITE, false, ("LIFES:" + std::to_string(player->getLives())).c_str());
 
 	//Pause
 	//=============================================================
@@ -367,7 +368,7 @@ end:
 	for (auto& col : enemies)
 	{
 
-		if (player->getLifes() == 0 || (!col.empty() && col.back().getBY() > player->getBY() - player->getYSize() / 2 - 20))
+		if (player->getLives() == 0 || (!col.empty() && col.back().getBY() > player->getBY() - player->getYSize() / 2 - 20))
 		{
 			EndFlip();
 			clearLevel();
