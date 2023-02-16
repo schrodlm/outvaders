@@ -22,7 +22,7 @@ Project done as a part of the interview proccess at Warhorse Studios. I was give
 - exit:         esc
 - pause game:   P
 
-### Menu navigation:
+### Menu navigation
 - move up:      up arrow
 - move down:    down arrow
 - pick:         enter
