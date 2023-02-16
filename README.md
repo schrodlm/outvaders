@@ -60,5 +60,6 @@ I left CRT debugger libraries and code in source code so you can clearly see few
 - [Direct3D](https://learn.microsoft.com/en-us/windows/win32/direct3d) - Direct3D is a graphics application programming interface
 
 ## Authors
-- [Matěj Schrödl](https://github.com/schrodlm)
+- [Matěj Schrödl](https://github.com/schrodlm) - source code
+- [Yen Nhi Tranová] - sprites and bitmaps design
 
