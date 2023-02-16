@@ -1,3 +1,5 @@
+![outvader logo](gfx/enemy3_1.png)
+
 # Outvaders
 
 Project done as a part of the interview proccess at Warhorse Studios. I was given a broken [Space Invaders](https://en.wikipedia.org/wiki/Space_Invaders) game with unfinished library in C++ using `Windows`, `Direct3D` and `FMOD` libraries. My job was to make the game playable, document the proccess and to create overall clean application from the starting point I was given.
