@@ -97,6 +97,7 @@ Game::Game(int _width, int _height)
 	width = _width;
 
 	player = new Player(400, 550, 0);
+
 }
 
 Game::~Game()
@@ -110,37 +111,6 @@ Game::~Game()
 
 void Game::gameLoop()
 {
-
-
-	void* Text[] =
-	{
-		LoadSprite("gfx/alet.png"),
-		LoadSprite("gfx/blet.png"),
-		LoadSprite("gfx/clet.png"),
-		LoadSprite("gfx/dlet.png"),
-		LoadSprite("gfx/elet.png"),
-		LoadSprite("gfx/flet.png"),
-		LoadSprite("gfx/glet.png"),
-		LoadSprite("gfx/hlet.png"),
-		LoadSprite("gfx/ilet.png"),
-		LoadSprite("gfx/jlet.png"),
-		LoadSprite("gfx/klet.png"),
-		LoadSprite("gfx/llet.png"),
-		LoadSprite("gfx/mlet.png"),
-		LoadSprite("gfx/nlet.png"),
-		LoadSprite("gfx/olet.png"),
-		LoadSprite("gfx/plet.png"),
-		LoadSprite("gfx/qlet.png"),
-		LoadSprite("gfx/rlet.png"),
-		LoadSprite("gfx/slet.png"),
-		LoadSprite("gfx/tlet.png"),
-		LoadSprite("gfx/ulet.png"),
-		LoadSprite("gfx/vlet.png"),
-		LoadSprite("gfx/wlet.png"),
-		LoadSprite("gfx/xlet.png"),
-		LoadSprite("gfx/ylet.png"),
-		LoadSprite("gfx/zlet.png"),
-	};
 
 	//randomness
 	std::mt19937 rng(static_cast<std::mt19937::result_type>(std::chrono::steady_clock::now().time_since_epoch().count()));
@@ -233,7 +203,7 @@ end:
 		player->updateHitCooldown();
 	}
 	else
-		DrawSprite(player->getSprite(), player->setBX(IsKeyDown(VK_LEFT) ? max(player->getBX() - 5, 0) : IsKeyDown(VK_RIGHT) ? min(player->getBX() + 5, width) : player->getBX()), player->getBY(), static_cast<float>(player->getXSize()), static_cast<float>(player->getYSize()), player_angle * 0.1F, WHITE);
+		DrawSprite(player->getSprite(), player->setBX(IsKeyDown(VK_LEFT) ? max(player->getBX() - 5, 0) : IsKeyDown(VK_RIGHT) ? min(player->getBX() + 5, 800) : player->getBX()), player->getBY(), static_cast<float>(player->getXSize()), static_cast<float>(player->getYSize()), player_angle * 0.1F, WHITE);
 
 	player->updateBoundingBox();
 
@@ -378,8 +348,8 @@ end:
 
 
 	//Draw game info
-	DrawText(width - 100, 30, 40, WHITE, true, ("SCORE:" + std::to_string(player->getScore())).c_str());
-	DrawText(width - 100, 55, 40, WHITE, true, ("LIFES:" + std::to_string(player->getLifes())).c_str());
+	DrawText(0, 30, 40, WHITE, false, ("SCORE:" + std::to_string(player->getScore())).c_str());
+	DrawText(0, 55, 40, WHITE, false, ("LIFES:" + std::to_string(player->getLifes())).c_str());
 
 	//Pause
 	//=============================================================
@@ -494,7 +464,7 @@ bool Game::checkCollision(Entity& obj1, Entity& obj2)
 
 
 
-void Game::highscoreLoop()
+int Game::highscoreLoop()
 {
 	Menu menu;
 	menu.AddItem("Back", [] {return 1; });
@@ -504,8 +474,8 @@ void Game::highscoreLoop()
 	int quitHighscoreScreen = -1;
 	while (1)
 	{
-		if (!StartFlip()) return;
-		if (IsKeyDown(VK_ESCAPE)) return;
+		if (!StartFlip()) return 3;
+		if (IsKeyDown(VK_ESCAPE)) return 3;
 
 		for (int i = 0; i < (int)highscores.size(); i++)
 		{
@@ -517,7 +487,7 @@ void Game::highscoreLoop()
 		quitHighscoreScreen = menu.HandleInput();
 
 		EndFlip();
-		if (quitHighscoreScreen == 1) return;
+		if (quitHighscoreScreen == 1) return 2;
 
 	}
 }

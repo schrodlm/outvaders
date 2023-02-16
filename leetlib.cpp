@@ -50,8 +50,8 @@ struct CUSTOMVERTEX
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZRHW|D3DFVF_DIFFUSE|D3DFVF_TEX1)
 
 
-// TEXT HANDLING
-
+//Text utilities
+//=============================================================
 
 // font manager
 std::map<int, LPD3DXFONT> fonts;
@@ -61,15 +61,16 @@ LPD3DXSPRITE fontsprite;
 typedef unsigned int u32;
 
 void ReleaseFonts();
-
 void StartTextBatch(int size = 0);
 void EndTextBatch();
-
 void SetCurrentTexture(void* tex);
 
-
-
-
+/**
+ * Font management in a Direct3D application by reusing existing font objects when possible and creating new font objects only when necessary..
+ *
+ * \param size
+ * \return
+ */
 LPD3DXFONT FindFont(int size)
 {
 	std::map<int, LPD3DXFONT>::iterator fit = fonts.find(size);
@@ -137,15 +138,13 @@ void EndTextBatch()
 		{
 			fontsprite->End();
 		}
-		//for (std::map<int, LPD3DXFONT>::iterator fit=fonts.begin();fit!=fonts.end();++fit) fit->second->End();
 	}
 }
 
 
-//-----------------------------------------------------------------------------
-// Name: DrawText()
-// Desc: Renders provided text on the screen
-//-----------------------------------------------------------------------------
+/**
+ * Renders provided text on the screen.
+ */
 int DrawText(int x, int y, int size, int col, bool centered, const char* pformat, ...)
 {
 	char debugtext[8192];
@@ -166,26 +165,17 @@ int DrawText(int x, int y, int size, int col, bool centered, const char* pformat
 
 }
 
-//-----------------------------------------------------------------------------
-// Name: DrawTextFromSprites()
-// Desc: Renders text consisting of provided sprites
-//-----------------------------------------------------------------------------
-void DrawTextFromSprites(const char* text, int x, int y, void* Text[]) {
-	int i = 0;
-	for (int c = 0; c < (int)strlen(text); c++) {
-		if (text[c] != ' ') {
-			DrawSprite(Text[text[c] - 'a'], x + i * 40, y, 20, 20, 0);
-		}
-		i++;
-	}
-}
 
 
+//Initilizing Direct library objects
+//=============================================================
 
-//-----------------------------------------------------------------------------
-// Name: InitD3D()
-// Desc: Initializes Direct3D
-//-----------------------------------------------------------------------------
+/**
+ * Initializes Direct3D and creates a Direct3D device for rendering.
+ *
+ * \param hWnd reference to a window
+ * \return result
+ */
 HRESULT InitD3D(HWND hWnd)
 {
 	// Create the D3D object.
@@ -220,16 +210,11 @@ HRESULT InitD3D(HWND hWnd)
 
 
 
-//-----------------------------------------------------------------------------
-// Name: InitVB()
-// Desc: Creates a vertex buffer and fills it with our tea2. The vertex
-//       buffer is basically just a chuck of memory that holds tea2. After
-//       creating it, we must Lock()/Unlock() it to fill it. For indices, D3D
-//       also uses index buffers. The special thing about vertex and index
-//       buffers is that they can be created in device memory, allowing some
-//       cards to process them in hardware, resulting in a dramatic
-//       performance gain.
-//-----------------------------------------------------------------------------
+/**
+ * Initializes a Direct3D vertex buffer.
+ *
+ * \return
+ */
 HRESULT InitVB()
 {
 
@@ -240,22 +225,17 @@ HRESULT InitVB()
 		return E_FAIL;
 	}
 
-
-
-	//D3DXCreateTextureFromFile(g_pd3dDevice,"bg.jpg",&g_bgtex);
-	//D3DXCreateTextureFromFile(g_pd3dDevice,"arrow.png",&g_arrow);
-
-
 	return S_OK;
 }
 
 
 
 
-//-----------------------------------------------------------------------------
-// Name: Cleanup()
-// Desc: Releases all previously initialized objects
-//-----------------------------------------------------------------------------
+/**
+ * Releases all previously initialized objects.
+ *
+ * \return
+ */
 VOID Cleanup()
 {
 	if (g_pVB != NULL)
@@ -271,11 +251,9 @@ VOID Cleanup()
 }
 
 
-
-//-----------------------------------------------------------------------------
-// Name: MsgProc()
-// Desc: The window's message handler
-//-----------------------------------------------------------------------------
+/**
+ * Windows message handler.
+ */
 bool g_keydown[256];
 int g_keyhit[256];
 int g_mb;
@@ -351,6 +329,9 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
+//Entry point
+//=============================================================
+
 //Time management
 LARGE_INTEGER frequency;
 LARGE_INTEGER previousTime;
@@ -362,10 +343,8 @@ float deltaTime;
 extern HWND hWnd;
 HWND hWnd;
 
-//-----------------------------------------------------------------------------
-// Name: WinMain()
-// Desc: The application's entry point
-//-----------------------------------------------------------------------------
+
+
 INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 {
 	HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));
@@ -384,13 +363,6 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 	wc.hIcon = hIcon;
 	RegisterClassEx(&wc);
 
-	/*
-	This code is likely a part of a window creation process. It creates a RECT structure that defines the size and position of the window
-	, and a variable 'style' that defines the appearance and behavior of the window. The fullscreen variable is used to decide whether the window should be fullscreen or not.
-	If fullscreen is true, the window style is set to WS_POPUP which creates a fullscreen window without any title bar or borders.
-	If fullscreen is false, the window style is set to WS_OVERLAPPEDWINDOW which creates a standard window with a title bar, borders, and a close button.
-	The last line of code adjusts the RECT structure to include the area for the non-client elements, such as the title bar and borders.
-	*/
 	RECT r = { 0,0,800,600 };
 	int style = fullscreen ? WS_POPUP : WS_OVERLAPPEDWINDOW;
 	style |= WS_VISIBLE;
@@ -438,7 +410,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 			mainMenu.AddItem("Highscores", [] {return 2; });
 			mainMenu.AddItem("Quit", [] {return 3; });
 			int menu_option = 0;
-			Game* game = new Game(r.right - r.left, r.bottom - r.top);
+			Game* game = new Game(800, 600);
 
 			while (menu_option != 3 && menu_option != 1)
 			{
@@ -452,7 +424,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 					break;
 
 				case 2:
-					game->highscoreLoop();
+					menu_option = game->highscoreLoop();
 					break;
 
 				case 3:
@@ -559,6 +531,8 @@ void EndFlip()
 
 
 
+//Input
+//=============================================================
 
 void GetMousePos(float& x, float& y) // 0,0 is top left; 800,600 is bottom right
 {
@@ -585,10 +559,9 @@ bool IsKeyHitSinceLastFlip(int key)
 	return g_keyhit[key & 255] > 0;
 }
 
+//Sprite Utilities
+//=============================================================
 
-
-
-// 'sprite output' 
 void* LoadSprite(const char* fname)
 {
 	IDirect3DTexture9* tex = NULL;
@@ -611,8 +584,6 @@ void FreeSprite(void* sprite)
 }
 
 
-
-
 void DrawSprite(void* sprite, float x, float y, float xsize, float ysize, float angle, DWORD col)
 {
 	SetCurrentTexture(sprite);
@@ -633,6 +604,20 @@ void DrawSprite(void* sprite, float x, float y, float xsize, float ysize, float 
 	g_pd3dDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, vertex, sizeof(CUSTOMVERTEX));
 }
 
+
+void DrawTextFromSprites(const char* text, int x, int y, void* Text[]) {
+	int i = 0;
+	for (int c = 0; c < (int)strlen(text); c++) {
+		if (text[c] != ' ') {
+			DrawSprite(Text[text[c] - 'a'], x + i * 40, y, 20, 20, 0);
+		}
+		i++;
+	}
+}
+
+
+//Sound
+//=============================================================
 
 FSOUND_STREAM* music;
 
@@ -686,3 +671,4 @@ void ChangeVolume(int handle, float volume)
 	if (volume > 1) volume = 1;
 	FSOUND_SetVolume(handle, (int)(volume * 255));
 }
+

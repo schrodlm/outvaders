@@ -45,7 +45,7 @@ public:
 	* Show highscore on the screen and creates a menu to exit that screen
 	*
 	*/
-	void highscoreLoop();
+	int highscoreLoop();
 
 
 	void pauseLoop();
@@ -94,10 +94,38 @@ private:
 	std::vector<EnemyBullet> enemy_bullets;
 	EnemyRare* rare_enemy = nullptr;
 
-
-
 	int level = 0;
 
+	// !< array of sprite images representing 26 letters of english alphabet
+	void* Text[26] =
+	{
+		LoadSprite("gfx/alet.png"),
+		LoadSprite("gfx/blet.png"),
+		LoadSprite("gfx/clet.png"),
+		LoadSprite("gfx/dlet.png"),
+		LoadSprite("gfx/elet.png"),
+		LoadSprite("gfx/flet.png"),
+		LoadSprite("gfx/glet.png"),
+		LoadSprite("gfx/hlet.png"),
+		LoadSprite("gfx/ilet.png"),
+		LoadSprite("gfx/jlet.png"),
+		LoadSprite("gfx/klet.png"),
+		LoadSprite("gfx/llet.png"),
+		LoadSprite("gfx/mlet.png"),
+		LoadSprite("gfx/nlet.png"),
+		LoadSprite("gfx/olet.png"),
+		LoadSprite("gfx/plet.png"),
+		LoadSprite("gfx/qlet.png"),
+		LoadSprite("gfx/rlet.png"),
+		LoadSprite("gfx/slet.png"),
+		LoadSprite("gfx/tlet.png"),
+		LoadSprite("gfx/ulet.png"),
+		LoadSprite("gfx/vlet.png"),
+		LoadSprite("gfx/wlet.png"),
+		LoadSprite("gfx/xlet.png"),
+		LoadSprite("gfx/ylet.png"),
+		LoadSprite("gfx/zlet.png"),
+	};
 
 
 };
