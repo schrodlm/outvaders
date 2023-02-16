@@ -1,3 +1,5 @@
+![outvader logo](gfx/enemy3_1.png)
+
 # Outvaders
 
 Project done as a part of the interview proccess at Warhorse Studios. I was given a broken [Space Invaders](https://en.wikipedia.org/wiki/Space_Invaders) game with unfinished library in C++ using `Windows`, `Direct3D` and `FMOD` libraries. My job was to make the game playable, document the proccess and to create overall clean application from the starting point I was given.
@@ -17,10 +19,13 @@ This project includes Doxygen config file, to create documentation navigate to p
 
 ## What do I want to implement next
 
-If I will find a time throughtout my next semester I would like to add sound and two players mode for which I could'nt find time. Finish clearing out memory leaks.
+If I will find a time throughtout my next semester I would like to add sound, two players mode.
 
-## Debugging and some bad practices
-I left CRT debugger libraries and code in source code so you can clearly see some memory leaks I didn't manage to sort out, they don't affect the game in any way, but clearly leaving them in is a very bad practice, another bad practice I didn't have time to sort out are enum return values, in some handling function I am returning simply an integer, which works great, but sadly isn't that readable. I wanted to add enums, but again, time...
+## Some bad practices
+Some of the bad practices I didn't have time to sort out are enum return values, in some handling function I am returning simply an integer, which works great, but sadly isn't that readable. I wanted to add enums, but again, time...
+
+## Memory leaks
+I left CRT debugger libraries and code in source code so you can clearly see few memory leaks. These memory leaks are probably false positives, because I managed to clear all my internal leaks and all of them were shown line in source code they occured, memory leaks that are left don't do that and CRT is prone to false positives. To see the memory leaks simply run the program with Local Windows Debugger.
 
 
 ## Getting Started
