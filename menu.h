@@ -20,7 +20,7 @@
   */
 class Menu {
 public:
-	Menu() {}
+	Menu() = default;
 
 	/**
 	 * Adds a menu item.
@@ -47,11 +47,11 @@ public:
 	int HandleInput();
 
 	/**
-	 * Draw menu content on the screen and handles input using HandleInput() method.
+	 * Draw menu content on the screen repeatedly and handles input using HandleInput() method.
 	 *
 	 * \return
 	 */
-	int Loop();
+	int Loop(int x = 400, int y = 300, int size = 40);
 
 private:
 	/**

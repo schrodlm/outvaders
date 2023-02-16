@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   menu.cpp
+ * \brief  Defines menu methods
+ *
+ * \author schrodlm
+ * \date   February 2023
+ *********************************************************************/
+
 #include "menu.h"
 
 void Menu::AddItem(const char* text, std::function<int()> eventHandler)
@@ -43,7 +51,7 @@ int Menu::HandleInput()
 	return -1;
 }
 
-int Menu::Loop()
+int Menu::Loop(int x, int y, int size)
 {
 	int eventTriggered = -1;
 	while (1)
@@ -51,7 +59,7 @@ int Menu::Loop()
 
 		if (!StartFlip()) return 2;
 		if (IsKeyDown(VK_ESCAPE)) return 2;
-		Draw(400, 300, 40);
+		Draw(x, y, size);
 		eventTriggered = HandleInput();
 		EndFlip();
 

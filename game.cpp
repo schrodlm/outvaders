@@ -105,6 +105,7 @@ Game::~Game()
 	FreeSprite(background);
 	clearSpriteManager();
 	delete player;
+	if (rare_enemy) delete rare_enemy;
 	clearLevel();
 }
 

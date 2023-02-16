@@ -1,7 +1,17 @@
-#pragma once
+/*****************************************************************//**
+ * \file   leetlib.h
+ * \brief
+ *
+ * \author schrodlm
+ * \date   February 2023
+ *********************************************************************/
 
+#pragma once
 #include <windows.h>
 #include "resource.h"
+
+
+
 
 typedef unsigned long       DWORD;
 
@@ -13,10 +23,6 @@ typedef unsigned long       DWORD;
 #define CYAN 0xff5d8aa8
 #define RED 0xffff0000
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 'system' - screen is always 800 x 600
-// simply call StartFrame and Flip alternately to run the game; StartFrame returns false if the user is trying to quit
 
 //System
 //=============================================================

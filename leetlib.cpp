@@ -1,6 +1,13 @@
-
-
+/*****************************************************************//**
+ * \file   leetlib.cpp
+ * \brief  Implements functions declared in leetlib header file
+ *
+ * \author schrodlm
+ * \date   February 2023
+ *********************************************************************/
 #pragma warning(disable:4995)
+
+
 #include "leetlib.h"
 #include "game.h"
 #include "menu.h"
@@ -13,13 +20,19 @@
 #include <malloc.h>
 #include "resource.h"
 
-//debugging
+ //debugging
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
+#ifdef _DEBUG
+#ifndef DBG_NEW
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+#define new DBG_NEW
+#endif
+#endif  // _DEBUG
 
 
-//sound
+ //sound
 #include "lib/fmod/api/inc/fmod.h"
 #pragma comment(lib,"lib/fmod/api/lib/fmodvc.lib")
 #pragma comment(lib,"d3d9.lib")
@@ -377,8 +390,6 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 	/*
 		function from FMOD library -> this library provides audio playback and mixing functionality
 		-> FSOUND_Init() = initialize FMOD library and set up the audio output
-
-		! FMOD is external library and is not part of DirectX !
 	*/
 	//FSOUND_Init(44100, 42, 0);
 
@@ -412,9 +423,13 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 			int menu_option = 0;
 			Game* game = new Game(800, 600);
 
+			//menu_option = 1 means that we will create game loop and after game is done, exit the program
+			//menu_option = 2 means that player wants to see highscores. after that continue the menu loop
+			//menu_option = 3 means that we didn't do anything 
+
 			while (menu_option != 3 && menu_option != 1)
 			{
-				menu_option = mainMenu.Loop();
+				menu_option = mainMenu.Loop(400, 250, 40);
 
 				//option handler
 				switch (menu_option)
@@ -439,6 +454,8 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmd, INT)
 	}
 
 	UnregisterClass("SpaceOutvaders", wc.hInstance);
+	Cleanup();
+	ReleaseFonts();
 
 	//dumps out memory leaks 
 	_CrtDumpMemoryLeaks();

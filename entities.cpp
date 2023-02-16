@@ -9,7 +9,6 @@ SpriteManager* manager = new SpriteManager();
 void clearSpriteManager()
 {
 	delete manager;
-	manager = new SpriteManager();
 	return;
 }
 
