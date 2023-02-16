@@ -29,7 +29,7 @@ Project done as a part of the interview proccess at Warhorse Studios. I was give
 
 ## Documentation 
 
-This project includes Doxygen config file, to create documentation navigate to projects folder and run `doxygen Doxyfile` this will generate HTML documentation, then navigate to `index.html` and open it. If you use GUI Doxywizard, simply press File->Open and navigate to Doxyfile in projects directory. Then click Run->Run doxygen.
+This project includes Doxygen config file, to create documentation navigate to projects folder and run `doxygen Doxyfile`. If you use GUI Doxywizard, simply press File->Open and navigate to Doxyfile in projects directory. Then click Run->Run doxygen.
 
 After Doxygen has run, documentation will be located in doc directory, navigate to `index.html` and browse the docs in any browser.
 
