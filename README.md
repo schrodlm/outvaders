@@ -11,21 +11,37 @@ Project done as a part of the interview proccess at Warhorse Studios. I was give
 - Entities
 - Highscores
 - Menus
-- And a lot  more
+- And a lot more
+
+## Game Controls
+
+### Game
+- move left:    left arror
+- move right:   right arrow
+- shoot:        space
+- exit:         esc
+- pause game:   P
+
+### Menu navigation:
+- move up:      up arrow
+- move down:    down arrow
+- pick:         enter
 
 ## Documentation 
 
-This project includes Doxygen config file, to create documentation navigate to projects folder and run `doxygen Doxyfile` this will generate HTML documentation, then navigate to `index.html` and open it. If you use GUI Doxywizard, simply press File->Open and navigate to Doxyfile in projects directory.
+This project includes Doxygen config file, to create documentation navigate to projects folder and run `doxygen Doxyfile` this will generate HTML documentation, then navigate to `index.html` and open it. If you use GUI Doxywizard, simply press File->Open and navigate to Doxyfile in projects directory. Then click Run->Run doxygen.
+
+After Doxygen has run, documentation will be located in doc directory, navigate to `index.html` and browse the docs in any browser.
 
 ## What do I want to implement next
 
-If I will find a time throughtout my next semester I would like to add sound, two players mode.
+If I will find a time throughout my next semester I would like to add sound, two players mode.
 
 ## Some bad practices
-Some of the bad practices I didn't have time to sort out are enum return values, in some handling function I am returning simply an integer, which works great, but sadly isn't that readable. I wanted to add enums, but again, time...
+Some of the bad practices I didn't have time to sort out are enum return values, in some handling function I am returning simply an integer, which works great, but sadly isn't that readable. I wanted to add enums, but didn't find the time for that.
 
 ## Memory leaks
-I left CRT debugger libraries and code in source code so you can clearly see few memory leaks. These memory leaks are probably false positives, because I managed to clear all my internal leaks and all of them were shown line in source code they occured, memory leaks that are left don't do that and CRT is prone to false positives. To see the memory leaks simply run the program with Local Windows Debugger.
+I left CRT debugger libraries and code in source code so you can check memory leaks. These memory leaks are probably false positives, because I managed to clear all my internal leaks and all of them were shown line in source code they occured, memory leaks that are left don't do that and CRT is prone to false positives. To see the memory leaks simply run the program with Local Windows Debugger in Visual Studio.
 
 
 ## Getting Started
@@ -41,19 +57,6 @@ I left CRT debugger libraries and code in source code so you can clearly see few
 3. Open `outvaders.sln` Visual Studio solution
 4. Build the application withing the Visual Studio
 
-## Game Controls
-
-### Game
-- move left:    left arror
-- move right:   right arrow
-- shoot:        space
-- exit:         esc
-- pause game:   P
-
-### Menu navigation:
-- move up:      up arrow
-- move down:    down arrow
-- pick:         enter
 
 ## Built With
 - [Visual Studio](https://visualstudio.microsoft.com/) - IDE FOR Windows software development
