@@ -35,7 +35,7 @@ After Doxygen has run, documentation will be located in doc directory, navigate 
 
 ## What do I want to implement next
 
-If I will find a time throughout my next semester I would like to add sound, two players mode.
+If I will find a time throughout my next semester I would like to add sound and a two players mode.
 
 ## Some bad practices
 Some of the bad practices I didn't have time to sort out are enum return values, in some handling function I am returning simply an integer, which works great, but sadly isn't that readable. I wanted to add enums, but didn't find the time for that.
@@ -57,6 +57,7 @@ I left CRT debugger libraries and code in source code so you can check memory le
 3. Open `outvaders.sln` Visual Studio solution
 4. Build the application withing the Visual Studio
 
+Also game uses custom font, font file is located inside a game directory I added font installation as a part of building the project in Visual Studio but I am not sure it works as intended, in case it doesn't you will have to install the font manually. Simply click the `CosmicAlien.ttf` and install it.
 
 ## Built With
 - [Visual Studio](https://visualstudio.microsoft.com/) - IDE FOR Windows software development
