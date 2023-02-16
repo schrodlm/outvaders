@@ -15,7 +15,7 @@ Project done as a part of the interview proccess at Warhorse Studios. I was give
 
 ## Documentation 
 
-This project includes Doxygen config file, to create documentation navigate to projects folder and run `doxygen Doxyfile` this will generate HTML documentation, then navigate to `index.html` and open it
+This project includes Doxygen config file, to create documentation navigate to projects folder and run `doxygen Doxyfile` this will generate HTML documentation, then navigate to `index.html` and open it. If you use GUI Doxywizard, simply press File->Open and navigate to Doxyfile in projects directory.
 
 ## What do I want to implement next
 
@@ -40,6 +40,20 @@ I left CRT debugger libraries and code in source code so you can clearly see few
 2. Navigate to the server directory: `cd outvaders`
 3. Open `outvaders.sln` Visual Studio solution
 4. Build the application withing the Visual Studio
+
+## Game Controls
+
+### Game
+- move left:    left arror
+- move right:   right arrow
+- shoot:        space
+- exit:         esc
+- pause game:   P
+
+### Menu navigation:
+- move up:      up arrow
+- move down:    down arrow
+- pick:         enter
 
 ## Built With
 - [Visual Studio](https://visualstudio.microsoft.com/) - IDE FOR Windows software development
