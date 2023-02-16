@@ -61,5 +61,5 @@ I left CRT debugger libraries and code in source code so you can clearly see few
 
 ## Authors
 - [Matěj Schrödl](https://github.com/schrodlm) - source code
-- [Yen Nhi Tranová] - sprites and bitmaps design
+- Yen Nhi Tranová - sprites and bitmaps design
 
