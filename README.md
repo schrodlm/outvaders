@@ -40,6 +40,8 @@ If I will find a time throughout my next semester I would like to add sound and 
 ## Some bad practices
 Some of the bad practices I didn't have time to sort out are enum return values, in some handling function I am returning simply an integer, which works great, but sadly isn't that readable. I wanted to add enums, but didn't find the time for that.
 
+I just found out that making user install font is a very bad practice and the font should be only loaded inside our project using C++ libraries, which makes sense, I am planning to implement it down the road, because right now user has to install the font manually.
+
 ## Memory leaks
 I left CRT debugger libraries and code in source code so you can check memory leaks. These memory leaks are probably false positives, because I managed to clear all my internal leaks and all of them were shown line in source code they occured, memory leaks that are left don't do that and CRT is prone to false positives. To see the memory leaks simply run the program with Local Windows Debugger in Visual Studio.
 
